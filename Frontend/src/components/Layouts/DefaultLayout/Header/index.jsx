@@ -14,9 +14,6 @@ function Header() {
         setUsing(type);
     };
 
-    useEffect(()=>{
-        
-    },[using])
 
     return (
         <typeContext.Provider

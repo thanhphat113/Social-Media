@@ -10,6 +10,7 @@ function App() {
                     <Route path="/message" element={<MessagePage />} />
                     <Route path="/" element={<MessagePage />} />
                     <Route path="/group" element={<MessagePage />} />
+                    <Route path="/group" element={<MessagePage />} />
                 </Routes>
         </DefaultLayout>
             </Router>

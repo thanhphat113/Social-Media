@@ -1,7 +1,7 @@
 import { useState } from "react";
 import clsx from "clsx";
 import styles from "./Search.module.scss";
-import ShowList from "../../../../ShowList";
+import ShowList from "./components/ShowList";
 
 const searchs = [
     {
