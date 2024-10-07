@@ -3,7 +3,7 @@
     flex-wrap: wrap;
     margin-right: -16px;
     margin-left: -16px;
-    background-color: #191a1f;
+    background-color: var(--background);
 }
 
 .profileWrapper > * {
@@ -19,12 +19,11 @@
 }
 
 .profileContainerLeftFirst {
-    background-color: #fff;
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
     padding: 16px;
     margin-bottom: 16px;
-    background-color: #141519;
+    background-color: #fff;
 }
 
 .profileContainerLeftFirst_2 {
@@ -63,8 +62,8 @@
 }
 
 .profileContainerLeftFirst_3 {
-    background-color: #141519 !important;
-    border: 1px solid #202227 !important;
+    background-color: #fff !important;
+    border: 1px solid var(--background) !important;
     flex: 1 1 auto;
     padding: 1.25rem 1.25rem;
     position: relative;
@@ -73,8 +72,7 @@
     min-width: 0;
     color: #a1a1a8;
     word-wrap: break-word;
-    background-color: #141519;
+    background-color: #fff;
     background-clip: border-box;
-    border: 1px solid #202227;
     border-radius: 0.4rem;
 }

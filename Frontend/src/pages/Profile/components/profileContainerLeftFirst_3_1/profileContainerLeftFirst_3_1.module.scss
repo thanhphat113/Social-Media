@@ -27,7 +27,7 @@
 .textarea {
   border: 0;
   resize: none;
-  background-color: #191a1f;
+  background-color: var(--background);
   min-height: calc(1.5em + 1rem + 2px);
   padding-right: 1.5rem !important;
   display: block;
