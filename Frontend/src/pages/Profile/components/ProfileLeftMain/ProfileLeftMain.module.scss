@@ -1,0 +1,87 @@
+.profileContainer {
+  display: flex;
+  align-items: flex-start;
+  text-align: center;
+  @media (min-width: 576px) {
+    text-align: start;
+  }
+}
+
+.avatarContainer {
+  height: 5.125rem;
+  width: 5.125rem;
+  position: relative;
+  display: inline-block;
+  margin-top: -3rem;
+  margin-bottom: 1rem;
+}
+
+.avatarImg {
+  width: 100%!important;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  border-width: 3px;
+  border-color: #fff;
+  max-width: 100%;
+}
+
+.userInfo {
+  @media (min-width: 576px) {
+    margin-left: 1.5rem ;
+    margin-top: 1rem;
+  }
+}
+
+.profileName {
+  margin-bottom: 0;
+  font-size: 1.25rem;
+  color: #fff;
+}
+
+.connectionInfo {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #a1a1a8;
+}
+
+.actionButtons {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  @media (min-width: 576px) {
+    margin-left: auto;
+  }
+}
+
+.editProfileButton {
+  cursor: pointer;
+  color: #d6293e!important;
+  background-color: #d6293e1a!important;
+  outline: 0;
+  margin-right: .5rem !important;
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  font-size: 0.9375rem; 
+  font-weight: 500; 
+  line-height: 1.5;
+  text-align: center;
+  vertical-align: middle;
+  border: 1px solid transparent; 
+  border-radius: 0.4rem; 
+  box-shadow: none; 
+  opacity: 1;
+}
+
+.editProfileButton:disabled {
+  opacity: 0.65; 
+}
+
+.editProfileButton:focus {
+  box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.5);
+}
+
+.editProfileButton:hover {
+  border-color: transparent; 
+}
+

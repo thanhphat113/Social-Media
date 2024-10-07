@@ -1,0 +1,80 @@
+.profileWrapper {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -16px;
+    margin-left: -16px;
+    background-color: #191a1f;
+}
+
+.profileWrapper > * {
+    padding-right: 16px;
+    padding-left: 16px;
+}
+
+.profileContainerLeft {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 66.6667%;
+}
+
+.profileContainerLeftFirst {
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    padding: 16px;
+    margin-bottom: 16px;
+    background-color: #141519;
+}
+
+.profileContainerLeftFirst_2 {
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.profileContainerRight {
+    width: 33.3333%;
+    flex: 0 0 auto;
+}
+
+.profileContainerRight_Container {
+    margin: 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: calc(-1* 1.5rem);
+    margin-right: calc(-.5* 1.5rem);
+    margin-left: calc(-.5* 1.5rem);
+}
+
+
+.profileMain {
+    display: flex;
+}
+
+.profileLeft {
+    flex: 3;
+    margin-right: 20px;
+}
+
+.profileRight {
+    flex: 1;
+}
+
+.profileContainerLeftFirst_3 {
+    background-color: #141519 !important;
+    border: 1px solid #202227 !important;
+    flex: 1 1 auto;
+    padding: 1.25rem 1.25rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    color: #a1a1a8;
+    word-wrap: break-word;
+    background-color: #141519;
+    background-clip: border-box;
+    border: 1px solid #202227;
+    border-radius: 0.4rem;
+}
