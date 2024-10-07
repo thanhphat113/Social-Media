@@ -1,14 +1,8 @@
 import React, { useState } from 'react';
-
-
-
-import './Information.scss';
-
-// import styles from './Information.module.scss';
+import styles from './Information.module.scss';
 
 function App() {
 
-  
   const [selectedTab, setSelectedTab] = useState('account');
 
 
@@ -71,7 +65,7 @@ function App() {
       case 'account':
         return (
           <div>
-            <div className = 'setting_form_1'>
+            <div className = {styles.settingform1}>
 
               <h2>Cài đặt tài khoản</h2>
               <form >
