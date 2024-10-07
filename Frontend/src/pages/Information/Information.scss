@@ -1,0 +1,348 @@
+:root {
+    --primary-color: #007bff;
+    --white-color: #fff;
+    --text-color: #757785;
+    --border-color: #eff2f6;
+    --navbar-height: 4rem; /* 40px */
+    --header-height: 12rem; /* 120px */
+    --hover-color: #0f6fec;
+    --header-with-search-height: calc(var(--header-height) - var(--navbar-height)); /* Adjusted */
+  }
+  
+  html {
+    font-size: 62.5%; /* 1rem = 10px */
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0; /* Light gray background */
+    font-family: Arial, sans-serif; /* Optional: set a default font */
+  }
+  
+  .grid {
+    width: 120rem; /* 1200px */
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  
+  /* Container for the whole settings page */
+  .settings-container {
+    display: flex;
+    font-family: Arial, sans-serif;
+    margin-top: 10rem; /* 100px */
+    height: 100vh;
+    font-size: 1.5rem;
+  }
+  
+  /* Navigation panel on the left */
+  .settings-nav {
+    width: 25.5rem; /* 255px */
+    margin-right: 2rem; /* 20px */
+    position: fixed; 
+    top: 10rem; /* 100px */
+    border: 0.01rem solid #ccc; /* 0.1px */
+    border-radius: 0.8rem; /* 8px */
+    background-color: #fff;
+    color: var(--text-color);
+    box-sizing: border-box;
+  }
+  
+  /* List inside the left nav */
+  .settings-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .settings-nav ul li {
+    font-weight: bold;
+    cursor: pointer;
+    display: flex; /* Enable flexbox */
+    align-items: center; /* Center text vertically */
+    padding: 1rem 0; /* 10px */
+    margin: 0.7rem 2rem; /* 7px 20px */
+    border-radius: 0.8rem; /* 8px */
+  }
+  
+  .settings-nav li img {
+    width: 100%;
+    height: 100%;
+    max-width: 2rem; /* 20px */
+    max-height: 2rem; /* 20px */
+    object-fit: contain;
+    padding: 0 0.5rem 0 2rem; /* 0 5px 0 20px */
+  }
+  
+  .settings-nav li svg {
+    width: 100%;
+    height: 100%;
+    max-width: 2rem; /* 20px */
+    max-height: 1.7rem; /* 17px */
+    object-fit: contain;
+    padding: 0 0.5rem 0 2rem; /* 0 5px 0 20px */
+  }
+  
+  .settings-nav ul li:hover {
+    color: var(--hover-color);
+  }
+  
+  .settings-nav li.active {
+    background-color: #e6f0fd; /* Change background color for active tab */
+    color: var(--hover-color); /* Change text color for active tab */
+  }
+  
+  .view_profile {
+    margin: 2rem 0 0 0 !important; /* 20px */
+    padding-top: 1rem !important; /* 10px */
+    border-top: 0.1rem solid #ccc; /* 1px */
+    border-radius: 0 !important;
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    font-weight: 100 !important;
+    color: #000;
+    font-size: 1.5rem; /* 15px */
+  }
+  
+  /* Content container on the right */
+  .settings-content {}
+  
+  /* Setting forms */
+  .setting_form_1, .setting_form_2 {
+    color: var(--text-color);
+    flex-grow: 1;
+    margin-left: 28rem; /* 280px */
+    padding: 2rem; /* 20px */
+    background-color: #fff;
+    border: 0.1rem solid #ccc; /* 1px */
+    border-radius: 0.8rem; /* 8px */
+    margin-bottom: 3rem; /* 30px */
+  }
+  
+  /* Form headings */
+  h2 {
+    margin-bottom: 2rem; /* 20px */
+    color: #000;
+    font-size: 3rem;
+  }
+  
+  /* Form field group */
+  .form-group {
+    margin-bottom: 1.5rem; /* 15px */
+    width: 100%;
+  }
+  
+  /* Label for each field */
+  .form-group label {
+    display: block;
+    margin-bottom: 1.5rem; /* 15px */
+  }
+  
+  /* Input and textarea styling */
+  .form-group input,
+  .form-group textarea {
+    width: 90%;
+    padding: 1rem; /* 10px */
+    margin-bottom: 1rem; /* 10px */
+    border: 0.1rem solid #ccc; /* 1px */
+    border-radius: 0.4rem; /* 4px */
+  }
+  
+  .form-group p {
+    margin-top: -1rem; /* -10px */
+    font-size: 1.3rem; /* 13px */
+  }
+  
+  .group_1 {
+    display: flex !important;
+    width: 100% !important;
+    padding: 1rem; /* 10px */
+    margin-bottom: 1rem; /* 10px */
+    justify-content: space-between;
+  }
+  
+  .group_1 input, .group_1 textarea {
+    width: 80% !important;
+  }
+  
+  /* Textarea customization */
+  textarea {
+    resize: vertical;
+    height: 10rem; /* 100px */
+  }
+  
+  /* Button to add new phone number or email */
+  .add-button {
+    display: inline-block;
+    padding: 0.6rem 1.2rem; /* 6px 12px */
+    background-color: #f0f0f0;
+    border: 0.1rem dashed #ccc; /* 1px */
+    border-radius: 0.4rem; /* 4px */
+    cursor: pointer;
+    margin-top: 1rem; /* 10px */
+  }
+  
+  /* Save button for forms */
+  .save-button {
+    padding: 1rem 2rem; /* 10px 20px */
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 0.4rem; /* 4px */
+    cursor: pointer;
+    margin-top: 1rem; /* 10px */
+    font-weight: bold;
+    font-size: 1.4rem; /* 14px */
+  }
+  
+  /* Password update section */
+  .password-update {
+    margin-top: 4rem; /* 40px */
+    padding-top: 2rem; /* 20px */
+    border-top: 0.1rem solid #ccc; /* 1px */
+  }
+  
+  .friends-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); /* 150px */
+    gap: 1.6rem; /* 16px */
+    padding: 2rem; /* 20px */
+    border-radius: 1rem; /* 10px */
+  }
+  
+  .friends-list a {
+    text-decoration: none;
+    color: #000;
+  }
+  
+  .friend-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem; /* 10px */
+    border-radius: 1rem; /* 10px */
+    transition: transform 0.2s;
+  }
+  
+  .friend-card:hover {
+    transform: scale(1.05);
+  }
+  
+  .friend-avatar {
+    width: 15rem; /* 150px */
+    height: 15rem; /* 150px */
+    border-radius: 10%;
+    object-fit: cover;
+  }
+  
+  .friend-name {
+    margin-top: 1rem; /* 10px */
+    color: #000;
+    font-size: 1.6rem; /* 16px */
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  .notification-section {
+    padding: 2rem; /* 20px */
+  }
+  
+  .notification-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #f1f1f1;
+    padding: 1.5rem; /* 15px */
+    border-radius: 1rem; /* 10px */
+    box-shadow: 0 0.2rem 0.4rem rgba(0, 0, 0, 0.1); /* 2px */
+    margin-bottom: 1rem; /* 10px */
+    cursor: pointer;
+  }
+  
+  a {
+    text-decoration: none;
+    color: #000;
+  }
+  
+  .avatar {
+    width: 5rem; /* 50px */
+    height: 5rem; /* 50px */
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .notification-content {
+    flex-grow: 1;
+    margin-left: 1.5rem; /* 15px */
+  }
+  
+  .notification-content p {
+    margin: 0;
+    font-size: 1.4rem; /* 14px */
+  }
+  
+  .notification-actions {
+    display: flex;
+    gap: 1rem; /* 10px */
+  }
+  
+  .accept-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 0.8rem 1.6rem; /* 8px 16px */
+    border-radius: 0.5rem; /* 5px */
+    cursor: pointer;
+  }
+  
+  .delete-button {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: none;
+    padding: 0.8rem 1.6rem; /* 8px 16px */
+    border-radius: 0.5rem; /* 5px */
+    cursor: pointer;
+  }
+  
+  .notification-time {
+    margin-left: 1rem; /* 10px */
+  }
+  
+  .notification-time p {
+    font-size: 1.2rem; /* 12px */
+    color: #888;
+    margin: 0;
+  }
+  
+  .gallery-container {
+    width: 100%;
+    max-width: 90rem; /* 900px */
+    margin: 0 auto;
+    padding: 2rem; /* 20px */
+    color: var(--text-color);
+  }
+  
+  .media-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem; /* 15px */
+  }
+  
+  .media-item {
+    width: calc(25% - 1.5rem); /* 25% minus gap */
+    height: 15rem; /* 150px */
+    object-fit: cover;
+    border-radius: 0.8rem; /* 8px */
+    cursor: pointer;
+  }
+  
+  .media-item:hover {
+    transform: scale(1.05);
+    transition: all 0.3s ease;
+  }
+  
+  video.media-item {
+    background-color: black;
+  }
+  
