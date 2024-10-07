@@ -4,12 +4,9 @@ import React, { useState } from 'react';
 
 import './Information.scss';
 
-
-
-import styles from './Information.module.scss';
+// import styles from './Information.module.scss';
 
 function App() {
-
 
   
   const [selectedTab, setSelectedTab] = useState('account');

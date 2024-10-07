@@ -8,17 +8,7 @@
     --hover-color: #0f6fec;
     --header-with-search-height: calc(var(--header-height) - var(--navbar-height)); /* Adjusted */
   }
-  
-  html {
-    font-size: 62.5%; /* 1rem = 10px */
-  }
-  
-  body {
-    margin: 0;
-    padding: 0;
-    background-color: #f0f0f0; /* Light gray background */
-    font-family: Arial, sans-serif; /* Optional: set a default font */
-  }
+
   
   .grid {
     width: 120rem; /* 1200px */
