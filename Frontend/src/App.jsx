@@ -1,20 +1,34 @@
-import { BrowserRouter as Router,Routes,Route } from "react-router-dom";
-import MessagePage from "./pages/Message";
+import { BrowserRouter as Router, Routes, Route,Navigate } from "react-router-dom";
+import { useState } from 'react'
+
+import Login from "./pages/Login";
+import Message from "./pages/Message";
+// import Profile from "./pages/Profile"
+import Home from "./pages/Home";
+import Information from "./pages/Information"
 import DefaultLayout from "./components/Layouts/DefaultLayout";
-import Profile from "./pages/Profile/Profile";
+import Profile from "./pages/Profile";
+import PrivateRoute from "./pages/Login/PrivateRoute";
 
 function App() {
     return (
         <Router>
-        <DefaultLayout>
-                <Routes>
-                    <Route path="/message" element={<MessagePage />} />
-                    <Route path="/" element={<MessagePage />} />
-                    <Route path="/group" element={<MessagePage />} />
-                    <Route path="/profile" element={<Profile />} />
-                </Routes>
-        </DefaultLayout>
-            </Router>
+                <DefaultLayout>
+                        <Routes>
+                            <Route path="/message" element={<Message />} />
+                            <Route path="/" element={<Home />} />
+                            <Route path="/group" element={<Message />} />
+                            {/* <Route path="/profile" element={<Profile />} /> */}
+                            <Route path="/information" element={<Information />} />
+                        </Routes>
+                </DefaultLayout>
+                {/* <Routes>
+                    <Route
+                        path="/login"
+                        element={<Login/>} />
+                    <Route path="*" element={<Login></Login>} />
+                </Routes> */}
+        </Router>
     );
 }
 
