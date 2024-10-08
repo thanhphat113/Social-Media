@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { FaInfoCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom"; 
-import './Login.module.scss'
+import './Login.module.scss';
+import logo from '/public/img/Cloudy.png'; // Đường dẫn logo
 
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState(""); 
-  const [showSignUp, setShowSignUp] = useState(false); 
+  const [isPopupOpen, setIsPopupOpen] = useState(false); // Trạng thái cho popup
   const navigate = useNavigate(); 
 
   const handleLogin = (e) => {
@@ -23,7 +24,7 @@ function LoginPage() {
   // Form đăng ký
   const SignUpForm = () => (
     <div className="bg-white p-6 rounded shadow-md w-80">
-      <div className="text-lg font-semibold mb-4">Sign Up</div>
+      <div className="text-3xl font-semibold mb-4">Sign Up</div>
       <input
         type="text"
         placeholder="First Name"
@@ -59,6 +60,7 @@ function LoginPage() {
         onClick={() => {
           if (password === confirmPassword) {
             console.log("Sign up successful");
+            setIsPopupOpen(false); // Đóng popup sau khi đăng ký thành công
           } else {
             alert("Passwords do not match!");
           }
@@ -70,7 +72,7 @@ function LoginPage() {
       
       <div className="text-center mt-4">
         <button
-          onClick={() => setShowSignUp(false)}
+          onClick={() => setIsPopupOpen(false)} // Đóng popup
           className="text-blue-600"
         >
           Back to Log In
@@ -82,10 +84,6 @@ function LoginPage() {
   // Form đăng nhập
   const LoginForm = () => (
     <div className="bg-white p-6 rounded shadow-md w-80">
-      <div className="text-lg font-semibold mb-4">Log Into Facebook</div>
-      <div className="bg-yellow-100 text-yellow-800 p-2 rounded mb-4">
-        You must log in to continue.
-      </div>
       <form onSubmit={handleLogin}>
         <input
           type="text"
@@ -110,13 +108,20 @@ function LoginPage() {
           Log In
         </button>
       </form>
-      <div className="flex justify-between text-sm mt-4">
-        <a href="#" className="text-blue-600">
+
+      {/* Đường gạch ngang phân cách */}
+      <div className="my-4">
+        <hr className="border-t border-gray-300" />
+      </div>
+
+      {/* Link quên mật khẩu và nút tạo tài khoản */}
+      <div className="flex flex-col items-center text-sm">
+        <a href="#" className="text-blue-600 mb-2">
           Forgot account?
         </a>
         <button
-          onClick={() => setShowSignUp(true)} 
-          className="text-blue-600"
+          onClick={() => setIsPopupOpen(true)} // Mở popup đăng ký
+          className="w-full bg-green-600 text-white p-2 rounded font-semibold"
         >
           Sign up for Facebook
         </button>
@@ -126,12 +131,25 @@ function LoginPage() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <div className="text-4xl font-bold text-blue-600 mb-4">facebook</div>
-      <div className="flex items-center bg-white p-2 rounded shadow-md mb-4">
-        <FaInfoCircle className="text-blue-600 mr-2" />
-        <span>You must log in to continue.</span>
+      <div className="flex flex-row w-full max-w-4xl bg-gray-100">
+        <div className="flex items-center p-6 w-1/2">
+          <img src={logo} alt="Cloudy Logo" className="h-12 mr-4" />
+          <h1 className="text-2xl font-bold text-blue-600">Chào mừng bạn đến với Cloudy</h1>
+        </div>
+        <div className="flex items-center justify-center w-1/2">
+          {LoginForm()}
+        </div>
       </div>
-      {showSignUp ? <SignUpForm /> : <LoginForm />}
+
+      {/* Popup cho form đăng ký */}
+      {isPopupOpen && (
+        <>
+          <div className="fixed inset-0 bg-black opacity-50" onClick={() => setIsPopupOpen(false)}></div> {/* Lớp phủ */}
+          <div className="fixed inset-0 flex items-center justify-center">
+            <SignUpForm />
+          </div>
+        </>
+      )}
     </div>
   );
 }

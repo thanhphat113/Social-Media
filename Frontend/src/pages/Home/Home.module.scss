@@ -12,6 +12,57 @@
     gap: 5px;
   }
   
+  .popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Nền mờ */
+    z-index: 999; /* Để đảm bảo pop-up nằm trên các thành phần khác */
+  }
+  
+  .popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000; /* Để pop-up hiển thị trên overlay */
+  }
+  
+  .like-button {
+    position: relative;
+  
+    .reaction-container {
+      display: none;
+      position: absolute;
+      bottom: 100%;
+      left: 0;
+      background: white;
+      padding: 8px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      z-index: 10;
+    }
+  
+    &:hover .reaction-container {
+      display: flex;
+    }
+  
+    .reaction-container button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 24px;
+      padding: 5px;
+      transition: transform 0.2s;
+    }
+  
+    .reaction-container button:hover {
+      transform: scale(1.2);
+    }
+  }
+  
 
 
   
