@@ -6,6 +6,7 @@ import HomePage from "./pages/Home";
 import Navbar from "./pages/Navbar";
 import PrivateRoute from "./pages/Login/PrivateRoute";
 
+
 function App() {
     return (
         <Router>

@@ -1,0 +1,312 @@
+  .grid {
+    width: 120rem; /* 1200px */
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  
+  /* Container for the whole settings page */
+  .settingscontainer {
+    display: flex;
+    font-family: Arial, sans-serif;
+    margin-top: 4.4rem; /* 100px */
+    
+    font-size: 1.5rem;
+  }
+  
+  /* Navigation panel on the left */
+  .settingsnav {
+    width: 25.5rem; /* 255px */
+    margin-right: 2rem; /* 20px */
+    position: fixed; 
+    top: 10rem; /* 100px */
+    border: 0.01rem solid #ccc; /* 0.1px */
+    border-radius: 0.8rem; /* 8px */
+    background-color: #fff;
+    color: var(--text-color);
+    box-sizing: border-box;
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    li {
+      font-weight: bold;
+      cursor: pointer;
+      display: flex; /* Enable flexbox */
+      align-items: center; /* Center text vertically */
+      padding: 1rem 0; /* 10px */
+      margin: 0.7rem 2rem; /* 7px 20px */
+      border-radius: 0.8rem; /* 8px */
+    }
+
+    li:hover {
+      color: var(--hover-color); /* Change background color on hover */
+    }
+
+    img {
+      max-width: 12rem; /* 20px */
+      max-height: 2rem; /* 20px */
+      object-fit: contain;
+      padding: 0 0.5rem 0 2rem; /* 0 5px 0 20px */
+    }
+    
+    svg {
+      display: block;
+      max-width: 12rem; /* 20px */
+      max-height: 2rem; /* 17px */
+      object-fit: contain;
+      padding: 0 1rem 0 2rem; /* 0 5px 0 20px */
+    }
+    
+
+    .active {
+      background-color: #e6f0fd; /* Change background color for active tab */
+      color: var(--hover-color); /* Change text color for active tab */
+    }
+
+  }
+  
+
+  .viewprofile {
+    margin: 2rem 0 0 0 !important; /* 20px */
+    padding-top: 1rem !important; /* 10px */
+    border-top: 0.1rem solid #ccc; /* 1px */
+    border-radius: 0 !important;
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    font-weight: 100 !important;
+    color: #000;
+    font-size: 1.5rem; /* 15px */
+  }
+
+  
+  /* Setting forms */
+  .settingform1, .settingform2 {
+    color: var(--text-color);
+    flex-grow: 1;
+    margin-left: 28rem; /* 280px */
+    padding: 2rem; /* 20px */
+    background-color: #fff;
+    border: 0.1rem solid #ccc; /* 1px */
+    border-radius: 0.8rem; /* 8px */
+    margin-bottom: 3rem; /* 30px */
+
+    h2 {
+      margin-bottom: 2rem; /* 20px */
+      color: #000;
+      font-size: 3rem;
+    }
+  }
+  
+ 
+  
+  /* Form field group */
+  .formgroup {
+    margin-bottom: 1.5rem; /* 15px */
+    width: 100%;
+  }
+  
+  /* Label for each field */
+  .formgroup label {
+    display: block;
+    margin-bottom: 1.5rem; /* 15px */
+  }
+  
+  /* Input and textarea styling */
+  .formgroup input,
+  .formgroup textarea {
+    width: 90%;
+    padding: 1rem; /* 10px */
+    margin-bottom: 1rem; /* 10px */
+    border: 0.1rem solid #ccc; /* 1px */
+    border-radius: 0.4rem; /* 4px */
+  }
+  
+  .formgroup p {
+    margin-top: -1rem; /* -10px */
+    font-size: 1.3rem; /* 13px */
+  }
+  
+  .group1 {
+    display: flex !important;
+    width: 100% !important;
+    padding: 1rem; /* 10px */
+    margin-bottom: 1rem; /* 10px */
+    justify-content: space-between;
+  }
+  
+  .group1 input, .group1 textarea {
+    width: 80% !important;
+  }
+  
+  /* Textarea customization */
+  .textarea {
+    resize: vertical;
+    height: 10rem; /* 100px */
+  }
+  
+  /* Save button for forms */
+  .savebutton {
+    padding: 1rem 2rem; /* 10px 20px */
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 0.4rem; /* 4px */
+    cursor: pointer;
+    margin-top: 1rem; /* 10px */
+    font-weight: bold;
+    font-size: 1.4rem; /* 14px */
+  }
+  
+  
+  .friendslist {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); /* 150px */
+    gap: 1.6rem; /* 16px */
+    padding: 2rem; /* 20px */
+    border-radius: 1rem; /* 10px */
+
+    a{
+      text-decoration: none;
+      color: #000;
+    }
+
+    .friendcard {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem; /* 10px */
+      border-radius: 1rem; /* 10px */
+      transition: transform 0.2s;
+    }
+    
+    .friendcard:hover {
+      transform: scale(1.05);
+    }
+
+    .friendavatar {
+      width: 15rem; /* 150px */
+      height: 15rem; /* 150px */
+      border-radius: 10%;
+      object-fit: cover;
+    }
+    
+    .friendname {
+      margin-top: 1rem; /* 10px */
+      color: #000;
+      font-size: 1.6rem; /* 16px */
+      text-align: center;
+      font-weight: bold;
+    }
+  }
+  
+  
+  
+  
+  
+  
+  
+  .notificationsection {
+    padding: 2rem; /* 20px */
+  }
+  
+  .notificationitem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #f1f1f1;
+    padding: 1.5rem; /* 15px */
+    border-radius: 1rem; /* 10px */
+    box-shadow: 0 0.2rem 0.4rem rgba(0, 0, 0, 0.1); /* 2px */
+    margin-bottom: 1rem; /* 10px */
+    cursor: pointer;
+  }
+  
+  a {
+    text-decoration: none;
+    color: #000;
+  }
+  
+  .avatar {
+    width: 5rem; /* 50px */
+    height: 5rem; /* 50px */
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .notificationcontent {
+    flex-grow: 1;
+    margin-left: 1.5rem; /* 15px */
+
+    p{
+      margin: 0;
+      font-size: 1.4rem; /* 14px */
+
+    }
+  }
+  
+  
+  .notificationactions {
+    display: flex;
+    gap: 1rem; /* 10px */
+  }
+  
+  .acceptbutton {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 0.8rem 1.6rem; /* 8px 16px */
+    border-radius: 0.5rem; /* 5px */
+    cursor: pointer;
+  }
+  
+  .deletebutton {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: none;
+    padding: 0.8rem 1.6rem; /* 8px 16px */
+    border-radius: 0.5rem; /* 5px */
+    cursor: pointer;
+  }
+  
+  .notificationtime {
+    margin-left: 1rem; /* 10px */
+
+    p{
+
+      font-size: 1.2rem; /* 12px */
+      color: #888;
+      margin: 0;
+
+    }
+  }
+  .gallerycontainer {
+    width: 100%;
+    max-width: 90rem; /* 900px */
+    margin: 0 auto;
+    padding: 2rem; /* 20px */
+    color: var(--text-color);
+  }
+  
+  .mediagrid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem; /* 15px */
+  }
+  
+  .mediaitem {
+    width: calc(25% - 1.5rem); /* 25% minus gap */
+    height: 15rem; /* 150px */
+    object-fit: cover;
+    border-radius: 0.8rem; /* 8px */
+    cursor: pointer;
+  }
+  
+  .mediaitem:hover {
+    transform: scale(1.05);
+    transition: all 0.3s ease;
+  }
+  
+  
