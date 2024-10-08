@@ -13,7 +13,8 @@ function LoginPage() {
     e.preventDefault();
     if (email === "user@example.com" && password === "password") {
       localStorage.setItem("isLoggedIn", "true");
-      navigate("/home");
+    navigate("/");
+      
     } else {
       alert("Invalid login credentials");
     }

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-import Navbar from '../Navbar';
 import Sidebar from './SideBar';
 import MainContent from './MainContent';
 import RightSidebar from './RightSideBar';
@@ -13,7 +12,6 @@ function HomePage() {
   return (
 
     <div className="flex h-screen" style={{ backgroundColor: '#F0F2F5', color: 'black' }}>
-      <Navbar />
       <div className="flex flex-grow">
       {/* Sidebar */}
         <Sidebar />
