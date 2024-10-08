@@ -1,20 +1,30 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MessagePage from "./pages/Message";
 import DefaultLayout from "./components/Layouts/DefaultLayout";
-import Information from "./pages/Information";
+import LoginPage from "./pages/Login";
+import HomePage from "./pages/Home";
+import Navbar from "./pages/Navbar";
+import PrivateRoute from "./pages/Login/PrivateRoute";
+
 
 function App() {
     return (
         <Router>
-            <DefaultLayout>
-                <Routes>
-                    <Route path="/message" element={<MessagePage />} />
-                    <Route path="/" element={<MessagePage />} />
-                    <Route path="/group" element={<MessagePage />} />
-                    <Route path="/information" element={<Information />} />
-                </Routes>
-            </DefaultLayout>
-        </Router>
+        <Routes>
+    
+          <Route path="/login" element={<LoginPage />} />
+        
+          <Route 
+            path="/home" 
+            element={
+              <PrivateRoute>
+                <HomePage />
+              </PrivateRoute>
+            } 
+          />
+          <Route path="*" element={<LoginPage />} />
+        </Routes>
+      </Router>
     );
 }
 
