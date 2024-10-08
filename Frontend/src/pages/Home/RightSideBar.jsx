@@ -6,12 +6,6 @@ import ChatSettings from './ChatSettings';
 
 function RightSidebar() {
   const [showSettings, setShowSettings] = useState(false); // State để quản lý việc hiển thị khung cài đặt
-
-  const friendRequests = [
-    { name: 'Nguyễn Văn' },
-    { name: 'Trần Thị B' },
-  ];
-
   const contacts = ['Nguyễn Văn C', 'Phạm Thị D'];
 
   const toggleSettings = () => {
@@ -20,24 +14,7 @@ function RightSidebar() {
 
   return (
     <aside className="rightbar w-1/5 p-4 relative"> {/* Relative để định vị khung cài đặt */}
-      <div className="mb-4">
-        <div className="flex items-center justify-between mb-2">
-          <span>Lời mời kết bạn</span>
-          <span className="text-blue-500">Xem tất cả</span>
-        </div>
-        {friendRequests.map((request, index) => (
-          <div key={index} className="flex items-center justify-between mb-2">
-            <div className="flex items-center">
-              <img src="friend-request.jpg" alt="Friend Request" className="w-8 h-8 rounded-full mr-2" />
-              <span>{request.name}</span>
-            </div>
-            <div className="flex">
-              <button className="bg-blue-500 text-white px-2 py-1 rounded mr-2">Xác nhận</button>
-              <button className="bg-red-500 text-red px-2 py-1 rounded">Xóa</button>
-            </div>
-          </div>
-        ))}
-      </div>
+      
       
       <div className="mb-4">
         <h2 className="font-bold mb-2">Sinh nhật</h2>

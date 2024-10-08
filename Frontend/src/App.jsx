@@ -10,6 +10,7 @@ import PrivateRoute from "./pages/Login/PrivateRoute";
 function App() {
     return (
         <Router>
+          <DefaultLayout>
         <Routes>
     
           <Route path="/login" element={<LoginPage />} />
@@ -24,6 +25,7 @@ function App() {
           />
           <Route path="*" element={<LoginPage />} />
         </Routes>
+        </DefaultLayout>
       </Router>
     );
 }
