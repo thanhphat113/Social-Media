@@ -12,18 +12,12 @@ function MainContent() {
       <div className="bg-white p-4 rounded-lg mb-4">
         <input type="text" placeholder="Tiến ơi, bạn đang nghĩ gì thế?" className="w-full p-2 bg-white rounded-full mb-2" />
         <div className="flex justify-between">
-          <button className="flex items-center">
-            <MdOutlineVideoCall className="text-red-500 mr-2" />
-            Video trực tiếp
-          </button>
+          
           <button className="flex items-center">
             <MdPhotoLibrary className="text-green-500 mr-2" />
             Ảnh/video
           </button>
-          <button className="flex items-center">
-            <MdEmojiEmotions className="text-yellow-500 mr-2" />
-            Cảm xúc/hoạt động
-          </button>
+         
         </div>
       </div>
 

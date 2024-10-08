@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FaInfoCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom"; 
+import './Login.module.scss'
 
 function LoginPage() {
   const [email, setEmail] = useState("");
