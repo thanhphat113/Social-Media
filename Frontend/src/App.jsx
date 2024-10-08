@@ -1,33 +1,51 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import { useState } from "react";
+
 import MessagePage from "./pages/Message";
 import DefaultLayout from "./components/Layouts/DefaultLayout";
-import LoginPage from "./pages/Login";
-import HomePage from "./pages/Home";
-import Navbar from "./pages/Navbar";
-import PrivateRoute from "./pages/Login/PrivateRoute";
+// import Profile from "./pages/Profile";
+// import ProfileGroup from "./pages/ProfileGroup";
+import Home from "./pages/Home";
+import Login from "./pages/Login/index.jsx";
+import Information from "./pages/Information/index.jsx";
 
 
 function App() {
-    return (
-        <Router>
-          <DefaultLayout>
-        <Routes>
-    
-          <Route path="/login" element={<LoginPage />} />
-        
-          <Route 
-            path="/home" 
-            element={
-              <PrivateRoute>
-                <HomePage />
-              </PrivateRoute>
-            } 
-          />
-          <Route path="*" element={<LoginPage />} />
-        </Routes>
-        </DefaultLayout>
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  
+  return (
+      <Router>
+          {isAuthenticated ? (
+              <DefaultLayout>
+                  <Routes>
+                      <Route path="/message" element={<MessagePage />} />
+                      <Route path="/" element={<Home />} />
+                      <Route path="/group" element={<MessagePage />} />
+                      {/* <Route path="/profile" element={<Profile />} /> */}
+                      <Route path="/information" element={<Information />} />
+                  </Routes>
+              </DefaultLayout>
+          ) : (
+              <Routes>
+                  <Route
+                      path="/login"
+                      element={
+                          <Login onLogin={() => {
+                              setIsAuthenticated(true)
+                              }
+                              } />
+                      }
+                  />
+                  <Route path="*" element={<Navigate to="/login" />} />
+              </Routes>
+          )}
       </Router>
-    );
+  );
 }
 
 export default App;

@@ -4,7 +4,7 @@ import Sidebar from './SideBar';
 import MainContent from './MainContent';
 import RightSidebar from './RightSideBar';
 
-function HomePage() {
+function Home() {
  
   return (
 
@@ -26,4 +26,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default Home;

@@ -4,22 +4,30 @@ import { useNavigate } from "react-router-dom";
 import './Login.module.scss';
 import logo from '/public/img/Cloudy.png'; // Đường dẫn logo
 
-function LoginPage() {
+function Login( {onLogin} ) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState(""); 
   const [isPopupOpen, setIsPopupOpen] = useState(false); // Trạng thái cho popup
   const navigate = useNavigate(); 
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    if (email === "user@example.com" && password === "password") {
-      localStorage.setItem("isLoggedIn", "true");
-      navigate("/home");
-    } else {
-      alert("Invalid login credentials");
-    }
+  // const handleLogin = (e) => {
+  //   e.preventDefault();
+  //   if (email === "user@example.com" && password === "password") {
+  //     localStorage.setItem("isLoggedIn", "true");
+  //     navigate("/");
+  //   } else {
+  //     alert("Invalid login credentials");
+  //   }
+  // };
+
+
+  const handleLogin = () => {
+    onLogin()
+    navigate('/')
   };
+
+  
 
   // Form đăng ký
   const SignUpForm = () => (
@@ -154,4 +162,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage;
+export default Login;
