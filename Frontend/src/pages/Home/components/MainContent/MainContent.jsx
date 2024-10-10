@@ -6,7 +6,8 @@ import { FaRegComment, FaPaperPlane } from 'react-icons/fa';
 import { PiShareFatThin } from 'react-icons/pi';
 import { FaSmile, FaImage, FaMapMarkerAlt, FaVideo, FaTimes, FaFacebookMessenger, FaWhatsapp, FaLink, FaUsers, FaFlag } from 'react-icons/fa';
 import { useDropzone } from 'react-dropzone';
-import styles from 'Frontend/src/pages/Home/Home.module.scss';
+import styles from 'Frontend/src/pages/Home/components/MainContent/MainContent.module.scss';
+import Post from '../Post/Post';
 
 function MainContent() {
   const [comments, setComments] = useState([]);
@@ -21,7 +22,13 @@ function MainContent() {
 
   const [hoveringLike, setHoveringLike] = useState(false);
 
-
+  const post = {
+    image: "img/Ảnh chụp màn hình 2024-06-10 024210.png",
+    title: "Anime",
+    userName: "Anime Season",
+    content: "Re: Zero đã trở lại! 💀",
+    time: "22 giờ · 🌍"
+  };
 
   const [currentLike, setCurrentLike] = useState({ emoji: null, label: 'Like' }); // Lưu trữ biểu tượng cảm xúc và tên
 
@@ -84,6 +91,8 @@ function MainContent() {
     toggleSharePopup(); // Đóng pop-up chia sẻ sau khi chia sẻ
   };
 
+
+
   return (
     <main className={styles.content}>
       <div className={styles.postContainer}>
@@ -111,7 +120,7 @@ function MainContent() {
               <button className={styles.closeButton} onClick={togglePopup}>X</button>
             </div>
             <div className={styles.userInfo}>
-              {/* <img src="profile.jpg" alt="Profile" className={styles.profileImage} /> */}
+              <img src="profile.jpg" alt="Profile" className={styles.profileImage} />
               <div className={styles.userName}>
                 <p className={styles.userNameText}>Nguyễn Tiến</p>
                 <button className={styles.publicButton}>Công khai</button>
@@ -127,12 +136,12 @@ function MainContent() {
               <input {...getInputProps()} />
               <p>Thêm ảnh/video hoặc kéo và thả</p>
             </div>
-            <div className={styles.popupActions}>
+            {/* <div className={styles.popupActions}>
               <button className={styles.mobileButton}>
                 <FaVideo className={styles.iconBlue} /> Thêm ảnh và video từ thiết bị di động.
               </button>
               <button className={styles.addButton}>Thêm</button>
-            </div>
+            </div> */}
             <div className={styles.extraOptions}>
               <p>Thêm vào bài viết của bạn</p>
               <div className={styles.iconOptions}>
@@ -191,80 +200,41 @@ function MainContent() {
       )}
 
       {/* Bài viết */}
-      <div className={styles.postContainer}>
-        <div className={styles.postHeader}>
-          <div className={styles.userPostInfo}>
-            <img src="img/Ảnh chụp màn hình 2024-06-10 024210.png" alt="Anime" className={styles.postImage} />
-            <div>
-              <span className={styles.postUserName}>Anime Season</span> · <span className={styles.followButton}>Theo dõi</span>
-              <p className={styles.postTime}>22 giờ · 🌍</p>
-            </div>
-          </div>
-          <BsThreeDots onClick={toggleSharePopup} /> {/* Nút chia sẻ */}
-        </div>
-        <p className={styles.postText}>Re: Zero đã trở lại! 💀</p>
-        <img src="img/Ảnh chụp màn hình 2024-06-10 024210.png" alt="Anime Post" className={styles.postImageFull} />
 
-        {/* Bình luận và tương tác */}
-        <div className={styles.interactionBar}>
-          <div className={styles.likeButton}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}>
-            <button className={styles.interactionButton}>
-              {currentLike.emoji ? currentLike.emoji : <AiOutlineLike />} {/* Hiển thị emoji nếu có */}
-              <span>{currentLike.label}</span> {/* Hiển thị tên cảm xúc */}
-            </button>
 
-            {hoveringLike && isEmojiMenuVisible && (
-              <div
-                className={styles.emojiOptions}
-                onMouseEnter={handleEmojiMenuMouseEnter}
-                onMouseLeave={handleEmojiMenuMouseLeave}
-              >
-                <button className={styles.emojiButton} onClick={() => handleLikeChange('❤️', 'Love')}><span role="img" aria-label="love">❤️</span></button>
-                <button className={styles.emojiButton} onClick={() => handleLikeChange('😂', 'Haha')}><span role="img" aria-label="haha">😂</span></button>
-                <button className={styles.emojiButton} onClick={() => handleLikeChange('😮', 'Wow')}><span role="img" aria-label="wow">😮</span></button>
-                <button className={styles.emojiButton} onClick={() => handleLikeChange('😢', 'Sad')}><span role="img" aria-label="sad">😢</span></button>
-                <button className={styles.emojiButton} onClick={() => handleLikeChange('😡', 'Angry')}><span role="img" aria-label="angry">😡</span></button>
-                <button className={styles.emojiButton} onClick={() => handleLikeChange('👍', 'Like')}><span role="img" aria-label="thumbs up">👍</span></button>
-              </div>
-            )}
-          </div>
+      <Post
+        post={post}
+        currentLike={currentLike}
+        handleLikeChange={handleLikeChange}
+        hoveringLike={hoveringLike}
+        handleMouseEnter={handleMouseEnter}
+        handleMouseLeave={handleMouseLeave}
+        isEmojiMenuVisible={isEmojiMenuVisible}
+        handleEmojiMenuMouseEnter={handleEmojiMenuMouseEnter}
+        handleEmojiMenuMouseLeave={handleEmojiMenuMouseLeave}
+        toggleSharePopup={toggleSharePopup}
+        comments={comments}
+        currentComment={currentComment}
+        handleAddComment={handleAddComment}
+        setCurrentComment={setCurrentComment}
+      />
 
-          <button className={styles.interactionButton}>
-            <FaRegComment />
-            <span>Comment</span>
-          </button>
-          <button className={styles.interactionButton} onClick={toggleSharePopup}>
-            <PiShareFatThin />
-            <span>Share</span>
-          </button>
-        </div>
-
-        {/* Bình luận */}
-        <div className={styles.commentInputContainer}>
-          <input
-            type="text"
-            value={currentComment}
-            onChange={(e) => setCurrentComment(e.target.value)}
-            placeholder="Viết bình luận..."
-            className={styles.commentInput}
-          />
-          <button onClick={handleAddComment} className={styles.sendButton}>
-            <FaPaperPlane size={24} />
-          </button>
-        </div>
-
-        {/* Hiển thị danh sách bình luận */}
-        <div className={styles.commentSection}>
-          {comments.map((comment, index) => (
-            <div key={index} className={styles.comment}>
-              <strong>Người dùng:</strong> {comment}
-            </div>
-          ))}
-        </div>
-
-      </div>
+      <Post
+        post={post}
+        currentLike={currentLike}
+        handleLikeChange={handleLikeChange}
+        hoveringLike={hoveringLike}
+        handleMouseEnter={handleMouseEnter}
+        handleMouseLeave={handleMouseLeave}
+        isEmojiMenuVisible={isEmojiMenuVisible}
+        handleEmojiMenuMouseEnter={handleEmojiMenuMouseEnter}
+        handleEmojiMenuMouseLeave={handleEmojiMenuMouseLeave}
+        toggleSharePopup={toggleSharePopup}
+        comments={comments}
+        currentComment={currentComment}
+        handleAddComment={handleAddComment}
+        setCurrentComment={setCurrentComment}
+      />
     </main>
   );
 }

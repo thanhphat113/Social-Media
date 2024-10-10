@@ -1,5 +1,10 @@
 // Login.module.scss
 
+.signUpTitle {
+  font-size: 4rem;
+  font-weight: 700;
+}
+
 .loginContainer {
     display: flex;
     flex-direction: column;
@@ -78,7 +83,9 @@
   }
   
   .signupButton {
-    background-color: #22c55e; // Tương đương với bg-green-600
+    background-color: #22c55e;
+    margin-right: 1.5rem; // Tương đương với bg-green-600
+    border-radius: 10px;
   }
   
   .separator {
@@ -90,6 +97,8 @@
     color: #3b82f6; // Tương đương với text-blue-600
     margin-bottom: 0.5rem; // Tương đương với mb-2
     font-size: 2rem;
+    border-radius: 5px;
+    height: 6rem;
   }
   
   .popupOverlay {
@@ -106,3 +115,21 @@
     justify-content: center;
   }
   
+// Thêm kiểu cho hàng chứa First Name và Last Name
+.nameRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem; // Khoảng cách giữa các ô input
+}
+
+// Chỉnh sửa các input trong nameRow
+.inputHalf {
+  width: 48%; // Chiếm 50% không gian của hàng
+}
+
+// Thêm kiểu cho hàng chứa nút Sign up và Back to Log In
+.buttonRow {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}

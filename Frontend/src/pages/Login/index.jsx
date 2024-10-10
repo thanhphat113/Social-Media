@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaInfoCircle } from "react-icons/fa";
+import { FaArrowLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom"; 
 import styles from './Login.module.scss'; // Nhập file SCSS
 import logo from '/public/img/Cloudy.png'; // Đường dẫn logo
@@ -17,40 +17,48 @@ function Login( {onLogin} ) {
   };
 
   // Form đăng ký
-  const SignUpForm = () => (
-    <div className={`${styles.formContainer}`}>
-      <div className="text-3xl font-semibold mb-4">Sign Up</div>
+const SignUpForm = () => (
+  <div className={`${styles.formContainer}`}>
+    <div className={`${styles.signUpTitle}`}>Sign Up</div>
+
+    {/* Hàng chứa First Name và Last Name */}
+    <div className={styles.nameRow}>
       <input
         type="text"
         placeholder="First Name"
-        className={styles.input}
+        className={`${styles.input} ${styles.inputHalf}`}
       />
       <input
         type="text"
         placeholder="Last Name"
-        className={styles.input}
+        className={`${styles.input} ${styles.inputHalf}`}
       />
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        className={styles.input}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        className={styles.input}
-      />
-      <input
-        type="password"
-        placeholder="Confirm Password"
-        value={confirmPassword}
-        onChange={(e) => setConfirmPassword(e.target.value)}
-        className={`${styles.input} mb-4`}
-      />
+    </div>
+
+    <input
+      type="email"
+      placeholder="Email"
+      value={email}
+      onChange={(e) => setEmail(e.target.value)}
+      className={styles.input}
+    />
+    <input
+      type="password"
+      placeholder="Password"
+      value={password}
+      onChange={(e) => setPassword(e.target.value)}
+      className={styles.input}
+    />
+    <input
+      type="password"
+      placeholder="Confirm Password"
+      value={confirmPassword}
+      onChange={(e) => setConfirmPassword(e.target.value)}
+      className={`${styles.input} mb-4`}
+    />
+
+    {/* Hàng chứa nút Sign Up và Back to Log In */}
+    <div className={styles.buttonRow}>
       <button
         onClick={() => {
           if (password === confirmPassword) {
@@ -64,17 +72,17 @@ function Login( {onLogin} ) {
       >
         Sign Up
       </button>
-      
-      <div className="text-center mt-4">
-        <button
-          onClick={() => setIsPopupOpen(false)} // Đóng popup
-          className={styles.link}
-        >
-          Back to Log In
-        </button>
-      </div>
+
+      <button
+        onClick={() => setIsPopupOpen(false)} // Đóng popup
+        className={styles.link}
+      >
+        <FaArrowLeft /> 
+        Back to Log In
+      </button>
     </div>
-  );
+  </div>
+);
 
   // Form đăng nhập
   const LoginForm = () => (

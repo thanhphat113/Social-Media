@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { FaBirthdayCake } from 'react-icons/fa';
 import { IoIosSearch } from 'react-icons/io';
 import { BsThreeDots } from 'react-icons/bs';
-import ChatSettings from './ChatSettings';
-import styles from 'Frontend/src/pages/Home/Home.module.scss';
+import ChatSettings from 'Frontend/src/pages/Home/components/ChatSettings/ChatSettings.jsx';
+import styles from 'Frontend/src/pages/Home/components/RightSideBar/RightSideBar.module.scss';
 
 function RightSidebar() {
   const [showSettings, setShowSettings] = useState(false); // State để quản lý việc hiển thị khung cài đặt

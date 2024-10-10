@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaRss, FaUserFriends, FaNewspaper, FaCalendarAlt, FaUsers, FaBell } from 'react-icons/fa';
-import styles from 'Frontend/src/pages/Home/Home.module.scss';
+import styles from './SideBar.module.scss'
 
 function Sidebar() {
   return (
