@@ -8,9 +8,10 @@
     border-radius: .4rem;
     font-size: .875em;
     flex-wrap: wrap;
+    margin-top: 0.7rem;
     margin-bottom: 0;
     list-style: none;
-    padding: 0.25rem 0.75rem;
+    padding: 0.25rem 0rem;
 }
 
 .nav:hover {
@@ -37,9 +38,11 @@
   padding-right: .5rem !important;
   padding-left: .5rem !important;
   margin-bottom: 0 !important;
-  display: block;
+  display: flex;
+  align-items: center;
   color: #a1a1a8;
   svg {
+    display: block;
     padding-right: 0.5rem;
     height: 20px;
     width: 20px;

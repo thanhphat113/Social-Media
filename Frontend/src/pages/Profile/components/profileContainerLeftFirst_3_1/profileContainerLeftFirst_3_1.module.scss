@@ -4,8 +4,8 @@
 }
 
 .avatar {
-  height: 2.1875rem;
-  width: 2.1875rem;
+  width: 3.5rem;
+  height: 3.5rem;
   margin-right: 0.5rem;
   position: relative;
   display: inline-block;
@@ -28,17 +28,17 @@
   border: 0;
   resize: none;
   background-color: var(--background);
-  min-height: calc(1.5em + 1rem + 2px);
+  min-height: 5rem;
   padding-right: 1.5rem !important;
   display: block;
     width: 100%;
     padding: .5rem 1rem;
-    font-size: .9375rem;
+    font-size: 1.25rem;
     font-weight: 400;
     line-height: 1.5;
-    color: #ffffffb3;
     background-clip: padding-box;
     appearance: none;
     border-radius: .4rem;
-
+    outline: none;
 }
+

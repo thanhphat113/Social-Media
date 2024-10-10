@@ -8,8 +8,8 @@
 }
 
 .avatarContainer {
-  height: 5.125rem;
-  width: 5.125rem;
+  height: 10rem;
+  width: 10rem;
   position: relative;
   display: inline-block;
   margin-top: -3rem;
@@ -35,13 +35,15 @@
 
 .profileName {
   margin-bottom: 0;
-  font-size: 1.25rem;
+  margin-top: 0;
+  font-size: 2rem;
   color: #000;
 }
 
 .connectionInfo {
   margin-top: 0;
   margin-bottom: 1rem;
+  margin-top: 0.5rem;
   color: #a1a1a8;
 }
 
@@ -55,21 +57,20 @@
 }
 
 .editProfileButton {
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
+  font-size: 1.2rem; 
+  font-weight: 600;
   color: #d6293e!important;
   background-color: #d6293e1a!important;
   outline: 0;
   margin-right: .5rem !important;
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  font-size: 0.9375rem; 
-  font-weight: 500; 
+  display: flex;
+  padding: 0.5rem 1rem; 
   line-height: 1.5;
-  text-align: center;
-  vertical-align: middle;
   border: 1px solid transparent; 
   border-radius: 0.4rem; 
-  box-shadow: none; 
   opacity: 1;
 }
 
