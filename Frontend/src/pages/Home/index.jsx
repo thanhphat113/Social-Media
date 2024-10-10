@@ -1,27 +1,30 @@
-import React, { useState } from 'react';
+import React from 'react';
+import Sidebar from './components/SideBar';
+import MainContent from './components/MainContent';
+import RightSidebar from './components/RightSideBar';
+import styles from 'Frontend/src/pages/Home/Home.module.scss';
 
-import Sidebar from './SideBar';
-import MainContent from './MainContent';
-import RightSidebar from './RightSideBar';
 
 function Home() {
- 
   return (
-
-    <div className="flex h-screen" style={{ backgroundColor: '#F0F2F5', color: 'black' }}>
-     
-      <div className="flex flex-grow">
-      {/* Sidebar */}
-        <Sidebar />
+    <div className={styles.homeContainer}>
+      {/* Flex container */}
+      <div className={styles.flexGrow}>
+        {/* Sidebar */}
+        <div className={styles.sidebar}>
+          <Sidebar />
+        </div>
         
         {/* Main Content */}
-        <MainContent />
+        <div className={styles.mainContent}>
+          <MainContent />
+        </div>
 
         {/* Right Sidebar */}
-        <RightSidebar />
-        
+        <div className={styles.rightSidebar}>
+          <RightSidebar />
+        </div>
       </div>
-
     </div>
   );
 }

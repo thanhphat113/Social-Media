@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaInfoCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom"; 
-import './Login.module.scss';
+import styles from './Login.module.scss'; // Nhập file SCSS
 import logo from '/public/img/Cloudy.png'; // Đường dẫn logo
 
 function Login( {onLogin} ) {
@@ -11,58 +11,45 @@ function Login( {onLogin} ) {
   const [isPopupOpen, setIsPopupOpen] = useState(false); // Trạng thái cho popup
   const navigate = useNavigate(); 
 
-  // const handleLogin = (e) => {
-  //   e.preventDefault();
-  //   if (email === "user@example.com" && password === "password") {
-  //     localStorage.setItem("isLoggedIn", "true");
-  //     navigate("/");
-  //   } else {
-  //     alert("Invalid login credentials");
-  //   }
-  // };
-
-
   const handleLogin = () => {
-    onLogin()
-    navigate('/')
+    onLogin();
+    navigate('/');
   };
-
-  
 
   // Form đăng ký
   const SignUpForm = () => (
-    <div className="bg-white p-6 rounded shadow-md w-80">
+    <div className={`${styles.formContainer}`}>
       <div className="text-3xl font-semibold mb-4">Sign Up</div>
       <input
         type="text"
         placeholder="First Name"
-        className="w-full p-2 mb-2 border rounded"
+        className={styles.input}
       />
       <input
         type="text"
         placeholder="Last Name"
-        className="w-full p-2 mb-2 border rounded"
+        className={styles.input}
       />
       <input
         type="email"
         placeholder="Email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        className="w-full p-2 mb-2 border rounded"
+        className={styles.input}
       />
       <input
         type="password"
         placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-        className="w-full p-2 mb-2 border rounded"
+        className={styles.input}
       />
       <input
         type="password"
         placeholder="Confirm Password"
         value={confirmPassword}
         onChange={(e) => setConfirmPassword(e.target.value)}
-        className="w-full p-2 mb-4 border rounded"
+        className={`${styles.input} mb-4`}
       />
       <button
         onClick={() => {
@@ -73,7 +60,7 @@ function Login( {onLogin} ) {
             alert("Passwords do not match!");
           }
         }}
-        className="w-full bg-blue-600 text-white p-2 rounded font-semibold"
+        className={`${styles.button} ${styles.signupButton}`}
       >
         Sign Up
       </button>
@@ -81,7 +68,7 @@ function Login( {onLogin} ) {
       <div className="text-center mt-4">
         <button
           onClick={() => setIsPopupOpen(false)} // Đóng popup
-          className="text-blue-600"
+          className={styles.link}
         >
           Back to Log In
         </button>
@@ -91,14 +78,14 @@ function Login( {onLogin} ) {
 
   // Form đăng nhập
   const LoginForm = () => (
-    <div className="bg-white p-6 rounded shadow-md w-80">
-      <form onSubmit={handleLogin}>
+    <div className={styles.formContainer}>
+      <form onSubmit={(e) => { e.preventDefault(); handleLogin(); }}>
         <input
           type="text"
           placeholder="Email or phone number"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full p-2 mb-2 border rounded"
+          className={styles.input}
           required
         />
         <input
@@ -106,30 +93,28 @@ function Login( {onLogin} ) {
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full p-2 mb-4 border rounded"
+          className={`${styles.input} mb-4`}
           required
         />
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white p-2 rounded font-semibold"
+          className={`${styles.button} ${styles.loginButton}`}
         >
           Log In
         </button>
       </form>
 
       {/* Đường gạch ngang phân cách */}
-      <div className="my-4">
-        <hr className="border-t border-gray-300" />
-      </div>
+      <div className={styles.separator}></div>
 
       {/* Link quên mật khẩu và nút tạo tài khoản */}
       <div className="flex flex-col items-center text-sm">
-        <a href="#" className="text-blue-600 mb-2">
+        <a href="#" className={styles.link}>
           Forgot account?
         </a>
         <button
           onClick={() => setIsPopupOpen(true)} // Mở popup đăng ký
-          className="w-full bg-green-600 text-white p-2 rounded font-semibold"
+          className={`${styles.button} ${styles.signupButton}`}
         >
           Sign up for Facebook
         </button>
@@ -138,13 +123,13 @@ function Login( {onLogin} ) {
   );
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <div className="flex flex-row w-full max-w-4xl bg-gray-100">
-        <div className="flex items-center p-6 w-1/2">
-          <img src={logo} alt="Cloudy Logo" className="h-12 mr-4" />
-          <h1 className="text-2xl font-bold text-blue-600">Chào mừng bạn đến với Cloudy</h1>
+    <div className={styles.loginContainer}>
+      <div className={styles.flexRow}>
+        <div className={styles.leftSection}>
+          <img src={logo} alt="Cloudy Logo" className={styles.logo} />
+          <h1 className={styles.welcomeText}>Chào mừng bạn đến với Cloudy</h1>
         </div>
-        <div className="flex items-center justify-center w-1/2">
+        <div className={styles.rightSection}>
           {LoginForm()}
         </div>
       </div>
@@ -152,8 +137,8 @@ function Login( {onLogin} ) {
       {/* Popup cho form đăng ký */}
       {isPopupOpen && (
         <>
-          <div className="fixed inset-0 bg-black opacity-50" onClick={() => setIsPopupOpen(false)}></div> {/* Lớp phủ */}
-          <div className="fixed inset-0 flex items-center justify-center">
+          <div className={styles.popupOverlay} onClick={() => setIsPopupOpen(false)}></div> {/* Lớp phủ */}
+          <div className={styles.popupContainer}>
             <SignUpForm />
           </div>
         </>
