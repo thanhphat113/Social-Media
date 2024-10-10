@@ -5,13 +5,11 @@ const ShareThoughts = () => {
   return (
     <div className={styles.container}>
       <div className={styles.avatar}>
-        <span role="button">
           <img
             className={styles.avatarImg}
             src="https://cdn.tuoitre.vn/zoom/700_525/2019/5/8/avatar-publicitystill-h2019-1557284559744252594756-crop-15572850428231644565436.jpg"
             alt="avatar3"
           />
-        </span>
       </div>
       <form className={styles.form}>
         <textarea

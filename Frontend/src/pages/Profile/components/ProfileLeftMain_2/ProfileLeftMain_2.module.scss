@@ -1,4 +1,7 @@
 .listInline {
+  display: flex;
+  justify-content: flex-start;
+  justify-items: center;
   margin-bottom: 0;
   text-align: center;
   padding-left: 0;
@@ -11,7 +14,8 @@
 }
 
 .listInlineItem {
-  display: inline-block;
+  display: flex;
+  align-items: center;
   margin-right: .5rem;
   color: #a1a1a8;
 }
