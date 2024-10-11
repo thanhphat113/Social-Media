@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route,Navigate } from "react-router-dom";
-import { useState } from 'react'
+import { createContext } from 'react'
 
 import Login from "./pages/Login";
 import Message from "./pages/Message";
@@ -8,7 +8,7 @@ import Home from "./pages/Home";
 import Information from "./pages/Information"
 import DefaultLayout from "./components/Layouts/DefaultLayout";
 import Profile from "./pages/Profile";
-import PrivateRoute from "./pages/Login/PrivateRoute";
+
 
 function App() {
     return (
