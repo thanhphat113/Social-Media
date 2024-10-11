@@ -61,7 +61,7 @@ public partial class SocialMediaContext : DbContext
 
     public virtual DbSet<TypeRelationship> TypeRelationships { get; set; }
 
-    public virtual DbSet<User> Users { get; set; }
+    public virtual DbSet<User> User { get; set; }
 
     public virtual DbSet<UserGroup> UserGroups { get; set; }
 

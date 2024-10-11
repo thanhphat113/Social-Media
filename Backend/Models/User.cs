@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Backend.Models;
 
@@ -9,21 +11,24 @@ public partial class User
 
     public string FirstName { get; set; } = null!;
 
+
     public string LastName { get; set; } = null!;
 
     public string Email { get; set; } = null!;
 
+    [Column("password")]
     public string Password { get; set; } = null!;
-
+    [Column("bio")]
     public string? Bio { get; set; }
-
+    [Column("location")]
     public string Location { get; set; } = null!;
-
+    [Column("profile_picture")]
     public int? ProfilePicture { get; set; }
-
+    [Column("cover_photo")]
     public int? CoverPhoto { get; set; }
-
+    [Column("date_created")]
     public DateTime DateCreated { get; set; }
+    [Column("date_updated")]
 
     public DateTime DateUpdated { get; set; }
 
