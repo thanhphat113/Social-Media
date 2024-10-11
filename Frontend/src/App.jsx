@@ -3,7 +3,7 @@ import { createContext } from 'react'
 
 import Login from "./pages/Login";
 import Message from "./pages/Message";
-// import Profile from "./pages/Profile"
+import GroupList from "./pages/Group/components/GroupList";
 import Home from "./pages/Home";
 import Information from "./pages/Information"
 import DefaultLayout from "./components/Layouts/DefaultLayout";
@@ -17,7 +17,7 @@ function App() {
                         <Routes>
                             <Route path="/message" element={<Message />} />
                             <Route path="/" element={<Home />} />
-                            <Route path="/group" element={<Message />} />
+                            <Route path="/group" element={<GroupList />} />
                             <Route path="/profile" element={<Profile />} />
                             <Route path="/information" element={<Information />} />
                         </Routes>
