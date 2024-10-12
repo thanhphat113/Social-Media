@@ -4,6 +4,10 @@ import styles from './Information.module.scss';
 function App() {
 
   const [selectedTab, setSelectedTab] = useState('account');
+  const [selectedTabFriendFollow, setSelectedTabFriendFollow] = useState('friends');
+
+  
+  
 
 
   const friends = [
@@ -29,6 +33,19 @@ function App() {
     { id: 10, name: 'Your Friend', imageUrl: 'https://themes.stackbros.in/social_r/assets/07-DLMl_mTI.jpg' }
 
     
+  ];
+
+  const followers = [ 
+    { id: 1, name: 'Your Follower', imageUrl: 'https://themes.stackbros.in/social_r/assets/07-DLMl_mTI.jpg' },
+    { id: 2, name: 'Your Follower', imageUrl: 'https://themes.stackbros.in/social_r/assets/07-DLMl_mTI.jpg' },
+    { id: 3, name: 'Your Follower', imageUrl: 'https://themes.stackbros.in/social_r/assets/07-DLMl_mTI.jpg' },
+    { id: 4, name: 'Your Follower', imageUrl: 'https://themes.stackbros.in/social_r/assets/07-DLMl_mTI.jpg' },
+    { id: 5, name: 'Your Follower', imageUrl: 'https://themes.stackbros.in/social_r/assets/07-DLMl_mTI.jpg' },
+    { id: 6, name: 'Your Follower', imageUrl: 'https://themes.stackbros.in/social_r/assets/07-DLMl_mTI.jpg' },
+    { id: 7, name: 'Your Follower', imageUrl: 'https://themes.stackbros.in/social_r/assets/07-DLMl_mTI.jpg' },
+    { id: 8, name: 'Your Follower', imageUrl: 'https://themes.stackbros.in/social_r/assets/07-DLMl_mTI.jpg' },
+    { id: 9, name: 'Your Follower', imageUrl: 'https://themes.stackbros.in/social_r/assets/07-DLMl_mTI.jpg' },
+    { id: 10, name: 'Your Follower', imageUrl: 'https://themes.stackbros.in/social_r/assets/07-DLMl_mTI.jpg' }
   ];
 
 
@@ -189,29 +206,58 @@ function App() {
             </div>
         );
       case 'friends':
-        return (
+        case 'friends':
+  return (
+    <div className={styles.settingform2}>
+      
+      <div className={styles.tabs}>
+        <button
+          className={selectedTabFriendFollow === 'friends' ? styles.activeTab : ''}
+          onClick={() => setSelectedTabFriendFollow('friends')}
+        >
+          Bạn bè
+        </button>
+        <button
+          className={selectedTabFriendFollow === 'followers' ? styles.activeTab : ''}
+          onClick={() => setSelectedTabFriendFollow('followers')}
+        >
+          Người theo dõi
+        </button>
+      </div>
 
-          
-          <div className={styles.settingform2}>
+      {selectedTabFriendFollow === 'friends' && (
+        <div className={styles.friendslist}>
+          {friends.map((friend) => (
+            <a href="" key={friend.id}>
+              <div className={styles.friendcard}>
+                <img src={friend.imageUrl} alt={friend.name} className={styles.friendavatar} />
+                <p className={styles.friendname}>{friend.name}</p>
+              </div>
+            </a>
+          ))}
+        </div>
+      )}
 
-
-
-            <h2>Bạn bè</h2>
-
-            <div className={styles.friendslist}>
-               {friends.map((friend) => (
-                <a href="">
-
-                <div key={friend.id} className={styles.friendcard}>
-                  <img src={friend.imageUrl} alt={friend.name} className={styles.friendavatar} />
-                  <p className={styles.friendname}>{friend.name}</p>
+      {selectedTabFriendFollow === 'followers' && (
+        <div className={styles.friendslist}>
+          {followers.length > 0 ? (
+            followers.map((follower) => (
+              <a href="" key={follower.id}>
+                <div className={styles.friendcard}>
+                  <img src={follower.imageUrl} alt={follower.name} className={styles.friendavatar} />
+                  <p className={styles.friendname}>{follower.name}</p>
                 </div>
-                </a>
-      ))}
+              </a>
+            ))
+          ) : (
+            <p>No followers found.</p>
+          )}
+        </div>
+      )}
     </div>
-            
-            </div>
-        );
+        
+      );
+        
 
 
         case 'media':
