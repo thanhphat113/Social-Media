@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Backend.Models;
 
@@ -11,24 +9,21 @@ public partial class User
 
     public string FirstName { get; set; } = null!;
 
-
     public string LastName { get; set; } = null!;
 
     public string Email { get; set; } = null!;
 
-    [Column("password")]
     public string Password { get; set; } = null!;
-    [Column("bio")]
+
     public string? Bio { get; set; }
-    [Column("location")]
+
     public string Location { get; set; } = null!;
-    [Column("profile_picture")]
+
     public int? ProfilePicture { get; set; }
-    [Column("cover_photo")]
+
     public int? CoverPhoto { get; set; }
-    [Column("date_created")]
+
     public DateTime DateCreated { get; set; }
-    [Column("date_updated")]
 
     public DateTime DateUpdated { get; set; }
 
@@ -56,7 +51,7 @@ public partial class User
 
     public virtual Media? ProfilePictureNavigation { get; set; }
 
-    public virtual ICollection<ReactsPost> ReactsPosts { get; set; } = new List<ReactsPost>();
+    public virtual ReactsComment? ReactsComment { get; set; }
 
     public virtual ICollection<Relationship> RelationshipFromUsers { get; set; } = new List<Relationship>();
 
@@ -75,6 +70,4 @@ public partial class User
     public virtual ICollection<GroupChat> GroupChats { get; set; } = new List<GroupChat>();
 
     public virtual ICollection<Media> Media { get; set; } = new List<Media>();
-
-    public virtual ICollection<React> Reacts { get; set; } = new List<React>();
 }

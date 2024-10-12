@@ -18,7 +18,7 @@ namespace Backend.Repositories;
 		public async Task<List<User>> GetAll()
         {
 			try{
-				return await _context.User.ToListAsync();
+				return await _context.Users.ToListAsync();
 			}catch{
 				throw new Exception("User list is null.");
 				return new List<User>();
