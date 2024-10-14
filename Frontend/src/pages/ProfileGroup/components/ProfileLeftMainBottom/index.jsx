@@ -20,11 +20,6 @@ const CardFooter = () => {
             Thành viên <span className={styles.badgeSuccess}>300</span>
           </a>
         </li>
-        <li className={styles.navItem}>
-          <a className={styles.navLink} href="/social_r/profile/media">
-            Đáng chú ý
-          </a>
-        </li>
       </ul>
     </div>
   );

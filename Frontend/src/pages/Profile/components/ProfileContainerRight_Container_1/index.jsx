@@ -6,11 +6,13 @@ const AboutCard = () => {
     <div className={styles.container}>
       <div className={styles.card}>
         <div className={styles.cardHeader}>
-          <div className={styles.cardTitle}>About</div>
+          <div className={styles.cardTitle}>
+            Chi tiết về 
+            <span> Trí</span></div>
         </div>
         <div className={styles.cardBody}>
           <p className={styles.cardBodyPTop0}>
-            He moonlights difficult engrossed it, sportsmen. Interested has all Devonshire difficulty gay assistance joy.
+          Học Công nghệ thông tin tại Trường Đại học Sài Gòn TP. HCM - SGU, kể từ năm 2019 trở đi không có gì nổi bật ngoài chiếc Wave RSX được rất nhiều người Việt tin dùng.
           </p>
           <ul className={styles.list}>
             <li className="styles.listItem">
@@ -18,13 +20,13 @@ const AboutCard = () => {
                 <path d="M6.445 11.688V6.354h-.633A13 13 0 0 0 4.5 7.16v.695c.375-.257.969-.62 1.258-.777h.012v4.61zm1.188-1.305c.047.64.594 1.406 1.703 1.406 1.258 0 2-1.066 2-2.871 0-1.934-.781-2.668-1.953-2.668-.926 0-1.797.672-1.797 1.809 0 1.16.824 1.77 1.676 1.77.746 0 1.23-.376 1.383-.79h.027c-.004 1.316-.461 2.164-1.305 2.164-.664 0-1.008-.45-1.05-.82zm2.953-2.317c0 .696-.559 1.18-1.184 1.18-.601 0-1.144-.383-1.144-1.2 0-.823.582-1.21 1.168-1.21.633 0 1.16.398 1.16 1.23"></path>
                 <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"></path>
               </svg>
-              Born: <strong> October 20, 1990 </strong>
+              Ngày sinh: <strong> 25 tháng 9 năm 1990 </strong>
             </li>
             <li className="styles.listItem">
               <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
                 <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"></path>
               </svg>
-              Status: <strong> Single </strong>
+              Trạng thái: <strong> Độc thân </strong>
             </li>
             <li className="styles.listItem">
               <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">

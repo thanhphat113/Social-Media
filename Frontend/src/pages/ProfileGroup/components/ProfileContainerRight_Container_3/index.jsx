@@ -6,9 +6,9 @@ const PhotosCard = () => {
     <div className={styles.container}>
       <div className={styles.card}>
         <div className={styles.cardHeader}>
-          <div className={styles.cardTitle}>Photos</div>
+          <div className={styles.cardTitle}>Ảnh</div>
           <button type="button" className={styles.button}>
-            See all photo
+            Xem tất cả ảnh
           </button>
         </div>
         <div className={styles.cardBody}>

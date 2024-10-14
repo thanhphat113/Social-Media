@@ -69,8 +69,8 @@
   cursor: pointer;
   font-size: 1.2rem; 
   font-weight: 600;
-  color: #d6293e!important;
-  background-color: #d6293e1a!important;
+  color: #fff!important;
+  background-color: #dc3545!important;
   outline: 0;
   margin-right: .5rem !important;
   display: flex;
@@ -81,15 +81,9 @@
   opacity: 1;
 }
 
-.editProfileButton:disabled {
-  opacity: 0.65; 
-}
-
-.editProfileButton:focus {
-  box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.5);
-}
-
-.editProfileButton:hover {
+.inviteProfileButton:hover, .participatedProfileButton:hover, .editProfileButton:hover {
+  opacity: 0.8;
   border-color: transparent; 
 }
+
 

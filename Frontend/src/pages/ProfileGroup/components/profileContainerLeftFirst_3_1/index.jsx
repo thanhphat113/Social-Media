@@ -16,7 +16,7 @@ const ShareThoughts = () => {
           className={styles.textarea}
           rows="2"
           data-autoresize="true"
-          placeholder="Share your thoughts..."
+          placeholder="Bạn đang nghĩ gì?"
         ></textarea>
       </form>
     </div>

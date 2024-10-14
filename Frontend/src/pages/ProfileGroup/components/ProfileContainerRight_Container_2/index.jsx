@@ -18,9 +18,9 @@ const FriendsCard = () => {
     <div className={styles.container}>
       <div className={styles.card}>
         <div className={styles.cardHeader}>
-          <div className={styles.cardTitle}>Friends</div>
+          <div className={styles.cardTitle}>Thành viên nhóm</div>
           <button type="button" className={styles.button}>
-            See all friends
+            Xem tất cả thành viên
           </button>
         </div>
         <div className={styles.cardBody}>

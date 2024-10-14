@@ -2,15 +2,15 @@ import React from 'react';
 import styles from './ProfileContainerRight_Container_2.module.scss';
 
 const friendsData = [
-  { name: 'Friend 1', imgSrc: '/social_r/assets/01-Friend1.jpg' },
-  { name: 'Friend 2', imgSrc: '/social_r/assets/02-Friend2.jpg' },
-  { name: 'Friend 3', imgSrc: '/social_r/assets/03-Friend3.jpg' },
-  { name: 'Friend 4', imgSrc: '/social_r/assets/04-Friend4.jpg' },
-  { name: 'Friend 5', imgSrc: '/social_r/assets/05-Friend5.jpg' },
-  { name: 'Friend 6', imgSrc: '/social_r/assets/06-Friend6.jpg' },
-  { name: 'Friend 7', imgSrc: '/social_r/assets/07-Friend7.jpg' },
-  { name: 'Friend 8', imgSrc: '/social_r/assets/08-Friend8.jpg' },
-  { name: 'Friend 9', imgSrc: '/social_r/assets/09-Friend9.jpg' },
+  { name: 'Lý Thanh Phát', imgSrc: '/social_r/assets/01-Friend1.jpg' },
+  { name: 'Võ Đức Toàn', imgSrc: '/social_r/assets/02-Friend2.jpg' },
+  { name: 'Nguyễn Công Phượng', imgSrc: '/social_r/assets/03-Friend3.jpg' },
+  { name: 'Hồ Văn Ý', imgSrc: '/social_r/assets/04-Friend4.jpg' },
+  { name: 'Bầu Đức', imgSrc: '/social_r/assets/05-Friend5.jpg' },
+  { name: 'Phúc Du', imgSrc: '/social_r/assets/06-Friend6.jpg' },
+  { name: 'Bằng Kiểu', imgSrc: '/social_r/assets/07-Friend7.jpg' },
+  { name: 'Hoàng Sơn Nguyễn', imgSrc: '/social_r/assets/08-Friend8.jpg' },
+  { name: 'Nguyễn Trọng Hiếu', imgSrc: '/social_r/assets/09-Friend9.jpg' },
 ];
 
 const FriendsCard = () => {
@@ -18,9 +18,9 @@ const FriendsCard = () => {
     <div className={styles.container}>
       <div className={styles.card}>
         <div className={styles.cardHeader}>
-          <div className={styles.cardTitle}>Friends</div>
+          <div className={styles.cardTitle}>Bạn bè</div>
           <button type="button" className={styles.button}>
-            See all friends
+            Xem tất cả bạn bè
           </button>
         </div>
         <div className={styles.cardBody}>
