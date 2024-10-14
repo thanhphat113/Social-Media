@@ -10,6 +10,7 @@ import axios from "axios";
 import Login from "./pages/Login";
 import Message from "./pages/Message";
 import GroupList from "./pages/Group/components/GroupList";
+import ProfileGroup from "./pages/ProfileGroup";
 import Home from "./pages/Home";
 import Information from "./pages/Information";
 import DefaultLayout from "./components/Layouts/DefaultLayout";
