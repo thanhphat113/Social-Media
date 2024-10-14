@@ -3,8 +3,17 @@
 
 :root{
 	--background: #f2f2f2;
+    --background-second: #edf8ff;
 	--left-and-right-item: 36rem;
-}
+    --primary-color: #007bff;
+    --white-color: #fff;
+    --text-color: #757785;
+    --border-color: #eff2f6;
+    --navbar-height: 4rem; /* 40px */
+    --header-height: 12rem; /* 120px */
+    --hover-color: #0f6fec;
+    --header-with-search-height: calc(var(--header-height) - var(--navbar-height)); /* Adjusted */
+  }
 
 *{
 	box-sizing: border-box;
