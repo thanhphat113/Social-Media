@@ -1,4 +1,4 @@
-.profileWrapper {
+.profileGroupWrapper {
     display: flex;
     flex-wrap: wrap;
     background-color: var(--background);
@@ -10,6 +10,20 @@
     flex-direction: column;
     gap: 16px;
     width: 70%;
+}
+
+.profileContainerLeftFirst {
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    margin: 5px 16px;
+    background-color: #fff;
+}
+
+.profileContainerLeftFirst_2 {
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
 .containerBackground {
@@ -26,20 +40,6 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
-}
-
-.profileContainerLeftFirst {
-    border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
-    margin: 5px 16px;
-    background-color: #fff;
-}
-
-.profileContainerLeftFirst_2 {
-    padding-left: 16px;
-    padding-right: 16px;
-    padding-top: 0;
-    padding-bottom: 0;
 }
 
 .profileContainerRight {

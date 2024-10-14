@@ -7,45 +7,6 @@
   }
 }
 
-.avatarContainer {
-  height: 10rem;
-  width: 10rem;
-  position: relative;
-  display: inline-block;
-  margin-top: -3rem;
-  margin-bottom: 1rem;
-}
-
-.avatarImg {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
-  border-width: 3px;
-  border-color: #fff;
-  cursor: pointer;
-}
-
-.avatarButton {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  padding: 5px 10px;
-  background-color: transparent;
-  color: white;
-  border: none;
-  border-radius: 0 0 100px 100px;
-  cursor: pointer;
-  text-align: center;
-}
-
-.avatarButton:hover {
-  background-color: rgba(32, 107, 196, 0.8);;
-}
-
 .avatarImg:hover {
   opacity: 0.9;
   border: 2px solid var(--background);
@@ -53,7 +14,6 @@
 
 .userInfo {
   @media (min-width: 576px) {
-    margin-left: 1.5rem ;
     margin-top: 1rem;
   }
 }
@@ -72,6 +32,11 @@
   color: #a1a1a8;
 }
 
+.connectionInfoFlex {
+  display: flex;
+  align-items: center;
+}
+
 .actionButtons {
   display: flex;
   justify-content: center;
@@ -79,6 +44,42 @@
   @media (min-width: 576px) {
     margin-left: auto;
   }
+}
+
+.inviteProfileButton {
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.2rem; 
+  font-weight: 600;
+  color: #fff!important;
+  background-color: #28a745!important;
+  outline: 0;
+  margin-right: .5rem !important;
+  display: flex;
+  padding: 0.5rem 1rem; 
+  line-height: 1.5;
+  border: 1px solid transparent; 
+  border-radius: 0.4rem; 
+  opacity: 1;
+}
+
+.participatedProfileButton {
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.2rem; 
+  font-weight: 600;
+  color: #fff!important;
+  background-color: #007bff!important;
+  outline: 0;
+  margin-right: .5rem !important;
+  display: flex;
+  padding: 0.5rem 1rem; 
+  line-height: 1.5;
+  border: 1px solid transparent; 
+  border-radius: 0.4rem; 
+  opacity: 1;
 }
 
 .editProfileButton {
@@ -103,5 +104,4 @@
   opacity: 0.8;
   border-color: transparent; 
 }
-
 

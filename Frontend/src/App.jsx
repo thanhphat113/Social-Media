@@ -42,6 +42,7 @@ function App() {
                     <Route path="/" element={<Home />} />
                     <Route path="/group" element={<GroupList />} />
                     <Route path="/profile" element={<Profile />} />
+                    <Route path="/profilegroup" element={<ProfileGroup />} />
                     <Route path="/information" element={<Information />} />
                 </Routes>
             </DefaultLayout>

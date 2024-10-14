@@ -1,8 +1,7 @@
 import React from 'react';
-import styles from './Profile.module.scss'; 
+import styles from './ProfileGroup.module.scss'; 
 import BackgroundImage from './components/BackgroundImageComponent';
 import ProfileLeftMainTop from './components/ProfileLeftMain';
-import ProfileLeftMainTop_2 from './components/ProfileLeftMain_2';
 import ProfileLeftMainBottom from './components/ProfileLeftMainBottom';
 import ProfileContainerLeftFirst_3_1 from './components/profileContainerLeftFirst_3_1';
 import ProfileContainerLeftFirst_3_2 from './components/profileContainerLeftFirst_3_2';
@@ -10,9 +9,9 @@ import ProfileContainerRight_Container_1 from './components/ProfileContainerRigh
 import ProfileContainerRight_Container_2 from './components/ProfileContainerRight_Container_2';
 import ProfileContainerRight_Container_3 from './components/ProfileContainerRight_Container_3';
 
-function Profile() {
+function ProfileGroup() {
     return (
-        <div className={styles.profileWrapper}>
+        <div className={styles.profileGroupWrapper}>
             <div className={styles.profileContainerLeft}>
                 <div className={styles.profileContainerLeftFirst}>
                     <div className={styles.containerBackground}>
@@ -23,7 +22,6 @@ function Profile() {
                     </div>
                     <div className={styles.profileContainerLeftFirst_2}>
                         <ProfileLeftMainTop />
-                        <ProfileLeftMainTop_2 />
                         <ProfileLeftMainBottom />
                     </div>
                 </div>
@@ -48,4 +46,4 @@ function Profile() {
     );
 }
 
-export default Profile;
+export default ProfileGroup;

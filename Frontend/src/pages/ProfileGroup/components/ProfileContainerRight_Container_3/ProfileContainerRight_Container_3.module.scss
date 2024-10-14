@@ -18,7 +18,7 @@
   background-clip: border-box;
   border: 1px solid var(--background);
   border-radius: .25rem; 
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 24px rgba(0, 0, 0, .04); 
   margin-bottom: 0.5rem;
   padding: 1.25rem;
   margin: .75rem;
@@ -38,7 +38,7 @@
 
 .cardTitle {
     color: #000;
-    font-size: 2.3rem;
+    font-size: 2.3rem; 
     font-weight: 700;
     line-height: 1.25;
     margin-top: 0;
@@ -66,16 +66,16 @@
   cursor: pointer;
 }
 
+.imageLink {
+  color: rgba(15, 11, 236, 1);
+  text-decoration: none;
+}
+
 .image {
   border-radius: 0.4rem;
   width: 100%; 
   height: auto;
   vertical-align: middle;
-}
-
-.name {
-  margin-top: 0.5rem;
-  text-align: center;
 }
 
 .button {
