@@ -13,16 +13,13 @@
 }
 
 .sidebar {
-  flex: 0 0 20%; // Chiếm 20% chiều rộng
-  min-width: 200px; // Chiều rộng tối thiểu
+  flex: 0 0 20%;
 }
 
 .mainContent {
   flex: 1; // Chiếm phần còn lại
-  min-width: 600px; // Chiều rộng tối thiểu
 }
 
 .rightSidebar {
-  flex: 0 0 20%; // Chiếm 20% chiều rộng
-  min-width: 200px; // Chiều rộng tối thiểu
+  width: 32rem;; // Chiều rộng tối thiểu
 }
