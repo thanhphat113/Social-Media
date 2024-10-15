@@ -69,17 +69,21 @@
   background-color: white;
   border-radius: 9999px;
   margin-bottom: 0.5rem;
+  border: none;
 }
 
 .actionButtons {
   display: flex;
   justify-content: space-between;
+  margin-top: 1rem;
 }
 
 .photoButton {
   display: flex;
   align-items: center;
   border: none;
+  background-color: white;
+
 }
 
 .iconGreen {
@@ -104,10 +108,11 @@
   transform: translate(-50%, -50%);
   background-color: white;
   padding: 2rem;
+  padding-bottom: 3rem;
   border-radius: 0.5rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 40rem; // Kích thước tối đa của pop-up
+  max-width: 55rem; // Kích thước tối đa của pop-up
   z-index: 20;
 }
 

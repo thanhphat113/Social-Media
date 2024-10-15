@@ -86,6 +86,7 @@
     background-color: #22c55e;
     margin-right: 1.5rem; // Tương đương với bg-green-600
     border-radius: 10px;
+    cursor: pointer;
   }
   
   .separator {
@@ -96,9 +97,12 @@
   .link {
     color: #3b82f6; // Tương đương với text-blue-600
     margin-bottom: 0.5rem; // Tương đương với mb-2
-    font-size: 2rem;
+    font-size: 1.6rem;
     border-radius: 5px;
     height: 6rem;
+    border: none;
+    background: none;
+    cursor: pointer;
   }
   
   .popupOverlay {

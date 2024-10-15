@@ -1,36 +1,79 @@
 import React, { useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
-import { useNavigate } from "react-router-dom"; 
-import styles from './Login.module.scss'; // Nhập file SCSS
-import logo from '/public/img/Cloudy.png'; // Đường dẫn logo
+import { useNavigate } from "react-router-dom";
+import styles from './Login.module.scss'; 
+import logo from '/public/img/Cloudy.png'; 
 
-function Login( {onLogin} ) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState(""); 
-  const [isPopupOpen, setIsPopupOpen] = useState(false); // Trạng thái cho popup
-  const navigate = useNavigate(); 
+// Component LoginForm
+const LoginForm = ({ email, setEmail, password, setPassword, onLogin, openSignUp }) => (
+  <div className={styles.formContainer}>
+    <form onSubmit={(e) => { e.preventDefault(); onLogin(); }}>
+      <input
+        type="text"
+        placeholder="Email or phone number"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        className={styles.input}
+        required
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        className={`${styles.input} mb-4`}
+        required
+      />
+      <button
+        type="submit"
+        className={`${styles.button} ${styles.loginButton}`}
+      >
+        Log In
+      </button>
+    </form>
 
-  const handleLogin = () => {
-    onLogin();
-    navigate('/');
-  };
+    <div className={styles.separator}></div>
 
-  // Form đăng ký
-const SignUpForm = () => (
-  <div className={`${styles.formContainer}`}>
-    <div className={`${styles.signUpTitle}`}>Sign Up</div>
+    <div className="flex flex-col items-center text-sm">
+      <a href="#" className={styles.link}>
+        Forgot account?
+      </a>
+      <button
+        onClick={openSignUp}
+        className={`${styles.button} ${styles.signupButton}`}
+      >
+        Sign up for Facebook
+      </button>
+    </div>
+  </div>
+);
+
+// Component SignUpForm
+const SignUpForm = ({
+  firstName, setFirstName,
+  lastName, setLastName,
+  signUpEmail, setSignUpEmail,
+  signUpPassword, setSignUpPassword,
+  signUpConfirmPassword, setSignUpConfirmPassword,
+  closeSignUp
+}) => (
+  <div className={styles.formContainer}>
+    <div className={styles.signUpTitle}>Sign Up</div>
 
     {/* Hàng chứa First Name và Last Name */}
     <div className={styles.nameRow}>
       <input
         type="text"
         placeholder="First Name"
+        value={firstName}
+        onChange={(e) => setFirstName(e.target.value)}
         className={`${styles.input} ${styles.inputHalf}`}
       />
       <input
         type="text"
         placeholder="Last Name"
+        value={lastName}
+        onChange={(e) => setLastName(e.target.value)}
         className={`${styles.input} ${styles.inputHalf}`}
       />
     </div>
@@ -38,32 +81,37 @@ const SignUpForm = () => (
     <input
       type="email"
       placeholder="Email"
-      value={email}
-      onChange={(e) => setEmail(e.target.value)}
+      value={signUpEmail}
+      onChange={(e) => setSignUpEmail(e.target.value)}
       className={styles.input}
     />
     <input
       type="password"
       placeholder="Password"
-      value={password}
-      onChange={(e) => setPassword(e.target.value)}
+      value={signUpPassword}
+      onChange={(e) => setSignUpPassword(e.target.value)}
       className={styles.input}
     />
     <input
       type="password"
       placeholder="Confirm Password"
-      value={confirmPassword}
-      onChange={(e) => setConfirmPassword(e.target.value)}
+      value={signUpConfirmPassword}
+      onChange={(e) => setSignUpConfirmPassword(e.target.value)}
       className={`${styles.input} mb-4`}
     />
 
-    {/* Hàng chứa nút Sign Up và Back to Log In */}
     <div className={styles.buttonRow}>
       <button
         onClick={() => {
-          if (password === confirmPassword) {
+          if (signUpPassword === signUpConfirmPassword) {
             console.log("Sign up successful");
-            setIsPopupOpen(false); // Đóng popup sau khi đăng ký thành công
+            // Đặt lại các giá trị của form sau khi đăng ký thành công
+            setFirstName('');
+            setLastName('');
+            setSignUpEmail('');
+            setSignUpPassword('');
+            setSignUpConfirmPassword('');
+            closeSignUp(); // Đóng popup sau khi đăng ký thành công
           } else {
             alert("Passwords do not match!");
           }
@@ -74,61 +122,34 @@ const SignUpForm = () => (
       </button>
 
       <button
-        onClick={() => setIsPopupOpen(false)} // Đóng popup
+        onClick={closeSignUp} 
         className={styles.link}
       >
-        <FaArrowLeft /> 
+        <FaArrowLeft />
         Back to Log In
       </button>
     </div>
   </div>
 );
 
-  // Form đăng nhập
-  const LoginForm = () => (
-    <div className={styles.formContainer}>
-      <form onSubmit={(e) => { e.preventDefault(); handleLogin(); }}>
-        <input
-          type="text"
-          placeholder="Email or phone number"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className={styles.input}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className={`${styles.input} mb-4`}
-          required
-        />
-        <button
-          type="submit"
-          className={`${styles.button} ${styles.loginButton}`}
-        >
-          Log In
-        </button>
-      </form>
+function Login({ onLogin }) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
-      {/* Đường gạch ngang phân cách */}
-      <div className={styles.separator}></div>
+  // State cho form đăng ký
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [signUpEmail, setSignUpEmail] = useState("");
+  const [signUpPassword, setSignUpPassword] = useState("");
+  const [signUpConfirmPassword, setSignUpConfirmPassword] = useState("");
 
-      {/* Link quên mật khẩu và nút tạo tài khoản */}
-      <div className="flex flex-col items-center text-sm">
-        <a href="#" className={styles.link}>
-          Forgot account?
-        </a>
-        <button
-          onClick={() => setIsPopupOpen(true)} // Mở popup đăng ký
-          className={`${styles.button} ${styles.signupButton}`}
-        >
-          Sign up for Facebook
-        </button>
-      </div>
-    </div>
-  );
+  const navigate = useNavigate();
+
+  const handleLogin = () => {
+    onLogin();
+    navigate('/');
+  };
 
   return (
     <div className={styles.loginContainer}>
@@ -138,16 +159,35 @@ const SignUpForm = () => (
           <h1 className={styles.welcomeText}>Chào mừng bạn đến với Cloudy</h1>
         </div>
         <div className={styles.rightSection}>
-          {LoginForm()}
+          <LoginForm
+            email={email}
+            setEmail={setEmail}
+            password={password}
+            setPassword={setPassword}
+            onLogin={handleLogin}
+            openSignUp={() => setIsPopupOpen(true)}
+          />
         </div>
       </div>
 
       {/* Popup cho form đăng ký */}
       {isPopupOpen && (
         <>
-          <div className={styles.popupOverlay} onClick={() => setIsPopupOpen(false)}></div> {/* Lớp phủ */}
+          <div className={styles.popupOverlay} onClick={() => setIsPopupOpen(false)}></div> 
           <div className={styles.popupContainer}>
-            <SignUpForm />
+            <SignUpForm
+              firstName={firstName}
+              setFirstName={setFirstName}
+              lastName={lastName}
+              setLastName={setLastName}
+              signUpEmail={signUpEmail}
+              setSignUpEmail={setSignUpEmail}
+              signUpPassword={signUpPassword}
+              setSignUpPassword={setSignUpPassword}
+              signUpConfirmPassword={signUpConfirmPassword}
+              setSignUpConfirmPassword={setSignUpConfirmPassword}
+              closeSignUp={() => setIsPopupOpen(false)}
+            />
           </div>
         </>
       )}

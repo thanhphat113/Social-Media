@@ -272,9 +272,9 @@
   .interactionBar {
     display: flex;
     justify-content: space-between;
-    color: gray;
     border-top: 1px solid #e2e8f0; // Màu viền
     padding-top: 0.5rem;
+    background-color: none;
   }
   
   .likeButton {
@@ -286,6 +286,7 @@
     align-items: center;
     gap: 0.25rem;
     border: none;
+    background-color: white;
     
   }
   
@@ -315,6 +316,8 @@
     padding: 0.5rem;
     border: 1px solid #e2e8f0; // Màu viền
     border-radius: 0.25rem;
+    border-radius: 25rem;
+
   }
   
   .sendButton {
