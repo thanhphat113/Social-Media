@@ -15,45 +15,49 @@ import Home from "./pages/Home";
 import Information from "./pages/Information";
 import DefaultLayout from "./components/Layouts/DefaultLayout";
 import Profile from "./pages/Profile";
+import Authentication from "./components/Authentication";
 
 export const AccountContext = createContext();
 
 function App() {
     const [account, setAccount] = useState([]);
     const [error, setError] = useState("");
-    const [loading,setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [token, setToken] = useState();
 
-    useEffect(() => {
-        axios
-            .get("http://localhost:5164/api/User")
-            .then((response) => {
-                setAccount(response.data);
-            })
-            .catch((error) => {
-                setError(error); // Xử lý lỗi
-                setLoading(false);
-            });
-    }, []);
+    // useEffect(() => {
+    //     axios
+    //         .get("http://localhost:5164/api/User")
+    //         .then((response) => {
+    //             setAccount(response.data);
+    //         })
+    //         .catch((error) => {
+    //             setError(error); // Xử lý lỗi
+    //             setLoading(false);
+    //         });
+    // }, []);
 
     return (
-        <Router>
-            <DefaultLayout>
+        <AccountContext.Provider value={token}>
+            <Router>
+                <DefaultLayout>
+                    <Routes>
+                        <Route path="/message" element={<Authentication><Message /></Authentication>} />
+                        <Route path="/" element={<Authentication><Home /></Authentication>} />
+                        <Route path="/group" element={<Authentication><GroupList /></Authentication>} />
+                        <Route path="/profile" element={<Authentication><Profile /></Authentication>} />
+                        <Route path="/profilegroup" element={<Authentication><ProfileGroup /></Authentication>} />
+                        <Route path="/information" element={<Authentication><Information /></Authentication>} />
+                    </Routes>
+                </DefaultLayout>
                 <Routes>
-                    <Route path="/message" element={<Message />} />
-                    <Route path="/" element={<Home />} />
-                    <Route path="/group" element={<GroupList />} />
-                    <Route path="/profile" element={<Profile />} />
-                    <Route path="/profilegroup" element={<ProfileGroup />} />
-                    <Route path="/information" element={<Information />} />
-                </Routes>
-            </DefaultLayout>
-            {/* <Routes>
-                    <Route
-                        path="/login"
-                        element={<Login/>} />
-                    <Route path="*" element={<Login></Login>} />
-                </Routes> */}
-        </Router>
+                        <Route
+                            path="/login"
+                            element={<Login />} />
+                        <Route path="*" element={<Navigate to ="/Login" />} />
+                    </Routes>
+            </Router>
+        </AccountContext.Provider>
     );
 }
 
