@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import styles from './Login.module.scss'; 
@@ -132,7 +132,7 @@ const SignUpForm = ({
   </div>
 );
 
-function Login({ onLogin }) {
+function Login( {setToken}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -147,8 +147,11 @@ function Login({ onLogin }) {
   const navigate = useNavigate();
 
   const handleLogin = () => {
-    onLogin();
-    navigate('/');
+    // const navigate = useNavigate();
+    if (email === '123' && password === 'pass'){
+      setToken('123456')
+      navigate('/');
+    }
   };
 
   return (

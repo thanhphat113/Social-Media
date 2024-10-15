@@ -3,10 +3,10 @@ import { Navigate } from 'react-router-dom';
 import { AccountContext } from '../../App';
 
 function Authentication ({ children }) {
-    const { token } = useContext(AccountContext);
+    const token  = useContext(AccountContext);
 
     if (!token) {
-        return <Navigate to="/login" />;
+        return <Navigate to="/login"></Navigate>
     }
 
     return children;
