@@ -139,6 +139,12 @@ public partial class SocialMediaContext : DbContext
             entity.Property(e => e.FromUser)
                 .HasColumnType("int(11)")
                 .HasColumnName("from_user");
+            entity.Property(e => e.IsRead)
+                .HasColumnType("tinyint(1)")
+                .HasColumnName("is_read");
+            entity.Property(e => e.IsRecall)
+                .HasColumnType("tinyint(1)")
+                .HasColumnName("is_recall");
             entity.Property(e => e.MessagesId)
                 .HasColumnType("int(11)")
                 .HasColumnName("messages_id");
@@ -781,6 +787,9 @@ public partial class SocialMediaContext : DbContext
             entity.Property(e => e.GenderId)
                 .HasColumnType("int(1)")
                 .HasColumnName("gender_id");
+            entity.Property(e => e.IsOnline)
+                .HasColumnType("tinyint(1)")
+                .HasColumnName("is_online");
 
             entity.HasOne(d => d.CoverPhotoNavigation).WithMany(p => p.UserCoverPhotoNavigations)
                 .HasForeignKey(d => d.CoverPhoto)

@@ -48,7 +48,7 @@ function Search() {
     const GetListByName = async () => {
         try {
             const response = await axios.get(
-                `http://localhost:5164/api/User/findbyname`,{
+                `http://localhost:5164/api/User/users-by-name`,{
                 params: { name: search },
                 withCredentials: true
             });
