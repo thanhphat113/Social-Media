@@ -1,11 +1,49 @@
 import React, { useState } from 'react';
 import { AiOutlineLike } from 'react-icons/ai';
-import { FaRegComment, FaPaperPlane } from 'react-icons/fa';
+import { FaRegComment, FaPaperPlane, FaFacebookMessenger, FaWhatsapp, FaLink, FaUsers, FaFlag, FaTimes } from 'react-icons/fa';
 import { PiShareFatThin } from 'react-icons/pi';
 import { BsThreeDots } from 'react-icons/bs';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCloud } from '@fortawesome/free-solid-svg-icons';  // Import biểu tượng đám mây
 import styles from './Post.module.scss';
 
-function Post({ post, currentLike, handleLikeChange, hoveringLike, handleMouseEnter, handleMouseLeave, isEmojiMenuVisible, handleEmojiMenuMouseEnter, handleEmojiMenuMouseLeave, toggleSharePopup, comments, currentComment, handleAddComment, setCurrentComment }) {
+function Post({
+  post,
+  currentLike,
+  setCurrentLike,
+  hoveringLike,
+  handleMouseEnter,
+  handleMouseLeave,
+  isEmojiMenuVisible,
+  handleEmojiMenuMouseEnter,
+  handleEmojiMenuMouseLeave,
+  comments,
+  currentComment,
+  handleAddComment,
+  setCurrentComment
+}) {
+  const [isSharePopupOpen, setIsSharePopupOpen] = useState(false); // State cho pop-up chia sẻ
+  const [visibility, setVisibility] = useState('Công khai'); // Tính năng hiển thị
+  const [description, setDescription] = useState(''); // Nội dung mô tả
+
+  // Hàm để mở/đóng pop-up chia sẻ
+  const toggleSharePopup = () => {
+    setIsSharePopupOpen(!isSharePopupOpen);
+  };
+
+  const handleShare = () => {
+    alert('Post shared!');
+    toggleSharePopup(); // Đóng pop-up chia sẻ sau khi chia sẻ
+  };
+
+  // Hàm xử lý khi nhấn nút Like
+  const handleLikeChange = () => {
+    setCurrentLike((prevLike) => ({
+      ...prevLike,
+      isLiked: !prevLike.isLiked, // Đổi trạng thái like
+    }));
+  };
+
   return (
     <div className={styles.postContainer}>
       <div className={styles.postHeader}>
@@ -16,7 +54,7 @@ function Post({ post, currentLike, handleLikeChange, hoveringLike, handleMouseEn
             <p className={styles.postTime}>{post.time}</p>
           </div>
         </div>
-        <BsThreeDots onClick={toggleSharePopup} /> {/* Nút chia sẻ */}
+        <BsThreeDots/>
       </div>
       <p className={styles.postText}>{post.content}</p>
       <img src={post.image} alt="Post" className={styles.postImageFull} />
@@ -25,26 +63,17 @@ function Post({ post, currentLike, handleLikeChange, hoveringLike, handleMouseEn
       <div className={styles.interactionBar}>
         <div className={styles.likeButton}
           onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}>
+          onMouseLeave={handleMouseLeave}
+          onClick={handleLikeChange} // Gọi hàm khi nhấn nút Like
+        >
           <button className={styles.interactionButton}>
-            {currentLike.emoji ? currentLike.emoji : <AiOutlineLike />}
-            <span>{currentLike.label}</span>
+            <FontAwesomeIcon
+              icon={faCloud}
+              className={styles.faCloudIcon}
+              style={{ color: currentLike.isLiked ? '#74C0FC' : '#1E3050' }} // Đổi màu theo trạng thái
+            />
+            <span>{currentLike.label || 'Cloud'}</span> {/* Gán nhãn cho biểu tượng đám mây */}
           </button>
-
-          {hoveringLike && isEmojiMenuVisible && (
-            <div
-              className={styles.emojiOptions}
-              onMouseEnter={handleEmojiMenuMouseEnter}
-              onMouseLeave={handleEmojiMenuMouseLeave}
-            >
-              <button className={styles.emojiButton} onClick={() => handleLikeChange('❤️', 'Love')}><span role="img" aria-label="love">❤️</span></button>
-              <button className={styles.emojiButton} onClick={() => handleLikeChange('😂', 'Haha')}><span role="img" aria-label="haha">😂</span></button>
-              <button className={styles.emojiButton} onClick={() => handleLikeChange('😮', 'Wow')}><span role="img" aria-label="wow">😮</span></button>
-              <button className={styles.emojiButton} onClick={() => handleLikeChange('😢', 'Sad')}><span role="img" aria-label="sad">😢</span></button>
-              <button className={styles.emojiButton} onClick={() => handleLikeChange('😡', 'Angry')}><span role="img" aria-label="angry">😡</span></button>
-              <button className={styles.emojiButton} onClick={() => handleLikeChange('👍', 'Like')}><span role="img" aria-label="thumbs up">👍</span></button>
-            </div>
-          )}
         </div>
 
         <button className={styles.interactionButton}>
@@ -79,6 +108,48 @@ function Post({ post, currentLike, handleLikeChange, hoveringLike, handleMouseEn
           </div>
         ))}
       </div>
+
+      {/* Pop-up chia sẻ */}
+      {isSharePopupOpen && (
+        <>
+          <div className={styles.popupOverlay} onClick={toggleSharePopup}></div>
+          <div className={styles.sharePopup}>
+            <div className={styles.popupHeader}>
+              <h2 className={styles.popupTitle}>Chia sẻ</h2>
+              <button className={styles.closeButton} onClick={toggleSharePopup}><FaTimes /></button>
+            </div>
+            <div className={styles.p4}>
+              <div className={styles.userInfo1}>
+                <div className={styles.userName}>
+                  <p className={styles.userNameText}>Nguyễn Tiến</p>
+                  <div className={styles.visibilityButtons}>
+                    <button className={styles.visibilityButton} onClick={() => setVisibility(visibility === 'Công khai' ? 'Riêng tư' : 'Công khai')}>{visibility}</button>
+                  </div>
+                </div>
+              </div>
+              <textarea
+                className={styles.textarea}
+                placeholder="Hãy nói gì đó về nội dung này..."
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+              <div className={styles.popupActions}>
+                <button className={styles.shareButton} onClick={handleShare}>Chia sẻ ngay</button>
+              </div>
+              <div className={styles.extraOptions}>
+                <h3 className={styles.extraOptionsTitle}>Chia sẻ lên</h3>
+                <div className={styles.shareIcons}>
+                  <button className={styles.iconButton}><FaFacebookMessenger /></button>
+                  <button className={styles.iconButton}><FaWhatsapp /></button>
+                  <button className={styles.iconButton}><FaLink /></button>
+                  <button className={styles.iconButton}><FaUsers /></button>
+                  <button className={styles.iconButton}><FaFlag /></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }

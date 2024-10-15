@@ -1,9 +1,5 @@
 import React, { useState } from 'react';
 import { MdOutlineVideoCall, MdPhotoLibrary } from 'react-icons/md';
-import { BsThreeDots } from 'react-icons/bs';
-import { AiOutlineLike } from 'react-icons/ai';
-import { FaRegComment, FaPaperPlane } from 'react-icons/fa';
-import { PiShareFatThin } from 'react-icons/pi';
 import { FaSmile, FaImage, FaMapMarkerAlt, FaVideo, FaTimes, FaFacebookMessenger, FaWhatsapp, FaLink, FaUsers, FaFlag } from 'react-icons/fa';
 import { useDropzone } from 'react-dropzone';
 import styles from 'Frontend/src/pages/Home/components/MainContent/MainContent.module.scss';
@@ -13,13 +9,8 @@ function MainContent() {
   const [comments, setComments] = useState([]);
   const [currentComment, setCurrentComment] = useState('');
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [isSharePopupOpen, setIsSharePopupOpen] = useState(false); // State cho pop-up chia sẻ
   const [postContent, setPostContent] = useState('');
-  const [files, setFiles] = useState([]);
-  const [description, setDescription] = useState(''); // Nội dung mô tả
-  const [visibility, setVisibility] = useState('Công khai'); // Tính năng hiển thị
   const [isEmojiMenuVisible, setIsEmojiMenuVisible] = useState(false);
-
   const [hoveringLike, setHoveringLike] = useState(false);
 
   const post = {
@@ -57,8 +48,6 @@ function MainContent() {
     setIsEmojiMenuVisible(false); // Ẩn menu khi không còn di chuột vào
   };
 
-
-
   // Xử lý thêm bình luận
   const handleAddComment = () => {
     if (currentComment.trim() !== '') {
@@ -80,18 +69,6 @@ function MainContent() {
   const togglePopup = () => {
     setIsPopupOpen(!isPopupOpen);
   };
-
-  // Hàm để mở/đóng pop-up chia sẻ
-  const toggleSharePopup = () => {
-    setIsSharePopupOpen(!isSharePopupOpen);
-  };
-
-  const handleShare = () => {
-    alert('Post shared!');
-    toggleSharePopup(); // Đóng pop-up chia sẻ sau khi chia sẻ
-  };
-
-
 
   return (
     <main className={styles.content}>
@@ -156,55 +133,11 @@ function MainContent() {
         </>
       )}
 
-      {/* Pop-up chia sẻ */}
-      {isSharePopupOpen && (
-        <>
-          <div className={styles.popupOverlay} onClick={toggleSharePopup}></div>
-          <div className={styles.sharePopup}>
-            <div className={styles.popupHeader}>
-              <h2 className={styles.popupTitle}>Chia sẻ</h2>
-              <button className={styles.closeButton} onClick={toggleSharePopup}><FaTimes /></button>
-            </div>
-            <div className={styles.p4}>
-              <div className={styles.userInfo1}>
-                {/* <img src="profile.jpg" alt="Profile" className={styles.profileImage} /> */}
-                <div className={styles.userName}>
-                  <p className={styles.userNameText}>Nguyễn Tiến</p>
-                  <div className={styles.visibilityButtons}>
-                    <button className={styles.visibilityButton} onClick={() => setVisibility(visibility === 'Công khai' ? 'Riêng tư' : 'Công khai')}>{visibility}</button>
-                  </div>
-                </div>
-              </div>
-              <textarea
-                className={styles.textarea}
-                placeholder="Hãy nói gì đó về nội dung này..."
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-              <div className={styles.popupActions}>
-                <button className={styles.shareButton} onClick={handleShare}>Chia sẻ ngay</button>
-              </div>
-              <div className={styles.extraOptions}>
-                <h3 className={styles.extraOptionsTitle}>Chia sẻ lên</h3>
-                <div className={styles.shareIcons}>
-                  <button className={styles.iconButton}><FaFacebookMessenger /></button>
-                  <button className={styles.iconButton}><FaWhatsapp /></button>
-                  <button className={styles.iconButton}><FaLink /></button>
-                  <button className={styles.iconButton}><FaUsers /></button>
-                  <button className={styles.iconButton}><FaFlag /></button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </>
-      )}
-
       {/* Bài viết */}
-
-
       <Post
         post={post}
         currentLike={currentLike}
+        setCurrentLike={setCurrentLike}
         handleLikeChange={handleLikeChange}
         hoveringLike={hoveringLike}
         handleMouseEnter={handleMouseEnter}
@@ -212,16 +145,18 @@ function MainContent() {
         isEmojiMenuVisible={isEmojiMenuVisible}
         handleEmojiMenuMouseEnter={handleEmojiMenuMouseEnter}
         handleEmojiMenuMouseLeave={handleEmojiMenuMouseLeave}
-        toggleSharePopup={toggleSharePopup}
         comments={comments}
         currentComment={currentComment}
         handleAddComment={handleAddComment}
         setCurrentComment={setCurrentComment}
+        
       />
+
 
       <Post
         post={post}
         currentLike={currentLike}
+        setCurrentLike={setCurrentLike}
         handleLikeChange={handleLikeChange}
         hoveringLike={hoveringLike}
         handleMouseEnter={handleMouseEnter}
@@ -229,12 +164,12 @@ function MainContent() {
         isEmojiMenuVisible={isEmojiMenuVisible}
         handleEmojiMenuMouseEnter={handleEmojiMenuMouseEnter}
         handleEmojiMenuMouseLeave={handleEmojiMenuMouseLeave}
-        toggleSharePopup={toggleSharePopup}
         comments={comments}
         currentComment={currentComment}
         handleAddComment={handleAddComment}
         setCurrentComment={setCurrentComment}
       />
+
     </main>
   );
 }
