@@ -4,7 +4,6 @@ import MainContent from './components/MainContent/MainContent';
 import FriendListChat from './components/FriendListChat';
 import styles from 'Frontend/src/pages/Home/Home.module.scss';
 
-
 function Home() {
   return (
     <div className={styles.homeContainer}>

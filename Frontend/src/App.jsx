@@ -1,51 +1,47 @@
 import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
+    BrowserRouter as Router,
+    Routes,
+    Route,
+    Navigate,
 } from "react-router-dom";
-import { useState } from "react";
+import { createContext, useState, useEffect } from "react";
+import axios from "axios";
 
-import MessagePage from "./pages/Message";
-import DefaultLayout from "./components/Layouts/DefaultLayout";
-// import Profile from "./pages/Profile";
-// import ProfileGroup from "./pages/ProfileGroup";
+import Login from "./pages/Login";
+import Message from "./pages/Message";
+import GroupList from "./pages/Group/components/GroupList";
+import ProfileGroup from "./pages/ProfileGroup";
 import Home from "./pages/Home";
-import Login from "./pages/Login/index.jsx";
-import Information from "./pages/Information/index.jsx";
+import Information from "./pages/Information";
+import DefaultLayout from "./components/Layouts/DefaultLayout";
+import Profile from "./pages/Profile";
+import Authentication from "./components/Authentication";
 
+export const AccountContext = createContext();
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  
-  return (
-      <Router>
-          {isAuthenticated ? (
-              <DefaultLayout>
-                  <Routes>
-                      <Route path="/message" element={<MessagePage />} />
-                      <Route path="/" element={<Home />} />
-                      <Route path="/group" element={<MessagePage />} />
-                      {/* <Route path="/profile" element={<Profile />} /> */}
-                      <Route path="/information" element={<Information />} />
-                  </Routes>
-              </DefaultLayout>
-          ) : (
-              <Routes>
-                  <Route
-                      path="/login"
-                      element={
-                          <Login onLogin={() => {
-                              setIsAuthenticated(true)
-                              }
-                              } />
-                      }
-                  />
-                  <Route path="*" element={<Navigate to="/login" />} />
-              </Routes>
-          )}
-      </Router>
-  );
+    return (
+        <AccountContext.Provider value={token}>
+            <Router>
+                <DefaultLayout>
+                    <Routes>
+                        <Route path="/message" element={<Authentication><Message /></Authentication>} />
+                        <Route path="/" element={<Authentication><Home /></Authentication>} />
+                        <Route path="/group" element={<Authentication><GroupList /></Authentication>} />
+                        <Route path="/profile" element={<Authentication><Profile /></Authentication>} />
+                        <Route path="/profilegroup" element={<Authentication><ProfileGroup /></Authentication>} />
+                        <Route path="/information" element={<Authentication><Information /></Authentication>} />
+                    </Routes>
+                </DefaultLayout>
+                <Routes>
+                        <Route
+                            path="/login"
+                            element={<Login />} />
+                        <Route path="*" element={<Navigate to ="/Login" />} />
+                    </Routes>
+            </Router>
+        </AccountContext.Provider>
+    );
 }
 
 export default App;

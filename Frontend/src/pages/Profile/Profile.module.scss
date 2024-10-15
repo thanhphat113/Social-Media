@@ -1,0 +1,81 @@
+.profileWrapper {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: var(--background);
+    margin-top: 1.75rem;
+}
+
+.profileContainerLeft {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 70%;
+}
+
+.containerBackground {
+    position: relative;
+}
+
+.buttonBackground {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 2px 10px;
+    background-color: #206bc4;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.profileContainerLeftFirst {
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    margin: 5px 16px;
+    background-color: #fff;
+}
+
+.profileContainerLeftFirst_2 {
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.profileContainerRight {
+    width: 30%;
+    flex: 0 0 auto;
+}
+
+.profileContainerRight_Container {
+    margin: 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: calc(-1* 1.5rem);
+    margin-right: calc(-.5* 1.5rem);
+    margin-left: calc(-.5* 1.5rem);
+}
+
+
+.profileMain {
+    display: flex;
+}
+
+.profileLeft {
+    flex: 3;
+    margin-right: 20px;
+}
+
+.profileRight {
+    flex: 1;
+}
+
+.profileContainerLeftFirst_3 {
+    flex: 1 1 auto;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    color: #a1a1a8;
+    background-color: #fff;
+    border-radius: 0.25rem;
+}
