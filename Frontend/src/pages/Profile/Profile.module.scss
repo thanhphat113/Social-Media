@@ -28,6 +28,10 @@
     cursor: pointer;
 }
 
+.buttonBackground:hover {
+    filter: brightness(0.8);
+}
+
 .profileContainerLeftFirst {
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 

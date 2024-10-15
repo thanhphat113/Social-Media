@@ -42,6 +42,10 @@
     cursor: pointer;
 }
 
+.buttonBackground:hover {
+    filter: brightness(0.8);
+}
+
 .profileContainerRight {
     width: 30%;
     flex: 0 0 auto;
