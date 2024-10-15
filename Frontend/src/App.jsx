@@ -20,6 +20,7 @@ import Authentication from "./components/Authentication";
 export const AccountContext = createContext();
 
 function App() {
+    const [token, setToken] = useState('')
     return (
         <AccountContext.Provider value={token}>
             <Router>
