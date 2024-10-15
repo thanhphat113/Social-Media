@@ -20,23 +20,6 @@ import Authentication from "./components/Authentication";
 export const AccountContext = createContext();
 
 function App() {
-    const [account, setAccount] = useState([]);
-    const [error, setError] = useState("");
-    const [loading, setLoading] = useState(false);
-    const [token, setToken] = useState();
-
-    // useEffect(() => {
-    //     axios
-    //         .get("http://localhost:5164/api/User")
-    //         .then((response) => {
-    //             setAccount(response.data);
-    //         })
-    //         .catch((error) => {
-    //             setError(error); // Xử lý lỗi
-    //             setLoading(false);
-    //         });
-    // }, []);
-
     return (
         <AccountContext.Provider value={token}>
             <Router>

@@ -1,31 +1,31 @@
-import React, { useState } from 'react';
+import React from 'react';
+import Sidebar from './components/SideBar/SideBar';
+import MainContent from './components/MainContent/MainContent';
+import FriendListChat from './components/FriendListChat';
+import styles from 'Frontend/src/pages/Home/Home.module.scss';
 
-import Sidebar from './SideBar';
-import MainContent from './MainContent';
-import RightSidebar from './RightSideBar';
-import styles from './Home.module.scss';
-
-function HomePage() {
-  const [friendRequests, setFriendRequests] = useState([{ name: 'Liên Nari', daysAgo: 5 }]);
-  const [contacts, setContacts] = useState(['Tuấn Nguyễn', 'Hiền Thu Nguyễn', 'Ý Ý', 'Thiên Nhật Nguyễn', 'Đức Toàn', 'Ngọc Hòa Nguyễn', 'Hải Hậu Mai', 'C.B.CB Quỳnh']);
-  const [search, setSearch] = useState('');
+function Home() {
   return (
-
-    <div className="flex h-screen" style={{ backgroundColor: '#F0F2F5', color: 'black' }}>
-      <div className="flex flex-grow">
-      {/* Sidebar */}
-        <Sidebar />
+    <div className={styles.homeContainer}>
+      {/* Flex container */}
+      <div className={styles.flexGrow}>
+        {/* Sidebar */}
+        <div className={styles.sidebar}>
+          <Sidebar />
+        </div>
         
         {/* Main Content */}
-        <MainContent />
+        <div className={styles.mainContent}>
+          <MainContent />
+        </div>
 
         {/* Right Sidebar */}
-        <RightSidebar />
-        
+        <div className={styles.rightSidebar}>
+          <FriendListChat />
+        </div>
       </div>
-
     </div>
   );
 }
 
-export default HomePage;
+export default Home;

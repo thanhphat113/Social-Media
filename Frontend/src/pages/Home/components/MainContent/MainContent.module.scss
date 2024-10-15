@@ -1,0 +1,446 @@
+.emojiOptions {
+  display: flex;
+  flex-direction: row;
+  position: absolute; /* Để đảm bảo các emoji hiện ra ngay bên dưới nút Like */
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  z-index: 100;
+}
+
+.emojiButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 24px; /* Kích thước biểu tượng cảm xúc */
+  margin: 0 5px; /* Khoảng cách giữa các biểu tượng */
+  transition: transform 0.2s; /* Hiệu ứng hover */
+}
+
+.emojiButton:hover {
+  transform: scale(1.2); /* Phóng to biểu tượng khi hover */
+}
+
+// index
+.homeContainer {
+  display: flex;
+  height: 100vh; // Chiều cao 100% của màn hình
+  background-color: #F0F2F5;
+  color: black;
+}
+
+.flexGrow {
+  display: flex;
+  flex-grow: 1;
+}
+
+.sidebar {
+  flex: 0 0 20%; // Chiếm 20% chiều rộng
+  min-width: 200px; // Chiều rộng tối thiểu
+}
+
+.mainContent {
+  flex: 1; // Chiếm phần còn lại
+  min-width: 600px; // Chiều rộng tối thiểu
+}
+
+.rightSidebar {
+  flex: 0 0 20%; // Chiếm 20% chiều rộng
+  min-width: 200px; // Chiều rộng tối thiểu
+}
+
+//Main content
+.content {
+  width: 100%; // Chiếm 3/5 chiều rộng
+  padding: 1rem;
+}
+
+.postContainer {
+  background-color: white;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.inputField {
+  width: 100%;
+  padding: 0.5rem;
+  background-color: white;
+  border-radius: 9999px;
+  margin-bottom: 0.5rem;
+  border: none;
+}
+
+.actionButtons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.photoButton {
+  display: flex;
+  align-items: center;
+  border: none;
+  background-color: white;
+
+}
+
+.iconGreen {
+  color: #48bb78; // Màu xanh lá
+  margin-right: 0.5rem;
+}
+
+.popupOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); // Nền mờ
+  z-index: 10;
+}
+
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 2rem;
+  padding-bottom: 3rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 55rem; // Kích thước tối đa của pop-up
+  z-index: 20;
+}
+
+.popupHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.popupTitle {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.closeButton {
+  color: gray;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  // margin-top: 1rem;
+}
+
+.profileImage {
+  width: 2.5rem; // Kích thước ảnh đại diện
+  height: 2.5rem;
+  border-radius: 50%;
+}
+
+.userName {
+  margin-left: 0.5rem;
+}
+
+.userNameText {
+  font-weight: bold;
+  
+}
+
+.publicButton {
+  color: #3b82f6; // Màu xanh dương
+  font-size: 0.875rem; // Kích thước chữ
+  border: none;
+}
+
+.textarea {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.5rem;
+  border: 1px solid #e2e8f0; // Màu viền
+  border-radius: 0.5rem;
+}
+
+.dropzone {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 2px dashed #e2e8f0; // Màu viền đứt
+  border-radius: 0.5rem;
+  text-align: center;
+}
+
+.popupActions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.mobileButton {
+  display: flex;
+  align-items: center;
+  color: #3b82f6; // Màu xanh dương
+}
+
+.iconBlue {
+  margin-right: 0.5rem;
+}
+
+.addButton {
+  background-color: #3b82f6; // Màu xanh dương
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+}
+
+.extraOptions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  border-top: 1px solid #e2e8f0; // Màu viền trên
+  padding-top: 0.5rem;
+}
+
+.iconOptions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.iconGreen {
+  color: #48bb78; // Màu xanh lá
+}
+
+.iconYellow {
+  color: #fbbf24; // Màu vàng
+}
+
+.iconRed {
+  color: #ef4444; // Màu đỏ
+}
+
+.iconPurple {
+  color: #a855f7; // Màu tím
+}
+
+.continueButton {
+  width: 100%;
+  margin-top: 1rem;
+  background-color: #e5e7eb; // Màu xám
+  color: #6b7280; // Màu xám đậm
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+}
+
+.postHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.userPostInfo {
+  display: flex;
+  align-items: center;
+}
+
+.postImage {
+  width: 2rem; // Kích thước ảnh đại diện
+  height: 2rem;
+  border-radius: 50%;
+  margin-right: 0.5rem;
+}
+
+.postUserName {
+  font-weight: bold;
+}
+
+.followButton {
+  color: #3b82f6; // Màu xanh dương
+}
+
+.postTime {
+  font-size: 0.875rem; // Kích thước chữ
+}
+
+.postText {
+  margin-bottom: 0.5rem;
+}
+
+.postImageFull {
+  width: 100%;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.interactionBar {
+  display: flex;
+  justify-content: space-between;
+  color: gray;
+  border-top: 1px solid #e2e8f0; // Màu viền
+  padding-top: 0.5rem;
+}
+
+.likeButton {
+  position: relative;
+}
+
+.interactionButton {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.commentsList {
+  margin-top: 1rem;
+}
+
+.commentItems {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 1rem;
+}
+
+.commentItem {
+  background-color: #f7fafc; // Màu nền bình luận
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.commentInputContainer {
+  display: flex;
+  align-items: center;
+}
+
+.commentInput {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #e2e8f0; // Màu viền
+  border-radius: 0.25rem;
+}
+
+.sendButton {
+  background-color: #3b82f6; // Màu xanh dương
+  color: white;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  margin-left: 0.5rem;
+}
+
+//share 
+
+
+.popupOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 10;
+}
+
+.sharePopup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 20;
+  width: 500px;
+  max-width: 90%;
+}
+
+.popupHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.popupTitle {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.profileImage {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+.visibilityButtons {
+  display: flex;
+  align-items: center;
+}
+
+.visibilityButton {
+  background-color: #e7e7e7;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.textarea {
+  width: 100%;
+  height: 60px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 15px;
+  padding: 10px;
+}
+
+.popupActions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.shareButton {
+  background-color: #1c74e7;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.extraOptions {
+  margin-top: 15px;
+}
+
+.extraOptionsTitle {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.shareIcons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.iconButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #1c74e7;
+  font-size: 24px;
+}
+
+
+
