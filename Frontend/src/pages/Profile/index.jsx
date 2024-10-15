@@ -26,6 +26,8 @@ function Profile() {
                         <ProfileLeftMainTop_2 />
                         <ProfileLeftMainBottom />
                     </div>
+                </div>
+                <div className={styles.profileContainerLeftFirst}>
                     <div className={styles.profileContainerLeftFirst_3}>
                         <ProfileContainerLeftFirst_3_1 />
                         <ProfileContainerLeftFirst_3_2 />
