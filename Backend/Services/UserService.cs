@@ -10,10 +10,12 @@ namespace Backend.Services
     {
         private readonly JwtToken _jwtToken;
         private readonly IUserRepository _userRepo;
+        private readonly IChatInMessRepository _mess;
 
-        public UserService(IUserRepository repo, JwtToken jwtToken)
+        public UserService(IUserRepository repo, JwtToken jwtToken, IChatInMessRepository mess)
         {
             _userRepo = repo;
+            _mess = mess;
             _jwtToken = jwtToken;
         }
         public async Task<string> Add(User product)
@@ -28,6 +30,15 @@ namespace Backend.Services
         public Task<string> Delete(int id)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<User>> FriendsWithChat(int UserId, IEnumerable<User> friends)
+        {
+            foreach (var item in friends)
+            {
+                item.ChatInMessages = await _mess.GetMessage(UserId, item.UserId);
+            }
+            return friends;
         }
 
         public Task<IEnumerable<User>> GetAll()
@@ -54,7 +65,9 @@ namespace Backend.Services
         {
             try
             {
-                return await _userRepo.GetListFriends(id);
+                var friends = await _userRepo.GetListFriends(id);
+                var results = await FriendsWithChat(id, friends);
+                return results;
             }
             catch
             {
@@ -87,6 +100,20 @@ namespace Backend.Services
         public async Task<IEnumerable<Object>> GetListByName(string name)
         {
             return await _userRepo.GetUsersByName(name);
+        }
+
+        public async Task<IEnumerable<User>> GetFriendsByName(int userid, string name)
+        {
+            try
+            {
+                var friends = await _userRepo.GetFriendByName(userid, name);
+                var results = await FriendsWithChat(userid, friends);
+                return results;
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 

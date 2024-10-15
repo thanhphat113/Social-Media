@@ -1,30 +1,26 @@
-using Backend.Services;
-using Microsoft.AspNetCore.Authorization;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Controllers
 {
-	[Authorize]
 	[Route("api/[controller]")]
 	[ApiController]
-	public class MessageController : ControllerBase
+	public class GroupChatController : ControllerBase
 	{
-		private readonly MessageService _mess;
-		public MessageController(MessageService mess)
-		{
-			_mess = mess;
-		}
 		[HttpGet]
 		public ActionResult<IEnumerable<string>> Get()
 		{
 			return new string[] { "value1", "value2" };
 		}
 
-		[HttpGet("{id}")]
-		public ActionResult<string> Get(int id)
-		{
-			return "value";
-		}
+		// [HttpGet("{id}")]
+		// public Task<IActionResult> Get(int id)
+		// {
+
+		// }
 
 		[HttpPost]
 		public void Post([FromBody] string value)

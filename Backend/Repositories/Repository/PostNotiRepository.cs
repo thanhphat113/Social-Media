@@ -56,7 +56,7 @@ namespace Backend.Repositories.Repository
 			throw new NotImplementedException();
 		}
 
-		public Task<IEnumerable<PostNotification>> GetListByType(int condition, string type)
+		public Task<IEnumerable<PostNotification>> GetListById(int userid)
 		{
 			throw new NotImplementedException();
 		}

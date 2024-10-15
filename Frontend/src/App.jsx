@@ -11,6 +11,7 @@ import DefaultLayout from "./components/Layouts/DefaultLayout";
 import Profile from "./pages/Profile";
 import Authentication from "./components/Authentication";
 import { SetUser } from "./components/Redux/Actions/UserAction";
+import Validate from "./components/Validate";
 
 function App() {
     const dispatch = useDispatch();

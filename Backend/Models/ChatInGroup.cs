@@ -14,6 +14,8 @@ public partial class ChatInGroup
     public string Content { get; set; } = null!;
 
     public DateTime DateCreated { get; set; }
+    public int Otheruser { get; set; }
+
 
     public virtual User FromUserNavigation { get; set; } = null!;
 

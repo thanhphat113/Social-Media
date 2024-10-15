@@ -63,7 +63,7 @@ namespace Backend.Services
 			}
 		}
 
-		public Task<IEnumerable<HistorySearch>> GetListByType(int condition, string type)
+		public Task<IEnumerable<HistorySearch>> GetListById(int userid)
 		{
 			throw new NotImplementedException();
 		}
