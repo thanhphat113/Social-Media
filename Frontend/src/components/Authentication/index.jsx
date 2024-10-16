@@ -5,11 +5,11 @@ import { AccountContext } from '../../App';
 function Authentication ({ children }) {
     const token  = useContext(AccountContext);
 
-    if (!token) {
-        return <Navigate to="/login"></Navigate>
+    if (token !== null) {
+        return children;
     }
-
-    return children;
+    return <Navigate to="/login"></Navigate>
+    
 };
 
 export default Authentication;

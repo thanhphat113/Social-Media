@@ -17,6 +17,7 @@ public partial class SocialMediaContext : DbContext
     {
     }
 
+
     public virtual DbSet<ChatInGroup> ChatInGroups { get; set; }
 
     public virtual DbSet<ChatInMessage> ChatInMessages { get; set; }

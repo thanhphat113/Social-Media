@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Backend.Repositories;
-using Backend.Models;
+using Backend.Services;
 
 namespace Backend.Controllers
 {
@@ -12,27 +12,17 @@ namespace Backend.Controllers
 	[ApiController]
 	public class UserController : ControllerBase
 	{
-		private readonly IRepositories<User> __UserContext;
+		private readonly UserService _UserContext;
 
-		public UserController(IRepositories<User> UserContext){
-			__UserContext = UserContext;
+		public UserController(UserService UserContext){
+			_UserContext = UserContext;
 		}
 		[HttpGet]
 		public async Task<IActionResult> Get()
 		{
-			return Ok(await __UserContext.GetAll());
+			return Ok(await _UserContext.GetAll());
 		}
 
-		// [HttpGet("{id}")]
-		// public ActionResult<string> Get(int id)
-		// {
-		// 	return "value";
-		// }
-
-		[HttpPost]
-		public void Post([FromBody] string value)
-		{
-		}
 
 		[HttpPut("{id}")]
 		public void Put(int id, [FromBody] string value)

@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 import { createContext, useState, useEffect } from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 import Login from "./pages/Login";
 import Message from "./pages/Message";
@@ -20,7 +21,24 @@ import Authentication from "./components/Authentication";
 export const AccountContext = createContext();
 
 function App() {
-    const [token, setToken] = useState("123");
+    const [token, setToken] = useState(Cookies.get('token') || null);
+
+    useEffect(() => {
+        const checkToken = () => {
+            const storedToken = Cookies.get('token');
+            if (storedToken) {
+                setToken(storedToken);
+            } else {
+                setToken(null);
+            }
+        };
+
+        checkToken();
+
+        const interval = setInterval(checkToken, 2000);
+
+        return () => clearInterval(interval)
+    }, []);
 
     return (
         <AccountContext.Provider value={token}>
@@ -76,14 +94,18 @@ function App() {
                             }
                         />
                     </Route>
-                    {/* </Routes> */}
-                    {/* </DefaultLayout> */}
-                    {/* <Routes> */}
                     <Route
                         path="/login"
-                        element={<Login setToken={setToken} />}
+                        element={<Login token={token} setToken={setToken} />}
                     />
-                    <Route path="*" element={<Login />} />
+                    <Route
+                        path="*"
+                        element={
+                            <Authentication>
+                                <Home />
+                            </Authentication>
+                        }
+                    />
                 </Routes>
             </Router>
         </AccountContext.Provider>
