@@ -18,6 +18,11 @@
   object-fit: cover;
   border-radius: 50% !important;
   max-width: 100%;
+  cursor: pointer;
+}
+
+.avatarImg:hover {
+  filter: brightness(0.8);
 }
 
 .form {
