@@ -18,10 +18,10 @@ import DefaultLayout from "./components/Layouts/DefaultLayout";
 import Profile from "./pages/Profile";
 import Authentication from "./components/Authentication";
 
-export const AccountContext = createContext();
+export const TokenContext = createContext();
 
 function App() {
-    const [token, setToken] = useState(Cookies.get('token') || null);
+    const [token, setToken] = useState(null);
 
     useEffect(() => {
         const checkToken = () => {
@@ -38,10 +38,10 @@ function App() {
         const interval = setInterval(checkToken, 2000);
 
         return () => clearInterval(interval)
-    }, []);
+    },[]);
 
     return (
-        <AccountContext.Provider value={token}>
+        <TokenContext.Provider value={{token, setToken}}>
             <Router>
                 <Routes>
                     <Route element={<DefaultLayout />}>
@@ -96,7 +96,7 @@ function App() {
                     </Route>
                     <Route
                         path="/login"
-                        element={<Login token={token} setToken={setToken} />}
+                        element={<Login />}
                     />
                     <Route
                         path="*"
@@ -108,7 +108,7 @@ function App() {
                     />
                 </Routes>
             </Router>
-        </AccountContext.Provider>
+        </TokenContext.Provider>
     );
 }
 

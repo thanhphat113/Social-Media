@@ -22,11 +22,17 @@ namespace Backend.Repositories;
 			}
         }
 
-		public async Task<List<User>> GetListById(int id){
+		public async Task<List<User>> GetListByType(int condition, string type){
 			throw new NotImplementedException();
 		}
+
+
     	public async Task<User> GetById(int id){
-			throw new NotImplementedException();
+			try {
+				return await _context.Users.FirstOrDefaultAsync(p => id == p.UserId);
+			}catch{
+				return null;
+			}
 		}
     	public async Task<bool> Add(User user){
 			try{

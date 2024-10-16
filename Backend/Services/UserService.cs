@@ -31,9 +31,9 @@ namespace Backend.Services
             return _userRepo.GetAll();
         }
 
-        public Task<User> GetById(int id)
+        public async Task<User> GetById(int id)
         {
-            throw new NotImplementedException();
+            return await _userRepo.GetById(id);
         }
 
         public Task<List<User>> GetListById(int id)

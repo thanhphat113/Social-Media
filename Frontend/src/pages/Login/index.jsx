@@ -1,11 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
 import styles from "./Login.module.scss";
 import logo from "/public/img/Cloudy.png";
-import axios from "axios";
-import { jwtDecode } from "jwt-decode";
-import Cookies from "js-cookie";
+import { TokenContext } from "../../App";
 
 // Component LoginForm
 const LoginForm = ({
@@ -171,7 +172,8 @@ const SignUpForm = ({
     );
 };
 
-function Login({ token, setToken }) {
+function Login() {
+    const {token, setToken} = useContext(TokenContext)
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -191,7 +193,7 @@ function Login({ token, setToken }) {
         if (token !== null) {
             navigate("/"); // Điều hướng về trang chính
         }
-    }, [token, navigate]);
+    }, [navigate]);
 
     const handleLogin = async () => {
         try {

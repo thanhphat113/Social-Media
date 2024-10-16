@@ -21,7 +21,7 @@ public class JwtToken
         {
             new Claim("id", userId),  
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()), // JTI mới cho mỗi token
-            new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()), // Thêm thời gian phát hành
+            new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString()), // Thêm thời gian phát hành
         };
 
         var keyValue = _configuration["Jwt:Key"];
@@ -44,4 +44,5 @@ public class JwtToken
 
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
+
 }

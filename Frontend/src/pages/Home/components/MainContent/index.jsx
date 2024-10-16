@@ -1,13 +1,9 @@
-import React, { useState } from 'react';
-import { MdOutlineVideoCall, MdPhotoLibrary } from 'react-icons/md';
-import { BsThreeDots } from 'react-icons/bs';
-import { AiOutlineLike } from 'react-icons/ai';
-import { FaRegComment, FaPaperPlane } from 'react-icons/fa';
-import { PiShareFatThin } from 'react-icons/pi';
-import { FaSmile, FaImage, FaMapMarkerAlt, FaVideo, FaTimes, FaFacebookMessenger, FaWhatsapp, FaLink, FaUsers, FaFlag } from 'react-icons/fa';
+import  { useState } from 'react';
+import {  MdPhotoLibrary } from 'react-icons/md';
+import { FaSmile, FaImage, FaMapMarkerAlt, FaTimes, FaFacebookMessenger, FaWhatsapp, FaLink, FaUsers, FaFlag } from 'react-icons/fa';
 import { useDropzone } from 'react-dropzone';
-import styles from 'Frontend/src/pages/Home/components/MainContent/MainContent.module.scss';
-import Post from '../Post/Post';
+import styles from './MainContent.module.scss';
+import Post from '../Post';
 
 function MainContent() {
   const [comments, setComments] = useState([]);
@@ -68,8 +64,11 @@ function MainContent() {
   };
 
   const { getRootProps, getInputProps } = useDropzone({
-    accept: 'image/*,video/*',
+    accept: 'image/*',
     onDrop: acceptedFiles => {
+      acceptedFiles.forEach(file => {
+        console.log(file.type); // Kiểm tra kiểu MIME của file
+    });
       setFiles(acceptedFiles.map(file => Object.assign(file, {
         preview: URL.createObjectURL(file)
       })));
