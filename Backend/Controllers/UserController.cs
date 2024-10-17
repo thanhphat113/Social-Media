@@ -10,14 +10,17 @@ using System.IdentityModel.Tokens.Jwt;
 
 namespace Backend.Controllers
 {
+	[Authorize]
 	[Route("api/[controller]")]
 	[ApiController]
 	public class UserController : ControllerBase
 	{
+		private readonly ILogger<UserController> _logger;
 		private readonly UserService _UserContext;
 
-		public UserController(UserService UserContext){
+		public UserController(UserService UserContext,ILogger<UserController> logger){
 			_UserContext = UserContext;
+			_logger = logger;
 		}
 
 		[HttpGet]
@@ -26,17 +29,21 @@ namespace Backend.Controllers
 			return Ok(await _UserContext.GetAll());
 		}
 
-		[Authorize]
+
 		[HttpGet("findbyid")]
 		public async Task<IActionResult> FindById()
 		{
-			var token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+			var token = Request.Cookies["Security"];
+			if (string.IsNullOrEmpty(token))
+			{
+				return Unauthorized();
+			}
+			
 			var tokenHandler = new JwtSecurityTokenHandler();
 
 			var jwtToken = tokenHandler.ReadJwtToken(token);
 
 			var userId = jwtToken.Claims.FirstOrDefault(c => c.Type == "id")?.Value;
-			Console.WriteLine("đây là:" + userId);
 			return Ok(await _UserContext.GetById(int.Parse(userId)));
 		}
 

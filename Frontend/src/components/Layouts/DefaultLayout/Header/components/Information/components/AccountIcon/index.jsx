@@ -1,24 +1,30 @@
 import { useContext } from "react";
-import { Link,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CustomTooltip } from "../../../../../../../GlobalStyles";
 import styles from "./AccountIcon.module.scss";
 import { typeContext } from "../../../..";
 import { UserContext } from "../../../../..";
-import Cookies from "js-cookie";
+import axios from "axios";
 import { TokenContext } from "../../../../../../../../App";
 
 function AccountIcon(props) {
-    const user = props;
     const { handleClick } = useContext(typeContext);
-    const UserLogin = useContext(UserContext)
-    const { setToken } = useContext(TokenContext)
-    const navigate = useNavigate()
+    const { user } = useContext(UserContext);
+    const { setIsAuthenticated } = useContext(TokenContext);
+    const navigate = useNavigate();
 
-    const handleClickLogout = () => {
-        Cookies.remove("token", { path: "/" })
-        setToken(null)
-        navigate('/login')
-    }
+    const handleClickLogout = async () => {
+        try {
+            const response = await axios.get(
+                "http://localhost:5164/api/Login/logout",
+                { withCredentials: true }
+            );
+            setIsAuthenticated(false)
+            navigate('/login')
+        } catch {
+            console.log("Lỗi hình thức đăng xuất");
+        }
+    };
 
     return (
         <div className={styles.accounticon}>
@@ -29,7 +35,7 @@ function AccountIcon(props) {
                         // setIsClicked(!isClicked);
                     }}
                     className={styles.circle}
-                    src={UserLogin.profilePicture}
+                    src={user.profilePicture}
                     alt="profile"
                 ></img>
             </CustomTooltip>
@@ -37,8 +43,8 @@ function AccountIcon(props) {
                 <div className={styles.content}>
                     <Link to="/profile" onClick={() => handleClick("profile")}>
                         <div className={styles.account}>
-                            <img src={user.img} alt="profile"></img>
-                            <span>{UserLogin.lastName + " " + UserLogin.firstName}</span>
+                            <img src={user.profilePicture} alt="profile"></img>
+                            <span>{user.lastName + " " + user.firstName}</span>
                         </div>
                     </Link>
                     <Link

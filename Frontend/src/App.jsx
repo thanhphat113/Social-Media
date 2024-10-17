@@ -1,13 +1,5 @@
-import {
-    BrowserRouter as Router,
-    Routes,
-    Route,
-    Navigate,
-} from "react-router-dom";
-import { createContext, useState, useEffect } from "react";
-import axios from "axios";
-import Cookies from "js-cookie";
-
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { createContext, useEffect, useState } from "react";
 import Login from "./pages/Login";
 import Message from "./pages/Message";
 import GroupList from "./pages/Group/components/GroupList";
@@ -17,31 +9,30 @@ import Information from "./pages/Information";
 import DefaultLayout from "./components/Layouts/DefaultLayout";
 import Profile from "./pages/Profile";
 import Authentication from "./components/Authentication";
+import axios from "axios";
 
 export const TokenContext = createContext();
 
 function App() {
-    const [token, setToken] = useState(null);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     useEffect(() => {
-        const checkToken = () => {
-            const storedToken = Cookies.get('token');
-            if (storedToken) {
-                setToken(storedToken);
-            } else {
-                setToken(null);
+        const checkToken = async () => {
+            try {
+                const response = await axios.get(
+                    "http://localhost:5164/api/Login/gettoken",
+                    { withCredentials: true }
+                );
+                setIsAuthenticated(response.data.isAuthenticated)
+            } catch {
+                return
             }
         };
-
-        checkToken();
-
-        const interval = setInterval(checkToken, 2000);
-
-        return () => clearInterval(interval)
-    },[]);
+        checkToken()
+    }, [isAuthenticated]);
 
     return (
-        <TokenContext.Provider value={{token, setToken}}>
+        <TokenContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>
             <Router>
                 <Routes>
                     <Route element={<DefaultLayout />}>
@@ -93,12 +84,7 @@ function App() {
                                 </Authentication>
                             }
                         />
-                    </Route>
-                    <Route
-                        path="/login"
-                        element={<Login />}
-                    />
-                    <Route
+                        <Route
                         path="*"
                         element={
                             <Authentication>
@@ -106,6 +92,9 @@ function App() {
                             </Authentication>
                         }
                     />
+                    </Route>
+                    {!isAuthenticated && <Route path="/login" element={<Login />} />}
+                    
                 </Routes>
             </Router>
         </TokenContext.Provider>

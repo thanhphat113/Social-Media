@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Backend.Models;
 using Backend.Repositories;
 using Backend.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Backend.Controllers
 {
@@ -13,42 +14,58 @@ namespace Backend.Controllers
 	[ApiController]
 	public class LoginController : ControllerBase
 	{
+		private readonly IWebHostEnvironment _env;
 		private readonly UserService _UserContext;
 
-		public LoginController(UserService context){
+		public LoginController(UserService context, IWebHostEnvironment env){
 			_UserContext = context;
+			_env = env;
 		}
 
-		[HttpGet]
-		public ActionResult<IEnumerable<string>> Get()
-		{
-			return new string[] { "value1", "value2" };
-		}
-
-		[HttpGet("{id}")]
-		public ActionResult<string> Get(int id)
-		{
-			return "value";
-		}
 
 		[HttpPost]
 		public async Task<IActionResult> Login([FromBody] Login account)
 		{
 			var token = await _UserContext.FindToLogin(account.email, account.password);
+			Console.WriteLine("Đây là trong login: "+ token);
+			
 			if (token == null)
 			{
-				return Ok(null);
+				return Unauthorized(new { message = "Invalid login credentials." });
 			}
+			Response.Cookies.Append("Security", token, new CookieOptions
+			{
+				HttpOnly = true,
+				Secure = false,
+				SameSite = SameSiteMode.Strict,
+				Expires = DateTimeOffset.Now.AddMinutes(30)
+			});
 
-			return Ok(new {token = token});
-
+			return Ok(new { message = "Logged in successfully"});
 		}
 
-		// [HttpPost("register")]
-		// public async Task<IActionResult> Register([FromBody] User userregister)
-		// {
+		[HttpGet("gettoken")]
+		[Authorize]
+		public IActionResult CheckAuth()
+		{
+			// Kiểm tra cookie 'Security'
+			var token = Request.Cookies["Security"];
+			if (!string.IsNullOrEmpty(token))
+			{
+				return Ok(new { isAuthenticated = true });
+			}
 
-		// }
+			return Ok(new { isAuthenticated = false });
+		}
+
+		[HttpGet("logout")]
+		[Authorize]
+		public IActionResult Logout()
+		{
+			Response.Cookies.Delete("Security");
+			return Ok(new { message = "Logged out successfully." });
+		}
+
 
 		[HttpPost("CheckEmail")]
 		public async Task<IActionResult> checkEmail(string email)
@@ -56,14 +73,5 @@ namespace Backend.Controllers
 			return Ok(new {notification = _UserContext.isHasEmail(email)});
 		}
 
-		[HttpPut("{id}")]
-		public void Put(int id, [FromBody] string value)
-		{
-		}
-
-		[HttpDelete("{id}")]
-		public void Delete(int id)
-		{
-		}
 	}
 }

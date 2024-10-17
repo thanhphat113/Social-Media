@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { FaArrowLeft } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
@@ -173,10 +173,11 @@ const SignUpForm = ({
 };
 
 function Login() {
-    const {token, setToken} = useContext(TokenContext)
+    const {isAuthenticated, setIsAuthenticated} = useContext(TokenContext)
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const location = useLocation()
 
     // State cho form đăng ký
     const [firstName, setFirstName] = useState("");
@@ -189,9 +190,8 @@ function Login() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Nếu có token, điều hướng về trang chính
-        if (token !== null) {
-            navigate("/"); // Điều hướng về trang chính
+        if (isAuthenticated) {
+            navigate("/");
         }
     }, [navigate]);
 
@@ -199,18 +199,13 @@ function Login() {
         try {
             const respone = await axios.post(
                 "http://localhost:5164/api/Login",
-                { email, password }
+                { email, password },{withCredentials:true}
             );
-            const token = respone.data.token;
-            setToken(token);
-
-            const expires = new Date(jwtDecode(token).exp * 1000);
-
-            Cookies.set("token", token, { expires: expires });
-
+            setIsAuthenticated(true);
             navigate("/");
-        } catch {
-            console.log("đăng nhập thất bại");
+        } catch (error){
+            console.log("đăng nhập thất bại:" + error);
+            setIsAuthenticated(false);
         }
     };
 

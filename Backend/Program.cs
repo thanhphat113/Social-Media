@@ -29,18 +29,17 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
             options.Events = new JwtBearerEvents
                 {
-                    OnAuthenticationFailed = context =>
+                    OnMessageReceived = context =>
                     {
-                        Console.WriteLine("Token không hợp lệ: " + context.Request.Headers["Authorization"].ToString());
-                        return Task.CompletedTask;
-                    },
-                    OnTokenValidated = context =>
-                    {
-                        Console.WriteLine("Token hợp lệ");
+                        var token = context.Request.Cookies["Security"];
+                        if (!string.IsNullOrEmpty(token))
+                        {
+                            context.Token = token;
+                        }
+
                         return Task.CompletedTask;
                     }
                 };
-
         });
 
 // Add services to the container.
@@ -53,11 +52,24 @@ builder.Services.AddScoped<UserRepositories>();
 
 builder.Services.AddScoped<JwtToken>();
 builder.Services.AddControllers();
-builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
-    policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
+
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:3000") // hoặc tên miền của frontend
+                   .AllowAnyHeader()
+                   .AllowAnyMethod()
+                   .AllowCredentials();
+        });
+});
 
 
 var app = builder.Build();
+app.UseHttpsRedirection();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -66,9 +78,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
-app.UseCors();
+app.UseCors("AllowAll");
+app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
