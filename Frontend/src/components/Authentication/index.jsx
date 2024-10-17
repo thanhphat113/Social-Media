@@ -1,13 +1,15 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { TokenContext } from '../../App';
 
 function Authentication ({ children }) {
-    const {isAuthenticated}  = useContext(TokenContext);
+    const { isHas }  = useContext(TokenContext);
 
-    if (isAuthenticated) {
+
+    if (isHas) {
         return children;
     }
+
     return <Navigate to="/login"></Navigate>
     
 };

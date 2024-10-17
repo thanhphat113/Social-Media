@@ -1,9 +1,8 @@
 import { useState, useEffect, useContext } from "react";
 import { FaArrowLeft } from "react-icons/fa";
-import { useNavigate,useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Cookies from "js-cookie";
-import { jwtDecode } from "jwt-decode";
+
 import styles from "./Login.module.scss";
 import logo from "/public/img/Cloudy.png";
 import { TokenContext } from "../../App";
@@ -173,11 +172,10 @@ const SignUpForm = ({
 };
 
 function Login() {
-    const {isAuthenticated, setIsAuthenticated} = useContext(TokenContext)
+    const { isHas, setIsHas } = useContext(TokenContext)
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isPopupOpen, setIsPopupOpen] = useState(false);
-    const location = useLocation()
 
     // State cho form đăng ký
     const [firstName, setFirstName] = useState("");
@@ -189,23 +187,20 @@ function Login() {
 
     const navigate = useNavigate();
 
-    useEffect(() => {
-        if (isAuthenticated) {
-            navigate("/");
-        }
-    }, [navigate]);
+    useEffect( () => {
+        isHas && navigate('/')
+    },[])
 
     const handleLogin = async () => {
         try {
-            const respone = await axios.post(
+            const response = await axios.post(
                 "http://localhost:5164/api/Login",
                 { email, password },{withCredentials:true}
             );
-            setIsAuthenticated(true);
+            setIsHas(true)
             navigate("/");
         } catch (error){
             console.log("đăng nhập thất bại:" + error);
-            setIsAuthenticated(false);
         }
     };
 
@@ -215,7 +210,7 @@ function Login() {
                 <div className={styles.leftSection}>
                     <img src={logo} alt="Cloudy Logo" className={styles.logo} />
                     <h1 className={styles.welcomeText}>
-                        Chào mừng bạn đến với Cloudy
+                        Chào mừng bạn đến với <strong>Cloudy</strong>
                     </h1>
                 </div>
                 <div className={styles.rightSection}>

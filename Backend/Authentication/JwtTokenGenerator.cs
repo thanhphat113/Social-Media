@@ -19,7 +19,7 @@ public class JwtToken
     {
         var claims = new[]
         {
-            new Claim("id", userId),  
+            new Claim(ClaimTypes.NameIdentifier, userId),  
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()), // JTI mới cho mỗi token
             new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString()), // Thêm thời gian phát hành
         };

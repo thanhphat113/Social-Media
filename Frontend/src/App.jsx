@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { createContext, useEffect, useState } from "react";
 import Login from "./pages/Login";
 import Message from "./pages/Message";
@@ -14,25 +14,32 @@ import axios from "axios";
 export const TokenContext = createContext();
 
 function App() {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [user, setUser] = useState(null);
+    const [isHas, setIsHas] = useState(false)
 
     useEffect(() => {
-        const checkToken = async () => {
+        const fetchUserData = async () => {
             try {
                 const response = await axios.get(
-                    "http://localhost:5164/api/Login/gettoken",
-                    { withCredentials: true }
+                    "http://localhost:5164/api/User/findbyid",
+                    {
+                        withCredentials: true,
+                    }
                 );
-                setIsAuthenticated(response.data.isAuthenticated)
-            } catch {
-                return
+                setUser(response.data);
+                setIsHas(true)
+            } catch (error) {
+                console.log(
+                    "Truyền dữ liệu thất bại",
+                    error.response?.data || error.message
+                );
             }
         };
-        checkToken()
-    }, [isAuthenticated]);
+        fetchUserData();
+    }, [isHas]);
 
     return (
-        <TokenContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>
+        <TokenContext.Provider value={{ user, isHas, setIsHas }}>
             <Router>
                 <Routes>
                     <Route element={<DefaultLayout />}>
@@ -85,7 +92,7 @@ function App() {
                             }
                         />
                         <Route
-                        path="*"
+                        path= "*"
                         element={
                             <Authentication>
                                 <Home />
@@ -93,8 +100,7 @@ function App() {
                         }
                     />
                     </Route>
-                    {!isAuthenticated && <Route path="/login" element={<Login />} />}
-                    
+                    <Route path="/login" element={<Login />} />
                 </Routes>
             </Router>
         </TokenContext.Provider>

@@ -3,14 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { CustomTooltip } from "../../../../../../../GlobalStyles";
 import styles from "./AccountIcon.module.scss";
 import { typeContext } from "../../../..";
-import { UserContext } from "../../../../..";
 import axios from "axios";
 import { TokenContext } from "../../../../../../../../App";
 
 function AccountIcon(props) {
     const { handleClick } = useContext(typeContext);
-    const { user } = useContext(UserContext);
-    const { setIsAuthenticated } = useContext(TokenContext);
+    const { user,setIsHas } = useContext(TokenContext);
     const navigate = useNavigate();
 
     const handleClickLogout = async () => {
@@ -19,7 +17,7 @@ function AccountIcon(props) {
                 "http://localhost:5164/api/Login/logout",
                 { withCredentials: true }
             );
-            setIsAuthenticated(false)
+            setIsHas(false)
             navigate('/login')
         } catch {
             console.log("Lỗi hình thức đăng xuất");

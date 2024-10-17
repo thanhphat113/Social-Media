@@ -43,7 +43,7 @@ namespace Backend.Controllers
 
 			var jwtToken = tokenHandler.ReadJwtToken(token);
 
-			var userId = jwtToken.Claims.FirstOrDefault(c => c.Type == "id")?.Value;
+			var userId = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 			return Ok(await _UserContext.GetById(int.Parse(userId)));
 		}
 
