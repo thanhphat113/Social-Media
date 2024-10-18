@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext,useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CustomTooltip } from "../../../../../../../GlobalStyles";
 import styles from "./AccountIcon.module.scss";
@@ -8,7 +8,7 @@ import { TokenContext } from "../../../../../../../../App";
 
 function AccountIcon(props) {
     const { handleClick } = useContext(typeContext);
-    const { user,setIsHas } = useContext(TokenContext);
+    const { user,setUser } = useContext(TokenContext);
     const navigate = useNavigate();
 
     const handleClickLogout = async () => {
@@ -17,16 +17,17 @@ function AccountIcon(props) {
                 "http://localhost:5164/api/Login/logout",
                 { withCredentials: true }
             );
-            setIsHas(false)
-            navigate('/login')
-        } catch {
-            console.log("Lỗi hình thức đăng xuất");
+            setUser(null)
+            navigate("/")
+        } catch (error){
+            console.log("Lỗi hình thức đăng xuất: "+error);
         }
     };
 
+
     return (
         <div className={styles.accounticon}>
-            <CustomTooltip title={user.title}>
+            <CustomTooltip title="Tài khoản">
                 <img
                     onClick={() => {
                         props.onToggle("B");
@@ -41,7 +42,7 @@ function AccountIcon(props) {
                 <div className={styles.content}>
                     <Link to="/profile" onClick={() => handleClick("profile")}>
                         <div className={styles.account}>
-                            <img src={user.profilePicture} alt="profile"></img>
+                            <img src={user.profilePicture|| ""} alt="profile"></img>
                             <span>{user.lastName + " " + user.firstName}</span>
                         </div>
                     </Link>

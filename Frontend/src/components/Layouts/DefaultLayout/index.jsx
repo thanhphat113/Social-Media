@@ -1,18 +1,21 @@
 import { Outlet } from "react-router-dom";
-import { createContext} from "react";
+import { createContext,useContext} from "react";
 import Header from "./Header";
+import { TokenContext } from "../../../App";
 
 
 export const UserContext = createContext();
 
 function DefaultLayout() {
+    const {user} = useContext(TokenContext)
+
     return (
-        <>
-            <Header />
+        <div>
+            {user && <Header />}
             <div className="container">
                 <Outlet />
             </div>
-        </>
+        </div>
     );
 }
 

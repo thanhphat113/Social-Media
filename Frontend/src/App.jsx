@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
 import { createContext, useEffect, useState } from "react";
 import Login from "./pages/Login";
 import Message from "./pages/Message";
@@ -15,7 +15,7 @@ export const TokenContext = createContext();
 
 function App() {
     const [user, setUser] = useState(null);
-    const [isHas, setIsHas] = useState(false)
+    const [reset, setReset] = useState(false);
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -27,7 +27,6 @@ function App() {
                     }
                 );
                 setUser(response.data);
-                setIsHas(true)
             } catch (error) {
                 console.log(
                     "Truyền dữ liệu thất bại",
@@ -36,10 +35,10 @@ function App() {
             }
         };
         fetchUserData();
-    }, [isHas]);
+    },[reset]);
 
     return (
-        <TokenContext.Provider value={{ user, isHas, setIsHas }}>
+        <TokenContext.Provider value={{ user, setReset, reset, setUser }}>
             <Router>
                 <Routes>
                     <Route element={<DefaultLayout />}>
@@ -91,16 +90,9 @@ function App() {
                                 </Authentication>
                             }
                         />
-                        <Route
-                        path= "*"
-                        element={
-                            <Authentication>
-                                <Home />
-                            </Authentication>
-                        }
-                    />
+                          <Route path="/login" element={<Login />} />
+                          <Route path="*" element={<Login /> } />
                     </Route>
-                    <Route path="/login" element={<Login />} />
                 </Routes>
             </Router>
         </TokenContext.Provider>

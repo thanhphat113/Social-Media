@@ -1,12 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using Backend.Services;
 using Microsoft.AspNetCore.Authorization;
 using System.IdentityModel.Tokens.Jwt;
+using Backend.Models;
 
 namespace Backend.Controllers
 {
@@ -47,10 +44,11 @@ namespace Backend.Controllers
 			return Ok(await _UserContext.GetById(int.Parse(userId)));
 		}
 
-
-		[HttpPut("{id}")]
-		public void Put(int id, [FromBody] string value)
-		{
+		[AllowAnonymous]
+		[HttpPost] 
+		public async Task<IActionResult> Put([FromBody] User user){
+			Console.WriteLine(user.FirstName);
+			return Ok(new {result = await _UserContext.Add(user)});
 		}
 
 		[HttpDelete("{id}")]

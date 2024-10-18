@@ -1,6 +1,7 @@
 using Backend.Models;
 using Backend.Repositories;
 using Backend.Authentication;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Backend.Services
 {
@@ -54,13 +55,16 @@ namespace Backend.Services
 			return null;
 		}
 
-		public async Task<string> isHasEmail(string email){
-			if (string.IsNullOrEmpty(email)) return "Vui lòng nhập email";
-			if (await _userRepo.isHasEmail(email)){
-				return "Email này đã được đăng ký vui lòng nhập lại";
-			}
+		public async Task<ValidateEmail> isHasEmail(string email){
+            if (!email.EndsWith("@gmail.com") && !email.EndsWith("@gmail.com.vn"))
+            return new ValidateEmail("Email phải có đuôi là @gmail.com hoặc @gmail.com.vn", false );
+			if (string.IsNullOrEmpty(email)) 
+			return new ValidateEmail("Vui lòng nhập email", false );
+			if (await _userRepo.isHasEmail(email))
+			return new ValidateEmail("Email này đã được đăng ký vui lòng nhập lại", false );
 			
-			return "Email hợp lệ";
+			return new ValidateEmail("Email hợp lệ", true );
 		}
     }
+
 }

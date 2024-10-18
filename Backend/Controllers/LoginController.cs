@@ -1,10 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Backend.Models;
-using Backend.Repositories;
 using Backend.Services;
 using Microsoft.AspNetCore.Authorization;
 
@@ -67,10 +62,10 @@ namespace Backend.Controllers
 		}
 
 
-		[HttpPost("CheckEmail")]
+		[HttpGet("CheckEmail")]
 		public async Task<IActionResult> checkEmail(string email)
 		{
-			return Ok(new {notification = _UserContext.isHasEmail(email)});
+			return Ok(new {result = _UserContext.isHasEmail(email)});
 		}
 
 	}

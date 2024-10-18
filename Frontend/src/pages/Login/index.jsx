@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { FaArrowLeft } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 
 import styles from "./Login.module.scss";
@@ -81,10 +81,10 @@ const SignUpForm = ({
 }) => {
     useEffect(() => {
         async function fetchData() {
-        const response = await axios.post(
-            `http://localhost:5164/api/Login/CheckEmail?email=${signUpEmail ||' '}`
+        const response = await axios.get(
+            `http://localhost:5164/api/Login/CheckEmail?email=${signUpEmail ||' '}`,
         )
-        setValidateEmail(response.data.notification.result);
+        setValidateEmail(response.data.result.result);
     };
 
     if (signUpEmail && signUpEmail.trim() !== '') {
@@ -125,7 +125,7 @@ const SignUpForm = ({
                 onChange={(e) => setSignUpEmail(e.target.value)}
                 className={styles.input}
             />
-            <span>{validateEmail}</span>
+            <span style={ {color : validateEmail.isTrue ? "green" : "red"} }>{validateEmail.notification}</span>
             <input
                 type="password"
                 placeholder="Password"
@@ -143,9 +143,18 @@ const SignUpForm = ({
 
             <div className={styles.buttonRow}>
                 <button
-                    onClick={() => {
+                    onClick={async () => {
                         if (signUpPassword === signUpConfirmPassword) {
-                            console.log("Sign up successful");
+                            const email =signUpEmail
+                            const passWord = signUpPassword
+                            try {
+                                const response = await axios.post("http://localhost:5164/api/User",
+                                {firstName,lastName,email,passWord}
+                                )
+                                console.log(response.data)
+                            }catch{
+                                console.log("Đăng ký thất bại rồi")
+                            }
                             // Đặt lại các giá trị của form sau khi đăng ký thành công
                             setFirstName("");
                             setLastName("");
@@ -171,25 +180,25 @@ const SignUpForm = ({
     );
 };
 
+
+
+
 function Login() {
-    const { isHas, setIsHas } = useContext(TokenContext)
+    const {user,reset , setReset } = useContext(TokenContext)
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isPopupOpen, setIsPopupOpen] = useState(false);
 
+
     // State cho form đăng ký
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
-    const [validateEmail, setValidateEmail] = useState("")
+    const [validateEmail, setValidateEmail] = useState([])
     const [signUpEmail, setSignUpEmail] = useState("");
     const [signUpPassword, setSignUpPassword] = useState("");
     const [signUpConfirmPassword, setSignUpConfirmPassword] = useState("");
 
     const navigate = useNavigate();
-
-    useEffect( () => {
-        isHas && navigate('/')
-    },[])
 
     const handleLogin = async () => {
         try {
@@ -197,15 +206,23 @@ function Login() {
                 "http://localhost:5164/api/Login",
                 { email, password },{withCredentials:true}
             );
-            setIsHas(true)
+            setReset(!reset)
             navigate("/");
         } catch (error){
             console.log("đăng nhập thất bại:" + error);
         }
     };
 
+    useEffect(() => {
+        if (user) {
+            navigate("/");
+        }
+    }, [user, navigate]);
+
     return (
+        
         <div className={styles.loginContainer}>
+        
             <div className={styles.flexRow}>
                 <div className={styles.leftSection}>
                     <img src={logo} alt="Cloudy Logo" className={styles.logo} />

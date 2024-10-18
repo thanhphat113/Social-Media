@@ -44,7 +44,7 @@ namespace Backend.Repositories;
 				
 				return true;
 			}catch (Exception ex){
-				Console.WriteLine(ex.Message);
+				Console.WriteLine("Đây là lỗi: "+ ex.Message);
 				return false;
 			}
 		}
@@ -59,8 +59,23 @@ namespace Backend.Repositories;
 			
 			try{
 				var user = await _context.Users
-					.FirstOrDefaultAsync(p => p.Email == email && p.Password == password);
-				return user;
+					.FirstOrDefaultAsync(p => p.Email == email);
+
+				if (user == null)
+				{
+					return null;
+				}
+	
+				var passHasher = new PasswordHasher<User>();
+        		var passwordVerificationResult = passHasher.VerifyHashedPassword(user, user.Password, password);
+
+				if (passwordVerificationResult == PasswordVerificationResult.Success)
+        		{
+					return user;
+				}else
+				{
+					return null;
+				}
 			}catch(Exception ex){
         		return null;
 			}
@@ -78,10 +93,9 @@ namespace Backend.Repositories;
 
 				return false;
 			}catch (Exception ex){
-				Console.WriteLine(ex.Message);
+				Console.WriteLine(ex.InnerException?.Message); 
 				return false;
 			}
 		}
 
-		
-	}
+		}
