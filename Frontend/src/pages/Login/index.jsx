@@ -81,19 +81,19 @@ const SignUpForm = ({
 }) => {
     useEffect(() => {
         async function fetchData() {
-        const response = await axios.get(
-            `http://localhost:5164/api/Login/CheckEmail?email=${signUpEmail ||' '}`,
-        )
-        setValidateEmail(response.data.result.result);
-    };
+            const response = await axios.get(
+                `http://localhost:5164/api/Login/CheckEmail?email=${
+                    signUpEmail || " "
+                }`
+            );
+            setValidateEmail(response.data.result.result);
+        }
 
-    if (signUpEmail && signUpEmail.trim() !== '') {
-        fetchData();
-        
-    }else{
-        setValidateEmail('');
-    }
-
+        if (signUpEmail && signUpEmail.trim() !== "") {
+            fetchData();
+        } else {
+            setValidateEmail("");
+        }
     }, [signUpEmail]);
 
     return (
@@ -125,7 +125,9 @@ const SignUpForm = ({
                 onChange={(e) => setSignUpEmail(e.target.value)}
                 className={styles.input}
             />
-            <span style={ {color : validateEmail.isTrue ? "green" : "red"} }>{validateEmail.notification}</span>
+            <span style={{ color: validateEmail.isTrue ? "green" : "red" }}>
+                {validateEmail.notification}
+            </span>
             <input
                 type="password"
                 placeholder="Password"
@@ -144,26 +146,31 @@ const SignUpForm = ({
             <div className={styles.buttonRow}>
                 <button
                     onClick={async () => {
-                        if (signUpPassword === signUpConfirmPassword) {
-                            const email =signUpEmail
-                            const passWord = signUpPassword
-                            try {
-                                const response = await axios.post("http://localhost:5164/api/User",
-                                {firstName,lastName,email,passWord}
-                                )
-                                console.log(response.data)
-                            }catch{
-                                console.log("Đăng ký thất bại rồi")
+                        if (validateEmail.isTrue) {
+                            if (signUpPassword === signUpConfirmPassword) {
+                                const email = signUpEmail;
+                                const passWord = signUpPassword;
+                                try {
+                                    const response = await axios.post(
+                                        "http://localhost:5164/api/User",
+                                        { firstName, lastName, email, passWord }
+                                    );
+                                    console.log(response.data);
+                                } catch {
+                                    console.log("Đăng ký thất bại rồi");
+                                }
+                                // Đặt lại các giá trị của form sau khi đăng ký thành công
+                                setFirstName("");
+                                setLastName("");
+                                setSignUpEmail("");
+                                setSignUpPassword("");
+                                setSignUpConfirmPassword("");
+                                closeSignUp(); // Đóng popup sau khi đăng ký thành công
+                            } else {
+                                alert("Passwords do not match!");
                             }
-                            // Đặt lại các giá trị của form sau khi đăng ký thành công
-                            setFirstName("");
-                            setLastName("");
-                            setSignUpEmail("");
-                            setSignUpPassword("");
-                            setSignUpConfirmPassword("");
-                            closeSignUp(); // Đóng popup sau khi đăng ký thành công
-                        } else {
-                            alert("Passwords do not match!");
+                        }else {
+                            alert("Email của bạn không hợp lệ");
                         }
                     }}
                     className={`${styles.button} ${styles.signupButton}`}
@@ -180,20 +187,16 @@ const SignUpForm = ({
     );
 };
 
-
-
-
 function Login() {
-    const {user,reset , setReset } = useContext(TokenContext)
+    const { user, reset, setReset } = useContext(TokenContext);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isPopupOpen, setIsPopupOpen] = useState(false);
 
-
     // State cho form đăng ký
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
-    const [validateEmail, setValidateEmail] = useState([])
+    const [validateEmail, setValidateEmail] = useState([]);
     const [signUpEmail, setSignUpEmail] = useState("");
     const [signUpPassword, setSignUpPassword] = useState("");
     const [signUpConfirmPassword, setSignUpConfirmPassword] = useState("");
@@ -204,11 +207,12 @@ function Login() {
         try {
             const response = await axios.post(
                 "http://localhost:5164/api/Login",
-                { email, password },{withCredentials:true}
+                { email, password },
+                { withCredentials: true }
             );
-            setReset(!reset)
+            setReset(!reset);
             navigate("/");
-        } catch (error){
+        } catch (error) {
             console.log("đăng nhập thất bại:" + error);
         }
     };
@@ -220,9 +224,7 @@ function Login() {
     }, [user, navigate]);
 
     return (
-        
         <div className={styles.loginContainer}>
-        
             <div className={styles.flexRow}>
                 <div className={styles.leftSection}>
                     <img src={logo} alt="Cloudy Logo" className={styles.logo} />
