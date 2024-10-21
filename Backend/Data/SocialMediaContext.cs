@@ -26,7 +26,6 @@ public partial class SocialMediaContext : DbContext
 
     public virtual DbSet<Comment> Comments { get; set; }
 
-    public virtual DbSet<EfmigrationsHistory> EfmigrationsHistories { get; set; }
 
     public virtual DbSet<GroupChat> GroupChats { get; set; }
 
@@ -204,15 +203,6 @@ public partial class SocialMediaContext : DbContext
                 .HasConstraintName("fk_comments_user_id");
         });
 
-        modelBuilder.Entity<EfmigrationsHistory>(entity =>
-        {
-            entity.HasKey(e => e.MigrationId).HasName("PRIMARY");
-
-            entity.ToTable("__EFMigrationsHistory");
-
-            entity.Property(e => e.MigrationId).HasMaxLength(150);
-            entity.Property(e => e.ProductVersion).HasMaxLength(32);
-        });
 
         modelBuilder.Entity<GroupChat>(entity =>
         {
