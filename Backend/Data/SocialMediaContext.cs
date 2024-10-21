@@ -17,7 +17,10 @@ public partial class SocialMediaContext : DbContext
     {
     }
 
+
     public virtual DbSet<ChatInGroup> ChatInGroups { get; set; }
+
+    public virtual DbSet<Gender> Genders { get; set; }
 
     public virtual DbSet<ChatInMessage> ChatInMessages { get; set; }
 
@@ -803,6 +806,9 @@ public partial class SocialMediaContext : DbContext
             entity.Property(e => e.ProfilePicture)
                 .HasColumnType("int(11)")
                 .HasColumnName("profile_picture");
+            entity.Property(e => e.GenderId)
+                .HasColumnType("int(1)")
+                .HasColumnName("gender_id");
 
             entity.HasOne(d => d.CoverPhotoNavigation).WithMany(p => p.UserCoverPhotoNavigations)
                 .HasForeignKey(d => d.CoverPhoto)
@@ -811,6 +817,10 @@ public partial class SocialMediaContext : DbContext
             entity.HasOne(d => d.ProfilePictureNavigation).WithMany(p => p.UserProfilePictureNavigations)
                 .HasForeignKey(d => d.ProfilePicture)
                 .HasConstraintName("fk_profile");
+
+            entity.HasOne(d => d.Gender).WithMany(g => g.Users)
+                .HasForeignKey(d => d.GenderId)
+                .HasConstraintName("fk_gender");
 
             entity.HasMany(d => d.GroupChats).WithMany(p => p.Users)
                 .UsingEntity<Dictionary<string, object>>(

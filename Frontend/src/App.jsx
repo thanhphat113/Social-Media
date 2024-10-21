@@ -1,12 +1,5 @@
-import {
-    BrowserRouter as Router,
-    Routes,
-    Route,
-    Navigate,
-} from "react-router-dom";
-import { createContext, useState, useEffect } from "react";
-import axios from "axios";
-
+import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
+import { createContext, useEffect, useState } from "react";
 import Login from "./pages/Login";
 import Message from "./pages/Message";
 import GroupList from "./pages/Group/components/GroupList";
@@ -16,14 +9,36 @@ import Information from "./pages/Information";
 import DefaultLayout from "./components/Layouts/DefaultLayout";
 import Profile from "./pages/Profile";
 import Authentication from "./components/Authentication";
+import axios from "axios";
 
-export const AccountContext = createContext();
+export const TokenContext = createContext();
 
 function App() {
-    const [token, setToken] = useState("123");
+    const [user, setUser] = useState(null);
+    const [reset, setReset] = useState(false);
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const response = await axios.get(
+                    "http://localhost:5164/api/User/findbyid",
+                    {
+                        withCredentials: true,
+                    }
+                );
+                setUser(response.data);
+            } catch (error) {
+                console.log(
+                    "Truyền dữ liệu thất bại",
+                    error.response?.data || error.message
+                );
+            }
+        };
+        fetchUserData();
+    },[reset]);
 
     return (
-        <AccountContext.Provider value={token}>
+        <TokenContext.Provider value={{ user, setReset, reset, setUser }}>
             <Router>
                 <Routes>
                     <Route element={<DefaultLayout />}>
@@ -75,18 +90,12 @@ function App() {
                                 </Authentication>
                             }
                         />
+                          <Route path="/login" element={<Login />} />
+                          <Route path="*" element={<Login /> } />
                     </Route>
-                    {/* </Routes> */}
-                    {/* </DefaultLayout> */}
-                    {/* <Routes> */}
-                    <Route
-                        path="/login"
-                        element={<Login setToken={setToken} />}
-                    />
-                    <Route path="*" element={<Login />} />
                 </Routes>
             </Router>
-        </AccountContext.Provider>
+        </TokenContext.Provider>
     );
 }
 

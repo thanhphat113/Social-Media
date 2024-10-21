@@ -1,15 +1,16 @@
 import { useContext } from 'react';
-import { Navigate } from 'react-router-dom';
-import { AccountContext } from '../../App';
+import { Navigate} from 'react-router-dom';
+import { TokenContext } from '../../App';
+
 
 function Authentication ({ children }) {
-    const token  = useContext(AccountContext);
-
-    if (!token) {
-        return <Navigate to="/login"></Navigate>
+    const { user }  = useContext(TokenContext);
+    if (user) {
+        return children
     }
 
-    return children;
+    return <Navigate to="/login"></Navigate>
+    
 };
 
 export default Authentication;

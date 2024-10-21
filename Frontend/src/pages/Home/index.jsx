@@ -1,6 +1,6 @@
 import React from 'react';
 import Sidebar from './components/SideBar/SideBar';
-import MainContent from './components/MainContent/MainContent';
+import MainContent from './components/MainContent';
 import FriendListChat from './components/FriendListChat';
 import styles from 'Frontend/src/pages/Home/Home.module.scss';
 

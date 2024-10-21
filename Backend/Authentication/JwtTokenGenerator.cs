@@ -19,12 +19,20 @@ public class JwtToken
     {
         var claims = new[]
         {
-            new Claim("id", userId),  // Thêm ID người dùng vào claims
+            new Claim(ClaimTypes.NameIdentifier, userId),  
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()), // JTI mới cho mỗi token
-            new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()), // Thêm thời gian phát hành
+            new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString()), // Thêm thời gian phát hành
         };
 
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+        var keyValue = _configuration["Jwt:Key"];
+        
+        if (string.IsNullOrEmpty(keyValue))
+        {
+            Console.WriteLine("Jwt:Key cannot be null or empty");
+        }
+
+
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(keyValue));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
         var token = new JwtSecurityToken(
@@ -36,4 +44,5 @@ public class JwtToken
 
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
+
 }
