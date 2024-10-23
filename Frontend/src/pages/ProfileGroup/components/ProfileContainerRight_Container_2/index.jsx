@@ -18,7 +18,7 @@ const FriendsCard = () => {
     <div className={styles.container}>
       <div className={styles.card}>
         <div className={styles.cardHeader}>
-          <div className={styles.cardTitle}>Thành viên nhóm</div>
+          <div className={styles.cardTitle}>Thành viên</div>
           <button type="button" className={styles.button}>
             Xem tất cả thành viên
           </button>
@@ -29,6 +29,27 @@ const FriendsCard = () => {
               <div className={styles.col} key={index}>
                 <img className={styles.image} src="https://i.pinimg.com/564x/1a/c3/44/1ac34432d05de58663dd21adaecff7fb.jpg" alt={`Friend ${index + 1}`} />
                 <div className={styles.name}>{friend.name}</div>
+                {/* Thẻ overlay sẽ hiện khi hover */}
+                <div className={styles.friendOverlay}>
+                  <div className={styles.friendDetails}>
+                    <img src="https://ub.com.vn/attachments/ocb-1-jpg.30417/" alt={`Friend ${index + 1}`} className={styles.friendAvatar} />
+                    <div className={styles.friendInfo}>
+                      <h4 className={styles.friendInfoName}>{friend.name}</h4>
+                      <div className={styles.friendInfoMutual}>
+                      <i class="fa-solid fa-location-dot"></i>
+                      <p className={styles.friendInfoMutualNum}>Sống tại Quận 9</p>
+                    </div>
+                    <div className={styles.friendInfoMutual}>
+                      <i class="fa-solid fa-user-group"></i>
+                      <p className={styles.friendInfoMutualNum}>145 bạn chung</p>
+                    </div>
+                    <div className={styles.friendButtonFlex}>
+                      <button className={styles.friendButton}>Bạn bè</button>
+                      <button className={styles.friendButton}>Nhắn tin</button>
+                    </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             ))}
           </div>

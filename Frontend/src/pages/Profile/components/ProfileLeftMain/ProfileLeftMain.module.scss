@@ -47,8 +47,8 @@
 }
 
 .avatarImg:hover {
-  opacity: 0.9;
-  border: 2px solid var(--background);
+  filter: brightness(0.8);
+  border: 1px solid var(--background);
 }
 
 .userInfo {
@@ -99,9 +99,8 @@
   opacity: 1;
 }
 
-.inviteProfileButton:hover, .participatedProfileButton:hover, .editProfileButton:hover {
-  opacity: 0.8;
-  border-color: transparent; 
+.editProfileButton:hover {
+  filter: brightness(0.8);
 }
 
 

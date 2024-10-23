@@ -7,11 +7,6 @@
   }
 }
 
-.avatarImg:hover {
-  opacity: 0.9;
-  border: 2px solid var(--background);
-}
-
 .userInfo {
   @media (min-width: 576px) {
     margin-top: 1rem;
@@ -101,7 +96,7 @@
 }
 
 .inviteProfileButton:hover, .participatedProfileButton:hover, .editProfileButton:hover {
-  opacity: 0.8;
+  filter: brightness(0.8);
   border-color: transparent; 
 }
 
