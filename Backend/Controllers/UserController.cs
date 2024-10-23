@@ -31,9 +31,10 @@ namespace Backend.Controllers
 		public async Task<IActionResult> FindById()
 		{
 			var token = Request.Cookies["Security"];
+
 			if (string.IsNullOrEmpty(token))
 			{
-				return Unauthorized();
+				return Ok(null);
 			}
 			
 			var tokenHandler = new JwtSecurityTokenHandler();
@@ -47,9 +48,13 @@ namespace Backend.Controllers
 		[AllowAnonymous]
 		[HttpPost] 
 		public async Task<IActionResult> Put([FromBody] User user){
-			Console.WriteLine(user.FirstName);
+			if (user.GenderId == null){
+				user.GenderId = 0;
+			}
+			Console.WriteLine(user.GenderId);
 			return Ok(new {result = await _UserContext.Add(user)});
 		}
+
 
 		[HttpDelete("{id}")]
 		public void Delete(int id)

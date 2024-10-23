@@ -1,29 +1,25 @@
 import { useContext,useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { CustomTooltip } from "../../../../../../../GlobalStyles";
 import styles from "./AccountIcon.module.scss";
 import { typeContext } from "../../../..";
-import axios from "axios";
-import { TokenContext } from "../../../../../../../../App";
+import { logout } from "../../../../../../../Redux/Actions/LoginActions";
+import { SetUser } from "../../../../../../../Redux/Actions/UserAction";
 
 function AccountIcon(props) {
     const { handleClick } = useContext(typeContext);
-    const { user,setUser } = useContext(TokenContext);
+    const user = useSelector((state) => state.user.value)
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleClickLogout = async () => {
-        try {
-            const response = await axios.get(
-                "http://localhost:5164/api/Login/logout",
-                { withCredentials: true }
-            );
-            setUser(null)
-            navigate("/")
-        } catch (error){
-            console.log("Lỗi hình thức đăng xuất: "+error);
+        const result = await dispatch(logout());
+        if (logout.fulfilled.match(result)){
+            dispatch(SetUser())
+            navigate("/login")
         }
     };
-
 
     return (
         <div className={styles.accounticon}>
@@ -31,7 +27,6 @@ function AccountIcon(props) {
                 <img
                     onClick={() => {
                         props.onToggle("B");
-                        // setIsClicked(!isClicked);
                     }}
                     className={styles.circle}
                     src={user.profilePicture}

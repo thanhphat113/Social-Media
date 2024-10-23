@@ -1,10 +1,12 @@
 import { useContext } from 'react';
 import { Navigate} from 'react-router-dom';
-import { TokenContext } from '../../App';
+import { useSelector } from "react-redux";
+
 
 
 function Authentication ({ children }) {
-    const { user }  = useContext(TokenContext);
+    const user = useSelector((state) => state.user.value)
+
     if (user) {
         return children
     }

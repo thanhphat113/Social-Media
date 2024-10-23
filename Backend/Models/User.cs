@@ -23,7 +23,7 @@ public partial class User
 
     public int? CoverPhoto { get; set; }
     
-    public int GenderId { get; set; }
+    public int? GenderId { get; set; }
 
     public DateTime DateCreated { get; set; }
 
@@ -36,7 +36,7 @@ public partial class User
     public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
     public virtual Media? CoverPhotoNavigation { get; set; }
-    public virtual Gender Gender { get; set; }
+    public virtual Gender? Gender { get; set; }
 
     public virtual ICollection<HistorySearch> HistorySearchFromUserNavigations { get; set; } = new List<HistorySearch>();
 

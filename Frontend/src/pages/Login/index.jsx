@@ -1,11 +1,13 @@
 import { useState, useEffect, useContext } from "react";
 import { FaArrowLeft } from "react-icons/fa";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 
 import styles from "./Login.module.scss";
+import { login } from "../../components/Redux/Actions/LoginActions";
+import { SetUser } from "../../components/Redux/Actions/UserAction";
 import logo from "/public/img/Cloudy.png";
-import { TokenContext } from "../../App";
 
 // Component LoginForm
 const LoginForm = ({
@@ -169,7 +171,7 @@ const SignUpForm = ({
                             } else {
                                 alert("Passwords do not match!");
                             }
-                        }else {
+                        } else {
                             alert("Email của bạn không hợp lệ");
                         }
                     }}
@@ -188,10 +190,11 @@ const SignUpForm = ({
 };
 
 function Login() {
-    const { user, reset, setReset } = useContext(TokenContext);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const {isLogin} = useSelector((state) => state.login);
+    const dispatch = useDispatch();
 
     // State cho form đăng ký
     const [firstName, setFirstName] = useState("");
@@ -204,24 +207,20 @@ function Login() {
     const navigate = useNavigate();
 
     const handleLogin = async () => {
-        try {
-            const response = await axios.post(
-                "http://localhost:5164/api/Login",
-                { email, password },
-                { withCredentials: true }
-            );
-            setReset(!reset);
-            navigate("/");
-        } catch (error) {
-            console.log("đăng nhập thất bại:" + error);
+        const actionResult = await dispatch(login({ email, password }));
+        if (login.fulfilled.match(actionResult)) {
+            if (actionResult.payload === true) {
+                await dispatch(SetUser());
+                navigate("/");
+            } else {
+                console.log("11");
+            }
+        } else {
+            console.log("Có lỗi xảy ra trong quá trình đăng nhập");
         }
     };
 
-    useEffect(() => {
-        if (user) {
-            navigate("/");
-        }
-    }, [user, navigate]);
+
 
     return (
         <div className={styles.loginContainer}>

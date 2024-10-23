@@ -22,11 +22,10 @@ namespace Backend.Controllers
 		public async Task<IActionResult> Login([FromBody] Login account)
 		{
 			var token = await _UserContext.FindToLogin(account.email, account.password);
-			Console.WriteLine("Đây là trong login: "+ token);
 			
 			if (token == null)
 			{
-				return Unauthorized(new { message = "Invalid login credentials." });
+				return Ok(false);
 			}
 			Response.Cookies.Append("Security", token, new CookieOptions
 			{
@@ -36,7 +35,7 @@ namespace Backend.Controllers
 				Expires = DateTimeOffset.Now.AddMinutes(30)
 			});
 
-			return Ok(new { message = "Logged in successfully"});
+			return Ok(true);
 		}
 
 		[HttpGet("gettoken")]
@@ -57,8 +56,14 @@ namespace Backend.Controllers
 		[Authorize]
 		public IActionResult Logout()
 		{
-			Response.Cookies.Delete("Security");
-			return Ok(new { message = "Logged out successfully." });
+			if (Request.Cookies.ContainsKey("Security"))
+			{
+				Response.Cookies.Delete("Security");
+				return Ok(true);
+			}
+
+			return Ok(false);
+
 		}
 
 

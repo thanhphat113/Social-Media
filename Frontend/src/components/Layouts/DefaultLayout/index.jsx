@@ -1,17 +1,15 @@
 import { Outlet } from "react-router-dom";
-import { createContext,useContext} from "react";
+import { useSelector } from "react-redux";
 import Header from "./Header";
-import { TokenContext } from "../../../App";
 
 
-export const UserContext = createContext();
+
 
 function DefaultLayout() {
-    const {user} = useContext(TokenContext)
-
+    const user = useSelector((state) => state.user.value)
     return (
         <div>
-            {user && <Header />}
+            {user &&  <Header />}
             <div className="container">
                 <Outlet />
             </div>
