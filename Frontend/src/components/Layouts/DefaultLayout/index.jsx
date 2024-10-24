@@ -3,10 +3,8 @@ import { useSelector } from "react-redux";
 import Header from "./Header";
 
 
-
-
 function DefaultLayout() {
-    const user = useSelector((state) => state.user.value)
+    const user = useSelector((state) => state.user.information)
     return (
         <div>
             {user &&  <Header />}

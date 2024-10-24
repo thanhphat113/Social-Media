@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,6 +7,7 @@ import axios from "axios";
 import styles from "./Login.module.scss";
 import { login } from "../../components/Redux/Actions/LoginActions";
 import { SetUser } from "../../components/Redux/Actions/UserAction";
+import { getFriendList } from "../../components/Redux/Actions/FriendActions";
 import logo from "/public/img/Cloudy.png";
 
 // Component LoginForm
@@ -193,7 +194,7 @@ function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isPopupOpen, setIsPopupOpen] = useState(false);
-    const {isLogin} = useSelector((state) => state.login);
+    const user = useSelector((state) => state.user.value);
     const dispatch = useDispatch();
 
     // State cho form đăng ký
@@ -220,7 +221,12 @@ function Login() {
         }
     };
 
-
+    useEffect(() => {
+        const getFriend = async () => {
+            await dispatch(getFriendList(user.userId));
+        };
+        user && getFriend
+    });
 
     return (
         <div className={styles.loginContainer}>

@@ -20,7 +20,7 @@ public partial class SocialMediaContext : DbContext
 
     public virtual DbSet<ChatInGroup> ChatInGroups { get; set; }
 
-    public virtual DbSet<Gender> Genders { get; set; }
+    public virtual DbSet<GenderType> Genders { get; set; }
 
     public virtual DbSet<ChatInMessage> ChatInMessages { get; set; }
 
@@ -914,6 +914,10 @@ public partial class SocialMediaContext : DbContext
                 .HasForeignKey(d => d.PrivacyId)
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("fk_user_groups_privacy_id");
+        });
+        modelBuilder.Entity<GenderType>(entity =>
+        {
+            entity.HasKey(e => e.GenderId);
         });
 
         modelBuilder.Entity<UserInGroup>(entity =>

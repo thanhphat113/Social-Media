@@ -1,4 +1,4 @@
-import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Login from "./pages/Login";
@@ -16,8 +16,6 @@ import { setLogin } from "./components/Redux/Slices/LoginSlice";
 function App() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    // const location = useLocation();
-    const isLogin = useSelector((state) => state.login.isLogin);
 
     useEffect(() => {
         const getuser = async () => {
@@ -27,7 +25,6 @@ function App() {
                 navigate("/");
             }
         };
-
         getuser();
     }, []);
 

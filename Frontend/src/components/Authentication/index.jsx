@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 
 
 function Authentication ({ children }) {
-    const user = useSelector((state) => state.user.value)
+    const user = useSelector((state) => state.user.information)
 
     if (user) {
         return children

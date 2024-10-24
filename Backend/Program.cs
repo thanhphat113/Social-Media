@@ -1,10 +1,11 @@
-using Microsoft.EntityFrameworkCore; 
-using Backend.Data;
-using Backend.Services;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using Backend.Authentication;
+
 using System.Text;
+using Backend.Data;
+using Backend.Services;
+using Backend.Authentication;
 using Backend.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,10 +16,11 @@ builder.Services.AddDbContext<SocialMediaContext>(options =>
 );
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-        .AddJwtBearer(options => 
+        .AddJwtBearer(options =>
         {
-            options.TokenValidationParameters = new TokenValidationParameters{
-                ValidateIssuer= true,
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
                 ValidateAudience = true,
                 ValidateLifetime = true,
                 ValidateIssuerSigningKey = true,
@@ -28,18 +30,18 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             };
 
             options.Events = new JwtBearerEvents
+            {
+                OnMessageReceived = context =>
                 {
-                    OnMessageReceived = context =>
+                    var token = context.Request.Cookies["Security"];
+                    if (!string.IsNullOrEmpty(token))
                     {
-                        var token = context.Request.Cookies["Security"];
-                        if (!string.IsNullOrEmpty(token))
-                        {
-                            context.Token = token;
-                        }
-
-                        return Task.CompletedTask;
+                        context.Token = token;
                     }
-                };
+
+                    return Task.CompletedTask;
+                }
+            };
         });
 
 // Add services to the container.
@@ -48,7 +50,18 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<UserService>();
-builder.Services.AddScoped<UserRepositories>();
+builder.Services.AddScoped<RelationshipService>();
+builder.Services.AddScoped<MessageService>();
+builder.Services.AddScoped<ChatInMessageService>();
+
+builder.Services.AddScoped<RelationshipRepository>();
+builder.Services.AddScoped<UserRepository>();
+builder.Services.AddScoped<MessageRepository>();
+builder.Services.AddScoped<ChatInMessageRepository>();
+
+
+
+
 
 builder.Services.AddScoped<JwtToken>();
 builder.Services.AddControllers();
@@ -67,8 +80,34 @@ builder.Services.AddCors(options =>
 });
 
 
+
+
 var app = builder.Build();
 app.UseHttpsRedirection();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<SocialMediaContext>();
+        // Kiểm tra kết nối
+        context.Database.EnsureCreated(); // Hoặc context.Database.Migrate(); nếu bạn muốn áp dụng các migration
+        if (context.Database.CanConnect())
+        {
+            Console.WriteLine("Kết nối đến cơ sở dữ liệu thành công!");
+        }
+        else
+        {
+            Console.WriteLine("Không thể kết nối đến cơ sở dữ liệu.");
+        }
+    }
+    catch (Exception ex)
+    {
+        // Xử lý lỗi (nếu cần)
+        Console.WriteLine($"Lỗi khi kết nối đến cơ sở dữ liệu: {ex.Message}");
+    }
+}
 
 
 // Configure the HTTP request pipeline.

@@ -12,12 +12,12 @@ namespace Backend.Controllers
 	[ApiController]
 	public class UserController : ControllerBase
 	{
-		private readonly ILogger<UserController> _logger;
+
 		private readonly UserService _UserContext;
 
-		public UserController(UserService UserContext,ILogger<UserController> logger){
+		public UserController(UserService UserContext)
+		{
 			_UserContext = UserContext;
-			_logger = logger;
 		}
 
 		[HttpGet]
@@ -36,23 +36,27 @@ namespace Backend.Controllers
 			{
 				return Ok(null);
 			}
-			
+
 			var tokenHandler = new JwtSecurityTokenHandler();
 
 			var jwtToken = tokenHandler.ReadJwtToken(token);
 
 			var userId = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-			return Ok(await _UserContext.GetById(int.Parse(userId)));
+			var information = await _UserContext.GetById(int.Parse(userId));
+			var friends = await _UserContext.getFriends(int.Parse(userId));
+			return Ok(new { information = information, friends = friends });
 		}
 
 		[AllowAnonymous]
-		[HttpPost] 
-		public async Task<IActionResult> Put([FromBody] User user){
-			if (user.GenderId == null){
+		[HttpPost]
+		public async Task<IActionResult> Put([FromBody] User user)
+		{
+			if (user.GenderId == null)
+			{
 				user.GenderId = 0;
 			}
 			Console.WriteLine(user.GenderId);
-			return Ok(new {result = await _UserContext.Add(user)});
+			return Ok(new { result = await _UserContext.Add(user) });
 		}
 
 

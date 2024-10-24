@@ -1,24 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { SetUser } from "../Actions/UserAction";
 
-
-
 const UserSlice = createSlice({
     name: "user",
     initialState: {
-        value: null,
-		status: ''
+        information: null,
+		friends: []
     },
     reducer: {},
 	extraReducers:(builder) => {
 		builder
 			.addCase(SetUser.fulfilled,(state,action) => {
-				state.value = action.payload
-				state.status = 'Đã tìm thấy'
+				const infor = action.payload
+				state.information = infor?.information || null
+				state.friends = infor?.friends || [];
 			})
-			.addCase(SetUser.rejected,(state,action) => {
-				state.value = null
-				state.status = null
+			.addCase(SetUser.rejected,(state) => {
+				state.information = null
+				state.friends = []
 			})
 	}
 });

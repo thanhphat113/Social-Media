@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Backend.Models;
 
 public partial class ChatInMessage
 {
-    public int ChatId { get; set; }
+    public int? ChatId { get; set; }
 
     public int MessagesId { get; set; }
 
@@ -13,9 +14,11 @@ public partial class ChatInMessage
 
     public string Content { get; set; } = null!;
 
-    public DateTime DateCreated { get; set; }
+    public DateTime? DateCreated { get; set; }
 
-    public virtual User FromUserNavigation { get; set; }
+    [JsonIgnore]
+    public virtual User? FromUserNavigation { get; set; }
 
-    public virtual Message Messages { get; set; }
+    [JsonIgnore]
+    public virtual Message? Messages { get; set; }
 }

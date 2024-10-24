@@ -12,7 +12,8 @@ namespace Backend.Controllers
 		private readonly IWebHostEnvironment _env;
 		private readonly UserService _UserContext;
 
-		public LoginController(UserService context, IWebHostEnvironment env){
+		public LoginController(UserService context, IWebHostEnvironment env)
+		{
 			_UserContext = context;
 			_env = env;
 		}
@@ -21,8 +22,11 @@ namespace Backend.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Login([FromBody] Login account)
 		{
+			Console.WriteLine(account.email);
+			Console.WriteLine(account.password);
 			var token = await _UserContext.FindToLogin(account.email, account.password);
-			
+
+
 			if (token == null)
 			{
 				return Ok(false);
@@ -70,7 +74,7 @@ namespace Backend.Controllers
 		[HttpGet("CheckEmail")]
 		public async Task<IActionResult> checkEmail(string email)
 		{
-			return Ok(new {result = _UserContext.isHasEmail(email)});
+			return Ok(new { result = _UserContext.isHasEmail(email) });
 		}
 
 	}

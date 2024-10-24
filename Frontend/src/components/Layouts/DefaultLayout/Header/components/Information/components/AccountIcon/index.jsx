@@ -9,14 +9,14 @@ import { SetUser } from "../../../../../../../Redux/Actions/UserAction";
 
 function AccountIcon(props) {
     const { handleClick } = useContext(typeContext);
-    const user = useSelector((state) => state.user.value)
+    const user = useSelector((state) => state.user.information)
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const handleClickLogout = async () => {
         const result = await dispatch(logout());
         if (logout.fulfilled.match(result)){
-            dispatch(SetUser())
+            await dispatch(SetUser())
             navigate("/login")
         }
     };
@@ -29,7 +29,7 @@ function AccountIcon(props) {
                         props.onToggle("B");
                     }}
                     className={styles.circle}
-                    src={user.profilePicture}
+                    src={ user.profilePicture || `/public/img/default/${user.genderId!==2 ? "man" : "woman"}_default.png`}
                     alt="profile"
                 ></img>
             </CustomTooltip>
@@ -37,7 +37,7 @@ function AccountIcon(props) {
                 <div className={styles.content}>
                     <Link to="/profile" onClick={() => handleClick("profile")}>
                         <div className={styles.account}>
-                            <img src={user.profilePicture|| ""} alt="profile"></img>
+                            <img src={user.profilePicture || `/public/img/default/${user.genderId!==2 ? "man" : "woman"}_default.png`} alt="profile"></img>
                             <span>{user.lastName + " " + user.firstName}</span>
                         </div>
                     </Link>

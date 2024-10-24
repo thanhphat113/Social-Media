@@ -1,10 +1,10 @@
 @import "normalize.css";
-@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap");
 
-:root{
-	--background: #f2f2f2;
+:root {
+    --background: #f2f2f2;
     --background-second: #edf8ff;
-	--left-and-right-item: 36rem;
+    --left-and-right-item: 36rem;
     --primary-color: #007bff;
     --white-color: #fff;
     --text-color: #757785;
@@ -12,16 +12,18 @@
     --navbar-height: 4rem; /* 40px */
     --header-height: 12rem; /* 120px */
     --hover-color: #0f6fec;
-    --header-with-search-height: calc(var(--header-height) - var(--navbar-height)); /* Adjusted */
-  }
+    --header-with-search-height: calc(
+        var(--header-height) - var(--navbar-height)
+    ); /* Adjusted */
+}
 
-*{
-	box-sizing: border-box;
+* {
+    box-sizing: border-box;
 }
 
 html {
-	font-size: 62.5%;
-	background-color: var(--background);
+    font-size: 62.5%;
+    background-color: var(--background);
 }
 
 @media (max-width: 1200px) {
@@ -43,12 +45,12 @@ html {
 }
 
 body {
-	font-family: "Lora", serif;
-  	font-size: 1.6rem;
+    font-family: "Lora", serif;
+    font-size: 1.6rem;
 }
 
 a {
-	color:black;
+    color: black;
     text-decoration: none;
 }
 
@@ -60,19 +62,16 @@ a {
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.5); /* Nền mờ */
     z-index: 999; /* Để đảm bảo pop-up nằm trên các thành phần khác */
-  }
-  
-  .popup {
+}
+
+.popup {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 1000; /* Để pop-up hiển thị trên overlay */
-  }
-
-  button{
-  cursor: pointer;
 }
 
-  
-  
+button {
+    cursor: pointer;
+}

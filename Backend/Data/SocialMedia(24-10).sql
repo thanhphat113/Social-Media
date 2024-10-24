@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: localhost
--- Thời gian đã tạo: Th10 12, 2024 lúc 04:16 PM
+-- Thời gian đã tạo: Th10 24, 2024 lúc 12:43 PM
 -- Phiên bản máy phục vụ: 10.4.28-MariaDB
 -- Phiên bản PHP: 8.0.28
 
@@ -64,6 +64,26 @@ CREATE TABLE `comments` (
   `date_updated` timestamp NOT NULL DEFAULT current_timestamp(),
   `child_of` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `gender_type`
+--
+
+CREATE TABLE `gender_type` (
+  `gender_id` int(1) NOT NULL,
+  `gender_name` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `gender_type`
+--
+
+INSERT INTO `gender_type` (`gender_id`, `gender_name`) VALUES
+(0, 'Không cung cấp'),
+(1, 'Nam'),
+(2, 'Nữ');
 
 -- --------------------------------------------------------
 
@@ -235,11 +255,22 @@ CREATE TABLE `read_message` (
 
 CREATE TABLE `relationship` (
   `relationship_id` int(11) NOT NULL,
-  `type_relationship` int(1) DEFAULT 0,
+  `type_relationship` int(1) DEFAULT 1,
   `from_user_id` int(11) NOT NULL,
   `to_user_id` int(11) NOT NULL,
   `date_created` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `relationship`
+--
+
+INSERT INTO `relationship` (`relationship_id`, `type_relationship`, `from_user_id`, `to_user_id`, `date_created`) VALUES
+(1, 2, 2, 7, '2024-10-16 13:37:15'),
+(2, 1, 3, 1, '2024-10-16 13:37:15'),
+(3, 1, 1, 4, '2024-10-16 13:37:15'),
+(4, 2, 1, 5, '2024-10-24 06:55:34'),
+(5, 2, 7, 5, '2024-10-24 06:55:34');
 
 -- --------------------------------------------------------
 
@@ -310,6 +341,14 @@ CREATE TABLE `type_relationship` (
   `type_name` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Đang đổ dữ liệu cho bảng `type_relationship`
+--
+
+INSERT INTO `type_relationship` (`type_id`, `type_name`) VALUES
+(1, 'Người theo dõi'),
+(2, 'Bạn bè');
+
 -- --------------------------------------------------------
 
 --
@@ -320,12 +359,13 @@ CREATE TABLE `users` (
   `user_id` int(11) NOT NULL,
   `first_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
+  `gender_id` int(1) DEFAULT 0,
   `bio` text DEFAULT NULL,
-  `location` varchar(255) NOT NULL,
+  `location` varchar(255) DEFAULT NULL,
   `profile_picture` int(11) DEFAULT NULL,
   `cover_photo` int(11) DEFAULT NULL,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
   `date_created` timestamp NOT NULL DEFAULT current_timestamp(),
   `date_updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -334,8 +374,16 @@ CREATE TABLE `users` (
 -- Đang đổ dữ liệu cho bảng `users`
 --
 
-INSERT INTO `users` (`user_id`, `first_name`, `last_name`, `email`, `password`, `bio`, `location`, `profile_picture`, `cover_photo`, `date_created`, `date_updated`) VALUES
-(1, 'Ly', 'Phat', 'thanhphat9523@gmail.com', '123', NULL, 'HCM city', NULL, NULL, '2024-10-11 03:21:07', '2024-10-11 03:21:07');
+INSERT INTO `users` (`user_id`, `first_name`, `last_name`, `gender_id`, `bio`, `location`, `profile_picture`, `cover_photo`, `email`, `password`, `date_created`, `date_updated`) VALUES
+(1, 'Ly', 'Phat', 0, NULL, 'HCM city', NULL, NULL, 'thanhphat9523@gmail.com', '123', '2024-10-11 03:21:07', '2024-10-11 03:21:07'),
+(2, 'Châu', 'Ngọc Quyên', 2, 'Tui là con mèo kêu meo meo', 'TP. Hồ Chí Minh', NULL, NULL, 'chauquyen1235@gmail.com', '123', '2024-10-16 13:31:25', '2024-10-24 10:01:29'),
+(3, 'Phạm', 'Thành', 0, 'Tui là siêu nhân', 'TP. Hồ Chí Minh', NULL, NULL, 'thanhpham123@gmail.com', '123', '2024-10-16 13:33:36', '2024-10-16 13:33:36'),
+(4, 'Nguyễn', 'Tâm', 0, 'Tui là cọng bún riêu', 'TP. Hồ Chí Minh', NULL, NULL, 'tamnguyen@gmail.com', '123', '2024-10-16 13:33:36', '2024-10-16 13:33:36'),
+(5, 'Phạm', 'Danh', 0, 'Tui là cục cứt bò', 'TP. Hồ Chí Minh', NULL, NULL, 'danhpham123@gmail.com', '123', '2024-10-16 13:33:36', '2024-10-16 13:33:36'),
+(6, 'thanh', 'Tung', 0, NULL, NULL, NULL, NULL, '123@gmail.com', 'AQAAAAIAAYagAAAAEJCi0V/pa0DV2BwPE2U2WLHe5Gbixjn0mtBOaRnhxjQ538N0pT5UOBlYnbsd7Jzl5w==', '2024-10-18 13:15:01', '2024-10-18 13:15:01'),
+(7, 'Lâm', 'Dũng', 0, NULL, NULL, NULL, NULL, '15@gmail.com', 'AQAAAAIAAYagAAAAEOYjiubhy6sR49wGjul/RSJOElGbL+T1BHdWMr6O2ATWaJcZLKnm49DaFKrkKPvoKA==', '2024-10-18 13:18:33', '2024-10-18 13:18:33'),
+(8, 'Lý', 'Tỏi', 0, NULL, NULL, NULL, NULL, 'toi@gmail.com', 'AQAAAAIAAYagAAAAEDjGeJtVt0ntEjKjsQMeQTpbaV/jNB0TwtC475t230xEhg85bW1MseevGlq/D+gNNQ==', '2024-10-18 13:32:41', '2024-10-18 13:32:41'),
+(10, 'Tùng', 'Heo', 0, NULL, NULL, NULL, NULL, 'thanhtung@gmail.com', 'AQAAAAIAAYagAAAAEBIqogwoDD07RFh7d5XB0iO3XQfOiT4WLcH5jCQz53Ai5sqU2ebdhqaiWWRCChMEgg==', '2024-10-23 12:22:52', '2024-10-23 12:22:52');
 
 -- --------------------------------------------------------
 
@@ -429,6 +477,12 @@ ALTER TABLE `comments`
   ADD KEY `fk_comments_user_id` (`user_id`),
   ADD KEY `fk_comments_post_id` (`post_id`),
   ADD KEY `fk_child_of` (`child_of`);
+
+--
+-- Chỉ mục cho bảng `gender_type`
+--
+ALTER TABLE `gender_type`
+  ADD PRIMARY KEY (`gender_id`);
 
 --
 -- Chỉ mục cho bảng `group_chats`
@@ -577,7 +631,8 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `username` (`email`),
   ADD KEY `idx_username` (`email`),
   ADD KEY `fk_profile` (`profile_picture`),
-  ADD KEY `fk_cover` (`cover_photo`);
+  ADD KEY `fk_cover` (`cover_photo`),
+  ADD KEY `fk_gender` (`gender_id`);
 
 --
 -- Chỉ mục cho bảng `user_groups`
@@ -688,7 +743,7 @@ ALTER TABLE `privacy_settings`
 -- AUTO_INCREMENT cho bảng `relationship`
 --
 ALTER TABLE `relationship`
-  MODIFY `relationship_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `relationship_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT cho bảng `request_notifications`
@@ -706,13 +761,13 @@ ALTER TABLE `type_media`
 -- AUTO_INCREMENT cho bảng `type_relationship`
 --
 ALTER TABLE `type_relationship`
-  MODIFY `type_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT cho bảng `user_groups`
@@ -852,6 +907,7 @@ ALTER TABLE `share_posts`
 --
 ALTER TABLE `users`
   ADD CONSTRAINT `fk_cover` FOREIGN KEY (`cover_photo`) REFERENCES `media` (`media_id`),
+  ADD CONSTRAINT `fk_gender` FOREIGN KEY (`gender_id`) REFERENCES `gender_type` (`gender_id`),
   ADD CONSTRAINT `fk_profile` FOREIGN KEY (`profile_picture`) REFERENCES `media` (`media_id`);
 
 --
