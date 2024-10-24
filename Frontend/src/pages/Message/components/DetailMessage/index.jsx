@@ -1,23 +1,28 @@
-import { useState,useEffect } from "react";
-import { useSelector,useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import clsx from "clsx";
 import moment from "moment";
 
 import styles from "./DetailMessage.module.scss";
 import { CustomTooltip } from "../../../../components/GlobalStyles";
-import { addMess, findMessById } from "../../../../components/Redux/Actions/MessageActions";
+import {
+    addMess,
+    findMessById,
+} from "../../../../components/Redux/Actions/MessageActions";
 
 function DetailMessage({ onShow }) {
     const friends = useSelector((state) => state.user.friends);
     const userid = useSelector((state) => state.user.information.userId);
     const currentFriendId = useSelector((state) => state.message.currentUser);
-    const InforCurrentFriend = friends.find((u) => u.userId === currentFriendId);
-    const { messageId, message} = useSelector((state) => state.message);
+    const InforCurrentFriend = friends.find(
+        (u) => u.userId === currentFriendId
+    );
+    const { messageId, message } = useSelector((state) => state.message);
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     const [isFocused, setIsFocused] = useState(false);
     const [mess, setMess] = useState("");
     const [isSending, setIsSending] = useState(false);
-
 
     useEffect(() => {
         setMess("");
@@ -25,31 +30,44 @@ function DetailMessage({ onShow }) {
 
     const handleSendMessage = async () => {
         if (mess.trim()) {
-            const MessagesId =messageId
-            const FromUser= userid
-            const Content =mess
+            const MessagesId = messageId;
+            const FromUser = userid;
+            const Content = mess;
 
             if (isSending) return; // Ngăn không cho gửi thêm tin nhắn nếu đang gửi
 
             setIsSending(true);
 
-            const response = await (dispatch(addMess({MessagesId,FromUser,Content})))
-            if (addMess.fulfilled.match(response)){
-                await dispatch(findMessById({user1 : userid,user2:currentFriendId}))
+            const response = await dispatch(
+                addMess({ MessagesId, FromUser, Content })
+            );
+            if (addMess.fulfilled.match(response)) {
+                await dispatch(
+                    findMessById({ user1: userid, user2: currentFriendId })
+                );
                 setMess("");
+            } else {
+                console.log("Lỗi chat");
             }
-            else{console.log("Lỗi chat")}
-            
+
             setIsSending(false);
         }
     };
 
-
     const handleKeyDown = async (e) => {
-        if (e.key === 'Enter' && isFocused) {
-            handleSendMessage()
+        if (e.key === "Enter" && isFocused) {
+            handleSendMessage();
         }
     };
+
+    const groupedMessages = message.reduce((acc, message) => {
+        const date = new Date(message.dateCreated).toLocaleDateString();
+        if (!acc[date]) {
+            acc[date] = [];
+        }
+        acc[date].push(message);
+        return acc;
+    }, {});
 
     return (
         <div className={styles.wrapper}>
@@ -88,7 +106,32 @@ function DetailMessage({ onShow }) {
                 </div>
             </div>
             <div className={styles.content}>
-                {message.map((mess) => {
+                {Object.keys(groupedMessages).map((date) => (
+                    <div key={date} className={styles.chatzone}>
+                        <small>{date}</small>
+                        {groupedMessages[date].map((mess) => {
+                            const formattedTime = moment(
+                                mess.dateCreated
+                            ).format("HH:mm");
+                            return (
+                                <div
+                                    key={mess.chatId}
+                                    className={clsx(styles.contentchat, {
+                                        [styles.usermessage]:
+                                            userid === mess.fromUser,
+                                        [styles.othermessage]:
+                                            userid !== mess.fromUser,
+                                    })}
+                                >
+                                    <CustomTooltip title={formattedTime}>
+                                        <p>{mess.content}</p>
+                                    </CustomTooltip>
+                                </div>
+                            );
+                        })}
+                    </div>
+                ))}
+                {/* {message.map((mess) => {
                     const formattedTime = moment(mess.dateCreated).format(
                         "HH:mm"
                     );
@@ -106,7 +149,7 @@ function DetailMessage({ onShow }) {
                             </CustomTooltip>
                         </div>
                     );
-                })}
+                })} */}
             </div>
             <div className={styles.chat}>
                 <input
