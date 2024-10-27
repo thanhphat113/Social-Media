@@ -1,31 +1,24 @@
-@import url('https://unpkg.com/@tailwindcss/ui/dist/tailwind-ui.min.css');
-
-
-.hover-trigger:hover .emoji-list {
-    display: flex; 
-  }
-  
-  .emoji-list {
-    display: none; 
-    flex-direction: row; 
-    padding: 5px; 
-    gap: 5px;
-  }
-  
-  /* CSS cho sidebar */
-.sidebar {
-  position: fixed;    /* Giúp sidebar cố định */
-  top: 0;             /* Cách lề trên của trang 0px */
-  left: 0;            /* Đặt ở phía bên trái của trang */
-  height: 100vh;      /* Chiều cao sidebar bằng toàn bộ chiều cao màn hình */
-  width: 250px;       /* Độ rộng của sidebar */
-  background-color: #f4f4f4; /* Màu nền cho sidebar */
-  padding: 20px;      /* Khoảng cách nội dung bên trong */
-  box-shadow: 2px 0 5px rgba(0,0,0,0.1); /* Đổ bóng để phân biệt */
+// index
+.homeContainer {
+  display: flex;
+  height: 100vh; // Chiều cao 100% của màn hình
+  background-color: #F0F2F5;
+  color: black;
 }
 
+.flexGrow {
+  display: flex;
+  flex-grow: 1;
+}
 
+.sidebar {
+  flex: 0 0 20%;
+}
 
-  
-  
-  
+.mainContent {
+  flex: 1; // Chiếm phần còn lại
+}
+
+.rightSidebar {
+  width: 32rem;; // Chiều rộng tối thiểu
+}

@@ -13,8 +13,8 @@
   display: flex;
   justify-content: flex-start !important;
   margin-bottom: 0 !important;
-  align-items: center !important;
-  border: 0 !important;
+  align-items: center;
+  border: 0;
   flex-wrap: wrap;
   padding-left: 0;
   margin-bottom: 0;
@@ -32,15 +32,12 @@
 }
 
 .navLink {
-  padding-left: 0;
   background: transparent;
-  border-bottom: 3px solid transparent;
   color: #a1a1a8;
   border: transparent;
   font-weight: 600;
-  padding: .75rem .975rem;
+  padding: .75rem 8rem;
   display: block;
-
 }
 
 .badgeSuccess {

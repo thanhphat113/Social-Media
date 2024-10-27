@@ -1,0 +1,102 @@
+.profileContainer {
+  display: flex;
+  align-items: flex-start;
+  text-align: center;
+  @media (min-width: 576px) {
+    text-align: start;
+  }
+}
+
+.userInfo {
+  @media (min-width: 576px) {
+    margin-top: 1rem;
+  }
+}
+
+.profileName {
+  margin-bottom: 0;
+  margin-top: 0;
+  font-size: 2rem;
+  color: #000;
+}
+
+.connectionInfo {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  margin-top: 0.5rem;
+  color: #a1a1a8;
+}
+
+.connectionInfoFlex {
+  display: flex;
+  align-items: center;
+}
+
+.actionButtons {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  @media (min-width: 576px) {
+    margin-left: auto;
+  }
+}
+
+.inviteProfileButton {
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.2rem; 
+  font-weight: 600;
+  color: #fff!important;
+  background-color: #28a745!important;
+  outline: 0;
+  margin-right: .5rem !important;
+  display: flex;
+  padding: 0.5rem 1rem; 
+  line-height: 1.5;
+  border: 1px solid transparent; 
+  border-radius: 0.4rem; 
+  opacity: 1;
+}
+
+.participatedProfileButton {
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.2rem; 
+  font-weight: 600;
+  color: #fff!important;
+  background-color: #007bff!important;
+  outline: 0;
+  margin-right: .5rem !important;
+  display: flex;
+  padding: 0.5rem 1rem; 
+  line-height: 1.5;
+  border: 1px solid transparent; 
+  border-radius: 0.4rem; 
+  opacity: 1;
+}
+
+.editProfileButton {
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.2rem; 
+  font-weight: 600;
+  color: #fff!important;
+  background-color: #dc3545!important;
+  outline: 0;
+  margin-right: .5rem !important;
+  display: flex;
+  padding: 0.5rem 1rem; 
+  line-height: 1.5;
+  border: 1px solid transparent; 
+  border-radius: 0.4rem; 
+  opacity: 1;
+}
+
+.inviteProfileButton:hover, .participatedProfileButton:hover, .editProfileButton:hover {
+  filter: brightness(0.8);
+  border-color: transparent; 
+}
+

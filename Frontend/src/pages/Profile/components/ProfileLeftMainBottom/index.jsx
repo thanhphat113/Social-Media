@@ -7,37 +7,22 @@ const CardFooter = () => {
       <ul className={styles.navBottomLine}>
         <li className={styles.navItem}>
           <a className={`${styles.navLink} ${styles.active}`} href="/social_r/profile/feed">
-            Feed
+            Bài viết
           </a>
         </li>
         <li className={styles.navItem}>
           <a className={styles.navLink} href="/social_r/profile/about">
-            About
+            Giới thiệu
           </a>
         </li>
         <li className={styles.navItem}>
           <a className={styles.navLink} href="/social_r/profile/connections">
-            Connections <span className={styles.badgeSuccess}>300</span>
+            Bạn bè <span className={styles.badgeSuccess}>300</span>
           </a>
         </li>
         <li className={styles.navItem}>
           <a className={styles.navLink} href="/social_r/profile/media">
-            Media
-          </a>
-        </li>
-        <li className={styles.navItem}>
-          <a className={styles.navLink} href="/social_r/profile/videos">
-            Videos
-          </a>
-        </li>
-        <li className={styles.navItem}>
-          <a className={styles.navLink} href="/social_r/profile/events">
-            Events
-          </a>
-        </li>
-        <li className={styles.navItem}>
-          <a className={styles.navLink} href="/social_r/profile/activity">
-            Activity
+            Ảnh
           </a>
         </li>
       </ul>

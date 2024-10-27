@@ -1,1 +1,150 @@
-@import url('https://unpkg.com/@tailwindcss/ui/dist/tailwind-ui.min.css');
+
+// Login.module.scss
+
+.signUpTitle {
+  font-size: 4rem;
+  font-weight: 700;
+}
+
+.loginContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh; // Để đảm bảo chiều cao đầy đủ
+    width: 100%; // Đảm bảo chiều rộng đầy đủ
+    padding: 2rem; // Thêm padding nếu cần
+    background-color: #f3f4f6; // Màu nền tương đương với bg-gray-100
+  }
+  
+  .flexRow {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    max-width: 120rem; // Tương đương với max-w-4xl
+    background-color: #f3f4f6; // Màu nền tương đương với bg-gray-100
+  }
+  
+  .leftSection {
+    display: flex;
+    align-items: center;
+    padding: 1.5rem; // Tương đương với p-6
+    width: 50%; // Tương đương với w-1/2
+  }
+  
+  .logo {
+    margin-right: 1rem; // Tương đương với mr-4
+    border-radius: 50%;
+    border: 1px solid #6993d695;
+    width: 50rem;
+  }
+  
+  .welcomeText {
+    font-size: 5rem; // Tương đương với text-2xl
+    font-weight: bold; // Tương đương với font-bold
+    color: #3b82f6; // Màu tương đương với text-blue-600
+    text-shadow: 3px 3px 3px #3333338a;
+
+    strong{
+      font-size: 8rem;
+      font-style:oblique;
+    }
+  }
+  
+  .rightSection {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50%; // Tương đương với w-1/2
+  }
+  
+  .formContainer {
+    background-color: white; // Màu nền trắng
+    padding: 2rem; // Tăng padding để form lớn hơn
+    border-radius: 10px; // Tương đương với rounded
+    box-shadow: 0 0 8px rgba(7, 7, 7, 0.5); // Tương đương với shadow-md
+    width: 500px; // Thay đổi giá trị này để làm cho form rộng hơn (400px là một ví dụ)
+    height: auto; // Đặt tự động để chiều cao thích ứng với nội dung
+    min-height: 350px; // Thay đổi giá trị này để làm cho form cao hơn
+  }
+  
+  .input {
+    width: 100%;
+    margin-top: 2rem;
+    padding: 0.75rem; // Tăng padding cho các input
+    margin-bottom: 0.75rem; // Tăng khoảng cách giữa các input
+    border: 1px solid #d1d5db; // Tương đương với border
+    border-radius: 0.25rem; // Tương đương với rounded
+    min-height: 5rem;
+  }
+  
+  .button {
+    width: 100%;
+    padding: 0.75rem; // Tăng padding cho các button
+    border-radius: 0.25rem; // Tương đương với rounded
+    font-weight: 600; // Tương đương với font-semibold
+    color: white; // Màu chữ trắng
+    min-height: 5rem;
+  }
+  
+  .loginButton {
+    background-color: #3b82f6; // Tương đương với bg-blue-600
+
+  }
+  
+  .signupButton {
+    background-color: #22c55e;
+    margin-right: 1.5rem; // Tương đương với bg-green-600
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  
+  .separator {
+    margin: 1rem 0; // Tương đương với my-4
+    border-top: 1px solid #d1d5db; // Tương đương với border-t border-gray-300
+  }
+  
+  .link {
+    color: #3b82f6; // Tương đương với text-blue-600
+    margin-bottom: 0.5rem; // Tương đương với mb-2
+    font-size: 1.6rem;
+    border-radius: 5px;
+    height: 6rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+  
+  .popupOverlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5); // Màu nền lớp phủ
+  }
+  
+  .popupContainer {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+// Thêm kiểu cho hàng chứa First Name và Last Name
+.nameRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem; // Khoảng cách giữa các ô input
+}
+
+// Chỉnh sửa các input trong nameRow
+.inputHalf {
+  width: 48%; // Chiếm 50% không gian của hàng
+}
+
+// Thêm kiểu cho hàng chứa nút Sign up và Back to Log In
+.buttonRow {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
