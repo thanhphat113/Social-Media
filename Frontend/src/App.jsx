@@ -13,7 +13,8 @@ import DefaultLayout from "./components/Layouts/DefaultLayout";
 import Home from "./pages/Home";
 import Login from "./pages/Login/index.jsx";
 import Information from "./pages/Information/index.jsx";
-
+import Group from "./pages/Group/index.jsx"
+import NewGroupPage from "./pages/Group/NewGroup/index.jsx";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -25,7 +26,8 @@ function App() {
                   <Routes>
                       <Route path="/message" element={<MessagePage />} />
                       <Route path="/" element={<Home />} />
-                      <Route path="/group" element={<MessagePage />} />
+                      <Route path="/group" element={<Group />} />
+                      <Route path="/new-group" element={<NewGroupPage />} />
                       {/* <Route path="/profile" element={<Profile />} /> */}
                       <Route path="/information" element={<Information />} />
                   </Routes>

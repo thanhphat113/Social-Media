@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { MdOutlineVideoCall, MdPhotoLibrary } from 'react-icons/md';
-import { FaSmile, FaImage, FaMapMarkerAlt, FaVideo, FaTimes, FaFacebookMessenger, FaWhatsapp, FaLink, FaUsers, FaFlag } from 'react-icons/fa';
+import { FaSmile, FaImage, FaMapMarkerAlt } from 'react-icons/fa';
 import { useDropzone } from 'react-dropzone';
 import styles from 'Frontend/src/pages/Home/components/MainContent/MainContent.module.scss';
 import Post from '../Post/Post';
@@ -12,26 +12,18 @@ function MainContent() {
   const [postContent, setPostContent] = useState('');
   const [isEmojiMenuVisible, setIsEmojiMenuVisible] = useState(false);
   const [hoveringLike, setHoveringLike] = useState(false);
-
-  const post = {
-    image: "img/Ảnh chụp màn hình 2024-06-10 024210.png",
-    title: "Anime",
-    userName: "Anime Season",
-    content: "Re: Zero đã trở lại! 💀",
-    time: "22 giờ · 🌍"
-  };
-
-  const [currentLike, setCurrentLike] = useState({ emoji: null, label: 'Like' }); // Lưu trữ biểu tượng cảm xúc và tên
-
+  const [posts, setPosts] = useState([]);
+  const [currentLike, setCurrentLike] = useState({ emoji: null, label: 'Like' });
+  const [files, setFiles] = useState([]); // State để lưu trữ nhiều file đã chọn
 
   const handleLikeChange = (emoji, label) => {
-    setCurrentLike({ emoji, label }); // Cập nhật biểu tượng cảm xúc và tên
-    setIsEmojiMenuVisible(false); // Ẩn menu emoji
+    setCurrentLike({ emoji, label });
+    setIsEmojiMenuVisible(false);
   };
 
   const handleMouseEnter = () => {
     setHoveringLike(true);
-    setIsEmojiMenuVisible(true); // Hiện menu emoji khi hover
+    setIsEmojiMenuVisible(true);
   };
 
   const handleMouseLeave = () => {
@@ -40,19 +32,27 @@ function MainContent() {
     }
   };
 
-  const handleEmojiMenuMouseEnter = () => {
-    setIsEmojiMenuVisible(true); // Giữ menu mở khi di chuột vào
-  };
-
-  const handleEmojiMenuMouseLeave = () => {
-    setIsEmojiMenuVisible(false); // Ẩn menu khi không còn di chuột vào
-  };
-
-  // Xử lý thêm bình luận
   const handleAddComment = () => {
     if (currentComment.trim() !== '') {
       setComments([...comments, currentComment]);
       setCurrentComment('');
+    }
+  };
+
+  const handlePostSubmit = () => {
+    if (postContent.trim() !== '') {
+      const newPost = {
+        images: files.map(file => file.preview), // Thay đổi thành mảng các ảnh
+        title: "Anime",
+        userName: "Nguyễn Tiến",
+        content: postContent,
+        time: "Mới đây"
+      };
+
+      setPosts([newPost, ...posts]);
+      setPostContent('');
+      setFiles([]); // Reset files
+      setIsPopupOpen(false);
     }
   };
 
@@ -65,7 +65,6 @@ function MainContent() {
     }
   });
 
-  // Hàm để mở/đóng pop-up tạo bài viết
   const togglePopup = () => {
     setIsPopupOpen(!isPopupOpen);
   };
@@ -87,7 +86,6 @@ function MainContent() {
         </div>
       </div>
 
-      {/* Pop-up để tạo bài viết */}
       {isPopupOpen && (
         <>
           <div className={styles.popupOverlay} onClick={togglePopup}></div>
@@ -113,12 +111,6 @@ function MainContent() {
               <input {...getInputProps()} />
               <p>Thêm ảnh/video hoặc kéo và thả</p>
             </div>
-            {/* <div className={styles.popupActions}>
-              <button className={styles.mobileButton}>
-                <FaVideo className={styles.iconBlue} /> Thêm ảnh và video từ thiết bị di động.
-              </button>
-              <button className={styles.addButton}>Thêm</button>
-            </div> */}
             <div className={styles.extraOptions}>
               <p>Thêm vào bài viết của bạn</p>
               <div className={styles.iconOptions}>
@@ -128,48 +120,28 @@ function MainContent() {
                 <span className={styles.iconPurple}>GIF</span>
               </div>
             </div>
-            <button className={styles.continueButton}>Tiếp</button>
+            <button className={styles.continueButton} onClick={handlePostSubmit}>Đăng</button>
           </div>
         </>
       )}
 
-      {/* Bài viết */}
-      <Post
-        post={post}
-        currentLike={currentLike}
-        setCurrentLike={setCurrentLike}
-        handleLikeChange={handleLikeChange}
-        hoveringLike={hoveringLike}
-        handleMouseEnter={handleMouseEnter}
-        handleMouseLeave={handleMouseLeave}
-        isEmojiMenuVisible={isEmojiMenuVisible}
-        handleEmojiMenuMouseEnter={handleEmojiMenuMouseEnter}
-        handleEmojiMenuMouseLeave={handleEmojiMenuMouseLeave}
-        comments={comments}
-        currentComment={currentComment}
-        handleAddComment={handleAddComment}
-        setCurrentComment={setCurrentComment}
-        
-      />
-
-
-      <Post
-        post={post}
-        currentLike={currentLike}
-        setCurrentLike={setCurrentLike}
-        handleLikeChange={handleLikeChange}
-        hoveringLike={hoveringLike}
-        handleMouseEnter={handleMouseEnter}
-        handleMouseLeave={handleMouseLeave}
-        isEmojiMenuVisible={isEmojiMenuVisible}
-        handleEmojiMenuMouseEnter={handleEmojiMenuMouseEnter}
-        handleEmojiMenuMouseLeave={handleEmojiMenuMouseLeave}
-        comments={comments}
-        currentComment={currentComment}
-        handleAddComment={handleAddComment}
-        setCurrentComment={setCurrentComment}
-      />
-
+      {posts.map((post, index) => (
+        <Post
+          key={index}
+          post={post}
+          currentLike={currentLike}
+          setCurrentLike={setCurrentLike}
+          handleLikeChange={handleLikeChange}
+          hoveringLike={hoveringLike}
+          handleMouseEnter={handleMouseEnter}
+          handleMouseLeave={handleMouseLeave}
+          isEmojiMenuVisible={isEmojiMenuVisible}
+          comments={comments}
+          currentComment={currentComment}
+          handleAddComment={handleAddComment}
+          setCurrentComment={setCurrentComment}
+        />
+      ))}
     </main>
   );
 }
