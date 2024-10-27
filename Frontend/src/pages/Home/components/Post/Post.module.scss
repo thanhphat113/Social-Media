@@ -92,7 +92,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5); // Nền mờ
+    // background-color: rgba(0, 0, 0, 0.5); // Nền mờ
     z-index: 10;
   }
   
@@ -334,16 +334,6 @@
   //share 
   
   
-  .popupOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.7);
-    z-index: 10;
-  }
-  
   .sharePopup {
     position: fixed;
     top: 50%;
@@ -478,15 +468,6 @@
     animation: bounce 0.6s infinite;
   }
   
-  .popupOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.7);
-    z-index: 10;
-  }
 
   .sharePopup {
     position: fixed;
@@ -536,4 +517,257 @@
   padding: 0.5rem;
   border: 1px solid #e2e8f0; // Màu viền
   border-radius: 0.25rem;
+}
+
+.imageGallery {
+  display: flex;
+  flex-wrap: nowrap; // Không cho phép xuống dòng
+  margin: 10px 0;
+}
+
+.mainImage {
+  width: 65%; // Kích thước ảnh lớn
+  height: auto; // Chiều cao tự động
+  border-radius: 8px; // Bo tròn góc
+  margin-right: 10px; // Khoảng cách với cột bên phải
+}
+
+.thumbnailColumn {
+  display: flex;
+  flex-direction: column; // Cột dọc
+  width: 35%; // Chiếm phần còn lại
+}
+
+.postImageThumbnail {
+  width: 100%; // Chiếm toàn bộ chiều rộng cột
+  height: auto; // Chiều cao tự động
+  max-height: 150px; // Chiều cao tối đa để giữ gọn
+  object-fit: cover; // Đảm bảo ảnh không bị méo
+  border-radius: 8px; // Bo tròn góc
+  margin-bottom: 5px; // Khoảng cách giữa các ảnh
+}
+
+.moreImages {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 150px; // Chiều cao cho khung hiển thị
+  background-color: #f0f2f5; // Màu nền cho khung
+  border-radius: 8px; // Bo tròn góc
+  color: #1e3050; // Màu chữ
+  font-size: 18px; // Kích thước chữ
+}
+
+.imagePopup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.3); /* Giảm độ tối của màu nền */
+  z-index: 1000;
+  background-color: none;
+
+}
+
+.popupImage {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain; /* Đảm bảo ảnh không bị cắt */
+  
+}
+
+
+
+.popupOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  
+}
+
+.popupContent {
+  position: relative;
+  max-width: 90%;
+  max-height: 90%;
+  overflow: hidden;
+}
+
+
+.prevButton,
+.nextButton {
+  position: fixed; /* Đặt nút ở vị trí cố định */
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0.7);
+  border: none;
+  border-radius: 50%;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 24px;
+  z-index: 1001; /* Đảm bảo nút luôn hiển thị trên hình ảnh */
+}
+
+.prevButton {
+  left: 20px; /* Cố định bên trái */
+}
+
+.nextButton {
+  right: 20px; /* Cố định bên phải */
+}
+
+.closeButton {
+  position: fixed; /* Đặt nút đóng ở vị trí cố định */
+  top: 20px;
+  right: 20px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border: none;
+  border-radius: 50%;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 24px;
+  z-index: 1001; /* Đảm bảo nút đóng luôn hiển thị trên hình ảnh */
+}
+
+//
+
+.imageGallery {
+  margin: 10px 0;
+}
+
+.fullImage {
+  width: 100%;
+  height: auto;
+  cursor: pointer;
+}
+
+.twoImageLayout {
+  display: flex;
+  justify-content:center;
+  gap: 15px;
+
+  .halfImage {
+    width: 51%;
+    height: auto;
+    cursor: pointer;
+  }
+}
+
+.threeImageLayout {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+
+  .thumbnailImage {
+    width: 30%;
+    height: auto;
+    cursor: pointer;
+  }
+
+  .centerImage {
+    width: 40%;
+    height: auto;
+    cursor: pointer;
+  }
+}
+
+.fourImageLayout {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 5px;
+
+  .quarterImage {
+    width: 100%;
+    height: auto;
+    cursor: pointer;
+  }
+}
+
+.mainImage {
+  width: 90%;
+  height: auto;
+  cursor: pointer;
+}
+
+.moreImages {
+  width: 20%;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+  // margin-top: 8rem; // Để hình ảnh không bị lấn vào
+}
+
+.menuContainer {
+  position: relative;
+}
+
+.threeDotsIcon {
+  cursor: pointer;
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: 20px;
+  right: 0;
+  background-color: white;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  z-index: 10;
+  min-width: 150px;
+}
+
+.menuItem {
+  padding: 10px;
+  border: none;
+  width: 100%;
+  text-align: left;
+  background: none;
+  cursor: pointer;
+}
+
+.menuItem:hover {
+  background-color: #f0f0f0;
+}
+
+// Xóa bài viết
+.deleteConfirmPopup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+}
+
+.popupActions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.confirmButton, .cancelButton {
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+.confirmButton {
+  background-color: #d9534f;
+  color: white;
+}
+
+.cancelButton {
+  background-color: #6c757d;
+  color: white;
 }
