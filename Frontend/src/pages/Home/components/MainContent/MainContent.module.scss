@@ -66,6 +66,7 @@
 }
 
 .inputField {
+<<<<<<< HEAD
     width: 100%;
     padding: 0.5rem;
     background-color: #d4cfcf6f;
@@ -79,12 +80,44 @@
     }
 }
 
+=======
+<<<<<<< HEAD
+  width: 100%;
+  padding: 0.5rem;
+  background-color: white;
+  border-radius: 9999px;
+  margin-bottom: 0.5rem;
+  border: none;
+  caret-color: transparent;
+}
+
+.inputField:focus {
+  outline: none; /* Loại bỏ viền khi focus */
+=======
+    width: 100%;
+    padding: 0.5rem;
+    background-color: #d4cfcf6f;
+    border-radius: 10px;
+    height: 5rem;
+    cursor: pointer;
+    border:none;
+
+    &:hover {
+        background-color: #c6c3c36f;
+    }
+}
+
+>>>>>>> 870dc3d (sửa sơ css)
 .line {
     content: none;
     width: 95%; 
     height: 2px; 
     background-color: #d4cfcf6f; 
     margin: 10px auto; 
+<<<<<<< HEAD
+=======
+>>>>>>> 957ef15 (sửa sơ css)
+>>>>>>> 870dc3d (sửa sơ css)
 }
 
 .actionButtons {
@@ -138,6 +171,7 @@
 }
 
 .popupHeader {
+<<<<<<< HEAD
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -148,6 +182,16 @@
   font-size: 1.25rem;
   font-weight: bold;
   margin-top: 0;
+=======
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.popupTitle {
+    font-size: 1.25rem;
+    font-weight: bold;
+>>>>>>> 957ef15 (sửa sơ css)
 }
 
 .closeButton {
@@ -167,6 +211,7 @@
 }
 
 .userName {
+<<<<<<< HEAD
   margin-left: 0.5rem;
   margin-bottom: 1rem;
 }
@@ -181,6 +226,19 @@
   color: #3b82f6; // Màu xanh dương
   font-size: 1.35rem; // Kích thước chữ
   cursor: pointer;
+=======
+    margin-left: 0.5rem;
+}
+
+.userNameText {
+    font-weight: bold;
+}
+
+.publicButton {
+    color: #3b82f6; // Màu xanh dương
+    font-size: 0.875rem; // Kích thước chữ
+    border: none;
+>>>>>>> 957ef15 (sửa sơ css)
 }
 
 .textarea {
@@ -192,11 +250,19 @@
 }
 
 .dropzone {
+<<<<<<< HEAD
   padding: 1rem;
   border: 2px dashed #e2e8f0; // Màu viền đứt
   border-radius: 0.5rem;
   text-align: center;
   cursor: pointer;
+=======
+    margin-top: 1rem;
+    padding: 1rem;
+    border: 2px dashed #e2e8f0; // Màu viền đứt
+    border-radius: 0.5rem;
+    text-align: center;
+>>>>>>> 957ef15 (sửa sơ css)
 }
 
 .popupActions {
@@ -254,6 +320,7 @@
 }
 
 .continueButton {
+<<<<<<< HEAD
   width: 100%;
   margin-top: 1rem;
   background-color: #64c1e2; // Màu xám
@@ -267,6 +334,14 @@
 
 .continueButton:hover {
   opacity: 0.9;
+=======
+    width: 100%;
+    margin-top: 1rem;
+    background-color: #e5e7eb; // Màu xám
+    color: #6b7280; // Màu xám đậm
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+>>>>>>> 957ef15 (sửa sơ css)
 }
 
 .postHeader {
@@ -297,10 +372,14 @@
 
 .postTime {
 <<<<<<< HEAD
+<<<<<<< HEAD
     font-size: 0.875rem; // Kích thước chữ
 =======
   font-size: 0.875rem; // Kích thước chữ
 >>>>>>> 32c7979 (Thay cách thức repository được gọi)
+=======
+    font-size: 0.875rem; // Kích thước chữ
+>>>>>>> 870dc3d (sửa sơ css)
 }
 
 .postImageFull {
@@ -323,6 +402,7 @@
 
 .interactionButton {
 <<<<<<< HEAD
+<<<<<<< HEAD
     display: flex;
     align-items: center;
     gap: 0.25rem;
@@ -331,6 +411,11 @@
   align-items: center;
   gap: 0.25rem;
 >>>>>>> 32c7979 (Thay cách thức repository được gọi)
+=======
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+>>>>>>> 870dc3d (sửa sơ css)
 }
 
 .sendButton {
@@ -342,6 +427,7 @@
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 //share
 =======
 //share 
@@ -351,12 +437,22 @@
 
 
 >>>>>>> 32c7979 (Thay cách thức repository được gọi)
+=======
+//share
+>>>>>>> 870dc3d (sửa sơ css)
 
 .popupHeader {
+<<<<<<< HEAD
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
+=======
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+>>>>>>> 957ef15 (sửa sơ css)
 }
 
 .popupTitle {
@@ -372,10 +468,17 @@
 }
 
 .profileImage {
+<<<<<<< HEAD
   border-radius: 50%;
   width: 50px;
   height: 50px;
   margin-right: 10px;
+=======
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+>>>>>>> 957ef15 (sửa sơ css)
 }
 
 .visibilityButtons {
@@ -392,6 +495,7 @@
 }
 
 .textarea {
+<<<<<<< HEAD
   width: 100%;
   height: 120px;
   border-radius: 5px;
@@ -400,9 +504,18 @@
   padding: 10px;
   outline: none;
   resize: none;
+=======
+    width: 100%;
+    height: 60px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 15px;
+    padding: 10px;
+>>>>>>> 957ef15 (sửa sơ css)
 }
 
 .popupActions {
+<<<<<<< HEAD
 <<<<<<< HEAD
     display: flex;
     justify-content: flex-end;
@@ -410,6 +523,10 @@
   display: flex;
   justify-content: flex-end;
 >>>>>>> 32c7979 (Thay cách thức repository được gọi)
+=======
+    display: flex;
+    justify-content: flex-end;
+>>>>>>> 870dc3d (sửa sơ css)
 }
 
 .extraOptions {
