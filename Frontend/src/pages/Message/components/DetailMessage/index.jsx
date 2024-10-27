@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import clsx from "clsx";
 import moment from "moment";
@@ -20,13 +20,20 @@ function DetailMessage({ onShow }) {
     const { messageId, message } = useSelector((state) => state.message);
 
     const dispatch = useDispatch();
-    const [isFocused, setIsFocused] = useState(false);
-    const [mess, setMess] = useState("");
     const [isSending, setIsSending] = useState(false);
+    const [isFocused, setIsFocused] = useState(false);
+    const [hoveredMessageId, setHoveredMessageId] = useState(null);
+    const [mess, setMess] = useState("");
+
+    const messagesEndRef = useRef(null);
 
     useEffect(() => {
         setMess("");
     }, [currentFriendId]);
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [message]);
 
     const handleSendMessage = async () => {
         if (mess.trim()) {
@@ -58,6 +65,10 @@ function DetailMessage({ onShow }) {
         if (e.key === "Enter" && isFocused) {
             handleSendMessage();
         }
+    };
+
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
     };
 
     const groupedMessages = message.reduce((acc, message) => {
@@ -115,6 +126,12 @@ function DetailMessage({ onShow }) {
                             ).format("HH:mm");
                             return (
                                 <div
+                                    onMouseEnter={() =>
+                                        setHoveredMessageId(mess.chatId)
+                                    }
+                                    onMouseLeave={() =>
+                                        setHoveredMessageId(null)
+                                    }
                                     key={mess.chatId}
                                     className={clsx(styles.contentchat, {
                                         [styles.usermessage]:
@@ -123,33 +140,38 @@ function DetailMessage({ onShow }) {
                                             userid !== mess.fromUser,
                                     })}
                                 >
+                                    {hoveredMessageId === mess.chatId &&
+                                        userid === mess.fromUser && (
+                                            <>
+                                                <CustomTooltip title="Thu hồi">
+                                                    <i
+                                                        className={clsx(
+                                                            styles.delete,
+                                                            "fa-solid fa-trash-can"
+                                                        )}
+                                                    ></i>
+                                                </CustomTooltip>
+                                                <CustomTooltip title="Chỉnh sửa">
+                                                    <i
+                                                        className={clsx(
+                                                            styles.update,
+                                                            "fa-solid fa-pencil"
+                                                        )}
+                                                    ></i>
+                                                </CustomTooltip>
+                                            </>
+                                        )}
                                     <CustomTooltip title={formattedTime}>
-                                        <p>{mess.content}</p>
+                                        <div className={styles.mess}>
+                                            <p> {mess.content}</p>
+                                        </div>
                                     </CustomTooltip>
                                 </div>
                             );
                         })}
+                        <div ref={messagesEndRef} />
                     </div>
                 ))}
-                {/* {message.map((mess) => {
-                    const formattedTime = moment(mess.dateCreated).format(
-                        "HH:mm"
-                    );
-                    return (
-                        <div
-                            key={mess.chatId}
-                            className={
-                                userid === mess.fromUser
-                                    ? styles.usermessage
-                                    : styles.othermessage
-                            }
-                        >
-                            <CustomTooltip title={formattedTime}>
-                                <p>{mess.content}</p>
-                            </CustomTooltip>
-                        </div>
-                    );
-                })} */}
             </div>
             <div className={styles.chat}>
                 <input
@@ -160,7 +182,10 @@ function DetailMessage({ onShow }) {
                     onChange={(e) => setMess(e.target.value)}
                     placeholder="Aa"
                 ></input>
-                <i className="fa-solid fa-paper-plane"></i>
+                <i
+                    onClick={() => handleSendMessage()}
+                    className="fa-solid fa-paper-plane"
+                ></i>
             </div>
         </div>
     );
