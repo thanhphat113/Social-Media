@@ -59,8 +59,9 @@
   .postContainer {
     background-color: white;
     padding: 1rem;
-    border-radius: 0.5rem;
+    border-radius: 10px;
     margin-bottom: 1rem;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
   }
   
   .inputField {
@@ -125,17 +126,6 @@
     color: gray;
   }
   
-  // .userInfo {
-  //   display: flex;
-  //   align-items: center;
-  //   margin-top: 1rem;
-  // }
-  
-  // .profileImage {
-  //   width: 2.5rem; // Kích thước ảnh đại diện
-  //   height: 2.5rem;
-  //   border-radius: 50%;
-  // }
   
   .userName {
     margin-left: 0.5rem;
@@ -483,12 +473,6 @@
     max-width: 90%;
   }
   
-  .postContainer {
-    background-color: white;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    margin-bottom: 1rem;
-  }
 
   
 .commentsList {
