@@ -1,17 +1,10 @@
 import React, { useState } from 'react';
-<<<<<<< HEAD
-=======
 import { AiOutlineLike } from 'react-icons/ai';
->>>>>>> 32c7979 (Thay cách thức repository được gọi)
 import { FaRegComment, FaPaperPlane, FaFacebookMessenger, FaWhatsapp, FaLink, FaUsers, FaFlag, FaTimes } from 'react-icons/fa';
 import { PiShareFatThin } from 'react-icons/pi';
 import { BsThreeDots } from 'react-icons/bs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-<<<<<<< HEAD
 import { faCloud } from '@fortawesome/free-solid-svg-icons';
-=======
-import { faCloud } from '@fortawesome/free-solid-svg-icons';  // Import biểu tượng đám mây
->>>>>>> 32c7979 (Thay cách thức repository được gọi)
 import styles from './Post.module.scss';
 import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
@@ -107,39 +100,86 @@ function Post({
   currentLike,
   setCurrentLike,
   hoveringLike,
+=======
+>>>>>>> 6198759 (Sidebar tạo nhóm, trang tạo nhóm, và post)
   handleMouseEnter,
   handleMouseLeave,
-  isEmojiMenuVisible,
-  handleEmojiMenuMouseEnter,
-  handleEmojiMenuMouseLeave,
   comments,
   currentComment,
   handleAddComment,
   setCurrentComment
 }) {
-  const [isSharePopupOpen, setIsSharePopupOpen] = useState(false); // State cho pop-up chia sẻ
-  const [visibility, setVisibility] = useState('Công khai'); // Tính năng hiển thị
-  const [description, setDescription] = useState(''); // Nội dung mô tả
+  const [isSharePopupOpen, setIsSharePopupOpen] = useState(false);
+  const [visibility, setVisibility] = useState('Công khai');
+  const [description, setDescription] = useState('');
+  const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // Thêm trạng thái cho menu
+  const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false); // Thêm trạng thái cho popup xác nhận
 
-  // Hàm để mở/đóng pop-up chia sẻ
+
   const toggleSharePopup = () => {
     setIsSharePopupOpen(!isSharePopupOpen);
   };
 
   const handleShare = () => {
     alert('Post shared!');
-    toggleSharePopup(); // Đóng pop-up chia sẻ sau khi chia sẻ
+    toggleSharePopup();
   };
 
-  // Hàm xử lý khi nhấn nút Like
   const handleLikeChange = () => {
     setCurrentLike((prevLike) => ({
       ...prevLike,
-      isLiked: !prevLike.isLiked, // Đổi trạng thái like
+      isLiked: !prevLike.isLiked,
     }));
   };
 
->>>>>>> 32c7979 (Thay cách thức repository được gọi)
+  const openImagePopup = (index) => {
+    setCurrentImageIndex(index);
+    setIsImagePopupOpen(true);
+  };
+
+  const closeImagePopup = () => {
+    setIsImagePopupOpen(false);
+  };
+
+  const nextImage = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % post.images.length);
+  };
+
+  const prevImage = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex - 1 + post.images.length) % post.images.length);
+  };
+
+  // Xử lý mở menu khi nhấn vào BsThreeDots
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  // Hàm xử lý khi xóa bài viết
+  const handleDeletePost = () => {
+    setIsDeleteConfirmOpen(true); // Mở popup xác nhận
+  };
+
+  const confirmDeletePost = () => {
+    // Logic xóa bài viết
+    alert('Bài viết đã bị xóa');
+    setIsDeleteConfirmOpen(false); // Đóng popup sau khi xóa
+  };
+
+  const cancelDelete = () => {
+    setIsDeleteConfirmOpen(false); // Đóng popup nếu hủy
+  };
+
+
+
+
+  // Hàm xử lý khi sửa bài viết
+  const handleEditPost = () => {
+    alert('Sửa bài viết');
+    // Ở đây bạn có thể thêm logic để sửa bài viết
+  };
+
   return (
     <div className={styles.postContainer}>
       <div className={styles.postHeader}>
@@ -150,7 +190,6 @@ function Post({
             <p className={styles.postTime}>{post.time}</p>
           </div>
         </div>
-<<<<<<< HEAD
 
         {/* Menu khi nhấn vào icon BsThreeDots */}
         <div className={styles.menuContainer}>
@@ -162,9 +201,6 @@ function Post({
             </div>
           )}
         </div>
-=======
-        <BsThreeDots/>
->>>>>>> 32c7979 (Thay cách thức repository được gọi)
       </div>
       <p className={styles.postText}>{post.content}</p>
 
@@ -260,25 +296,23 @@ function Post({
         <div className={styles.likeButton}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
-<<<<<<< HEAD
           onClick={handleLikeChange}
-=======
           onClick={handleLikeChange} // Gọi hàm khi nhấn nút Like
->>>>>>> 32c7979 (Thay cách thức repository được gọi)
-        >
+          onClick={handleLikeChange}
           <button className={styles.interactionButton}>
             <FontAwesomeIcon
               icon={faCloud}
               className={styles.faCloudIcon}
-<<<<<<< HEAD
               style={{ color: currentLike.isLiked ? '#74C0FC' : '#1E3050' }}
             />
             <span>{currentLike.label || 'Cloud'}</span>
-=======
               style={{ color: currentLike.isLiked ? '#74C0FC' : '#1E3050' }} // Đổi màu theo trạng thái
             />
             <span>{currentLike.label || 'Cloud'}</span> {/* Gán nhãn cho biểu tượng đám mây */}
->>>>>>> 32c7979 (Thay cách thức repository được gọi)
+
+              style={{ color: currentLike.isLiked ? '#74C0FC' : '#1E3050' }}
+            />
+            <span>{currentLike.label || 'Cloud'}</span>
           </button>
         </div>
 
