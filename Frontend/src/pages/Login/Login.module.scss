@@ -1,3 +1,4 @@
+
 // Login.module.scss
 
 .signUpTitle {
@@ -32,14 +33,22 @@
   }
   
   .logo {
-    height: 10rem; // Tương đương với h-12
     margin-right: 1rem; // Tương đương với mr-4
+    border-radius: 50%;
+    border: 1px solid #6993d695;
+    width: 50rem;
   }
   
   .welcomeText {
-    font-size: 3.5rem; // Tương đương với text-2xl
+    font-size: 5rem; // Tương đương với text-2xl
     font-weight: bold; // Tương đương với font-bold
     color: #3b82f6; // Màu tương đương với text-blue-600
+    text-shadow: 3px 3px 3px #3333338a;
+
+    strong{
+      font-size: 8rem;
+      font-style:oblique;
+    }
   }
   
   .rightSection {
@@ -52,8 +61,8 @@
   .formContainer {
     background-color: white; // Màu nền trắng
     padding: 2rem; // Tăng padding để form lớn hơn
-    border-radius: 0.375rem; // Tương đương với rounded
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); // Tương đương với shadow-md
+    border-radius: 10px; // Tương đương với rounded
+    box-shadow: 0 0 8px rgba(7, 7, 7, 0.5); // Tương đương với shadow-md
     width: 500px; // Thay đổi giá trị này để làm cho form rộng hơn (400px là một ví dụ)
     height: auto; // Đặt tự động để chiều cao thích ứng với nội dung
     min-height: 350px; // Thay đổi giá trị này để làm cho form cao hơn
@@ -80,6 +89,7 @@
   
   .loginButton {
     background-color: #3b82f6; // Tương đương với bg-blue-600
+
   }
   
   .signupButton {
@@ -137,3 +147,4 @@
   justify-content: space-between;
   margin-top: 1rem;
 }
+

@@ -1,9 +1,8 @@
 import React from 'react';
 import Sidebar from './components/SideBar/SideBar';
-import MainContent from './components/MainContent/MainContent';
-import RightSidebar from './components/RightSideBar/RightSideBar';
+import MainContent from './components/MainContent';
+import FriendListChat from './components/FriendListChat';
 import styles from 'Frontend/src/pages/Home/Home.module.scss';
-
 
 function Home() {
   return (
@@ -22,7 +21,7 @@ function Home() {
 
         {/* Right Sidebar */}
         <div className={styles.rightSidebar}>
-          <RightSidebar />
+          <FriendListChat />
         </div>
       </div>
     </div>

@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { MdOutlineVideoCall, MdPhotoLibrary } from "react-icons/md";
-import { FaSmile, FaImage, FaMapMarkerAlt } from "react-icons/fa";
-import { useDropzone } from "react-dropzone";
-import styles from "Frontend/src/pages/Home/components/MainContent/MainContent.module.scss";
-import Post from "../Post/Post";
+import { useState } from 'react';
+import { MdPhotoLibrary } from 'react-icons/md';
+import { FaSmile, FaImage, FaMapMarkerAlt, FaTimes, FaFacebookMessenger, FaWhatsapp, FaLink, FaUsers, FaFlag } from 'react-icons/fa';
+import { useDropzone } from 'react-dropzone';
+import styles from './MainContent.module.scss';
+import Post from '../Post';
 
 function MainContent() {
     const [comments, setComments] = useState([]);
@@ -18,6 +18,8 @@ function MainContent() {
         label: "Like",
     });
     const [files, setFiles] = useState([]); // State để lưu trữ nhiều file đã chọn
+    const [isSharePopupOpen, setIsSharePopupOpen] = useState(false);
+    const [visibility, setVisibility] = useState("Công khai");
 
     const handleLikeChange = (emoji, label) => {
         setCurrentLike({ emoji, label });
@@ -76,6 +78,15 @@ function MainContent() {
         setIsPopupOpen(!isPopupOpen);
     };
 
+    const toggleSharePopup = () => {
+        setIsSharePopupOpen(!isSharePopupOpen);
+    };
+
+    const handleShare = () => {
+        alert("Post shared!");
+        toggleSharePopup(); // Đóng pop-up chia sẻ sau khi chia sẻ
+    };
+
     return (
         <main className={styles.content}>
             <div className={styles.postContainer}>
@@ -85,47 +96,34 @@ function MainContent() {
                     className={styles.inputField}
                     onFocus={togglePopup}
                 />
-                <div className={styles.line}></div>
                 <div className={styles.actionButtons}>
-                    <button
-                        className={styles.photoButton}
-                        onClick={togglePopup}
-                    >
+                    <button className={styles.photoButton} onClick={togglePopup}>
                         <MdPhotoLibrary className={styles.iconGreen} />
                         Ảnh/video
                     </button>
                 </div>
             </div>
 
+            {/* Pop-up để tạo bài viết */}
             {isPopupOpen && (
                 <>
-                    <div
-                        className={styles.popupOverlay}
-                        onClick={togglePopup}
-                    ></div>
+                    <div className={styles.popupOverlay} onClick={togglePopup}></div>
                     <div className={styles.popup}>
                         <div className={styles.popupHeader}>
                             <h2 className={styles.popupTitle}>Tạo bài viết</h2>
-                            <button
-                                className={styles.closeButton}
-                                onClick={togglePopup}
-                            >
-                                X
+                            <button className={styles.closeButton} onClick={togglePopup}>
+                                <FaTimes />
                             </button>
                         </div>
                         <div className={styles.userInfo}>
                             <img
-                                src="profile.jpg"
+                                src="https://vcdn1-dulich.vnecdn.net/2021/07/16/1-1626437591.jpg?w=460&h=0&q=100&dpr=2&fit=crop&s=i2M2IgCcw574LT-bXFY92g"
                                 alt="Profile"
                                 className={styles.profileImage}
                             />
                             <div className={styles.userName}>
-                                <p className={styles.userNameText}>
-                                    Nguyễn Tiến
-                                </p>
-                                <button className={styles.publicButton}>
-                                    Công khai
-                                </button>
+                                <p className={styles.userNameText}>Nguyễn Tiến</p>
+                                <button className={styles.publicButton}>Công khai</button>
                             </div>
                         </div>
                         <textarea
@@ -147,12 +145,45 @@ function MainContent() {
                                 <span className={styles.iconPurple}>GIF</span>
                             </div>
                         </div>
-                        <button
-                            className={styles.continueButton}
-                            onClick={handlePostSubmit}
-                        >
+                        <button className={styles.continueButton} onClick={handlePostSubmit}>
                             Đăng
                         </button>
+                    </div>
+                </>
+            )}
+
+            {/* Pop-up chia sẻ */}
+            {isSharePopupOpen && (
+                <>
+                    <div className={styles.popupOverlay} onClick={toggleSharePopup}></div>
+                    <div className={styles.sharePopup}>
+                        <div className={styles.popupHeader}>
+                            <h2 className={styles.popupTitle}>Chia sẻ</h2>
+                            <button className={styles.closeButton} onClick={toggleSharePopup}>
+                                <FaTimes />
+                            </button>
+                        </div>
+                        <div className={styles.p4}>
+                            <div className={styles.userInfo1}>
+                                <div className={styles.userName}>
+                                    <p className={styles.userNameText}>Nguyễn Tiến</p>
+                                    <div className={styles.visibilityButtons}>
+                                        <button
+                                            className={styles.visibilityButton}
+                                            onClick={() =>
+                                                setVisibility(
+                                                    visibility === "Công khai"
+                                                        ? "Riêng tư"
+                                                        : "Công khai"
+                                                )
+                                            }
+                                        >
+                                            {visibility}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </>
             )}

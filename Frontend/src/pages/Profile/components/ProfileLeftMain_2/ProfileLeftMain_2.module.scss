@@ -1,0 +1,27 @@
+.listInline {
+  display: flex;
+  justify-content: flex-start;
+  justify-items: center;
+  margin-bottom: 0;
+  text-align: center;
+  padding-left: 0;
+  list-style: none;
+  
+  @media (min-width: 576px) {
+    text-align: left;
+    margin-top: 1rem;
+  }
+}
+
+.listInlineItem {
+  display: flex;
+  align-items: center;
+  margin-right: 1.5rem;
+  color: #a1a1a8;
+}
+
+.icon {
+  margin-right: 0.25rem;
+  height: 1em;
+  width: 1em;
+}

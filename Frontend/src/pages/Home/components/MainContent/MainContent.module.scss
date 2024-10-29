@@ -138,14 +138,16 @@
 }
 
 .popupHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e2e8f0;
 }
 
 .popupTitle {
-    font-size: 1.25rem;
-    font-weight: bold;
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-top: 0;
 }
 
 .closeButton {
@@ -165,17 +167,20 @@
 }
 
 .userName {
-    margin-left: 0.5rem;
+  margin-left: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .userNameText {
-    font-weight: bold;
+  font-weight: bold;
+  font-size: calc(1.3rem + .6vw);
+  margin-bottom: 1.55rem;
 }
 
 .publicButton {
-    color: #3b82f6; // Màu xanh dương
-    font-size: 0.875rem; // Kích thước chữ
-    border: none;
+  color: #3b82f6; // Màu xanh dương
+  font-size: 1.35rem; // Kích thước chữ
+  cursor: pointer;
 }
 
 .textarea {
@@ -187,11 +192,11 @@
 }
 
 .dropzone {
-    margin-top: 1rem;
-    padding: 1rem;
-    border: 2px dashed #e2e8f0; // Màu viền đứt
-    border-radius: 0.5rem;
-    text-align: center;
+  padding: 1rem;
+  border: 2px dashed #e2e8f0; // Màu viền đứt
+  border-radius: 0.5rem;
+  text-align: center;
+  cursor: pointer;
 }
 
 .popupActions {
@@ -249,12 +254,19 @@
 }
 
 .continueButton {
-    width: 100%;
-    margin-top: 1rem;
-    background-color: #e5e7eb; // Màu xám
-    color: #6b7280; // Màu xám đậm
-    padding: 0.5rem;
-    border-radius: 0.5rem;
+  width: 100%;
+  margin-top: 1rem;
+  background-color: #64c1e2; // Màu xám
+  color: #fff; // Màu xám đậm
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid #2750a6;
+  cursor: pointer;
+}
+
+
+.continueButton:hover {
+  opacity: 0.9;
 }
 
 .postHeader {
@@ -322,10 +334,10 @@
 //share
 
 .popupHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
 }
 
 .popupTitle {
@@ -341,10 +353,10 @@
 }
 
 .profileImage {
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    margin-right: 10px;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
 }
 
 .visibilityButtons {
@@ -361,12 +373,14 @@
 }
 
 .textarea {
-    width: 100%;
-    height: 60px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    margin-bottom: 15px;
-    padding: 10px;
+  width: 100%;
+  height: 120px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin: 1rem 0;
+  padding: 10px;
+  outline: none;
+  resize: none;
 }
 
 .popupActions {
