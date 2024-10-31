@@ -4,10 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Backend.Data;
 using Backend.Models;
+using Backend.Repositories.Interface;
 
-namespace Backend.Repositories
+namespace Backend.Repositories.Repository
 {
-	public class ChatInMessageRepository : IRepositories<ChatInMessage>
+	public class ChatInMessageRepository : IRepository<ChatInMessage>
 	{
 		private readonly SocialMediaContext _context;
 		public ChatInMessageRepository(SocialMediaContext context)

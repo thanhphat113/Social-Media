@@ -4,6 +4,7 @@ using Backend.Services;
 using Microsoft.AspNetCore.Authorization;
 using System.IdentityModel.Tokens.Jwt;
 using Backend.Models;
+using Backend.Services;
 
 namespace Backend.Controllers
 {
@@ -13,17 +14,17 @@ namespace Backend.Controllers
 	public class UserController : ControllerBase
 	{
 
-		private readonly UserService _UserContext;
+		private readonly UserService _userContext;
 
 		public UserController(UserService UserContext)
 		{
-			_UserContext = UserContext;
+			_userContext = UserContext;
 		}
 
 		[HttpGet]
 		public async Task<IActionResult> Get()
 		{
-			return Ok(await _UserContext.GetAll());
+			return Ok(await _userContext.GetAll());
 		}
 
 
@@ -42,8 +43,8 @@ namespace Backend.Controllers
 			var jwtToken = tokenHandler.ReadJwtToken(token);
 
 			var userId = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-			var information = await _UserContext.GetById(int.Parse(userId));
-			var friends = await _UserContext.getFriends(int.Parse(userId));
+			var information = await _userContext.GetById(int.Parse(userId));
+			var friends = await _userContext.GetFriends(int.Parse(userId));
 			return Ok(new { information = information, friends = friends });
 		}
 
@@ -56,7 +57,7 @@ namespace Backend.Controllers
 				user.GenderId = 0;
 			}
 			Console.WriteLine(user.GenderId);
-			return Ok(new { result = await _UserContext.Add(user) });
+			return Ok(new { result = await _userContext.Add(user) });
 		}
 
 

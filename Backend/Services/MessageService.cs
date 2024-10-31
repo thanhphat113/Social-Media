@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Backend.Models;
-using Backend.Repositories;
+using Backend.Repositories.Interface;
 
 namespace Backend.Services
 {
 	public class MessageService : IService<Message>
 	{
-		private readonly MessageRepository _messRepo;
-		public MessageService(MessageRepository mess)
+		private readonly IMessageRepository _messRepo;
+		public MessageService(IMessageRepository mess)
 		{
 			_messRepo = mess;
 		}

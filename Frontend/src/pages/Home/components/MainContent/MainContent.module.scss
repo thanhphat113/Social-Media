@@ -283,10 +283,6 @@
   font-size: 0.875rem; // Kích thước chữ
 }
 
-.postText {
-  margin-bottom: 0.5rem;
-}
-
 .postImageFull {
   width: 100%;
   border-radius: 0.5rem;
@@ -311,34 +307,6 @@
   gap: 0.25rem;
 }
 
-.commentsList {
-  margin-top: 1rem;
-}
-
-.commentItems {
-  list-style: none;
-  padding: 0;
-  margin-bottom: 1rem;
-}
-
-.commentItem {
-  background-color: #f7fafc; // Màu nền bình luận
-  padding: 0.5rem;
-  border-radius: 0.25rem;
-}
-
-.commentInputContainer {
-  display: flex;
-  align-items: center;
-}
-
-.commentInput {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #e2e8f0; // Màu viền
-  border-radius: 0.25rem;
-}
-
 .sendButton {
   background-color: #3b82f6; // Màu xanh dương
   color: white;
@@ -350,29 +318,9 @@
 //share 
 
 
-.popupOverlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
-  z-index: 10;
-}
 
-.sharePopup {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  z-index: 20;
-  width: 500px;
-  max-width: 90%;
-}
+
+
 
 .popupHeader {
   display: flex;
@@ -427,15 +375,6 @@
 .popupActions {
   display: flex;
   justify-content: flex-end;
-}
-
-.shareButton {
-  background-color: #1c74e7;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
 }
 
 .extraOptions {

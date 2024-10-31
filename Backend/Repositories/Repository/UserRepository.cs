@@ -2,9 +2,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Backend.Models;
 using Backend.Data;
+using Backend.Repositories.Interface;
 
-namespace Backend.Repositories;
-public class UserRepository : IRepositories<User>
+namespace Backend.Repositories.Repository;
+public class UserRepository : IUserRepository
 {
 
 	private readonly SocialMediaContext _context;
@@ -100,7 +101,7 @@ public class UserRepository : IRepositories<User>
 
 	}
 
-	public async Task<bool> isHasEmail(string email)
+	public async Task<bool> IsHasEmail(string email)
 	{
 		try
 		{

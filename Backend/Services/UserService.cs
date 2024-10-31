@@ -1,15 +1,17 @@
 using Backend.Models;
 using Backend.Repositories;
 using Backend.Authentication;
+using Backend.Repositories.Interface;
+using Backend.Services;
 
 namespace Backend.Services
 {
     public class UserService : IService<User>
     {
         private readonly JwtToken _jwtToken;
-        private readonly UserRepository _userRepo;
+        private readonly IUserRepository _userRepo;
 
-        public UserService(UserRepository repo, JwtToken jwtToken)
+        public UserService(IUserRepository repo, JwtToken jwtToken)
         {
             _userRepo = repo;
             _jwtToken = jwtToken;
@@ -48,7 +50,7 @@ namespace Backend.Services
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<User>> getFriends(int id)
+        public async Task<IEnumerable<User>> GetFriends(int id)
         {
             try
             {
@@ -70,13 +72,13 @@ namespace Backend.Services
             return null;
         }
 
-        public async Task<ValidateEmail> isHasEmail(string email)
+        public async Task<ValidateEmail> IsHasEmail(string email)
         {
             if (!email.EndsWith("@gmail.com") && !email.EndsWith("@gmail.com.vn"))
                 return new ValidateEmail("Email phải có đuôi là @gmail.com hoặc @gmail.com.vn", false);
             if (string.IsNullOrEmpty(email))
                 return new ValidateEmail("Vui lòng nhập email", false);
-            if (await _userRepo.isHasEmail(email))
+            if (await _userRepo.IsHasEmail(email))
                 return new ValidateEmail("Email này đã được đăng ký vui lòng nhập lại", false);
 
             return new ValidateEmail("Email hợp lệ", true);
