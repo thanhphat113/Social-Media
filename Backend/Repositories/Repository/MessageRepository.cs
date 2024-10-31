@@ -1,10 +1,11 @@
 using Backend.Data;
 using Backend.Models;
 using Microsoft.EntityFrameworkCore;
+using Backend.Repositories.Interface;
 
-namespace Backend.Repositories
+namespace Backend.Repositories.Repository
 {
-	public class MessageRepository : IRepositories<Message>
+	public class MessageRepository : IMessageRepository
 	{
 		private readonly SocialMediaContext _context;
 		public MessageRepository(SocialMediaContext context)

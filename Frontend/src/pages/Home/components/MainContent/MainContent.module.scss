@@ -296,7 +296,11 @@
 }
 
 .postTime {
+<<<<<<< HEAD
     font-size: 0.875rem; // Kích thước chữ
+=======
+  font-size: 0.875rem; // Kích thước chữ
+>>>>>>> 32c7979 (Thay cách thức repository được gọi)
 }
 
 .postImageFull {
@@ -318,9 +322,15 @@
 }
 
 .interactionButton {
+<<<<<<< HEAD
     display: flex;
     align-items: center;
     gap: 0.25rem;
+=======
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+>>>>>>> 32c7979 (Thay cách thức repository được gọi)
 }
 
 .sendButton {
@@ -331,7 +341,16 @@
     margin-left: 0.5rem;
 }
 
+<<<<<<< HEAD
 //share
+=======
+//share 
+
+
+
+
+
+>>>>>>> 32c7979 (Thay cách thức repository được gọi)
 
 .popupHeader {
   display: flex;
@@ -384,8 +403,13 @@
 }
 
 .popupActions {
+<<<<<<< HEAD
     display: flex;
     justify-content: flex-end;
+=======
+  display: flex;
+  justify-content: flex-end;
+>>>>>>> 32c7979 (Thay cách thức repository được gọi)
 }
 
 .extraOptions {

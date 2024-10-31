@@ -6,6 +6,7 @@ import styles from './MainContent.module.scss';
 import Post from '../Post';
 
 function MainContent() {
+<<<<<<< HEAD
     const [comments, setComments] = useState([]);
     const [currentComment, setCurrentComment] = useState("");
     const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -16,6 +17,63 @@ function MainContent() {
     const [currentLike, setCurrentLike] = useState({
         emoji: null,
         label: "Like",
+=======
+  const [comments, setComments] = useState([]);
+  const [currentComment, setCurrentComment] = useState('');
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [postContent, setPostContent] = useState('');
+  const [isEmojiMenuVisible, setIsEmojiMenuVisible] = useState(false);
+  const [hoveringLike, setHoveringLike] = useState(false);
+
+  const post = {
+    image: "img/Ảnh chụp màn hình 2024-06-10 024210.png",
+    title: "Anime",
+    userName: "Anime Season",
+    content: "Re: Zero đã trở lại! 💀",
+    time: "22 giờ · 🌍"
+  };
+
+  const [currentLike, setCurrentLike] = useState({ emoji: null, label: 'Like' }); // Lưu trữ biểu tượng cảm xúc và tên
+
+
+  const handleLikeChange = (emoji, label) => {
+    setCurrentLike({ emoji, label }); // Cập nhật biểu tượng cảm xúc và tên
+    setIsEmojiMenuVisible(false); // Ẩn menu emoji
+  };
+
+  const handleMouseEnter = () => {
+    setHoveringLike(true);
+    setIsEmojiMenuVisible(true); // Hiện menu emoji khi hover
+  };
+
+  const handleMouseLeave = () => {
+    if (!isEmojiMenuVisible) {
+      setHoveringLike(false);
+    }
+  };
+
+  const handleEmojiMenuMouseEnter = () => {
+    setIsEmojiMenuVisible(true); // Giữ menu mở khi di chuột vào
+  };
+
+  const handleEmojiMenuMouseLeave = () => {
+    setIsEmojiMenuVisible(false); // Ẩn menu khi không còn di chuột vào
+  };
+
+  // Xử lý thêm bình luận
+  const handleAddComment = () => {
+    if (currentComment.trim() !== '') {
+      setComments([...comments, currentComment]);
+      setCurrentComment('');
+    }
+  };
+
+  const { getRootProps, getInputProps } = useDropzone({
+    accept: 'image/*',
+    onDrop: acceptedFiles => {
+      acceptedFiles.forEach(file => {
+        console.log(file.type); // Kiểm tra kiểu MIME của file
+>>>>>>> 32c7979 (Thay cách thức repository được gọi)
     });
     const [files, setFiles] = useState([]); // State để lưu trữ nhiều file đã chọn
     const [isSharePopupOpen, setIsSharePopupOpen] = useState(false);
@@ -26,6 +84,7 @@ function MainContent() {
         setIsEmojiMenuVisible(false);
     };
 
+<<<<<<< HEAD
     const handleMouseEnter = () => {
         setHoveringLike(true);
         setIsEmojiMenuVisible(true);
@@ -60,6 +119,24 @@ function MainContent() {
             setIsPopupOpen(false);
         }
     };
+=======
+  return (
+    <main className={styles.content}>
+      <div className={styles.postContainer}>
+        <input
+          type="text"
+          placeholder="Tiến ơi, bạn đang nghĩ gì thế?"
+          className={styles.inputField}
+          onFocus={togglePopup}
+        />
+        <div className={styles.actionButtons}>
+          <button className={styles.photoButton} onClick={togglePopup}>
+            <MdPhotoLibrary className={styles.iconGreen} />
+            Ảnh/video
+          </button>
+        </div>
+      </div>
+>>>>>>> 32c7979 (Thay cách thức repository được gọi)
 
     const { getRootProps, getInputProps } = useDropzone({
         accept: "image/*,video/*",
@@ -74,6 +151,7 @@ function MainContent() {
         },
     });
 
+<<<<<<< HEAD
     const togglePopup = () => {
         setIsPopupOpen(!isPopupOpen);
     };
@@ -207,6 +285,47 @@ function MainContent() {
             ))}
         </main>
     );
+=======
+      {/* Bài viết */}
+      <Post
+        post={post}
+        currentLike={currentLike}
+        setCurrentLike={setCurrentLike}
+        handleLikeChange={handleLikeChange}
+        hoveringLike={hoveringLike}
+        handleMouseEnter={handleMouseEnter}
+        handleMouseLeave={handleMouseLeave}
+        isEmojiMenuVisible={isEmojiMenuVisible}
+        handleEmojiMenuMouseEnter={handleEmojiMenuMouseEnter}
+        handleEmojiMenuMouseLeave={handleEmojiMenuMouseLeave}
+        comments={comments}
+        currentComment={currentComment}
+        handleAddComment={handleAddComment}
+        setCurrentComment={setCurrentComment}
+        
+      />
+
+
+      <Post
+        post={post}
+        currentLike={currentLike}
+        setCurrentLike={setCurrentLike}
+        handleLikeChange={handleLikeChange}
+        hoveringLike={hoveringLike}
+        handleMouseEnter={handleMouseEnter}
+        handleMouseLeave={handleMouseLeave}
+        isEmojiMenuVisible={isEmojiMenuVisible}
+        handleEmojiMenuMouseEnter={handleEmojiMenuMouseEnter}
+        handleEmojiMenuMouseLeave={handleEmojiMenuMouseLeave}
+        comments={comments}
+        currentComment={currentComment}
+        handleAddComment={handleAddComment}
+        setCurrentComment={setCurrentComment}
+      />
+
+    </main>
+  );
+>>>>>>> 32c7979 (Thay cách thức repository được gọi)
 }
 
 export default MainContent;

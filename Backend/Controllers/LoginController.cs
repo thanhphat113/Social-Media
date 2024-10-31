@@ -74,7 +74,7 @@ namespace Backend.Controllers
 		[HttpGet("CheckEmail")]
 		public async Task<IActionResult> checkEmail(string email)
 		{
-			return Ok(new { result = _UserContext.isHasEmail(email) });
+			return Ok(new { result = _UserContext.IsHasEmail(email) });
 		}
 
 	}
