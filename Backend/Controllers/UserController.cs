@@ -52,12 +52,14 @@ namespace Backend.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Put([FromBody] User user)
 		{
-			if (user.GenderId == null)
-			{
-				user.GenderId = 0;
-			}
-			Console.WriteLine(user.GenderId);
+			user.GenderId ??= 0;
 			return Ok(new { result = await _userContext.Add(user) });
+		}
+
+		[HttpGet("findbyname")]
+		public async Task<IActionResult> GetListByName([FromQuery] string name)
+		{
+			return Ok(new { findlist = await _userContext.GetListByName(name) });
 		}
 
 

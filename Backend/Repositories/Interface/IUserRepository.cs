@@ -12,5 +12,6 @@ namespace Backend.Repositories.Interface
 		public Task<bool> IsHasEmail(string email);
 		public Task<IEnumerable<User>> GetListFriends(int condition);
 		public Task<User> FindToLogin(string email, string password);
+		public Task<IEnumerable<UserPrivate>> GetUsersByName(string name);
 	}
 }

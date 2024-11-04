@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { Link } from "react-router-dom";
 import styles from "./ShowList.module.scss";
 
 function ShowList(props) {
@@ -6,20 +7,20 @@ function ShowList(props) {
     return (
         <>
             {list.map((item) => (
-                <div
+                <Link to={`/${item.UserId}`}
                     className={clsx(styles.wrapper)}
-                    key={item.group_id || item.user_id}
+                    key={item.UserId}
                 >
                     <img
                         className={clsx(styles.profile)}
-                        src={item.profile_picture}
+                        src={item.profilePicture || `/public/img/default/${item.genderId !==2 ? "man" : "woman"}_default.png`}
                     ></img>
                     <p className={clsx(styles.name)}>
                         {item.group_name ||
-                            item.last_name + " " + item.first_name}
+                            item.lastName + " " + item.firstName}
                     </p>
-					{props.type && <a className={clsx(styles.delete)}><i className="fa-solid fa-x"></i></a>}
-                </div>
+					{/* {props.type && <a className={clsx(styles.delete)}><i className="fa-solid fa-x"></i></a>} */}
+                </Link>
             ))}
         </>
     );
