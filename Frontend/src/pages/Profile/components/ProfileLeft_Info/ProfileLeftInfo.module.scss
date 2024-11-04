@@ -1,0 +1,25 @@
+.container {
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  background-color: #fff;
+}
+
+.containerBackground {
+  position: relative;
+}
+
+.buttonChangeBackground {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 2px 10px;
+  background-color: #206bc4;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.buttonChangeBackground:hover {
+  filter: brightness(0.8);
+}

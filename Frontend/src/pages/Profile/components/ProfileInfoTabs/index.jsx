@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './ProfileLeftMainBottom.module.scss';
+import styles from './ProfileInfoTabs.module.scss';
 
 const CardFooter = () => {
   return (
@@ -22,7 +22,7 @@ const CardFooter = () => {
         </li>
         <li className={styles.navItem}>
           <a className={styles.navLink} href="/social_r/profile/media">
-            Ảnh
+            Ảnh/Video
           </a>
         </li>
       </ul>
