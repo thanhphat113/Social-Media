@@ -1,8 +1,7 @@
 import React from 'react';
 import styles from './Profile.module.scss'; 
-import ProfileLeftInfo from './components//ProfileLeft_Info';
+import ProfileLeftInfo from './components/ProfileLeft_Info';
 import PostSystem from '../Home/components/MainContent';
-
 import ProfileRightInfo from './components/ProfileRightInfo';
 import ProfileRightFriend from './components/ProfileRightFriend';
 import ProfileRightMedia from './components/ProfileRightMedia';
