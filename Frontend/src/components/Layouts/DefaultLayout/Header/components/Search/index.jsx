@@ -30,7 +30,7 @@ function Search() {
                 params: { name: search },
                 withCredentials: true 
             });
-            return response.data.findlist;
+            return response.data;
         } catch {
             return null;
         }

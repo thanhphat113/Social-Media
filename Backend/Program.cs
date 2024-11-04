@@ -54,8 +54,11 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<MessageService>();
 builder.Services.AddScoped<ChatInMessageService>();
+builder.Services.AddScoped<RequestNotiService>();
+
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IRequestRepository, RequestNotiRepository>();
 builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 builder.Services.AddScoped<IRepository<ChatInMessage>, ChatInMessageRepository>();
 
