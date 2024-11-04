@@ -131,16 +131,16 @@ public class UserRepository : IUserRepository
 				.ToListAsync();
 	}
 
-	public async Task<IEnumerable<UserPrivate>> GetUsersByName(string name)
+	public async Task<IEnumerable<Object>> GetUsersByName(string name)
 	{
 		return await _context.Users.Where(u => u.FirstName.Contains(name) || u.LastName.Contains(name))
-				.Select(u => new UserPrivate
+				.Select(u => new
 				{
-					UserId = u.UserId,
-					LastName = u.LastName,
-					FirstName = u.FirstName,
-					ProfilePicture = u.ProfilePicture,
-					GenderId = u.GenderId
+					u.UserId,
+					u.LastName,
+					u.FirstName,
+					u.ProfilePicture,
+					u.GenderId
 				})
 				.ToListAsync();
 	}

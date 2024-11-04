@@ -84,7 +84,7 @@ namespace Backend.Services
             return new ValidateEmail("Email hợp lệ", true);
         }
 
-        public async Task<IEnumerable<UserPrivate>> GetListByName(string name)
+        public async Task<IEnumerable<Object>> GetListByName(string name)
         {
             return await _userRepo.GetUsersByName(name);
         }

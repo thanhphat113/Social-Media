@@ -15,10 +15,12 @@ namespace Backend.Controllers
 	{
 
 		private readonly UserService _userContext;
+		private readonly RequestNotiService _NotiContext;
 
-		public UserController(UserService UserContext)
+		public UserController(UserService UserContext, RequestNotiService NotiContext)
 		{
 			_userContext = UserContext;
+			_NotiContext = NotiContext;
 		}
 
 		[HttpGet]
@@ -45,7 +47,8 @@ namespace Backend.Controllers
 			var userId = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 			var information = await _userContext.GetById(int.Parse(userId));
 			var friends = await _userContext.GetFriends(int.Parse(userId));
-			return Ok(new { information = information, friends = friends });
+			var requests = await _NotiContext.FindByUserId(int.Parse(userId));
+			return Ok(new { information = information, friends = friends, requests = requests });
 		}
 
 		[AllowAnonymous]
@@ -59,7 +62,7 @@ namespace Backend.Controllers
 		[HttpGet("findbyname")]
 		public async Task<IActionResult> GetListByName([FromQuery] string name)
 		{
-			return Ok(new { findlist = await _userContext.GetListByName(name) });
+			return Ok(await _userContext.GetListByName(name));
 		}
 
 

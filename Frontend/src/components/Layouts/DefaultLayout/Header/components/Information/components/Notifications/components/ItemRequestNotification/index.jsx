@@ -3,16 +3,17 @@ import styles from "./ItemRequestNotification.module.scss";
 
 function ItemRequestNotification(props) {
     const item = props.package;
+
     return (
         <Link className={styles.wrapper}>
-            <img src={item.from_user_id.profile_picture}></img>
+            <img src={item.profilePicture || `/public/img/default/${item.genderId !==2 ? "man" : "woman"}_default.png`}></img>
             <div className={styles.content}>
                 <p>
                     <strong>
-                        {item.from_user_id.first_name}{" "}
-                        {item.from_user_id.last_name}
+                        {item.firstName}{" "}
+                        {item.lastName}
                     </strong>{" "}
-                    {item.type_id.content}
+                    {`Đã gửi lời mời kết bạn`}
                 </p>
 				<div className={styles.choice}>
 					<button className={styles.accept}>Chấp nhận</button>
