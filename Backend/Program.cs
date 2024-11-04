@@ -4,9 +4,11 @@ using Microsoft.IdentityModel.Tokens;
 
 using System.Text;
 using Backend.Data;
-using Backend.Services;
 using Backend.Authentication;
-using Backend.Repositories;
+using Backend.Repositories.Interface;
+using Backend.Repositories.Repository;
+using Backend.Models;
+using Backend.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,17 +52,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<UserService>();
-builder.Services.AddScoped<RelationshipService>();
 builder.Services.AddScoped<MessageService>();
 builder.Services.AddScoped<ChatInMessageService>();
 
-builder.Services.AddScoped<RelationshipRepository>();
-builder.Services.AddScoped<UserRepository>();
-builder.Services.AddScoped<MessageRepository>();
-builder.Services.AddScoped<ChatInMessageRepository>();
-
-
-
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IMessageRepository, MessageRepository>();
+builder.Services.AddScoped<IRepository<ChatInMessage>, ChatInMessageRepository>();
 
 
 builder.Services.AddScoped<JwtToken>();

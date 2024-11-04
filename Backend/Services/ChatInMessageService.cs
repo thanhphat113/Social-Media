@@ -1,14 +1,15 @@
 
 using Backend.Models;
-using Backend.Repositories;
+using Backend.Repositories.Interface;
+
 
 namespace Backend.Services
 {
 	public class ChatInMessageService : IService<ChatInMessage>
 	{
-		private readonly ChatInMessageRepository _chatRepo;
+		private readonly IRepository<ChatInMessage> _chatRepo;
 
-		public ChatInMessageService(ChatInMessageRepository chatRepo)
+		public ChatInMessageService(IRepository<ChatInMessage> chatRepo)
 		{
 			_chatRepo = chatRepo;
 		}
