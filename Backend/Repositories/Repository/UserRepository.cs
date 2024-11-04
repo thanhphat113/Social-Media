@@ -131,4 +131,17 @@ public class UserRepository : IUserRepository
 				.ToListAsync();
 	}
 
+	public async Task<IEnumerable<UserPrivate>> GetUsersByName(string name)
+	{
+		return await _context.Users.Where(u => u.FirstName.Contains(name) || u.LastName.Contains(name))
+				.Select(u => new UserPrivate
+				{
+					UserId = u.UserId,
+					LastName = u.LastName,
+					FirstName = u.FirstName,
+					ProfilePicture = u.ProfilePicture,
+					GenderId = u.GenderId
+				})
+				.ToListAsync();
+	}
 }
