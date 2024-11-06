@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { SetUser, getRequests } from "../Actions/UserAction";
+import { SetUser, deleteRequests, acceptRequests } from "../Actions/UserAction";
 
 const UserSlice = createSlice({
     name: "user",
@@ -17,17 +17,20 @@ const UserSlice = createSlice({
 				state.information = infor?.information || null
 				state.friends = infor?.friends || []
 				state.requests = infor?.requests || []
+				state.postrequests = infor?.postrequests || []
+				console.log(infor)
 			})
 			.addCase(SetUser.rejected,(state) => {
 				state.information = null
 				state.friends = []
 				state.requests = []
+				state.postrequests = []
 			})
-			.addCase(getRequests.fulfilled,(state,action) => {
+			.addCase(acceptRequests.fulfilled,(state,action) => {
 				state.requests = action.payload
 			})
-			.addCase(getRequests.rejected,(state,action) => {
-				state.requests = []
+			.addCase(deleteRequests.fulfilled,(state,action) => {
+				state.requests = action.payload
 			})
 	}
 });

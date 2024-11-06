@@ -12,7 +12,7 @@ namespace Backend.Repositories.Repository
 		{
 			_context = context;
 		}
-		public Task<bool> Add(Message product)
+		public Task<bool> Add(Message value)
 		{
 			throw new NotImplementedException();
 		}
@@ -47,7 +47,7 @@ namespace Backend.Repositories.Repository
 		}
 
 
-		public Task<bool> Update(Message product)
+		public Task<bool> Update(Message value)
 		{
 			throw new NotImplementedException();
 		}

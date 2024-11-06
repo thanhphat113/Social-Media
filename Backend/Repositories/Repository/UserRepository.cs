@@ -60,7 +60,7 @@ public class UserRepository : IUserRepository
 			return false;
 		}
 	}
-	public async Task<bool> Update(User product)
+	public async Task<bool> Update(User value)
 	{
 		throw new NotImplementedException();
 	}

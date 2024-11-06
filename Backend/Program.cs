@@ -55,11 +55,15 @@ builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<MessageService>();
 builder.Services.AddScoped<ChatInMessageService>();
 builder.Services.AddScoped<RequestNotiService>();
+builder.Services.AddScoped<PostNotiService>();
+builder.Services.AddScoped<RelationshipService>();
 
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IRequestRepository, RequestNotiRepository>();
+builder.Services.AddScoped<INotificationsRepository, RequestNotiRepository>();
+builder.Services.AddScoped<IPostNotiRepository, PostNotiRepository>();
 builder.Services.AddScoped<IMessageRepository, MessageRepository>();
+builder.Services.AddScoped<IRelationshipRepository, RelationshipRepository>();
 builder.Services.AddScoped<IRepository<ChatInMessage>, ChatInMessageRepository>();
 
 

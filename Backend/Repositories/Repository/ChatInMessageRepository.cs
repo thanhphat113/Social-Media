@@ -50,7 +50,7 @@ namespace Backend.Repositories.Repository
 			throw new NotImplementedException();
 		}
 
-		public Task<bool> Update(ChatInMessage product)
+		public Task<bool> Update(ChatInMessage value)
 		{
 			throw new NotImplementedException();
 		}

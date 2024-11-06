@@ -6,8 +6,8 @@ using Backend.Models;
 
 namespace Backend.Repositories.Interface
 {
-	public interface IRequestRepository : IRepository<RequestNotification>
+	public interface IRelationshipRepository : IRepository<Relationship>
 	{
-		Task<IEnumerable<Object>> FindByUserId(int id);
+		Task<bool> Accept(int user1, int user2);
 	}
 }

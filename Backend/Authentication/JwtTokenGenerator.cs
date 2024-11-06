@@ -19,13 +19,13 @@ public class JwtToken
     {
         var claims = new[]
         {
-            new Claim(ClaimTypes.NameIdentifier, userId),  
+            new Claim(ClaimTypes.NameIdentifier, userId),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()), // JTI mới cho mỗi token
             new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString()), // Thêm thời gian phát hành
         };
 
         var keyValue = _configuration["Jwt:Key"];
-        
+
         if (string.IsNullOrEmpty(keyValue))
         {
             Console.WriteLine("Jwt:Key cannot be null or empty");
