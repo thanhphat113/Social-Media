@@ -21,8 +21,6 @@ function Search() {
         fetchData();
     }, [search]);
 
-    console.log(searchs)
-
     const GetListByName = async () => {
         try {
             const response = await axios.get(

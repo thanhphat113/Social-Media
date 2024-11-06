@@ -4,12 +4,12 @@ import axios from "axios";
 const SetUser = createAsyncThunk("User/get", async () => {
     try {
         const response = await axios.get(
-			"http://localhost:5164/api/User/findbyid",
-			{
-				withCredentials: true,
-			}
-		);
-		return response.data;
+            "http://localhost:5164/api/User/findbyid",
+            {
+                withCredentials: true,
+            }
+        );
+        return response.data;
     } catch {
         return null;
     }
@@ -17,17 +17,67 @@ const SetUser = createAsyncThunk("User/get", async () => {
 
 const getRequests = createAsyncThunk("User/getRequests", async (userid) => {
     try {
-        const response = await axios.get(
-			"http://localhost:5164/Request",
-			{
-				params: {id: userid},
-				withCredentials: true,
-			}
-		);
-		return response.data;
+        const response = await axios.get("http://localhost:5164/Request", {
+            params: { id: userid },
+            withCredentials: true,
+        });
+        return response.data;
     } catch {
         return null;
     }
 });
 
-export { SetUser, getRequests }
+const acceptRequests = createAsyncThunk(
+    "User/acceptRequests",
+    async (userid) => {
+        try {
+            const response = await axios.post(
+                "http://localhost:5164/Request",
+                {},
+                {
+                    params: { otheruser: userid },
+                    withCredentials: true,
+                }
+            );
+            console.log(response.data);
+            return response.data;
+        } catch {
+            return null;
+        }
+    }
+);
+
+const deleteRequests = createAsyncThunk(
+    "User/deleteRequests",
+    async (userid) => {
+        try {
+            const response = await axios.delete(
+                `http://localhost:5164/Request/${userid}`,
+                {
+                    withCredentials: true,
+                }
+            );
+            console.log(response.data);
+            return response.data;
+        } catch {
+            return null;
+        }
+    }
+);
+
+const getPostRequests = createAsyncThunk(
+    "User/getPostRequests",
+    async (userid) => {
+        try {
+            const response = await axios.get("http://localhost:5164/Request", {
+                params: { id: userid },
+                withCredentials: true,
+            });
+            return response.data;
+        } catch {
+            return null;
+        }
+    }
+);
+
+export { SetUser, getRequests, acceptRequests, deleteRequests };

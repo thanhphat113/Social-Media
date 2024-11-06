@@ -2,30 +2,36 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Backend.Data;
 using Backend.Models;
 using Backend.Repositories.Interface;
-using Backend.Services;
+using Microsoft.EntityFrameworkCore;
 
-namespace Backend.Services
+namespace Backend.Repositories.Repository
 {
-	public class RelationshipService : IRelationshipRepository
+	public class RelationshipRepository : IRelationshipRepository
 	{
-		private readonly IRelationshipRepository _repo;
-		public RelationshipService(IRelationshipRepository repo)
+		private readonly SocialMediaContext _context;
+		public RelationshipRepository(SocialMediaContext context)
 		{
-			_repo = repo;
+			_context = context;
 		}
 		public async Task<bool> Accept(int user1, int user2)
 		{
-			try
+			var item = await _context.Relationships
+					.FirstOrDefaultAsync(r =>
+						(r.FromUserId == user1 && r.ToUserId == user2) ||
+						(r.FromUserId == user2 && r.ToUserId == user1));
+
+			if (item == null)
 			{
-				return await _repo.Accept(user1, user2);
-			}
-			catch (Exception e)
-			{
-				Console.WriteLine("Lỗi: " + e.Data);
+				Console.WriteLine("Hình như là lỗi");
 				return false;
 			}
+
+			item.TypeRelationship = 2;
+			await _context.SaveChangesAsync();
+			return true;
 		}
 
 		public Task<bool> Add(Relationship value)

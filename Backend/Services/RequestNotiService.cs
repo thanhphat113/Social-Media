@@ -7,12 +7,25 @@ using Backend.Repositories.Interface;
 
 namespace Backend.Services
 {
-	public class RequestNotiService : IRequestRepository
+	public class RequestNotiService : INotificationsRepository
 	{
-		private readonly IRequestRepository _Repo;
-		public RequestNotiService(IRequestRepository Repo)
+		private readonly INotificationsRepository _Repo;
+		public RequestNotiService(INotificationsRepository Repo)
 		{
 			_Repo = Repo;
+		}
+
+		public async Task<bool> Accept(int user1, int user2)
+		{
+			try
+			{
+				return await _Repo.Accept(user1, user2);
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine("Lỗi: " + e.Data);
+				return false;
+			}
 		}
 
 		public Task<bool> Add(RequestNotification product)
@@ -20,9 +33,17 @@ namespace Backend.Services
 			throw new NotImplementedException();
 		}
 
-		public Task<bool> Delete(int id)
+		public async Task<bool> Delete(int id)
 		{
-			throw new NotImplementedException();
+			try
+			{
+				return await _Repo.Delete(id);
+			}
+			catch
+			{
+				Console.WriteLine("Lỗi rầu");
+				return false;
+			}
 		}
 
 		public async Task<IEnumerable<Object>> FindByUserId(int id)

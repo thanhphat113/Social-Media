@@ -1,15 +1,21 @@
 import { useState, useEffect } from "react";
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 import styles from "./Notifications.module.scss";
 import { CustomTooltip } from "../../../../../../../GlobalStyles";
 import ItemRequestNotification from "./components/ItemRequestNotification";
 import ItemPostNotification from "./components/ItemPostNotification";
 import clsx from "clsx";
 
-
 function Notifications({ title, nameicon, onToggle, isActive }) {
     const [type, setType] = useState("request");
-    const requests = useSelector( (state) => state.user.requests)
+    const requests = useSelector((state) => state.user.requests);
+    const postRequests = useSelector((state) => state.user.postrequests);
+    
+    const list = type === "request" ? requests : postRequests;
+
+    const handleClick = (newType) => {
+        setType(newType);
+    };
 
     return (
         <div className={styles.wrapper}>
@@ -26,7 +32,7 @@ function Notifications({ title, nameicon, onToggle, isActive }) {
                     <h1>Thông báo</h1>
                     <div className={styles.choice}>
                         <button
-                            onClick={() => setType("request")}
+                            onClick={() => handleClick("request")}
                             className={clsx({
                                 [styles.active]: type === "request",
                             })}
@@ -34,7 +40,7 @@ function Notifications({ title, nameicon, onToggle, isActive }) {
                             Kết bạn
                         </button>
                         <button
-                            onClick={() => setType("post")}
+                            onClick={() => handleClick("post")}
                             className={clsx({
                                 [styles.active]: type === "post",
                             })}
@@ -42,16 +48,16 @@ function Notifications({ title, nameicon, onToggle, isActive }) {
                             Thông báo
                         </button>
                     </div>
-                    <div className={clsx(styles.list)}>
-                        {requests.map((item) =>
+                    <div className={clsx(styles.list)} key={type}>
+                        {list.map((item) =>
                             type === "request" ? (
                                 <ItemRequestNotification
-                                    key={item.post_notification_id}
+                                    key={item.userId}
                                     package={item}
                                 />
                             ) : (
                                 <ItemPostNotification
-                                    key={item.post_notification_id}
+                                    key={item.postNotificationId}
                                     package={item}
                                 />
                             )

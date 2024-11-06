@@ -16,11 +16,13 @@ namespace Backend.Controllers
 
 		private readonly UserService _userContext;
 		private readonly RequestNotiService _NotiContext;
+		private readonly PostNotiService _PostContext;
 
-		public UserController(UserService UserContext, RequestNotiService NotiContext)
+		public UserController(UserService UserContext, RequestNotiService NotiContext, PostNotiService PostContext)
 		{
 			_userContext = UserContext;
 			_NotiContext = NotiContext;
+			_PostContext = PostContext;
 		}
 
 		[HttpGet]
@@ -48,7 +50,8 @@ namespace Backend.Controllers
 			var information = await _userContext.GetById(int.Parse(userId));
 			var friends = await _userContext.GetFriends(int.Parse(userId));
 			var requests = await _NotiContext.FindByUserId(int.Parse(userId));
-			return Ok(new { information = information, friends = friends, requests = requests });
+			var postrequests = await _PostContext.FindByUserId(int.Parse(userId));
+			return Ok(new { information = information, friends = friends, requests = requests, postrequests = postrequests });
 		}
 
 		[AllowAnonymous]

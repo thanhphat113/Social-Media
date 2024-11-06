@@ -49,8 +49,6 @@ public partial class User
     [JsonIgnore]
     public virtual ICollection<Message> MessageUser2Navigations { get; set; } = new List<Message>();
     [JsonIgnore]
-    public virtual ICollection<PostNotificationToUser> PostNotificationToUsers { get; set; } = new List<PostNotificationToUser>();
-    [JsonIgnore]
     public virtual ICollection<PostNotification> PostNotifications { get; set; } = new List<PostNotification>();
     [JsonIgnore]
     public virtual ICollection<Post> Posts { get; set; } = new List<Post>();
