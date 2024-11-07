@@ -9,5 +9,6 @@ namespace Backend.Repositories.Interface
 	public interface IHistorySearchRepository : IRepository<HistorySearch>
 	{
 		Task<IEnumerable<Object>> GetHistorySearchByUserId(int userid);
+		Task<bool> UpdateTime(int historyid);
 	}
 }

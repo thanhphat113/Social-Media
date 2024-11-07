@@ -65,9 +65,23 @@ namespace Backend.Repositories.Repository
 			throw new NotImplementedException();
 		}
 
-		public Task<bool> Update(HistorySearch value)
+		public async Task<bool> Update(HistorySearch value)
 		{
 			throw new NotImplementedException();
+		}
+
+		public async Task<bool> UpdateTime(int historyid)
+		{
+
+			var item = await _context.HistorySearches.FirstOrDefaultAsync(h => h.HistoryId == historyid);
+			if (item == null) return false;
+			var vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
+			var vietnamTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone);
+
+			item.DateSearch = vietnamTime;
+			var result = await _context.SaveChangesAsync();
+			Console.WriteLine(result);
+			return result > 0;
 		}
 	}
 }
