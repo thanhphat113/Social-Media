@@ -72,5 +72,18 @@ namespace Backend.Services
 		{
 			throw new NotImplementedException();
 		}
+
+		public async Task<bool> UpdateTime(int historyid)
+		{
+			try
+			{
+				return await _repo.UpdateTime(historyid);
+			}
+			catch (System.Exception ex)
+			{
+				Console.WriteLine("Lỗi: " + ex.Message);
+				throw;
+			}
+		}
 	}
 }

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
     addHistory,
     deleteHistory,
+    updateHistory,
 } from "../../../../../../../Redux/Actions/HistorySearchAction";
 
 function ShowList(props) {
@@ -13,9 +14,11 @@ function ShowList(props) {
     const user = useSelector((state) => state.user.information);
     const dispatch = useDispatch();
 
-    const handleClick = async (FromUser, OtherUser) => {
+    const handleClick = async (FromUser, OtherUser, HistoryId) => {
         const result = history.some((item) => item.userId === OtherUser);
-        !result && (await dispatch(addHistory({ FromUser, OtherUser })));
+        result
+            ? await dispatch(updateHistory(HistoryId))
+            : await dispatch(addHistory({ FromUser, OtherUser }));
     };
 
     return (
@@ -25,7 +28,7 @@ function ShowList(props) {
                     to={`/${item.userId}`}
                     className={clsx(styles.wrapper)}
                     key={item.userId}
-                    onClick={() => handleClick(user.userId, item.userId)}
+                    onClick={() => handleClick(user.userId, item.userId, item.historyId)}
                 >
                     <img
                         className={clsx(styles.profile)}

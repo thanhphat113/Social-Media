@@ -40,8 +40,15 @@ namespace Backend.Controllers
 		}
 
 		[HttpPut("{id}")]
-		public void Put(int id, [FromBody] string value)
+		public async Task<ActionResult> Put(int id)
 		{
+			var userId = GetCookie.GetUserIdFromCookie(Request);
+			Console.WriteLine("Id là:" + id);
+			if (await _service.UpdateTime(id))
+			{
+				return await Get(userId);
+			}
+			return null;
 		}
 
 		[HttpDelete("{id}")]

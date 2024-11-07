@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { SetUser, deleteRequests, acceptRequests } from "../Actions/UserAction";
-import { addHistory, deleteHistory } from "../Actions/HistorySearchAction";
+import { addHistory, deleteHistory, updateHistory } from "../Actions/HistorySearchAction";
 
 const UserSlice = createSlice({
     name: "user",
@@ -41,7 +41,9 @@ const UserSlice = createSlice({
 			.addCase(deleteHistory.fulfilled,(state,action) => {
 				state.historysearch = action.payload
 			})
-			
+			.addCase(updateHistory.fulfilled,(state,action) => {
+				state.historysearch = action.payload
+			})
 	}
 });
 

@@ -32,4 +32,19 @@ const deleteHistory = createAsyncThunk(
     }
 );
 
-export { addHistory, deleteHistory };
+const updateHistory = createAsyncThunk(
+    "historysearch/update",
+    async ( id , thunkAPI) => {
+        try {
+            const response = await axios.put(
+                `http://localhost:5164/api/HistorySearch/${id}`,{},
+                { withCredentials: true}
+            );
+            return response.data;
+        } catch {
+            return thunkAPI.rejectWithValue(null);
+        }
+    }
+);
+
+export { addHistory, deleteHistory, updateHistory };
