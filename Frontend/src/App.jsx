@@ -13,7 +13,6 @@ import DefaultLayout from "./components/Layouts/DefaultLayout";
 import Profile from "./pages/Profile";
 import Authentication from "./components/Authentication";
 import { SetUser } from "./components/Redux/Actions/UserAction";
-import { setLogin } from "./components/Redux/Slices/LoginSlice";
 
 function App() {
 
@@ -24,7 +23,6 @@ function App() {
         const getuser = async () => {
             const response = await dispatch(SetUser());
             if (SetUser.fulfilled.match(response)) {
-                await dispatch(setLogin());
                 navigate("/");
             }
         };
@@ -78,7 +76,7 @@ function App() {
                     path="/information"
                     element={
                         <Authentication>
-                            <Information />
+                            `<Information />
                         </Authentication>
                     }
                 />

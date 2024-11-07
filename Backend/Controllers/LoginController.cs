@@ -26,7 +26,6 @@ namespace Backend.Controllers
 			Console.WriteLine(account.password);
 			var token = await _UserContext.FindToLogin(account.email, account.password);
 
-
 			if (token == null)
 			{
 				return Ok(false);
