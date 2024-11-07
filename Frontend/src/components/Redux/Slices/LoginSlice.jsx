@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { login, logout } from "../Actions/LoginActions";
+import { SetUser } from "../Actions/UserAction";
 
 const LoginSlice = createSlice({
     name: "login",
@@ -34,6 +35,11 @@ const LoginSlice = createSlice({
                 if (action.payload) {
                     state.isLogin = false;
                     state.status = "Đăng xuất thành công !";
+                }
+            })
+            .addCase(SetUser.fulfilled, (state, action) => {
+                if (action.payload) {
+                    state.isLogin = true;
                 }
             })
 

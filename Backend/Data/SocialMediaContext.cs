@@ -245,6 +245,7 @@ public partial class SocialMediaContext : DbContext
                 .HasColumnType("int(11)")
                 .HasColumnName("history_id");
             entity.Property(e => e.DateSearch)
+                .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("datetime")
                 .HasColumnName("date_search");
             entity.Property(e => e.FromUser)

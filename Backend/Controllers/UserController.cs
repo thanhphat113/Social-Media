@@ -15,14 +15,16 @@ namespace Backend.Controllers
 	{
 
 		private readonly UserService _userContext;
+		private readonly HistorySearchService _historySearchContext;
 		private readonly RequestNotiService _NotiContext;
 		private readonly PostNotiService _PostContext;
 
-		public UserController(UserService UserContext, RequestNotiService NotiContext, PostNotiService PostContext)
+		public UserController(UserService UserContext, HistorySearchService historySearchContext, RequestNotiService NotiContext, PostNotiService PostContext)
 		{
 			_userContext = UserContext;
 			_NotiContext = NotiContext;
 			_PostContext = PostContext;
+			_historySearchContext = historySearchContext;
 		}
 
 		[HttpGet]
@@ -35,23 +37,15 @@ namespace Backend.Controllers
 		[HttpGet("findbyid")]
 		public async Task<IActionResult> FindById()
 		{
-			var token = Request.Cookies["Security"];
+			var userId = GetCookie.GetUserIdFromCookie(Request);
+			if (userId == -1) return null;
 
-			if (string.IsNullOrEmpty(token))
-			{
-				return Ok(null);
-			}
-
-			var tokenHandler = new JwtSecurityTokenHandler();
-
-			var jwtToken = tokenHandler.ReadJwtToken(token);
-
-			var userId = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-			var information = await _userContext.GetById(int.Parse(userId));
-			var friends = await _userContext.GetFriends(int.Parse(userId));
-			var requests = await _NotiContext.FindByUserId(int.Parse(userId));
-			var postrequests = await _PostContext.FindByUserId(int.Parse(userId));
-			return Ok(new { information = information, friends = friends, requests = requests, postrequests = postrequests });
+			var information = await _userContext.GetById(userId);
+			var friends = await _userContext.GetFriends(userId);
+			var requests = await _NotiContext.FindByUserId(userId);
+			var postrequests = await _PostContext.FindByUserId(userId);
+			var historysearch = await _historySearchContext.GetHistorySearchByUserId(userId);
+			return Ok(new { information = information, friends = friends, requests = requests, postrequests = postrequests, historysearch = historysearch });
 		}
 
 		[AllowAnonymous]
