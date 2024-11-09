@@ -54,7 +54,7 @@ namespace Backend.Repositories.Repository
 			throw new NotImplementedException();
 		}
 
-		public Task<IEnumerable<Relationship>> GetListByType(int condition, string type)
+		public Task<IEnumerable<Relationship>> GetListById(int user)
 		{
 			throw new NotImplementedException();
 		}

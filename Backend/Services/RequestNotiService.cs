@@ -68,7 +68,7 @@ namespace Backend.Services
 			throw new NotImplementedException();
 		}
 
-		public Task<IEnumerable<RequestNotification>> GetListByType(int condition, string type)
+		public Task<IEnumerable<RequestNotification>> GetListById(int userid)
 		{
 			throw new NotImplementedException();
 		}

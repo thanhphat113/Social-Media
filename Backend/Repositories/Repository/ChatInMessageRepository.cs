@@ -1,14 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Backend.Data;
 using Backend.Models;
 using Backend.Repositories.Interface;
+using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Repositories.Repository
 {
-	public class ChatInMessageRepository : IRepository<ChatInMessage>
+	public class ChatInMessageRepository : IChatInMessRepository
 	{
 		private readonly SocialMediaContext _context;
 		public ChatInMessageRepository(SocialMediaContext context)
@@ -17,22 +14,28 @@ namespace Backend.Repositories.Repository
 		}
 		public async Task<bool> Add(ChatInMessage mess)
 		{
-			try
-			{
-				await _context.ChatInMessages.AddAsync(mess);
-				await _context.SaveChangesAsync();
-				return true;
-			}
-			catch (Exception error)
-			{
-				Console.WriteLine("Lỗi là:" + error.Data);
-				return false;
-			}
+			await _context.ChatInMessages.AddAsync(mess);
+			var result = await _context.SaveChangesAsync();
+			return result > 0;
 		}
 
-		public Task<bool> Delete(int id)
+		public async Task<bool> Delete(int id)
 		{
-			throw new NotImplementedException();
+			try
+			{
+				var item = await GetById(id);
+				if (item == null) return false;
+
+				item.IsRecall = true;
+
+				var result = await _context.SaveChangesAsync();
+				return result > 0;
+			}
+			catch (System.Exception ex)
+			{
+				Console.WriteLine("Lỗi: " + ex);
+				throw;
+			}
 		}
 
 		public Task<IEnumerable<ChatInMessage>> GetAll()
@@ -40,19 +43,41 @@ namespace Backend.Repositories.Repository
 			throw new NotImplementedException();
 		}
 
-		public Task<ChatInMessage> GetById(int id)
+		public async Task<ChatInMessage> GetById(int id)
+		{
+			return await _context.ChatInMessages
+				.FirstOrDefaultAsync(c => c.ChatId == id);
+		}
+
+		public Task<IEnumerable<ChatInMessage>> GetListById(int userid)
 		{
 			throw new NotImplementedException();
 		}
 
-		public Task<IEnumerable<ChatInMessage>> GetListByType(int condition, string type)
+		public async Task<ICollection<ChatInMessage>> GetMessage(int user1, int user2)
+		{
+			return await _context.Messages
+						.Where(m => m.User1 == user1 || m.User2 == user1)
+						.Where(m => m.User1 == user2 || m.User2 == user2)
+						.SelectMany(m => m.ChatInMessages)
+						.ToListAsync();
+		}
+
+		public async Task<bool> Update(ChatInMessage value)
 		{
 			throw new NotImplementedException();
 		}
 
-		public Task<bool> Update(ChatInMessage value)
+		public async Task<bool> ReadMess(int user1)
 		{
-			throw new NotImplementedException();
+			var item = await GetById(user1);
+
+			if (item == null) return false;
+
+			item.IsRead = true;
+
+			var result = await _context.SaveChangesAsync();
+			return result > 0;
 		}
 	}
 }

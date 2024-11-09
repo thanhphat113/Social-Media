@@ -6,8 +6,10 @@ using Backend.Models;
 
 namespace Backend.Repositories.Interface
 {
-	public interface IMessageRepository : IRepository<Message>
+	public interface IMessageRepository
 	{
-		public Task<IEnumerable<ChatInMessage>> GetMessage(int user1, int user2);
+		Task<Message> Add(Message value);
+		Task<bool> Update(Message value);
+		Task<Message> FindBy2User(int user1, int user2);
 	}
 }

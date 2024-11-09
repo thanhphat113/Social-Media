@@ -6,18 +6,20 @@ const UserSlice = createSlice({
     name: "user",
     initialState: {
         information: null,
-		friends: [],
 		historysearch: [],
 		requests: [],
 		postrequests: [],
     },
-    reducer: {},
+    reducers: {
+		findFriend:( (state, action) => {
+			state.friends = action.payload
+		})
+	},
 	extraReducers:(builder) => {
 		builder
 			.addCase(SetUser.fulfilled,(state,action) => {
 				const infor = action.payload
 				state.information = infor?.information || null
-				state.friends = infor?.friends || []
 				state.historysearch = infor?.historysearch || []
 				state.requests = infor?.requests || []
 				state.postrequests = infor?.postrequests || []
@@ -47,4 +49,5 @@ const UserSlice = createSlice({
 	}
 });
 
+export const { findFriend } = UserSlice.actions
 export default UserSlice.reducer

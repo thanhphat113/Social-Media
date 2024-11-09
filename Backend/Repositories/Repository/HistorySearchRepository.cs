@@ -60,7 +60,7 @@ namespace Backend.Repositories.Repository
 					.ToListAsync();
 		}
 
-		public Task<IEnumerable<HistorySearch>> GetListByType(int condition, string type)
+		public Task<IEnumerable<HistorySearch>> GetListById(int userid)
 		{
 			throw new NotImplementedException();
 		}
