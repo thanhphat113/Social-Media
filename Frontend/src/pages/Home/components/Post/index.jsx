@@ -91,17 +91,11 @@ function Post({
     // Ở đây bạn có thể thêm logic để sửa bài viết
   };
 
-
-
-<<<<<<< HEAD
-=======
 function Post({
   post,
   currentLike,
   setCurrentLike,
   hoveringLike,
-=======
->>>>>>> 6198759 (Sidebar tạo nhóm, trang tạo nhóm, và post)
   handleMouseEnter,
   handleMouseLeave,
   comments,
@@ -307,11 +301,9 @@ function Post({
             />
             <span>{currentLike.label || 'Cloud'}</span>
               style={{ color: currentLike.isLiked ? '#74C0FC' : '#1E3050' }} // Đổi màu theo trạng thái
-            />
             <span>{currentLike.label || 'Cloud'}</span> {/* Gán nhãn cho biểu tượng đám mây */}
 
               style={{ color: currentLike.isLiked ? '#74C0FC' : '#1E3050' }}
-            />
             <span>{currentLike.label || 'Cloud'}</span>
           </button>
         </div>

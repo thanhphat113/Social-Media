@@ -1,35 +1,21 @@
-<<<<<<< HEAD
-import { useState } from 'react';
-import { MdPhotoLibrary } from 'react-icons/md';
-=======
-<<<<<<< HEAD:Frontend/src/pages/Home/components/MainContent/index.jsx
-<<<<<<< HEAD:Frontend/src/pages/Home/components/MainContent/index.jsx
+
 import  { useState } from 'react';
 import {  MdPhotoLibrary } from 'react-icons/md';
->>>>>>> 6198759 (Sidebar tạo nhóm, trang tạo nhóm, và post)
 import { FaSmile, FaImage, FaMapMarkerAlt, FaTimes, FaFacebookMessenger, FaWhatsapp, FaLink, FaUsers, FaFlag } from 'react-icons/fa';
-=======
 import React, { useState } from 'react';
 import { MdOutlineVideoCall, MdPhotoLibrary } from 'react-icons/md';
 import { FaSmile, FaImage, FaMapMarkerAlt } from 'react-icons/fa';
->>>>>>> 94207f6 (Sidebar tạo nhóm, trang tạo nhóm, và post):Frontend/src/pages/Home/components/MainContent/MainContent.jsx
 import { useDropzone } from 'react-dropzone';
 import styles from './MainContent.module.scss';
 import Post from '../Post';
-=======
 import React, { useState } from "react";
 import { MdOutlineVideoCall, MdPhotoLibrary } from "react-icons/md";
 import { FaSmile, FaImage, FaMapMarkerAlt } from "react-icons/fa";
 import { useDropzone } from "react-dropzone";
 import styles from "Frontend/src/pages/Home/components/MainContent/MainContent.module.scss";
 import Post from "../Post/Post";
->>>>>>> 957ef15 (sửa sơ css):Frontend/src/pages/Home/components/MainContent/MainContent.jsx
 
 function MainContent() {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 870dc3d (sửa sơ css)
     const [comments, setComments] = useState([]);
     const [currentComment, setCurrentComment] = useState("");
     const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -39,9 +25,8 @@ function MainContent() {
     const [posts, setPosts] = useState([]);
     const [currentLike, setCurrentLike] = useState({
         emoji: null,
-        label: "Like",
-<<<<<<< HEAD
-=======
+        label: "Like"});
+
   const [comments, setComments] = useState([]);
   const [currentComment, setCurrentComment] = useState('');
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -51,10 +36,42 @@ function MainContent() {
   const [posts, setPosts] = useState([]);
   const [currentLike, setCurrentLike] = useState({ emoji: null, label: 'Like' });
   const [files, setFiles] = useState([]); // State để lưu trữ nhiều file đã chọn
-=======
+
+    const handleLikeChange = (emoji, label) => {
+        setCurrentLike({ emoji, label });
+        setIsEmojiMenuVisible(false);
+    };
+
+    const handleMouseEnter = () => {
+        setHoveringLike(true);
+        setIsEmojiMenuVisible(true);
+    };
+
+    const handleMouseLeave = () => {
+        if (!isEmojiMenuVisible) {
+            setHoveringLike(false);
+        }
+    };
+
+    const handleAddComment = () => {
+        if (currentComment.trim() !== "") {
+            setComments([...comments, currentComment]);
+            setCurrentComment("");
+        }
+    };
+
+    const handlePostSubmit = () => {
+        if (postContent.trim() !== "") {
+            const newPost = {
+                images: files.map((file) => file.preview), // Thay đổi thành mảng các ảnh
+                title: "Anime",
+                userName: "Nguyễn Tiến",
+                content: postContent,
+                time: "Mới đây",
+            };
+
     });
     const [files, setFiles] = useState([]); // State để lưu trữ nhiều file đã chọn
->>>>>>> 870dc3d (sửa sơ css)
 
     const handleLikeChange = (emoji, label) => {
         setCurrentLike({ emoji, label });
@@ -96,31 +113,16 @@ function MainContent() {
         }
     };
 
-<<<<<<< HEAD:Frontend/src/pages/Home/components/MainContent/index.jsx
-  const { getRootProps, getInputProps } = useDropzone({
-    accept: 'image/*',
-    onDrop: acceptedFiles => {
-      acceptedFiles.forEach(file => {
-        console.log(file.type); // Kiểm tra kiểu MIME của file
->>>>>>> 32c7979 (Thay cách thức repository được gọi)
-    });
-<<<<<<< HEAD
     const [files, setFiles] = useState([]); // State để lưu trữ nhiều file đã chọn
     const [isSharePopupOpen, setIsSharePopupOpen] = useState(false);
     const [visibility, setVisibility] = useState("Công khai");
 
-<<<<<<< HEAD
     const handleLikeChange = (emoji, label) => {
         setCurrentLike({ emoji, label });
         setIsEmojiMenuVisible(false);
     };
-=======
-  const togglePopup = () => {
-    setIsPopupOpen(!isPopupOpen);
-  };
->>>>>>> 6198759 (Sidebar tạo nhóm, trang tạo nhóm, và post)
 
-<<<<<<< HEAD
+
     const handleMouseEnter = () => {
         setHoveringLike(true);
         setIsEmojiMenuVisible(true);
@@ -155,14 +157,12 @@ function MainContent() {
             setIsPopupOpen(false);
         }
     };
-=======
-=======
+
       setFiles(acceptedFiles.map(file => Object.assign(file, {
         preview: URL.createObjectURL(file)
       })));
     }
   });
-=======
     const { getRootProps, getInputProps } = useDropzone({
         accept: "image/*,video/*",
         onDrop: (acceptedFiles) => {
@@ -175,15 +175,12 @@ function MainContent() {
             );
         },
     });
->>>>>>> 957ef15 (sửa sơ css):Frontend/src/pages/Home/components/MainContent/MainContent.jsx
+
 
     const togglePopup = () => {
         setIsPopupOpen(!isPopupOpen);
     };
 
-<<<<<<< HEAD:Frontend/src/pages/Home/components/MainContent/index.jsx
->>>>>>> 870dc3d (sửa sơ css)
-  return (
     <main className={styles.content}>
       <div className={styles.postContainer}>
         <input
@@ -199,9 +196,7 @@ function MainContent() {
           </button>
         </div>
       </div>
->>>>>>> 32c7979 (Thay cách thức repository được gọi)
 
-<<<<<<< HEAD
     const { getRootProps, getInputProps } = useDropzone({
         accept: "image/*,video/*",
         onDrop: (acceptedFiles) => {
@@ -215,7 +210,6 @@ function MainContent() {
         },
     });
 
-<<<<<<< HEAD
     const togglePopup = () => {
         setIsPopupOpen(!isPopupOpen);
     };
@@ -349,7 +343,7 @@ function MainContent() {
             ))}
         </main>
     );
-=======
+
       {/* Bài viết */}
       <Post
         post={post}
@@ -387,7 +381,6 @@ function MainContent() {
         setCurrentComment={setCurrentComment}
       />
 
-=======
       {isPopupOpen && (
         <>
           <div className={styles.popupOverlay} onClick={togglePopup}></div>
@@ -415,7 +408,7 @@ function MainContent() {
               <input {...getInputProps()} />
               <p>Thêm ảnh/video hoặc kéo và thả</p>
             </div>
-<<<<<<< HEAD:Frontend/src/pages/Home/components/MainContent/index.jsx
+
             {/* <div className={styles.popupActions}>
               <button className={styles.mobileButton}>
                 <FaVideo className={styles.iconBlue} /> Thêm ảnh và video từ thiết bị di động.
@@ -423,9 +416,6 @@ function MainContent() {
               <button className={styles.addButton}>Thêm</button>
             </div> */}
             {/* <div className={styles.extraOptions}>
-=======
-            <div className={styles.extraOptions}>
->>>>>>> 94207f6 (Sidebar tạo nhóm, trang tạo nhóm, và post):Frontend/src/pages/Home/components/MainContent/MainContent.jsx
               <p>Thêm vào bài viết của bạn</p>
               <div className={styles.iconOptions}>
                 <FaImage className={styles.iconGreen} />
@@ -433,17 +423,11 @@ function MainContent() {
                 <FaMapMarkerAlt className={styles.iconRed} />
                 <span className={styles.iconPurple}>GIF</span>
               </div>
-<<<<<<< HEAD:Frontend/src/pages/Home/components/MainContent/index.jsx
-            </div> */}
-            <button className={styles.continueButton}>Đăng</button>
-=======
             </div>
             <button className={styles.continueButton} onClick={handlePostSubmit}>Đăng</button>
->>>>>>> 94207f6 (Sidebar tạo nhóm, trang tạo nhóm, và post):Frontend/src/pages/Home/components/MainContent/MainContent.jsx
           </div>
         </>
       )}
-=======
     return (
         <main className={styles.content}>
             <div className={styles.postContainer}>
@@ -464,9 +448,6 @@ function MainContent() {
                     </button>
                 </div>
             </div>
->>>>>>> 957ef15 (sửa sơ css):Frontend/src/pages/Home/components/MainContent/MainContent.jsx
-
-<<<<<<< HEAD
       {posts.map((post, index) => (
         <Post
           key={index}
@@ -484,11 +465,6 @@ function MainContent() {
           setCurrentComment={setCurrentComment}
         />
       ))}
->>>>>>> 6198759 (Sidebar tạo nhóm, trang tạo nhóm, và post)
-    </main>
-  );
->>>>>>> 32c7979 (Thay cách thức repository được gọi)
-=======
             {isPopupOpen && (
                 <>
                     <div
@@ -568,7 +544,6 @@ function MainContent() {
             ))}
         </main>
     );
->>>>>>> 870dc3d (sửa sơ css)
 }
 
 export default MainContent;

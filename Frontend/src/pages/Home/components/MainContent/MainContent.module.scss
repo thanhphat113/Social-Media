@@ -66,58 +66,40 @@
 }
 
 .inputField {
-<<<<<<< HEAD
     width: 100%;
     padding: 0.5rem;
     background-color: #d4cfcf6f;
     border-radius: 10px;
     height: 5rem;
     cursor: pointer;
-    border:none;
+    border: none;
 
     &:hover {
         background-color: #c6c3c36f;
     }
-}
-
-=======
-<<<<<<< HEAD
-  width: 100%;
-  padding: 0.5rem;
-  background-color: white;
-  border-radius: 9999px;
-  margin-bottom: 0.5rem;
-  border: none;
-  caret-color: transparent;
 }
 
 .inputField:focus {
-  outline: none; /* Loại bỏ viền khi focus */
-=======
+    outline: none; /* Loại bỏ viền khi focus */
     width: 100%;
     padding: 0.5rem;
     background-color: #d4cfcf6f;
     border-radius: 10px;
     height: 5rem;
     cursor: pointer;
-    border:none;
+    border: none;
 
     &:hover {
         background-color: #c6c3c36f;
     }
 }
 
->>>>>>> 870dc3d (sửa sơ css)
 .line {
     content: none;
-    width: 95%; 
-    height: 2px; 
-    background-color: #d4cfcf6f; 
-    margin: 10px auto; 
-<<<<<<< HEAD
-=======
->>>>>>> 957ef15 (sửa sơ css)
->>>>>>> 870dc3d (sửa sơ css)
+    width: 95%;
+    height: 2px;
+    background-color: #d4cfcf6f;
+    margin: 10px auto;
 }
 
 .actionButtons {
@@ -171,18 +153,16 @@
 }
 
 .popupHeader {
-<<<<<<< HEAD
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e2e8f0;
 }
 
 .popupTitle {
-  font-size: 1.25rem;
-  font-weight: bold;
-  margin-top: 0;
-=======
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-top: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -191,7 +171,6 @@
 .popupTitle {
     font-size: 1.25rem;
     font-weight: bold;
->>>>>>> 957ef15 (sửa sơ css)
 }
 
 .closeButton {
@@ -211,22 +190,20 @@
 }
 
 .userName {
-<<<<<<< HEAD
-  margin-left: 0.5rem;
-  margin-bottom: 1rem;
+    margin-left: 0.5rem;
+    margin-bottom: 1rem;
 }
 
 .userNameText {
-  font-weight: bold;
-  font-size: calc(1.3rem + .6vw);
-  margin-bottom: 1.55rem;
+    font-weight: bold;
+    font-size: calc(1.3rem + 0.6vw);
+    margin-bottom: 1.55rem;
 }
 
 .publicButton {
-  color: #3b82f6; // Màu xanh dương
-  font-size: 1.35rem; // Kích thước chữ
-  cursor: pointer;
-=======
+    color: #3b82f6; // Màu xanh dương
+    font-size: 1.35rem; // Kích thước chữ
+    cursor: pointer;
     margin-left: 0.5rem;
 }
 
@@ -238,7 +215,6 @@
     color: #3b82f6; // Màu xanh dương
     font-size: 0.875rem; // Kích thước chữ
     border: none;
->>>>>>> 957ef15 (sửa sơ css)
 }
 
 .textarea {
@@ -250,19 +226,11 @@
 }
 
 .dropzone {
-<<<<<<< HEAD
-  padding: 1rem;
-  border: 2px dashed #e2e8f0; // Màu viền đứt
-  border-radius: 0.5rem;
-  text-align: center;
-  cursor: pointer;
-=======
-    margin-top: 1rem;
     padding: 1rem;
     border: 2px dashed #e2e8f0; // Màu viền đứt
     border-radius: 0.5rem;
     text-align: center;
->>>>>>> 957ef15 (sửa sơ css)
+    cursor: pointer;
 }
 
 .popupActions {
@@ -320,28 +288,18 @@
 }
 
 .continueButton {
-<<<<<<< HEAD
-  width: 100%;
-  margin-top: 1rem;
-  background-color: #64c1e2; // Màu xám
-  color: #fff; // Màu xám đậm
-  padding: 0.5rem;
-  border-radius: 0.5rem;
-  border: 1px solid #2750a6;
-  cursor: pointer;
-}
-
-
-.continueButton:hover {
-  opacity: 0.9;
-=======
     width: 100%;
     margin-top: 1rem;
-    background-color: #e5e7eb; // Màu xám
-    color: #6b7280; // Màu xám đậm
+    background-color: #64c1e2; // Màu xám
+    color: #fff; // Màu xám đậm
     padding: 0.5rem;
     border-radius: 0.5rem;
->>>>>>> 957ef15 (sửa sơ css)
+    border: 1px solid #2750a6;
+    cursor: pointer;
+}
+
+.continueButton:hover {
+    opacity: 0.9;
 }
 
 .postHeader {
@@ -371,15 +329,10 @@
 }
 
 .postTime {
-<<<<<<< HEAD
-<<<<<<< HEAD
     font-size: 0.875rem; // Kích thước chữ
-=======
-  font-size: 0.875rem; // Kích thước chữ
->>>>>>> 32c7979 (Thay cách thức repository được gọi)
-=======
     font-size: 0.875rem; // Kích thước chữ
->>>>>>> 870dc3d (sửa sơ css)
+    font-size: 0.875rem; // Kích thước chữ
+    font-size: 0.875rem; // Kích thước chữ
 }
 
 .postImageFull {
@@ -401,21 +354,19 @@
 }
 
 .interactionButton {
-<<<<<<< HEAD
-<<<<<<< HEAD
     display: flex;
     align-items: center;
     gap: 0.25rem;
-=======
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
->>>>>>> 32c7979 (Thay cách thức repository được gọi)
-=======
+
     display: flex;
     align-items: center;
     gap: 0.25rem;
->>>>>>> 870dc3d (sửa sơ css)
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
 }
 
 .sendButton {
@@ -426,33 +377,11 @@
     margin-left: 0.5rem;
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-//share
-=======
-//share 
-
-
-
-
-
->>>>>>> 32c7979 (Thay cách thức repository được gọi)
-=======
-//share
->>>>>>> 870dc3d (sửa sơ css)
-
 .popupHeader {
-<<<<<<< HEAD
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-=======
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px;
->>>>>>> 957ef15 (sửa sơ css)
+    margin-bottom: 1rem;
 }
 
 .popupTitle {
@@ -468,17 +397,10 @@
 }
 
 .profileImage {
-<<<<<<< HEAD
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  margin-right: 10px;
-=======
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     margin-right: 10px;
->>>>>>> 957ef15 (sửa sơ css)
 }
 
 .visibilityButtons {
@@ -495,38 +417,19 @@
 }
 
 .textarea {
-<<<<<<< HEAD
-  width: 100%;
-  height: 120px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  margin: 1rem 0;
-  padding: 10px;
-  outline: none;
-  resize: none;
-=======
     width: 100%;
-    height: 60px;
+    height: 120px;
     border-radius: 5px;
     border: 1px solid #ccc;
-    margin-bottom: 15px;
+    margin: 1rem 0;
     padding: 10px;
->>>>>>> 957ef15 (sửa sơ css)
+    outline: none;
+    resize: none;
 }
 
 .popupActions {
-<<<<<<< HEAD
-<<<<<<< HEAD
     display: flex;
     justify-content: flex-end;
-=======
-  display: flex;
-  justify-content: flex-end;
->>>>>>> 32c7979 (Thay cách thức repository được gọi)
-=======
-    display: flex;
-    justify-content: flex-end;
->>>>>>> 870dc3d (sửa sơ css)
 }
 
 .extraOptions {
