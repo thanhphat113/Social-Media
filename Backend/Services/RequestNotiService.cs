@@ -28,7 +28,7 @@ namespace Backend.Services
 			}
 		}
 
-		public Task<bool> Add(RequestNotification product)
+		public Task<RequestNotification> Add(RequestNotification product)
 		{
 			throw new NotImplementedException();
 		}

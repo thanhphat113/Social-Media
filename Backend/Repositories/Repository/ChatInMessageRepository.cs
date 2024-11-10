@@ -12,11 +12,13 @@ namespace Backend.Repositories.Repository
 		{
 			_context = context;
 		}
-		public async Task<bool> Add(ChatInMessage mess)
+		public async Task<ChatInMessage> Add(ChatInMessage mess)
 		{
+			mess.DateCreated = DateTime.Now;
 			await _context.ChatInMessages.AddAsync(mess);
 			var result = await _context.SaveChangesAsync();
-			return result > 0;
+			if (result > 0) return mess;
+			return null;
 		}
 
 		public async Task<bool> Delete(int id)
@@ -27,6 +29,7 @@ namespace Backend.Repositories.Repository
 				if (item == null) return false;
 
 				item.IsRecall = true;
+				item.Content = "Tin nhắn đã thu hồi";
 
 				var result = await _context.SaveChangesAsync();
 				return result > 0;

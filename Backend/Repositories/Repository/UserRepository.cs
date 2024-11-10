@@ -42,7 +42,7 @@ public class UserRepository : IUserRepository
 			return null;
 		}
 	}
-	public async Task<bool> Add(User user)
+	public async Task<User> Add(User user)
 	{
 		try
 		{
@@ -52,12 +52,12 @@ public class UserRepository : IUserRepository
 			await _context.Users.AddAsync(user);
 			await _context.SaveChangesAsync();
 
-			return true;
+			return user;
 		}
 		catch (Exception ex)
 		{
 			Console.WriteLine("Đây là lỗi: " + ex.Message);
-			return false;
+			throw;
 		}
 	}
 	public async Task<bool> Update(User value)

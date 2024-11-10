@@ -47,11 +47,12 @@ namespace Backend.Controllers
 				mess.MessagesId = item.MessagesId;
 			}
 
-			if (!await _mess.Add(mess))
+			var result = await _mess.Add(mess);
+
+			if (result == null)
 				return BadRequest("Lỗi việc tạo tin nhắn mới");
 
-			var friends = await _userContext.GetFriends(mess.FromUser);
-			return Ok(friends);
+			return Ok(result);
 		}
 
 		[HttpPut("{id}")]
@@ -68,13 +69,7 @@ namespace Backend.Controllers
 		public async Task<IActionResult> Delete(int id)
 		{
 			var UserId = GetCookie.GetUserIdFromCookie(Request);
-			if (await _mess.Delete(id))
-			{
-				var friends = await _userContext.GetFriends(UserId);
-				return Ok(friends);
-			}
-
-			return BadRequest("Lỗi thu hồi tin nhắn");
+			return Ok(await _mess.Delete(id));
 		}
 	}
 }

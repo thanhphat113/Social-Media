@@ -15,7 +15,7 @@ namespace Backend.Services
 		{
 			_repo = repo;
 		}
-		public async Task<bool> Add(HistorySearch value)
+		public async Task<HistorySearch> Add(HistorySearch value)
 		{
 			try
 			{

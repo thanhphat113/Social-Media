@@ -24,7 +24,7 @@ function DetailMessage({ onShow }) {
 
 
     const [typeShow, setTypeShow] = useState();
-    const [targetMess, setTargetMess] = useState();
+    const [targetMess, setTargetMess] = useState([]);
 
     const messagesEndRef = useRef(null);
 
@@ -32,9 +32,9 @@ function DetailMessage({ onShow }) {
         (u) => u.userId === currentFriendId
     );
 
-    const messageId = InforCurrentFriend.chatInMessages[0]?.messagesId || -1;
+    const messageId = InforCurrentFriend?.chatInMessages[0].messagesId || -1;
 
-    const message = InforCurrentFriend.chatInMessages;
+    const message = InforCurrentFriend?.chatInMessages;
 
 
     useEffect(() => {
@@ -76,7 +76,7 @@ function DetailMessage({ onShow }) {
     };
 
     const onAccept = () => {
-        dispatch(deleteMess(targetMess))
+        dispatch(deleteMess({id: targetMess, Otheruser:currentFriendId}))
         setTypeShow(null);
     }
 

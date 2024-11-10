@@ -15,7 +15,7 @@ namespace Backend.Services
 		{
 			_repo = repo;
 		}
-		public Task<bool> Add(GroupChat value)
+		public Task<GroupChat> Add(GroupChat value)
 		{
 			throw new NotImplementedException();
 		}

@@ -17,7 +17,7 @@ namespace Backend.Repositories.Repository
 			_context = context;
 		}
 
-		public Task<bool> Add(PostNotification value)
+		public Task<PostNotification> Add(PostNotification value)
 		{
 			throw new NotImplementedException();
 		}

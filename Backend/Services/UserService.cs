@@ -20,7 +20,7 @@ namespace Backend.Services
         }
         public async Task<string> Add(User product)
         {
-            if (await _userRepo.Add(product))
+            if (await _userRepo.Add(product) != null)
             {
                 return "Đăng ký tài khoản thành công";
             }

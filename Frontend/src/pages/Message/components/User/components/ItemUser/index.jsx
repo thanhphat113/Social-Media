@@ -46,8 +46,8 @@ function ItemUser( {list} ) {
         if (Hours >= 1) {
             return `${Hours} giờ`;
         }
-
-        return `${Minutes} phút`;
+        if (Minutes >= 1) return `${Minutes} phút`;
+        return `Vừa gửi`
     };
 
     return (

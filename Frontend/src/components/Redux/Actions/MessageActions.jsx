@@ -1,22 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-const findMessById = createAsyncThunk(
-    "message/findMess",
-    async ({ user1, user2 }, thunkAPI) => {
-        try {
-            const response = await axios.get(
-                `http://localhost:5164/api/ChatInMessage`,
-                {
-                    params: { user1: user1, user2: user2 },
-                    withCredentials: true,
-                }
-            );
-            return response.data;
-        } catch {
-            return thunkAPI.rejectWithValue(null);
-        }
-    }
-);
+
 
 const addMess = createAsyncThunk(
     "message/chat",
@@ -27,7 +11,7 @@ const addMess = createAsyncThunk(
                 { MessagesId, FromUser, Content, Otheruser },
                 { withCredentials: true }
             );
-            return response.data;
+            return {friendId: Otheruser, message: response.data};
         } catch (error) {
             return thunkAPI.rejectWithValue(error.response ? error.response.data : error.message);
         }
@@ -36,13 +20,14 @@ const addMess = createAsyncThunk(
 
 const deleteMess = createAsyncThunk(
     "message/delete",
-    async (id , thunkAPI) => {
+    async ({ id, Otheruser } , thunkAPI) => {
         try {
             const response = await axios.delete(
                 `http://localhost:5164/api/ChatInMessage/${id}`,
                 { withCredentials: true }
             );
-            return response.data;
+
+            return { isDelete: response.data, friendId: Otheruser, chatId: id};
         } catch (error) {
             return thunkAPI.rejectWithValue(error.response ? error.response.data : error.message);
         }
@@ -66,4 +51,4 @@ const readMess = createAsyncThunk(
     }
 );
 
-export { findMessById, addMess, readMess, deleteMess };
+export { addMess, readMess, deleteMess };

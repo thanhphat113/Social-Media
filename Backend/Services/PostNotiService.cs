@@ -15,7 +15,7 @@ namespace Backend.Services
 			_repo = repo;
 		}
 
-		public Task<bool> Add(PostNotification product)
+		public Task<PostNotification> Add(PostNotification product)
 		{
 			throw new NotImplementedException();
 		}

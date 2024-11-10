@@ -13,11 +13,12 @@ namespace Backend.Repositories.Repository
 			_context = context;
 		}
 
-		public async Task<bool> Add(HistorySearch value)
+		public async Task<HistorySearch> Add(HistorySearch value)
 		{
 			await _context.HistorySearches.AddAsync(value);
 			var result = await _context.SaveChangesAsync();
-			return result > 0;
+			if (result > 0) return value;
+			return null;
 		}
 
 		public async Task<bool> Delete(int id)
@@ -65,7 +66,7 @@ namespace Backend.Repositories.Repository
 			throw new NotImplementedException();
 		}
 
-		public async Task<bool> Update(HistorySearch value)
+		public Task<bool> Update(HistorySearch value)
 		{
 			throw new NotImplementedException();
 		}

@@ -34,7 +34,7 @@ namespace Backend.Repositories.Repository
 			return true;
 		}
 
-		public Task<bool> Add(Relationship value)
+		public Task<Relationship> Add(Relationship value)
 		{
 			throw new NotImplementedException();
 		}

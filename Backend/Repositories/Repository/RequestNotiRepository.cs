@@ -33,7 +33,7 @@ namespace Backend.Repositories.Repository
 			return true;
 		}
 
-		public Task<bool> Add(RequestNotification value)
+		public Task<RequestNotification> Add(RequestNotification value)
 		{
 			throw new NotImplementedException();
 		}

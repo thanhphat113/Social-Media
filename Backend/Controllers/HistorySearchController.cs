@@ -32,7 +32,7 @@ namespace Backend.Controllers
 		public async Task<ActionResult> Post([FromBody] HistorySearch value)
 		{
 			var userId = GetCookie.GetUserIdFromCookie(Request);
-			if (await _service.Add(value))
+			if (await _service.Add(value) != null)
 			{
 				return await Get(userId);
 			}

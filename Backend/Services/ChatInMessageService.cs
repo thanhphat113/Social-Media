@@ -15,7 +15,7 @@ namespace Backend.Services
 			_chatRepo = chatRepo;
 		}
 
-		public async Task<bool> Add(ChatInMessage mess)
+		public async Task<ChatInMessage> Add(ChatInMessage mess)
 		{
 			try
 			{
