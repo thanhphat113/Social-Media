@@ -8,9 +8,9 @@
     border-radius: 8px;
     padding: 10px;
     z-index: 100;
-}
-
-.emojiButton {
+  }
+  
+  .emojiButton {
     background: none;
     border: none;
     cursor: pointer;
@@ -31,46 +31,44 @@
 .homeContainer {
     display: flex;
     height: 100vh; // Chiều cao 100% của màn hình
-    background-color: #f0f2f5;
+    background-color: #F0F2F5;
     color: black;
-}
-
-.flexGrow {
+  }
+  
+  .flexGrow {
     display: flex;
     flex-grow: 1;
-}
-
-.sidebar {
+  }
+  
+  .sidebar {
     flex: 0 0 20%; // Chiếm 20% chiều rộng
     min-width: 200px; // Chiều rộng tối thiểu
-}
-
-.mainContent {
+  }
+  
+  .mainContent {
     flex: 1; // Chiếm phần còn lại
     min-width: 600px; // Chiều rộng tối thiểu
-}
-
-.rightSidebar {
+  }
+  
+  .rightSidebar {
     flex: 0 0 20%; // Chiếm 20% chiều rộng
     min-width: 200px; // Chiều rộng tối thiểu
-}
-
-//Main content
-.content {
+  }
+  
+  //Main content
+  .content {
     width: 100%; // Chiếm 3/5 chiều rộng
     padding: 1rem;
-}
-
-.postContainer {
+  }
+  
+  .postContainer {
     background-color: white;
     padding: 1rem;
-    border-radius: 10px;
+    border-radius: 0.5rem;
     margin-bottom: 1rem;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-    padding-bottom: 10px;
-}
-
-.inputField {
+  }
+  
+  .inputField {
     width: 100%;
     padding: 0.5rem;
     background-color: #d4cfcf6f;
@@ -96,28 +94,22 @@
     display: flex;
     justify-content: space-between;
     margin-top: 1rem;
-}
-
-.photoButton {
+  }
+  
+  .photoButton {
     display: flex;
     align-items: center;
     border: none;
-    border-radius: 5px;
     background-color: white;
-    cursor: pointer;
-    padding: 1rem 1rem;
-
-    &:hover {
-        background-color: #c6c3c36f;
-    }
-}
-
-.iconGreen {
+  
+  }
+  
+  .iconGreen {
     color: #48bb78; // Màu xanh lá
     margin-right: 0.5rem;
-}
-
-.popupOverlay {
+  }
+  
+  .popupOverlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -125,9 +117,9 @@
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.5); // Nền mờ
     z-index: 10;
-}
-
-.popup {
+  }
+  
+  .popup {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -157,15 +149,15 @@
 
 .closeButton {
     color: gray;
-}
-
-.userInfo {
+  }
+  
+  .userInfo {
     display: flex;
     align-items: center;
     // margin-top: 1rem;
-}
-
-.profileImage {
+  }
+  
+  .profileImage {
     width: 2.5rem; // Kích thước ảnh đại diện
     height: 2.5rem;
     border-radius: 50%;
@@ -209,52 +201,52 @@
     justify-content: space-between;
     align-items: center;
     margin-top: 1rem;
-}
-
-.mobileButton {
+  }
+  
+  .mobileButton {
     display: flex;
     align-items: center;
     color: #3b82f6; // Màu xanh dương
-}
-
-.iconBlue {
+  }
+  
+  .iconBlue {
     margin-right: 0.5rem;
-}
-
-.addButton {
+  }
+  
+  .addButton {
     background-color: #3b82f6; // Màu xanh dương
     color: white;
     padding: 0.5rem 1rem;
     border-radius: 0.5rem;
-}
-
-.extraOptions {
+  }
+  
+  .extraOptions {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: 1rem;
     border-top: 1px solid #e2e8f0; // Màu viền trên
     padding-top: 0.5rem;
-}
-
-.iconOptions {
+  }
+  
+  .iconOptions {
     display: flex;
     gap: 0.5rem;
-}
-
-.iconGreen {
+  }
+  
+  .iconGreen {
     color: #48bb78; // Màu xanh lá
-}
-
-.iconYellow {
+  }
+  
+  .iconYellow {
     color: #fbbf24; // Màu vàng
-}
-
-.iconRed {
+  }
+  
+  .iconRed {
     color: #ef4444; // Màu đỏ
-}
-
-.iconPurple {
+  }
+  
+  .iconPurple {
     color: #a855f7; // Màu tím
 }
 
@@ -278,57 +270,57 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 0.5rem;
-}
-
-.userPostInfo {
+  }
+  
+  .userPostInfo {
     display: flex;
     align-items: center;
-}
-
-.postImage {
+  }
+  
+  .postImage {
     width: 2rem; // Kích thước ảnh đại diện
     height: 2rem;
     border-radius: 50%;
     margin-right: 0.5rem;
-}
-
-.postUserName {
+  }
+  
+  .postUserName {
     font-weight: bold;
-}
-
-.followButton {
+  }
+  
+  .followButton {
     color: #3b82f6; // Màu xanh dương
-}
-
-.postTime {
+  }
+  
+  .postTime {
     font-size: 0.875rem; // Kích thước chữ
-}
-
-.postImageFull {
+  }
+  
+  .postImageFull {
     width: 100%;
     border-radius: 0.5rem;
     margin-bottom: 1rem;
-}
-
-.interactionBar {
+  }
+  
+  .interactionBar {
     display: flex;
     justify-content: space-between;
     color: gray;
     border-top: 1px solid #e2e8f0; // Màu viền
     padding-top: 0.5rem;
-}
-
-.likeButton {
+  }
+  
+  .likeButton {
     position: relative;
-}
-
-.interactionButton {
+  }
+  
+  .interactionButton {
     display: flex;
     align-items: center;
     gap: 0.25rem;
-}
-
-.sendButton {
+  }
+  
+  .sendButton {
     background-color: #3b82f6; // Màu xanh dương
     color: white;
     padding: 0.5rem;
@@ -348,9 +340,9 @@
 .popupTitle {
     font-size: 20px;
     font-weight: bold;
-}
-
-.closeButton {
+  }
+  
+  .closeButton {
     background: none;
     border: none;
     font-size: 20px;
@@ -362,14 +354,15 @@
     width: 50px;
     height: 50px;
     margin-right: 10px;
+
 }
 
 .visibilityButtons {
     display: flex;
     align-items: center;
-}
-
-.visibilityButton {
+  }
+  
+  .visibilityButton {
     background-color: #e7e7e7;
     border: none;
     padding: 5px 10px;
@@ -386,33 +379,36 @@
     padding: 10px;
     outline: none;
     resize: none;
+
 }
 
 .popupActions {
+
     display: flex;
     justify-content: flex-end;
-}
-
-.extraOptions {
+  }
+  
+  .extraOptions {
     margin-top: 15px;
-}
-
-.extraOptionsTitle {
+  }
+  
+  .extraOptionsTitle {
     font-weight: bold;
     margin-bottom: 10px;
-}
-
-.shareIcons {
+  }
+  
+  .shareIcons {
     display: flex;
     justify-content: space-between;
-}
-
-.iconButton {
+  }
+  
+  .iconButton {
     background: none;
     border: none;
     cursor: pointer;
     color: #1c74e7;
     font-size: 24px;
+
 }
 
 .previewContainer {
@@ -441,3 +437,4 @@
     background-color: black;
     margin: 16px 0;
 }
+

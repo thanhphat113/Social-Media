@@ -4,9 +4,11 @@ using Microsoft.IdentityModel.Tokens;
 
 using System.Text;
 using Backend.Data;
-using Backend.Services;
 using Backend.Authentication;
-using Backend.Repositories;
+using Backend.Repositories.Interface;
+using Backend.Repositories.Repository;
+using Backend.Models;
+using Backend.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,18 +51,26 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddScoped<PostNotiService>();
 builder.Services.AddScoped<UserService>();
-builder.Services.AddScoped<RelationshipService>();
+builder.Services.AddScoped<HistorySearchService>();
+builder.Services.AddScoped<GroupChatService>();
 builder.Services.AddScoped<MessageService>();
 builder.Services.AddScoped<ChatInMessageService>();
-
-builder.Services.AddScoped<RelationshipRepository>();
-builder.Services.AddScoped<UserRepository>();
-builder.Services.AddScoped<MessageRepository>();
-builder.Services.AddScoped<ChatInMessageRepository>();
+builder.Services.AddScoped<RequestNotiService>();
+builder.Services.AddScoped<PostNotiService>();
+builder.Services.AddScoped<RelationshipService>();
 
 
 
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IGroupChatRepository, GroupChatRepository>();
+builder.Services.AddScoped<INotificationsRepository, RequestNotiRepository>();
+builder.Services.AddScoped<IHistorySearchRepository, HistorySearchRepository>();
+builder.Services.AddScoped<IPostNotiRepository, PostNotiRepository>();
+builder.Services.AddScoped<IMessageRepository, MessageRepository>();
+builder.Services.AddScoped<IRelationshipRepository, RelationshipRepository>();
+builder.Services.AddScoped<IChatInMessRepository, ChatInMessageRepository>();
 
 
 builder.Services.AddScoped<JwtToken>();

@@ -43,7 +43,6 @@ public partial class SocialMediaContext : DbContext
 
     public virtual DbSet<PostNotification> PostNotifications { get; set; }
 
-    public virtual DbSet<PostNotificationToUser> PostNotificationToUsers { get; set; }
 
     public virtual DbSet<PrivacySetting> PrivacySettings { get; set; }
 
@@ -140,6 +139,12 @@ public partial class SocialMediaContext : DbContext
             entity.Property(e => e.FromUser)
                 .HasColumnType("int(11)")
                 .HasColumnName("from_user");
+            entity.Property(e => e.IsRead)
+                .HasColumnType("tinyint(1)")
+                .HasColumnName("is_read");
+            entity.Property(e => e.IsRecall)
+                .HasColumnType("tinyint(1)")
+                .HasColumnName("is_recall");
             entity.Property(e => e.MessagesId)
                 .HasColumnType("int(11)")
                 .HasColumnName("messages_id");
@@ -246,6 +251,7 @@ public partial class SocialMediaContext : DbContext
                 .HasColumnType("int(11)")
                 .HasColumnName("history_id");
             entity.Property(e => e.DateSearch)
+                .HasDefaultValueSql("current_timestamp()")
                 .HasColumnType("datetime")
                 .HasColumnName("date_search");
             entity.Property(e => e.FromUser)
@@ -459,7 +465,12 @@ public partial class SocialMediaContext : DbContext
             entity.Property(e => e.PostId)
                 .HasColumnType("int(11)")
                 .HasColumnName("post_id");
-            entity.Property(e => e.TypeId).HasColumnName("type_id");
+            entity.Property(e => e.TypeId)
+                .HasColumnType("int(11)")
+                .HasColumnName("type_id");
+            entity.Property(e => e.IsRead)
+                .HasColumnType("tinyint(1)")
+                .HasColumnName("is_read");
 
             entity.HasOne(d => d.FromUser).WithMany(p => p.PostNotifications)
                 .HasForeignKey(d => d.FromUserId)
@@ -474,34 +485,6 @@ public partial class SocialMediaContext : DbContext
                 .HasConstraintName("fk_post_notifications_type");
         });
 
-        modelBuilder.Entity<PostNotificationToUser>(entity =>
-        {
-            entity.HasKey(e => new { e.ToUserId, e.PostNotificationId })
-                .HasName("PRIMARY")
-                .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
-
-            entity.ToTable("post_notification_to_user");
-
-            entity.HasIndex(e => e.PostNotificationId, "fk_post_notification_to_user_post_notification_id");
-
-            entity.Property(e => e.ToUserId)
-                .HasColumnType("int(11)")
-                .HasColumnName("to_user_id");
-            entity.Property(e => e.PostNotificationId)
-                .HasColumnType("int(11)")
-                .HasColumnName("post_notification_id");
-            entity.Property(e => e.IsRead)
-                .HasDefaultValueSql("'0'")
-                .HasColumnName("is_read");
-
-            entity.HasOne(d => d.PostNotification).WithMany(p => p.PostNotificationToUsers)
-                .HasForeignKey(d => d.PostNotificationId)
-                .HasConstraintName("fk_post_notification_to_user_post_notification_id");
-
-            entity.HasOne(d => d.ToUser).WithMany(p => p.PostNotificationToUsers)
-                .HasForeignKey(d => d.ToUserId)
-                .HasConstraintName("fk_post_notification_to_user_to_user_id");
-        });
 
         modelBuilder.Entity<PrivacySetting>(entity =>
         {
@@ -661,6 +644,9 @@ public partial class SocialMediaContext : DbContext
             entity.Property(e => e.FromUserId)
                 .HasColumnType("int(11)")
                 .HasColumnName("from_user_id");
+            entity.Property(e => e.IsAccept)
+                .HasDefaultValueSql("'0'")
+                .HasColumnName("is_accept");
             entity.Property(e => e.IsRead)
                 .HasDefaultValueSql("'0'")
                 .HasColumnName("is_read");
@@ -727,7 +713,9 @@ public partial class SocialMediaContext : DbContext
 
             entity.ToTable("type_post_notifications");
 
-            entity.Property(e => e.TypeId).HasColumnName("type_id");
+            entity.Property(e => e.TypeId)
+                .HasColumnType("int(11)")
+                .HasColumnName("type_id");
             entity.Property(e => e.Content)
                 .HasMaxLength(255)
                 .HasColumnName("content");
@@ -799,6 +787,9 @@ public partial class SocialMediaContext : DbContext
             entity.Property(e => e.GenderId)
                 .HasColumnType("int(1)")
                 .HasColumnName("gender_id");
+            entity.Property(e => e.IsOnline)
+                .HasColumnType("tinyint(1)")
+                .HasColumnName("is_online");
 
             entity.HasOne(d => d.CoverPhotoNavigation).WithMany(p => p.UserCoverPhotoNavigations)
                 .HasForeignKey(d => d.CoverPhoto)

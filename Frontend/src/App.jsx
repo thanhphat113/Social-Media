@@ -1,4 +1,3 @@
-
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,10 +13,8 @@ import Profile from "./pages/Profile";
 import NewGroupPage from "./pages/Group/NewGroup";
 import Authentication from "./components/Authentication";
 import { SetUser } from "./components/Redux/Actions/UserAction";
-import { setLogin } from "./components/Redux/Slices/LoginSlice";
 
 function App() {
-
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -25,7 +22,6 @@ function App() {
         const getuser = async () => {
             const response = await dispatch(SetUser());
             if (SetUser.fulfilled.match(response)) {
-                await dispatch(setLogin());
                 navigate("/");
             }
         };
@@ -79,7 +75,7 @@ function App() {
                     path="/information"
                     element={
                         <Authentication>
-                            <Information />
+                            `<Information />
                         </Authentication>
                     }
                 />
@@ -96,7 +92,6 @@ function App() {
             </Route>
         </Routes>
     );
-
 }
 
 export default App;

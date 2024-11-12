@@ -1,22 +1,26 @@
 using Backend.Models;
 using Backend.Repositories;
 using Backend.Authentication;
+using Backend.Repositories.Interface;
+using Backend.Services;
 
 namespace Backend.Services
 {
     public class UserService : IService<User>
     {
         private readonly JwtToken _jwtToken;
-        private readonly UserRepository _userRepo;
+        private readonly IUserRepository _userRepo;
+        private readonly IChatInMessRepository _mess;
 
-        public UserService(UserRepository repo, JwtToken jwtToken)
+        public UserService(IUserRepository repo, JwtToken jwtToken, IChatInMessRepository mess)
         {
             _userRepo = repo;
+            _mess = mess;
             _jwtToken = jwtToken;
         }
         public async Task<string> Add(User product)
         {
-            if (await _userRepo.Add(product))
+            if (await _userRepo.Add(product) != null)
             {
                 return "Đăng ký tài khoản thành công";
             }
@@ -26,6 +30,15 @@ namespace Backend.Services
         public Task<string> Delete(int id)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<User>> FriendsWithChat(int UserId, IEnumerable<User> friends)
+        {
+            foreach (var item in friends)
+            {
+                item.ChatInMessages = await _mess.GetMessage(UserId, item.UserId);
+            }
+            return friends;
         }
 
         public Task<IEnumerable<User>> GetAll()
@@ -48,11 +61,13 @@ namespace Backend.Services
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<User>> getFriends(int id)
+        public async Task<IEnumerable<User>> GetFriends(int id)
         {
             try
             {
-                return await _userRepo.GetListFriends(id);
+                var friends = await _userRepo.GetListFriends(id);
+                var results = await FriendsWithChat(id, friends);
+                return results;
             }
             catch
             {
@@ -70,16 +85,35 @@ namespace Backend.Services
             return null;
         }
 
-        public async Task<ValidateEmail> isHasEmail(string email)
+        public async Task<ValidateEmail> IsHasEmail(string email)
         {
             if (!email.EndsWith("@gmail.com") && !email.EndsWith("@gmail.com.vn"))
                 return new ValidateEmail("Email phải có đuôi là @gmail.com hoặc @gmail.com.vn", false);
             if (string.IsNullOrEmpty(email))
                 return new ValidateEmail("Vui lòng nhập email", false);
-            if (await _userRepo.isHasEmail(email))
+            if (await _userRepo.IsHasEmail(email))
                 return new ValidateEmail("Email này đã được đăng ký vui lòng nhập lại", false);
 
             return new ValidateEmail("Email hợp lệ", true);
+        }
+
+        public async Task<IEnumerable<Object>> GetListByName(string name)
+        {
+            return await _userRepo.GetUsersByName(name);
+        }
+
+        public async Task<IEnumerable<User>> GetFriendsByName(int userid, string name)
+        {
+            try
+            {
+                var friends = await _userRepo.GetFriendByName(userid, name);
+                var results = await FriendsWithChat(userid, friends);
+                return results;
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 

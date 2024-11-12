@@ -26,7 +26,6 @@ namespace Backend.Controllers
 			Console.WriteLine(account.password);
 			var token = await _UserContext.FindToLogin(account.email, account.password);
 
-
 			if (token == null)
 			{
 				return Ok(false);
@@ -74,7 +73,7 @@ namespace Backend.Controllers
 		[HttpGet("CheckEmail")]
 		public async Task<IActionResult> checkEmail(string email)
 		{
-			return Ok(new { result = _UserContext.isHasEmail(email) });
+			return Ok(new { result = _UserContext.IsHasEmail(email) });
 		}
 
 	}

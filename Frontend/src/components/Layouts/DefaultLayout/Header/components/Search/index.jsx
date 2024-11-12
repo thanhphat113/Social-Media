@@ -1,42 +1,65 @@
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { useSelector } from "react-redux";
 import clsx from "clsx";
 import styles from "./Search.module.scss";
 import ShowList from "./components/ShowList";
-
-const searchs = [
-    {
-        user_id: 1,
-        group_name: "Thanh phat",
-        profile_picture: "/public/img/Cloudy.png",
-    },
-    {
-        user_id: 2,
-        group_name: "Thanh phat",
-        profile_picture: "/public/img/Cloudy.png",
-    },
-    {
-        user_id: 3,
-        group_name: "Thanh phat",
-        profile_picture: "/public/img/Cloudy.png",
-    },
-    {
-        user_id: 4,
-        group_name: "Thanh phat",
-        profile_picture: "/public/img/Cloudy.png",
-    },
-    {
-        user_id: 5,
-        group_name: "Thanh phat",
-        profile_picture: "/public/img/Cloudy.png",
-    },
-];
+import axios from "axios";
 
 function Search() {
     const [isClick, setIsClick] = useState(false);
-    const [search, setSearch] = useState();
+    const [search, setSearch] = useState("");
+    const history = useSelector((state) => state.user.historysearch);
+    const [fakeSearchs, setFakeSearch] = useState([])
+
+    const lists = fakeSearchs.length > 0 ? fakeSearchs : history
+
+
+    const containerRef = useRef(null);
+
+
+    const handleClickOutside = (event) => {
+        if (containerRef.current && !containerRef.current.contains(event.target)) {
+            setIsClick(false);
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
+
+    useEffect( () => {
+        const fetchData = async () => {
+            if (search !== "") {
+                const results = await GetListByName();
+                if (results) {
+                    setFakeSearch(results);
+                }
+            }else{
+                setFakeSearch([])
+            }
+        };
+        fetchData();
+    }, [search]);
+
+    const GetListByName = async () => {
+        try {
+            const response = await axios.get(
+                `http://localhost:5164/api/User/users-by-name`,{
+                params: { name: search },
+                withCredentials: true
+            });
+            return response.data;
+        } catch {
+            return null;
+        }
+    };
 
     return (
-        <div className={clsx(styles.wrapper)}>
+        <div className={clsx(styles.wrapper)} ref={containerRef}>
             <img
                 src="/public/img/Cloudy.png"
                 alt="logo"
@@ -55,7 +78,6 @@ function Search() {
                     onChange={(e) => setSearch(e.target.value)}
                     value={search}
                     onFocus={() => setIsClick(true)}
-                    onBlur={() => setIsClick(false)}
                     className={clsx(styles.searcharea, {
                         [styles.clicked]: isClick,
                     })}
@@ -63,11 +85,13 @@ function Search() {
                 />
                 {isClick && (
                     <div className={styles.showlist}>
-                    {searchs && searchs.length > 0 ? (
-                        <ShowList list={searchs} type={true} />
-                    ):(
-                        <p style={ {paddingLeft:'10px'} }>Không có tìm kiếm nào gần đây</p>
-                    )}
+                        {lists && lists.length > 0 ? (
+                            <ShowList list={lists} history={history} type={true} key="1" />
+                        ) : (
+                            <p style={{ paddingLeft: "10px" }} key="2">
+                                Không có tìm kiếm nào gần đây
+                            </p>
+                        )}
                     </div>
                 )}
             </div>

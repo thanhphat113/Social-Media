@@ -2,9 +2,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Backend.Models;
 using Backend.Data;
+using Backend.Repositories.Interface;
 
-namespace Backend.Repositories;
-public class UserRepository : IRepositories<User>
+namespace Backend.Repositories.Repository;
+public class UserRepository : IUserRepository
 {
 
 	private readonly SocialMediaContext _context;
@@ -25,7 +26,7 @@ public class UserRepository : IRepositories<User>
 		}
 	}
 
-	public async Task<IEnumerable<User>> GetListByType(int condition, string type)
+	public async Task<IEnumerable<User>> GetListById(int userid)
 	{
 		throw new NotImplementedException();
 	}
@@ -41,7 +42,7 @@ public class UserRepository : IRepositories<User>
 			return null;
 		}
 	}
-	public async Task<bool> Add(User user)
+	public async Task<User> Add(User user)
 	{
 		try
 		{
@@ -51,15 +52,15 @@ public class UserRepository : IRepositories<User>
 			await _context.Users.AddAsync(user);
 			await _context.SaveChangesAsync();
 
-			return true;
+			return user;
 		}
 		catch (Exception ex)
 		{
 			Console.WriteLine("Đây là lỗi: " + ex.Message);
-			return false;
+			throw;
 		}
 	}
-	public async Task<bool> Update(User product)
+	public async Task<bool> Update(User value)
 	{
 		throw new NotImplementedException();
 	}
@@ -100,7 +101,7 @@ public class UserRepository : IRepositories<User>
 
 	}
 
-	public async Task<bool> isHasEmail(string email)
+	public async Task<bool> IsHasEmail(string email)
 	{
 		try
 		{
@@ -130,4 +131,31 @@ public class UserRepository : IRepositories<User>
 				.ToListAsync();
 	}
 
+	public async Task<IEnumerable<Object>> GetUsersByName(string name)
+	{
+		return await _context.Users.Where(u => u.FirstName.Contains(name) || u.LastName.Contains(name))
+				.Select(u => new
+				{
+					u.UserId,
+					u.LastName,
+					u.FirstName,
+					u.ProfilePicture,
+					u.GenderId,
+				})
+				.ToListAsync();
+	}
+
+	public async Task<IEnumerable<User>> GetFriendByName(int userid, string name)
+	{
+		var users = await _context.Relationships
+				.Where(u => u.FromUserId == userid || u.ToUserId == userid)
+				.Where(u => u.TypeRelationship == 2)
+				.Where(u => u.FromUserId == userid ?
+						(u.ToUser.FirstName.Contains(name) || u.ToUser.LastName.Contains(name)) :
+						(u.FromUser.FirstName.Contains(name) || u.FromUser.LastName.Contains(name)))
+				.Select(u => u.FromUserId == userid ? u.ToUser : u.FromUser)
+				.ToListAsync();
+
+		return users;
+	}
 }

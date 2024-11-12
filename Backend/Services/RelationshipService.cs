@@ -3,17 +3,37 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Backend.Models;
+using Backend.Repositories.Interface;
+using Backend.Services;
 
 namespace Backend.Services
 {
-	public class RelationshipService : IService<Relationship>
+	public class RelationshipService : IRelationshipRepository
 	{
-		public Task<string> Add(Relationship product)
+		private readonly IRelationshipRepository _repo;
+		public RelationshipService(IRelationshipRepository repo)
+		{
+			_repo = repo;
+		}
+		public async Task<bool> Accept(int user1, int user2)
+		{
+			try
+			{
+				return await _repo.Accept(user1, user2);
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine("Lỗi: " + e.Data);
+				return false;
+			}
+		}
+
+		public Task<Relationship> Add(Relationship value)
 		{
 			throw new NotImplementedException();
 		}
 
-		public Task<string> Delete(int id)
+		public Task<bool> Delete(int id)
 		{
 			throw new NotImplementedException();
 		}
@@ -28,12 +48,12 @@ namespace Backend.Services
 			throw new NotImplementedException();
 		}
 
-		public Task<IEnumerable<Relationship>> GetListById(int id)
+		public Task<IEnumerable<Relationship>> GetListById(int userid)
 		{
 			throw new NotImplementedException();
 		}
 
-		public Task<string> Update(Relationship product)
+		public Task<bool> Update(Relationship value)
 		{
 			throw new NotImplementedException();
 		}
