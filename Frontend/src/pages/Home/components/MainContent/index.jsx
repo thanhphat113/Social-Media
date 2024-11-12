@@ -1,105 +1,107 @@
-import  { useState } from 'react';
-import {  MdPhotoLibrary } from 'react-icons/md';
+import { useState } from 'react';
+import { MdPhotoLibrary } from 'react-icons/md';
 import { FaSmile, FaImage, FaMapMarkerAlt, FaTimes, FaFacebookMessenger, FaWhatsapp, FaLink, FaUsers, FaFlag } from 'react-icons/fa';
 import { useDropzone } from 'react-dropzone';
 import styles from './MainContent.module.scss';
 import Post from 'Frontend/src/pages/Home/components/Post/index.jsx';
 
 function MainContent() {
-  const [comments, setComments] = useState([]);
-  const [currentComment, setCurrentComment] = useState('');
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [postContent, setPostContent] = useState('');
-  const [isEmojiMenuVisible, setIsEmojiMenuVisible] = useState(false);
-  const [hoveringLike, setHoveringLike] = useState(false);
-
-  const post = {
-    image: "img/Ảnh chụp màn hình 2024-06-10 024210.png",
-    title: "Anime",
-    userName: "Anime Season",
-    content: "Re: Zero đã trở lại! 💀",
-    time: "22 giờ · 🌍"
-  };
-
-  const [currentLike, setCurrentLike] = useState({ emoji: null, label: 'Like' }); // Lưu trữ biểu tượng cảm xúc và tên
-
-
-  const handleLikeChange = (emoji, label) => {
-    setCurrentLike({ emoji, label }); // Cập nhật biểu tượng cảm xúc và tên
-    setIsEmojiMenuVisible(false); // Ẩn menu emoji
-  };
-
-  const handleMouseEnter = () => {
-    setHoveringLike(true);
-    setIsEmojiMenuVisible(true); // Hiện menu emoji khi hover
-  };
-
-  const handleMouseLeave = () => {
-    if (!isEmojiMenuVisible) {
-      setHoveringLike(false);
-    }
-  };
-
-  const handleEmojiMenuMouseEnter = () => {
-    setIsEmojiMenuVisible(true); // Giữ menu mở khi di chuột vào
-  };
-
-  const handleEmojiMenuMouseLeave = () => {
-    setIsEmojiMenuVisible(false); // Ẩn menu khi không còn di chuột vào
-  };
-
-  // Xử lý thêm bình luận
-  const handleAddComment = () => {
-    if (currentComment.trim() !== '') {
-      setComments([...comments, currentComment]);
-      setCurrentComment('');
-    }
-  };
-
-  const { getRootProps, getInputProps } = useDropzone({
-    accept: 'image/*',
-    onDrop: acceptedFiles => {
-      acceptedFiles.forEach(file => {
-        console.log(file.type); // Kiểm tra kiểu MIME của file
+    const [comments, setComments] = useState([]);
+    const [currentComment, setCurrentComment] = useState("");
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [postContent, setPostContent] = useState("");
+    const [isEmojiMenuVisible, setIsEmojiMenuVisible] = useState(false);
+    const [hoveringLike, setHoveringLike] = useState(false);
+    const [posts, setPosts] = useState([]);
+    const [currentLike, setCurrentLike] = useState({
+        emoji: null,
+        label: "Like",
     });
-      setFiles(acceptedFiles.map(file => Object.assign(file, {
-        preview: URL.createObjectURL(file)
-      })));
-    }
-  });
+    const [files, setFiles] = useState([]); // State để lưu trữ nhiều file đã chọn
+    const [isSharePopupOpen, setIsSharePopupOpen] = useState(false);
+    const [visibility, setVisibility] = useState("Công khai");
 
-  // Hàm để mở/đóng pop-up tạo bài viết
-  const togglePopup = () => {
-    setIsPopupOpen(!isPopupOpen);
-  };
+    const handleLikeChange = (emoji, label) => {
+        setCurrentLike({ emoji, label });
+        setIsEmojiMenuVisible(false);
+    };
 
-  return (
-    <main className={styles.content}>
-      <div className={styles.postContainer}>
-        <input
-          type="text"
-          placeholder="Tiến ơi, bạn đang nghĩ gì thế?"
-          className={styles.inputField}
-          onFocus={togglePopup}
-        />
-        <div className={styles.actionButtons}>
-          <button className={styles.photoButton} onClick={togglePopup}>
-            <MdPhotoLibrary className={styles.iconGreen} />
-            Ảnh/video
-          </button>
-        </div>
-      </div>
+    const handleMouseEnter = () => {
+        setHoveringLike(true);
+        setIsEmojiMenuVisible(true);
+    };
 
-      {/* Pop-up để tạo bài viết */}
-      {isPopupOpen && (
-        <>
-          <div className={styles.popupOverlay} onClick={togglePopup}></div>
-          <div className={styles.popup}>
-            <div className={styles.popupHeader}>
-              <h2 className={styles.popupTitle}>Tạo bài viết</h2>
-              <button className={styles.closeButton} onClick={togglePopup}>
-              <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
-              </button>
+    const handleMouseLeave = () => {
+        if (!isEmojiMenuVisible) {
+            setHoveringLike(false);
+        }
+    };
+
+    const handleAddComment = () => {
+        if (currentComment.trim() !== "") {
+            setComments([...comments, currentComment]);
+            setCurrentComment("");
+        }
+    };
+
+    const handlePostSubmit = () => {
+        if (postContent.trim() !== "") {
+            const newPost = {
+                images: files.map((file) => file.preview), // Thay đổi thành mảng các ảnh
+                title: "Anime",
+                userName: "Nguyễn Tiến",
+                content: postContent,
+                time: "Mới đây",
+            };
+
+            setPosts([newPost, ...posts]);
+            setPostContent("");
+            setFiles([]); // Reset files
+            setIsPopupOpen(false);
+        }
+    };
+
+    const { getRootProps, getInputProps } = useDropzone({
+        accept: "image/*,video/*",
+        onDrop: (acceptedFiles) => {
+            setFiles(
+                acceptedFiles.map((file) =>
+                    Object.assign(file, {
+                        preview: URL.createObjectURL(file),
+                    })
+                )
+            );
+        },
+    });
+
+    const togglePopup = () => {
+        setIsPopupOpen(!isPopupOpen);
+    };
+
+    const toggleSharePopup = () => {
+        setIsSharePopupOpen(!isSharePopupOpen);
+    };
+
+    const handleShare = () => {
+        alert("Post shared!");
+        toggleSharePopup(); // Đóng pop-up chia sẻ sau khi chia sẻ
+    };
+
+    return (
+        <main className={styles.content}>
+            <div className={styles.postContainer}>
+                <input
+                    type="text"
+                    placeholder="Tiến ơi, bạn đang nghĩ gì thế?"
+                    className={styles.inputField}
+                    onFocus={togglePopup}
+                />
+                <div className={styles.actionButtons}>
+                    <button className={styles.photoButton} onClick={togglePopup}>
+                        <MdPhotoLibrary className={styles.iconGreen} />
+                        Ảnh/video
+                    </button>
+                </div>
             </div>
 
             {/* Pop-up để tạo bài viết */}
@@ -232,7 +234,6 @@ function MainContent() {
             ))}
         </main>
     );
-
 }
 
 export default MainContent;

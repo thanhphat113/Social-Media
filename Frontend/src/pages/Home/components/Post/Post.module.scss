@@ -307,7 +307,7 @@
     border: 1px solid #e2e8f0; // Màu viền
     border-radius: 0.25rem;
     border-radius: 25rem;
-
+  }
 
 .emojiButton {
   background: none;
@@ -627,7 +627,7 @@
   cursor: pointer;
   font-size: 24px;
   z-index: 0; /* Đảm bảo nút luôn hiển thị trên hình ảnh */
-
+}
 
 .popupHeader {
   display: flex;
@@ -806,4 +806,4 @@ width: 100%;
 padding: 0.5rem;
 border: 1px solid #e2e8f0; // Màu viền
 border-radius: 0.25rem;
-}
+} 
