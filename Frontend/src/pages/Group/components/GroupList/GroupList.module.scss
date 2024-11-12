@@ -117,3 +117,12 @@ h2 {
 .suggestedGroups {
   margin-bottom: 2rem;
 }
+
+.groupContainer {
+  display: flex;
+}
+
+.content {
+  flex: 1;
+  padding-left: 20px;
+}

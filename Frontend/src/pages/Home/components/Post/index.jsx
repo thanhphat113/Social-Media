@@ -7,6 +7,7 @@ import { faCloud } from '@fortawesome/free-solid-svg-icons';
 import styles from './Post.module.scss';
 import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
+import ImageGallery from 'Frontend/src/pages/Home/components/ImageGallery/index.jsx';
 
 function Post({
   post,
@@ -17,7 +18,7 @@ function Post({
   comments,
   currentComment,
   handleAddComment,
-  setCurrentComment
+  setCurrentComment,
 }) {
   const [isSharePopupOpen, setIsSharePopupOpen] = useState(false);
   const [visibility, setVisibility] = useState('Công khai');
@@ -131,64 +132,7 @@ function Post({
 
 
       {/* Hiển thị nhiều ảnh */}
-      <div className={styles.imageGallery}>
-        {post.images.length === 1 ? (
-          <img
-            src={post.images[0]}
-            alt={`Post image 1`}
-            className={styles.fullImage}
-            onClick={() => openImagePopup(0)} // Mở popup khi nhấn vào hình
-          />
-        ) : post.images.length === 2 ? (
-          <div className={styles.twoImageLayout}>
-            {post.images.map((image, index) => (
-              <img
-                key={index}
-                src={image}
-                alt={`Post image ${index + 1}`}
-                className={styles.halfImage}
-                onClick={() => openImagePopup(index)}
-              />
-            ))}
-          </div>
-        ) : post.images.length === 3 ? (
-          <div className={styles.threeImageLayout}>
-            {post.images.map((image, index) => (
-              <img
-                key={index}
-                src={image}
-                alt={`Post image ${index + 1}`}
-                className={index === 2 ? styles.centerImage : styles.thumbnailImage}
-                onClick={() => openImagePopup(index)}
-              />
-            ))}
-          </div>
-        ) : post.images.length === 4 ? (
-          <div className={styles.fourImageLayout}>
-            {post.images.map((image, index) => (
-              <img
-                key={index}
-                src={image}
-                alt={`Post image ${index + 1}`}
-                className={styles.quarterImage}
-                onClick={() => openImagePopup(index)}
-              />
-            ))}
-          </div>
-        ) : (
-          <>
-            <img
-              src={post.images[0]}
-              alt={`Post image 1`}
-              className={styles.mainImage}
-              onClick={() => openImagePopup(0)} // Mở popup khi nhấn vào hình
-            />
-            <div className={styles.moreImages}>
-              +{post.images.length - 1}
-            </div>
-          </>
-        )}
-      </div>
+      <ImageGallery images={post.images} />
 
       {/* Popup hình ảnh */}
       {isImagePopupOpen && (

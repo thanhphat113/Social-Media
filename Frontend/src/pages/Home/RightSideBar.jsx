@@ -20,13 +20,13 @@ function RightSidebar() {
     <aside className="rightbar w-1/5 p-4 relative"> {/* Relative để định vị khung cài đặt */}
      
       
-      <div className="mb-4">
+      {/* <div className="mb-4">
         <h2 className="font-bold mb-2">Sinh nhật</h2>
         <div className="flex items-center">
           <FaBirthdayCake className="mr-2" />
           <span>Hôm nay là sinh nhật của Nguyễn Trí.</span>
         </div>
-      </div>
+      </div> */}
       
       <div className="mb-4">
         <div className="flex justify-between items-center mb-2">
