@@ -1,7 +1,8 @@
 .emojiOptions {
     display: flex;
     flex-direction: row;
-    position: absolute; /* Để đảm bảo các emoji hiện ra ngay bên dưới nút Like */
+    position: absolute;
+    /* Để đảm bảo các emoji hiện ra ngay bên dưới nút Like */
     background-color: white;
     border: 1px solid #ccc;
     border-radius: 8px;
@@ -13,17 +14,21 @@
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 24px; /* Kích thước biểu tượng cảm xúc */
-    margin: 0 5px; /* Khoảng cách giữa các biểu tượng */
-    transition: transform 0.2s; /* Hiệu ứng hover */
-  }
-  
-  .emojiButton:hover {
-    transform: scale(1.2); /* Phóng to biểu tượng khi hover */
-  }
-  
-  // index
-  .homeContainer {
+    font-size: 24px;
+    /* Kích thước biểu tượng cảm xúc */
+    margin: 0 5px;
+    /* Khoảng cách giữa các biểu tượng */
+    transition: transform 0.2s;
+    /* Hiệu ứng hover */
+}
+
+.emojiButton:hover {
+    transform: scale(1.2);
+    /* Phóng to biểu tượng khi hover */
+}
+
+// index
+.homeContainer {
     display: flex;
     height: 100vh; // Chiều cao 100% của màn hình
     background-color: #F0F2F5;
@@ -66,18 +71,26 @@
   .inputField {
     width: 100%;
     padding: 0.5rem;
-    background-color: white;
-    border-radius: 9999px;
-    margin-bottom: 0.5rem;
+    background-color: #d4cfcf6f;
+    border-radius: 10px;
+    height: 5rem;
+    cursor: pointer;
     border: none;
-    caret-color: transparent;
-  }
-  
-  .inputField:focus {
-    outline: none; /* Loại bỏ viền khi focus */
-  }
-  
-  .actionButtons {
+
+    &:hover {
+        background-color: #c6c3c36f;
+    }
+}
+
+.line {
+    content: none;
+    width: 95%;
+    height: 2px;
+    background-color: #d4cfcf6f;
+    margin: 10px auto;
+}
+
+.actionButtons {
     display: flex;
     justify-content: space-between;
     margin-top: 1rem;
@@ -119,22 +132,22 @@
     width: 100%;
     max-width: 55rem; // Kích thước tối đa của pop-up
     z-index: 20;
-  }
-  
-  .popupHeader {
+}
+
+.popupHeader {
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #e2e8f0;
-  }
-  
-  .popupTitle {
+}
+
+.popupTitle {
     font-size: 1.25rem;
     font-weight: bold;
     margin-top: 0;
-  }
-  
-  .closeButton {
+}
+
+.closeButton {
     color: gray;
   }
   
@@ -148,42 +161,42 @@
     width: 2.5rem; // Kích thước ảnh đại diện
     height: 2.5rem;
     border-radius: 50%;
-  }
-  
-  .userName {
+}
+
+.userName {
     margin-left: 0.5rem;
     margin-bottom: 1rem;
-  }
-  
-  .userNameText {
+}
+
+.userNameText {
     font-weight: bold;
     font-size: calc(1.3rem + .6vw);
     margin-bottom: 1.55rem;
-  }
-  
-  .publicButton {
+}
+
+.publicButton {
     color: #3b82f6; // Màu xanh dương
     font-size: 1.35rem; // Kích thước chữ
     cursor: pointer;
-  }
-  
-  .textarea {
+}
+
+.textarea {
     width: 100%;
     margin-top: 1rem;
     padding: 0.5rem;
     border: 1px solid #e2e8f0; // Màu viền
     border-radius: 0.5rem;
-  }
-  
-  .dropzone {
+}
+
+.dropzone {
     padding: 1rem;
     border: 2px dashed #e2e8f0; // Màu viền đứt
     border-radius: 0.5rem;
     text-align: center;
     cursor: pointer;
-  }
-  
-  .popupActions {
+}
+
+.popupActions {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -235,9 +248,9 @@
   
   .iconPurple {
     color: #a855f7; // Màu tím
-  }
-  
-  .continueButton {
+}
+
+.continueButton {
     width: 100%;
     margin-top: 1rem;
     background-color: #64c1e2; // Màu xám
@@ -246,14 +259,14 @@
     border-radius: 0.5rem;
     border: 1px solid #2750a6;
     cursor: pointer;
-  }
-  
-  
-  .continueButton:hover {
+}
+
+
+.continueButton:hover {
     opacity: 0.9;
-  }
-  
-  .postHeader {
+}
+
+.postHeader {
     display: flex;
     justify-content: space-between;
     margin-bottom: 0.5rem;
@@ -313,23 +326,18 @@
     padding: 0.5rem;
     border-radius: 0.25rem;
     margin-left: 0.5rem;
-  }
-  
-  //share 
-  
-  
-  
-  
-  
-  
-  .popupHeader {
+}
+
+//share
+
+.popupHeader {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1rem;
-  }
-  
-  .popupTitle {
+}
+
+.popupTitle {
     font-size: 20px;
     font-weight: bold;
   }
@@ -339,16 +347,17 @@
     border: none;
     font-size: 20px;
     cursor: pointer;
-  }
-  
-  .profileImage {
+}
+
+.profileImage {
     border-radius: 50%;
     width: 50px;
     height: 50px;
     margin-right: 10px;
-  }
-  
-  .visibilityButtons {
+
+}
+
+.visibilityButtons {
     display: flex;
     align-items: center;
   }
@@ -359,9 +368,9 @@
     padding: 5px 10px;
     border-radius: 5px;
     cursor: pointer;
-  }
-  
-  .textarea {
+}
+
+.textarea {
     width: 100%;
     height: 120px;
     border-radius: 5px;
@@ -370,9 +379,11 @@
     padding: 10px;
     outline: none;
     resize: none;
-  }
-  
-  .popupActions {
+
+}
+
+.popupActions {
+
     display: flex;
     justify-content: flex-end;
   }
@@ -397,4 +408,33 @@
     cursor: pointer;
     color: #1c74e7;
     font-size: 24px;
-  }
+
+}
+
+.previewContainer {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.previewItem {
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    border-radius: 5px;
+}
+
+.previewImage, .previewVideo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.separator {
+    width: 100%;
+    height: 1px;
+    background-color: black;
+    margin: 16px 0;
+}
+

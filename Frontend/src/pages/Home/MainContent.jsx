@@ -1,137 +1,201 @@
-import React from 'react';
-import { MdOutlineVideoCall, MdPhotoLibrary, MdEmojiEmotions } from 'react-icons/md';
-import { BsThreeDots } from 'react-icons/bs';
-import { AiOutlineLike } from 'react-icons/ai';
-import { FaRegComment } from 'react-icons/fa';
-import { PiShareFatThin } from 'react-icons/pi';
-import styles from './Home.module.scss';
+import React, { useState } from "react";
+import { MdOutlineVideoCall, MdPhotoLibrary } from "react-icons/md";
+import { FaSmile, FaImage, FaMapMarkerAlt } from "react-icons/fa";
+import { useDropzone } from "react-dropzone";
+import styles from "./MainContent.module.scss";
+import Post from "../Post/Post"; // Đảm bảo đường dẫn tới Post component chính xác
+import ImageGallery from "../ImageGallery/ImageGallery"; // Đảm bảo đường dẫn tới ImageGallery chính xác
 
 function MainContent() {
-  return (
-    <main className="content w-3/5 p-4">
-      <div className="bg-white p-4 rounded-lg mb-4">
-        <input type="text" placeholder="Tiến ơi, bạn đang nghĩ gì thế?" className="w-full p-2 bg-white rounded-full mb-2" />
-        <div className="flex justify-between">
-          
-          <button className="flex items-center">
-            <MdPhotoLibrary className="text-green-500 mr-2" />
-            Ảnh/video
-          </button>
-         
-        </div>
-      </div>
+    const [comments, setComments] = useState([]);
+    const [currentComment, setCurrentComment] = useState("");
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [postContent, setPostContent] = useState("");
+    const [isEmojiMenuVisible, setIsEmojiMenuVisible] = useState(false);
+    const [hoveringLike, setHoveringLike] = useState(false);
+    const [posts, setPosts] = useState([]); // State lưu danh sách các bài viết
+    const [currentLike, setCurrentLike] = useState({
+        emoji: null,
+        label: "Like",
+    });
+    const [files, setFiles] = useState([]); // State lưu trữ file đã chọn
 
-      {/* Các bài viết */}
-      <div className="bg-white p-4 rounded-lg">
-        <div className="flex items-center justify-between mb-2">
-          <div className="flex items-center">
-            <img src="img/Ảnh chụp màn hình 2024-06-10 024210.png" alt="Anime" className="w-8 h-8 rounded-full mr-2" />
-            <div>
-              <span className="font-bold">Anime Season</span> · <span className="text-blue-500">Theo dõi</span>
-              <p className="text-sm">22 giờ · 🌍</p>
+    // Hàm addPost để thêm bài viết mới vào danh sách
+    const addPost = (newPost) => {
+        setPosts((prevPosts) => [newPost, ...prevPosts]);
+    };
+
+    const handleLikeChange = (emoji, label) => {
+        setCurrentLike({ emoji, label });
+        setIsEmojiMenuVisible(false);
+    };
+
+    const handleMouseEnter = () => {
+        setHoveringLike(true);
+        setIsEmojiMenuVisible(true);
+    };
+
+    const handleMouseLeave = () => {
+        if (!isEmojiMenuVisible) {
+            setHoveringLike(false);
+        }
+    };
+
+    const handleAddComment = () => {
+        if (currentComment.trim() !== "") {
+            setComments([...comments, currentComment]);
+            setCurrentComment("");
+        }
+    };
+
+    const handlePostSubmit = () => {
+        if (postContent.trim() !== "") {
+            const newPost = {
+                images: files.map((file) => file.preview),
+                title: "Anime",
+                userName: "Nguyễn Tiến",
+                content: postContent,
+                time: "Mới đây",
+            };
+
+            addPost(newPost); // Sử dụng addPost để thêm bài mới
+            setPostContent("");
+            setFiles([]);
+            setIsPopupOpen(false);
+        }
+    };
+
+    const { getRootProps, getInputProps } = useDropzone({
+        accept: "image/*,video/*",
+        onDrop: (acceptedFiles) => {
+            setFiles(
+                acceptedFiles.map((file) =>
+                    Object.assign(file, {
+                        preview: URL.createObjectURL(file),
+                    })
+                )
+            );
+        },
+    });
+
+    const togglePopup = () => {
+        setIsPopupOpen(!isPopupOpen);
+    };
+
+    return (
+        <main className={styles.content}>
+            <div className={styles.postContainer}>
+                <input
+                    type="text"
+                    placeholder="Tiến ơi, bạn đang nghĩ gì thế?"
+                    className={styles.inputField}
+                    onFocus={togglePopup}
+                />
+                <div className={styles.line}></div>
+                <div className={styles.separator}></div>
+
+                <div className={styles.actionButtons}>
+                    <button
+                        className={styles.photoButton}
+                        onClick={togglePopup}
+                    >
+                        <MdPhotoLibrary className={styles.iconGreen} />
+                        Ảnh/video
+                    </button>
+                </div>
             </div>
-          </div>
-          <BsThreeDots />
-        </div>
-        <p className="mb-2">Re: Zero đã trở lại! 💀</p>
-        <img src="img/Ảnh chụp màn hình 2024-06-10 024210.png" alt="Anime Post" className="w-full rounded-lg mb-4" />
-        <div className="flex items-center justify-between text-sm text-gray-500 mb-2">
-          <div className="flex items-center">
-            <i className="far fa-thumbs-up text-blue-500"></i>
-            <span className="ml-1">2.5K lượt thích</span>
-          </div>
-          <div className="flex space-x-2">
-            <span>1K bình luận</span>
-            <span>500 lượt chia sẻ</span>
-          </div>
-        </div>
-        <div className="flex justify-between text-gray-500 border-t pt-2">
-          <div className="relative hover-trigger">
-            <button className="flex items-center space-x-1 hover:text-blue-500">
-              <AiOutlineLike />
-              <span>Like</span>
-            </button>
-            {/* Danh sách biểu tượng cảm xúc */}
-            <div className={`${styles['emoji-list']}`}>
-              <img src="img/like.png" alt="Like" className="w-8 h-8 cursor-pointer" />
-              <img src="img/love.png" alt="Love" className="w-8 h-8 cursor-pointer" />
-              <img src="img/haha.png" alt="Haha" className="w-8 h-8 cursor-pointer" />
-              <img src="img/wow.png" alt="Wow" className="w-8 h-8 cursor-pointer" />
-              <img src="img/sad.png" alt="Sad" className="w-8 h-8 cursor-pointer" />
-              <img src="img/angry.png" alt="Angry" className="w-8 h-8 cursor-pointer" />
-            </div>
-          </div>
-          <button className="flex items-center space-x-1 hover:text-blue-500">
-            <FaRegComment />
-            <span>Comment</span>
-          </button>
-          <button className="flex items-center space-x-1 hover:text-blue-500">
-            <PiShareFatThin />
-            <span>Share</span>
-          </button>
-        </div>
 
-      </div>
+            {isPopupOpen && (
+                <>
+                    <div
+                        className={styles.popupOverlay}
+                        onClick={togglePopup}
+                    ></div>
+                    <div className={styles.popup}>
+                        <div className={styles.popupHeader}>
+                            <h2 className={styles.popupTitle}>Tạo bài viết</h2>
+                            <button
+                                className={styles.closeButton}
+                                onClick={togglePopup}
+                            >
+                                X
+                            </button>
+                        </div>
+                        <div className={styles.userInfo}>
+                            <img
+                                src="profile.jpg"
+                                alt="Profile"
+                                className={styles.profileImage}
+                            />
+                            <div className={styles.userName}>
+                                <p className={styles.userNameText}>
+                                    Nguyễn Tiến
+                                </p>
+                                <button className={styles.publicButton}>
+                                    Công khai
+                                </button>
+                            </div>
+                        </div>
+                        <textarea
+                            className={styles.textarea}
+                            placeholder="Tiến ơi, bạn đang nghĩ gì thế?"
+                            value={postContent}
+                            onChange={(e) => setPostContent(e.target.value)}
+                        />
+                        {files.length > 0 && (
+                            <ImageGallery
+                                images={files}
+                                onRemoveImage={(index) => {
+                                    const newFiles = [...files];
+                                    URL.revokeObjectURL(newFiles[index].preview);
+                                    newFiles.splice(index, 1);
+                                    setFiles(newFiles);
+                                }}
+                            />
+                        )}
+                        <div {...getRootProps({ className: styles.dropzone })}>
+                            <input {...getInputProps()} />
+                            <p>Thêm ảnh/video hoặc kéo và thả</p>
+                        </div>
+                        <div className={styles.extraOptions}>
+                            <p>Thêm vào bài viết của bạn</p>
+                            <div className={styles.iconOptions}>
+                                <FaImage className={styles.iconGreen} />
+                                <FaSmile className={styles.iconYellow} />
+                                <FaMapMarkerAlt className={styles.iconRed} />
+                                <span className={styles.iconPurple}>GIF</span>
+                            </div>
+                        </div>
+                        <button
+                            className={styles.continueButton}
+                            onClick={handlePostSubmit}
+                        >
+                            Đăng
+                        </button>
+                    </div>
+                </>
+            )}
 
-      <div className="bg-white p-4 rounded-lg mb-4">
-
-      </div>
-
-      <div className="bg-white p-4 rounded-lg">
-        <div className="flex items-center justify-between mb-2">
-          <div className="flex items-center">
-            <img src="img/Ảnh chụp màn hình 2024-06-10 024210.png" alt="Anime" className="w-8 h-8 rounded-full mr-2" />
-            <div>
-              <span className="font-bold">Anime Season</span> · <span className="text-blue-500">Theo dõi</span>
-              <p className="text-sm">22 giờ · 🌍</p>
-            </div>
-          </div>
-          <BsThreeDots />
-        </div>
-        <p className="mb-2">Re: Zero đã trở lại! 💀</p>
-        <img src="img/Ảnh chụp màn hình 2024-06-10 024210.png" alt="Anime Post" className="w-full rounded-lg mb-4" />
-        <div className="flex items-center justify-between text-sm text-gray-500 mb-2">
-          <div className="flex items-center">
-            <i className="far fa-thumbs-up text-blue-500"></i>
-            <span className="ml-1">2.5K lượt thích</span>
-          </div>
-          <div className="flex space-x-2">
-            <span>1K bình luận</span>
-            <span>500 lượt chia sẻ</span>
-          </div>
-        </div>
-
-
-
-        <div className="flex justify-between text-gray-500 border-t pt-2">
-          <div className="relative hover-trigger">
-            <button className="flex items-center space-x-1 hover:text-blue-500">
-              <AiOutlineLike />
-              <span>Like</span>
-            </button>
-            {/* Danh sách biểu tượng cảm xúc */}
-            <div className="emoji-list absolute hidden bg-white border border-gray-300 shadow-lg rounded-lg mt-1 hover-show">
-              <img src="img/like.png" alt="Like" className="w-8 h-8 cursor-pointer" />
-              <img src="img/love.png" alt="Love" className="w-8 h-8 cursor-pointer" />
-              <img src="img/haha.png" alt="Haha" className="w-8 h-8 cursor-pointer" />
-              <img src="img/wow.png" alt="Wow" className="w-8 h-8 cursor-pointer" />
-              <img src="img/sad.png" alt="Sad" className="w-8 h-8 cursor-pointer" />
-              <img src="img/angry.png" alt="Angry" className="w-8 h-8 cursor-pointer" />
-            </div>
-          </div>
-          <button className="flex items-center space-x-1 hover:text-blue-500">
-            <FaRegComment />
-            <span>Comment</span>
-          </button>
-          <button className="flex items-center space-x-1 hover:text-blue-500">
-            <PiShareFatThin />
-            <span>Share</span>
-          </button>
-        </div>
-
-      </div>
-    </main>
-  );
+            {posts.map((post, index) => (
+                <Post
+                    key={index}
+                    post={post}
+                    addPost={addPost} // Truyền addPost xuống Post component
+                    currentLike={currentLike}
+                    setCurrentLike={setCurrentLike}
+                    handleLikeChange={handleLikeChange}
+                    hoveringLike={hoveringLike}
+                    handleMouseEnter={handleMouseEnter}
+                    handleMouseLeave={handleMouseLeave}
+                    isEmojiMenuVisible={isEmojiMenuVisible}
+                    comments={comments}
+                    currentComment={currentComment}
+                    handleAddComment={handleAddComment}
+                    setCurrentComment={setCurrentComment}
+                />
+            ))}
+        </main>
+    );
 }
 
 export default MainContent;

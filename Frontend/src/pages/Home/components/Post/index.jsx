@@ -6,6 +6,10 @@ import { BsThreeDots } from 'react-icons/bs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloud } from '@fortawesome/free-solid-svg-icons';  // Import biểu tượng đám mây
 import styles from './Post.module.scss';
+import { FaRegEdit } from "react-icons/fa";
+import { MdDeleteForever } from "react-icons/md";
+import ImageGallery from 'Frontend/src/pages/Home/components/ImageGallery/index.jsx';
+
 
 function Post({
   post,
@@ -20,7 +24,7 @@ function Post({
   comments,
   currentComment,
   handleAddComment,
-  setCurrentComment
+  setCurrentComment,
 }) {
   const [isSharePopupOpen, setIsSharePopupOpen] = useState(false); // State cho pop-up chia sẻ
   const [visibility, setVisibility] = useState('Công khai'); // Tính năng hiển thị
@@ -57,7 +61,37 @@ function Post({
         <BsThreeDots/>
       </div>
       <p className={styles.postText}>{post.content}</p>
-      <img src={post.image} alt="Post" className={styles.postImageFull} />
+
+      {isDeleteConfirmOpen && (
+        <>
+          <div className={styles.popupOverlay} onClick={cancelDelete}></div>
+          <div className={styles.deleteConfirmPopup}>
+            <h3>Bạn có chắc muốn xóa bài viết này không?</h3>
+            <div className={styles.popupActions}>
+              <button className={styles.confirmButton} onClick={confirmDeletePost}>Đồng ý</button>
+              <button className={styles.cancelButton} onClick={cancelDelete}>Hủy</button>
+            </div>
+          </div>
+        </>
+      )}
+
+
+      {/* Hiển thị nhiều ảnh */}
+      <ImageGallery images={post.images} />
+
+      {/* Popup hình ảnh */}
+      {isImagePopupOpen && (
+        <div className={styles.imagePopup}>
+          <div className={styles.popupOverlay} onClick={closeImagePopup}></div>
+          <div className={styles.popupContent}>
+            <button className={styles.prevButton} onClick={prevImage}>❮</button>
+            <img src={post.images[currentImageIndex]} alt={`Popup image`} className={styles.popupImage} />
+            <button className={styles.nextButton} onClick={nextImage}>❯</button>
+            <button className={styles.closeButton} onClick={closeImagePopup}>✖</button>
+          </div>
+        </div>
+      )}
+
 
       {/* Bình luận và tương tác */}
       <div className={styles.interactionBar}>

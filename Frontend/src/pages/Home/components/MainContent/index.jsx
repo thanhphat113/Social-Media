@@ -3,7 +3,7 @@ import {  MdPhotoLibrary } from 'react-icons/md';
 import { FaSmile, FaImage, FaMapMarkerAlt, FaTimes, FaFacebookMessenger, FaWhatsapp, FaLink, FaUsers, FaFlag } from 'react-icons/fa';
 import { useDropzone } from 'react-dropzone';
 import styles from './MainContent.module.scss';
-import Post from '../Post';
+import Post from 'Frontend/src/pages/Home/components/Post/index.jsx';
 
 function MainContent() {
   const [comments, setComments] = useState([]);
@@ -101,82 +101,138 @@ function MainContent() {
               <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
               </button>
             </div>
+
+            {/* Pop-up để tạo bài viết */}
+            {isPopupOpen && (
+    <>
+        <div className={styles.popupOverlay} onClick={togglePopup}></div>
+        <div className={styles.popup}>
+            <div className={styles.popupHeader}>
+                <h2 className={styles.popupTitle}>Tạo bài viết</h2>
+                <button className={styles.closeButton} onClick={togglePopup}>
+                    <FaTimes />
+                </button>
+            </div>
             <div className={styles.userInfo}>
-              <img src="https://vcdn1-dulich.vnecdn.net/2021/07/16/1-1626437591.jpg?w=460&h=0&q=100&dpr=2&fit=crop&s=i2M2IgCcw574LT-bXFY92g" alt="Profile" className={styles.profileImage} />
-              <div className={styles.userName}>
-                <p className={styles.userNameText}>Nguyễn Tiến</p>
-                <button className={styles.publicButton}>Công khai</button>
-              </div>
+                <img
+                    src="https://vcdn1-dulich.vnecdn.net/2021/07/16/1-1626437591.jpg?w=460&h=0&q=100&dpr=2&fit=crop&s=i2M2IgCcw574LT-bXFY92g"
+                    alt="Profile"
+                    className={styles.profileImage}
+                />
+                <div className={styles.userName}>
+                    <p className={styles.userNameText}>Nguyễn Tiến</p>
+                    <select
+                            className={styles.visibilitySelect}
+                            value={visibility}
+                            onChange={(e) => setVisibility(e.target.value)}
+                        >
+                            <option value="Công khai">Công khai</option>
+                            <option value="Riêng tư">Riêng tư</option>
+                        </select>
+                </div>
             </div>
             <textarea
-              className={styles.textarea}
-              placeholder="Tiến ơi, bạn đang nghĩ gì thế?"
-              value={postContent}
-              onChange={(e) => setPostContent(e.target.value)}
+                className={styles.textarea}
+                placeholder="Tiến ơi, bạn đang nghĩ gì thế?"
+                value={postContent}
+                onChange={(e) => setPostContent(e.target.value)}
             />
             <div {...getRootProps({ className: styles.dropzone })}>
-              <input {...getInputProps()} />
-              <p>Thêm ảnh/video hoặc kéo và thả</p>
+                <input {...getInputProps()} />
+                <p>Thêm ảnh/video hoặc kéo và thả</p>
             </div>
-            {/* <div className={styles.popupActions}>
-              <button className={styles.mobileButton}>
-                <FaVideo className={styles.iconBlue} /> Thêm ảnh và video từ thiết bị di động.
-              </button>
-              <button className={styles.addButton}>Thêm</button>
-            </div> */}
-            {/* <div className={styles.extraOptions}>
-              <p>Thêm vào bài viết của bạn</p>
-              <div className={styles.iconOptions}>
-                <FaImage className={styles.iconGreen} />
-                <FaSmile className={styles.iconYellow} />
-                <FaMapMarkerAlt className={styles.iconRed} />
-                <span className={styles.iconPurple}>GIF</span>
-              </div>
-            </div> */}
-            <button className={styles.continueButton}>Đăng</button>
-          </div>
-        </>
-      )}
 
-      {/* Bài viết */}
-      <Post
-        post={post}
-        currentLike={currentLike}
-        setCurrentLike={setCurrentLike}
-        handleLikeChange={handleLikeChange}
-        hoveringLike={hoveringLike}
-        handleMouseEnter={handleMouseEnter}
-        handleMouseLeave={handleMouseLeave}
-        isEmojiMenuVisible={isEmojiMenuVisible}
-        handleEmojiMenuMouseEnter={handleEmojiMenuMouseEnter}
-        handleEmojiMenuMouseLeave={handleEmojiMenuMouseLeave}
-        comments={comments}
-        currentComment={currentComment}
-        handleAddComment={handleAddComment}
-        setCurrentComment={setCurrentComment}
-        
-      />
+            {/* Phần hiển thị hình ảnh hoặc video đã chọn */}
+            {files.length > 0 && (
+                <div className={styles.previewContainer}>
+                    {files.map((file, index) => (
+                        <div key={index} className={styles.previewItem}>
+                            {file.type.startsWith("image/") ? (
+                                <img src={file.preview} alt="Preview" className={styles.previewImage} />
+                            ) : (
+                                <video controls className={styles.previewVideo}>
+                                    <source src={file.preview} type={file.type} />
+                                    Your browser does not support the video tag.
+                                </video>
+                            )}
+                        </div>
+                    ))}
+                </div>
+            )}
+
+            <div className={styles.extraOptions}>
+                <p>Thêm vào bài viết của bạn</p>
+                <div className={styles.iconOptions}>
+                    <FaImage className={styles.iconGreen} />
+                    <FaSmile className={styles.iconYellow} />
+                    <FaMapMarkerAlt className={styles.iconRed} />
+                    <span className={styles.iconPurple}>GIF</span>
+                </div>
+            </div>
+            <button className={styles.continueButton} onClick={handlePostSubmit}>
+                Đăng
+            </button>
+        </div>
+    </>
+)}
 
 
-      <Post
-        post={post}
-        currentLike={currentLike}
-        setCurrentLike={setCurrentLike}
-        handleLikeChange={handleLikeChange}
-        hoveringLike={hoveringLike}
-        handleMouseEnter={handleMouseEnter}
-        handleMouseLeave={handleMouseLeave}
-        isEmojiMenuVisible={isEmojiMenuVisible}
-        handleEmojiMenuMouseEnter={handleEmojiMenuMouseEnter}
-        handleEmojiMenuMouseLeave={handleEmojiMenuMouseLeave}
-        comments={comments}
-        currentComment={currentComment}
-        handleAddComment={handleAddComment}
-        setCurrentComment={setCurrentComment}
-      />
+            {/* Pop-up chia sẻ */}
+            {isSharePopupOpen && (
+                <>
+                    <div className={styles.popupOverlay} onClick={toggleSharePopup}></div>
+                    <div className={styles.sharePopup}>
+                        <div className={styles.popupHeader}>
+                            <h2 className={styles.popupTitle}>Chia sẻ</h2>
+                            <button className={styles.closeButton} onClick={toggleSharePopup}>
+                                <FaTimes />
+                            </button>
+                        </div>
+                        <div className={styles.p4}>
+                            <div className={styles.userInfo1}>
+                                <div className={styles.userName}>
+                                    <p className={styles.userNameText}>Nguyễn Tiến</p>
+                                    <div className={styles.visibilityButtons}>
+                                        <button
+                                            className={styles.visibilityButton}
+                                            onClick={() =>
+                                                setVisibility(
+                                                    visibility === "Công khai"
+                                                        ? "Riêng tư"
+                                                        : "Công khai"
+                                                )
+                                            }
+                                        >
+                                            {visibility}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </>
+            )}
 
-    </main>
-  );
+            {posts.map((post, index) => (
+                <Post
+                    key={index}
+                    post={post}
+                    currentLike={currentLike}
+                    setCurrentLike={setCurrentLike}
+                    handleLikeChange={handleLikeChange}
+                    hoveringLike={hoveringLike}
+                    handleMouseEnter={handleMouseEnter}
+                    handleMouseLeave={handleMouseLeave}
+                    isEmojiMenuVisible={isEmojiMenuVisible}
+                    comments={comments}
+                    currentComment={currentComment}
+                    handleAddComment={handleAddComment}
+                    setCurrentComment={setCurrentComment}
+                />
+            ))}
+        </main>
+    );
+
 }
 
 export default MainContent;

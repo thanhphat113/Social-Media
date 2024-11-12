@@ -10,6 +10,7 @@ import Home from "./pages/Home";
 import Information from "./pages/Information";
 import DefaultLayout from "./components/Layouts/DefaultLayout";
 import Profile from "./pages/Profile";
+import NewGroupPage from "./pages/Group/NewGroup";
 import Authentication from "./components/Authentication";
 import { SetUser } from "./components/Redux/Actions/UserAction";
 
@@ -75,6 +76,14 @@ function App() {
                     element={
                         <Authentication>
                             `<Information />
+                        </Authentication>
+                    }
+                />
+                <Route
+                    path="/new-group"
+                    element={
+                        <Authentication>
+                            <NewGroupPage />
                         </Authentication>
                     }
                 />
