@@ -3,8 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 import clsx from "clsx";
 import styles from "./User.module.scss";
 import ItemUser from "./components/ItemUser";
-import { findFriend } from "../../../../components/Redux/Slices/UserSlice";
-import axios from "axios";
 
 function User() {
     const friends = useSelector((state) => state.friends.allFriends);
