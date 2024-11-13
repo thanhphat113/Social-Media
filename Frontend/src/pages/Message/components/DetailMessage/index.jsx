@@ -14,7 +14,7 @@ import Validate from "../../../../components/Validate";
 function DetailMessage({ onShow }) {
     const friends = useSelector((state) => state.friends.allFriends);
     const userid = useSelector((state) => state.user.information.userId);
-    const currentFriendId = useSelector((state) => state.message.currentUser);
+    const currentFriendId = useSelector((state) => state.message.currentUserId);
 
     const dispatch = useDispatch();
     const [isSending, setIsSending] = useState(false);

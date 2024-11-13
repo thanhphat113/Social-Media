@@ -6,7 +6,7 @@ import { CustomTooltip } from "../../../../components/GlobalStyles";
 
 function InforMess() {
     const friends = useSelector((state) => state.friends.allFriends);
-    const currentFriend = useSelector((state) => state.message.currentUser);
+    const currentFriend = useSelector((state) => state.message.currentUserId);
     const InforCurrentFriend = friends.find((u) => u.userId === currentFriend);
     const [typeDrop, setTypeDrop] = useState("mmm");
     const [click, setClick] = useState(false);
@@ -56,10 +56,15 @@ function InforMess() {
                 </div>
                 {dropSetting && (
                     <>
-                        <button className={styles.item}>Thay đổi chủ đề</button>
-                        <button className={styles.item}>
-                            Thay đổi biệt danh
-                        </button>
+                        <div className={styles.item}>
+                            <button >
+                                Thay đổi chủ đề
+                            </button>
+                            <div className={styles.icon}></div>
+                        </div>
+                        <div className={clsx(styles.item)}>
+                            <button>Thay đổi biệt danh</button>
+                        </div>
                     </>
                 )}
                 <div

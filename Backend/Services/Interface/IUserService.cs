@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Backend.Models;
 using Backend.Repositories;
 
-namespace Backend.Repositories.Interface
+namespace Backend.Services.Interface
 {
-	public interface IUserRepository : IRepository<User>
+	public interface IUserRepository : IService<User>
 	{
 		public Task<bool> IsHasEmail(string email);
 		public Task<IEnumerable<User>> GetListFriends(int condition);

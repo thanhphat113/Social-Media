@@ -67,14 +67,29 @@
                 width: 80%;
             }
         }
+
         .item {
             margin-left: 2rem;
             height: 5rem;
+            button{
+                width: calc(100% - 3rem);
+            }
+
+            display: flex;
+            cursor: pointer;
+            align-items: center;
             &:hover {
                 background-color: #c2c0c0;
                 border-radius: 10px;
             }
-            width: calc(100% - 2rem);
+            .icon {
+                border: 6px solid #4586d6;
+                content: none;
+                width: 2.5rem;
+                height: 2.5rem;
+                border-radius: 50%;
+                margin-right: 0.5rem;
+            }
         }
     }
 

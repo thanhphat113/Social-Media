@@ -342,6 +342,12 @@ public partial class SocialMediaContext : DbContext
             entity.Property(e => e.User1)
                 .HasColumnType("int(11)")
                 .HasColumnName("user_1");
+            entity.Property(e => e.NickName1)
+                .HasMaxLength(255)
+                .HasColumnName("nickname_1");
+            entity.Property(e => e.NickName2)
+                .HasMaxLength(255)
+                .HasColumnName("nickname_2");
             entity.Property(e => e.User2)
                 .HasColumnType("int(11)")
                 .HasColumnName("user_2");

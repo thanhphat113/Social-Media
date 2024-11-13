@@ -62,15 +62,8 @@ builder.Services.AddScoped<PostNotiService>();
 builder.Services.AddScoped<RelationshipService>();
 
 
-
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IGroupChatRepository, GroupChatRepository>();
-builder.Services.AddScoped<INotificationsRepository, RequestNotiRepository>();
-builder.Services.AddScoped<IHistorySearchRepository, HistorySearchRepository>();
-builder.Services.AddScoped<IPostNotiRepository, PostNotiRepository>();
-builder.Services.AddScoped<IMessageRepository, MessageRepository>();
-builder.Services.AddScoped<IRelationshipRepository, RelationshipRepository>();
-builder.Services.AddScoped<IChatInMessRepository, ChatInMessageRepository>();
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
 builder.Services.AddScoped<JwtToken>();

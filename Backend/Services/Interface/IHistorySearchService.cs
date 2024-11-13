@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Backend.Models;
 
-namespace Backend.Repositories.Interface
+namespace Backend.Services.Interface
 {
-	public interface IHistorySearchRepository : IRepository<HistorySearch>
+	public interface IHistorySearchService : IService<HistorySearch>
 	{
 		Task<IEnumerable<Object>> GetHistorySearchByUserId(int userid);
 		Task<bool> UpdateTime(int historyid);

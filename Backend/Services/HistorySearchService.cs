@@ -4,22 +4,26 @@ using System.Linq;
 using System.Threading.Tasks;
 using Backend.Models;
 using Backend.Repositories.Interface;
+using Backend.Services.Interface;
+
 
 namespace Backend.Services
 {
-	public class HistorySearchService : IHistorySearchRepository
+	public class HistorySearchService : IHistorySearchService
 	{
-		private readonly IHistorySearchRepository _repo;
+		private readonly IUnitOfWork _unit;
 
-		public HistorySearchService(IHistorySearchRepository repo)
+		public HistorySearchService(IUnitOfWork unit)
 		{
-			_repo = repo;
+			_unit = unit;
 		}
 		public async Task<HistorySearch> Add(HistorySearch value)
 		{
 			try
 			{
-				return await _repo.Add(value);
+				var item = await _unit.HistorySearch.AddAsync(value);
+				await _unit.CompleteAsync();
+				return item;
 			}
 			catch (System.Exception ex)
 			{
@@ -32,7 +36,8 @@ namespace Backend.Services
 		{
 			try
 			{
-				return await _repo.Delete(id);
+				_unit.HistorySearch.DeleteAsync(h => h.HistoryId == id);
+				return await _unit.CompleteAsync();
 			}
 			catch (System.Exception ex)
 			{
@@ -55,7 +60,16 @@ namespace Backend.Services
 		{
 			try
 			{
-				return await _repo.GetHistorySearchByUserId(userid);
+				var items = await _unit.HistorySearch.FindAsync(h => h.FromUser == userid, h => new
+				{
+					h.HistoryId,
+					h.OtherUserNavigation.UserId,
+					h.OtherUserNavigation.LastName,
+					h.OtherUserNavigation.FirstName,
+					h.OtherUserNavigation.ProfilePicture,
+					h.OtherUserNavigation.GenderId
+				});
+				return items;
 			}
 			catch (System.Exception)
 			{
@@ -77,7 +91,13 @@ namespace Backend.Services
 		{
 			try
 			{
-				return await _repo.UpdateTime(historyid);
+				var item = await _unit.HistorySearch.GetByIdAsync(historyid);
+				var vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
+				var vietnamTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone);
+
+				item.DateSearch = vietnamTime;
+
+				return await _unit.CompleteAsync();
 			}
 			catch (System.Exception ex)
 			{

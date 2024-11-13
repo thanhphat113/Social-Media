@@ -8,8 +8,10 @@ public partial class Message
     public int MessagesId { get; set; }
 
     public int User1 { get; set; }
+    public string? NickName1 { get; set; } = null;
 
     public int User2 { get; set; }
+    public string? NickName2 { get; set; } = null;
 
     public int? MainTopic { get; set; }
 

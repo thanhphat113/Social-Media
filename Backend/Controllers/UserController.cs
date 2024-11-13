@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.IdentityModel.Tokens.Jwt;
 using Backend.Models;
 using Backend.Services;
+using Castle.Components.DictionaryAdapter.Xml;
 
 namespace Backend.Controllers
 {
@@ -39,25 +40,25 @@ namespace Backend.Controllers
 			return Ok(await _userContext.GetAll());
 		}
 
-		[HttpGet("friends-by-name")]
-		public async Task<IActionResult> GetFriendsByName([FromQuery] string name)
-		{
-			var UserId = GetCookie.GetUserIdFromCookie(Request);
-			try
-			{
-				var friends = await _userContext.GetFriendsByName(UserId, name);
-				foreach (var item in friends)
-				{
-					item.ChatInMessages = await _detailmess.GetMessage(UserId, item.UserId);
-				}
-				return Ok(friends);
-			}
-			catch (System.Exception ex)
-			{
-				return BadRequest("Lỗi: " + ex);
-				throw;
-			}
-		}
+		// [HttpGet("friends-by-name")]
+		// public async Task<IActionResult> GetFriendsByName([FromQuery] string name)
+		// {
+		// 	var UserId = GetCookie.GetUserIdFromCookie(Request);
+		// 	try
+		// 	{
+		// 		var friends = await _userContext.GetFriendsByName(UserId, name);
+		// 		foreach (var item in friends)
+		// 		{
+		// 			item.ChatInMessages = await _detailmess.GetMessage(UserId, item.UserId);
+		// 		}
+		// 		return Ok(friends);
+		// 	}
+		// 	catch (System.Exception ex)
+		// 	{
+		// 		return BadRequest("Lỗi: " + ex);
+		// 		throw;
+		// 	}
+		// }
 
 
 		[HttpGet("user-login")]

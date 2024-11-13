@@ -26,7 +26,6 @@ const UserSlice = createSlice({
 			})
 			.addCase(SetUser.rejected,(state) => {
 				state.information = null
-				state.friends = []
 				state.historysearch = []
 				state.requests = []
 				state.postrequests = []

@@ -16,12 +16,10 @@ namespace Backend.Controllers
 	public class RequestController : ControllerBase
 	{
 		private readonly RequestNotiService _NotiContext;
-		private readonly RelationshipService _RelaContext;
 
-		public RequestController(RequestNotiService NotiContext, RelationshipService RelaContext)
+		public RequestController(RequestNotiService NotiContext)
 		{
 			_NotiContext = NotiContext;
-			_RelaContext = RelaContext;
 		}
 
 
@@ -29,10 +27,8 @@ namespace Backend.Controllers
 		public async Task<ActionResult> Accept([FromQuery] int otheruser)
 		{
 			var userId = GetCookie.GetUserIdFromCookie(Request);
-			if (await _RelaContext.Accept(userId, otheruser))
+			if (await _NotiContext.Accept(userId, otheruser))
 			{
-				if (await _NotiContext.Accept(userId, otheruser)) { Console.WriteLine("Chấp nhận rồi"); }
-				else Console.WriteLine("Chưa chấp nhận rồi");
 				return await Get(userId);
 			}
 
