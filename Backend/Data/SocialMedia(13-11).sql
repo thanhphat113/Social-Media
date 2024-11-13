@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: localhost
--- Thời gian đã tạo: Th10 09, 2024 lúc 10:48 AM
+-- Thời gian đã tạo: Th10 13, 2024 lúc 04:17 PM
 -- Phiên bản máy phục vụ: 10.4.28-MariaDB
 -- Phiên bản PHP: 8.0.28
 
@@ -87,7 +87,40 @@ INSERT INTO `chat_in_message` (`chat_id`, `messages_id`, `from_user`, `content`,
 (44, 1, 7, 'Chào bạn', '2024-11-08 16:38:03', 0, 0),
 (45, 21, 7, 'Hé lu nhaaaa', '2024-11-08 16:44:06', 0, 0),
 (46, 1, 7, 'hehe', '2024-11-09 06:53:06', 0, 0),
-(47, 21, 7, 'chàoooooo', '2024-11-09 06:54:17', 0, 0);
+(47, 21, 7, 'chàoooooo', '2024-11-09 06:54:17', 0, 0),
+(48, 1, 7, 'hello', '2024-11-10 04:39:06', 0, 0),
+(49, 1, 7, 'hello', '2024-11-10 04:39:19', 0, 0),
+(50, 1, 7, 'ủa alo', '2024-11-10 04:48:47', 0, 0),
+(51, 2, 7, 'Tin nhắn đã thu hồi', '2024-11-10 04:49:36', 0, 1),
+(52, 2, 7, 'Tin nhắn đã thu hồi', '2024-11-10 04:51:47', 0, 1),
+(53, 1, 7, 'hel', '2024-11-10 04:56:04', 0, 0),
+(54, 1, 7, 'hello', '2024-11-10 04:59:51', 0, 0),
+(55, 1, 7, 'a', '2024-11-10 05:00:21', 0, 0),
+(56, 1, 7, 'chào bạn', '2024-11-10 05:01:57', 0, 0),
+(57, 1, 7, 'chào nha', '2024-11-10 05:02:41', 0, 0),
+(58, 1, 7, 'con mèo', '2024-11-10 05:05:25', 0, 1),
+(59, 1, 7, 'con thỏ', '2024-11-10 05:06:07', 0, 1),
+(60, 1, 7, 'con mèo', '2024-11-10 05:12:33', 0, 0),
+(61, 1, 7, 'Tin nhắn đã thu hồi', '2024-11-10 05:13:47', 0, 1),
+(62, 1, 7, 'con thỏ', '2024-11-10 05:30:12', 0, 1),
+(63, 1, 7, 'Tin nhắn đã thu hồi', '2024-11-10 05:32:16', 0, 1),
+(64, 2, 7, 'Tin nhắn đã thu hồi', '2024-11-10 05:57:24', 0, 1),
+(65, 18, 7, 'chào', '2024-11-10 05:57:53', 1, 0),
+(66, 18, 12, 'chào cái gì', '2024-11-10 06:01:46', 1, 0),
+(67, 1, 7, 'con chó', '2024-11-10 06:25:25', 0, 0),
+(68, 2, 7, 'aloo', '2024-11-10 06:56:52', 0, 0),
+(69, 1, 7, 'hihi', '2024-11-10 07:13:25', 0, 0),
+(70, 2, 7, 'a', '2024-11-10 07:16:20', 0, 0),
+(71, 21, 7, 'hé lu', '2024-11-10 07:16:26', 0, 0),
+(72, 18, 7, 'chào', '2024-11-10 07:17:02', 0, 0),
+(73, 2, 7, 'chào', '2024-11-10 07:18:19', 0, 0),
+(74, 1, 7, 'hé lu', '2024-11-10 07:18:27', 0, 0),
+(75, 18, 7, 'ơ hay', '2024-11-10 07:18:42', 0, 0),
+(76, 1, 7, 'hú le', '2024-11-10 08:26:15', 0, 0),
+(77, 21, 7, 'hé lu', '2024-11-11 07:59:35', 0, 0),
+(78, 2, 7, 'hello', '2024-11-13 14:40:38', 0, 0),
+(79, 1, 7, 'hello', '2024-11-13 14:46:26', 0, 1),
+(80, 1, 7, 'hí hí', '2024-11-13 15:09:04', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -211,8 +244,10 @@ CREATE TABLE `media` (
 
 CREATE TABLE `messages` (
   `messages_id` int(11) NOT NULL,
-  `user_1` int(11) DEFAULT NULL,
-  `user_2` int(11) DEFAULT NULL,
+  `user_1` int(11) NOT NULL,
+  `nickname_1` varchar(255) DEFAULT NULL,
+  `user_2` int(11) NOT NULL,
+  `nickname_2` varchar(255) DEFAULT NULL,
   `main_topic` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -220,11 +255,11 @@ CREATE TABLE `messages` (
 -- Đang đổ dữ liệu cho bảng `messages`
 --
 
-INSERT INTO `messages` (`messages_id`, `user_1`, `user_2`, `main_topic`) VALUES
-(1, 7, 2, 1),
-(2, 7, 5, 1),
-(18, 7, 12, 1),
-(21, 7, 8, 1);
+INSERT INTO `messages` (`messages_id`, `user_1`, `nickname_1`, `user_2`, `nickname_2`, `main_topic`) VALUES
+(1, 7, '0', 2, NULL, 1),
+(2, 7, '0', 5, NULL, 1),
+(18, 7, '0', 12, NULL, 1),
+(21, 7, '0', 8, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -783,7 +818,7 @@ ALTER TABLE `chat_in_group`
 -- AUTO_INCREMENT cho bảng `chat_in_message`
 --
 ALTER TABLE `chat_in_message`
-  MODIFY `chat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `chat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- AUTO_INCREMENT cho bảng `comments`
