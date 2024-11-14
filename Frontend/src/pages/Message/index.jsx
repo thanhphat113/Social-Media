@@ -1,4 +1,4 @@
-import { useState, createContext, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import clsx from "clsx";
 import styles from "./Message.module.scss";
@@ -16,6 +16,7 @@ function Message() {
     const handleShowInfor = () => {
         setShow(!show);
     };
+
     useEffect(() => {
         return () => dispatch(setCurrentUser(null))
     },[])

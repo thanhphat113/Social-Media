@@ -20,6 +20,8 @@ public partial class UserLogin
 	public int? ProfilePicture { get; set; }
 
 	public int? CoverPhoto { get; set; }
+	public string Email { get; set; } = null!;
+
 
 	public int? GenderId { get; set; }
 

@@ -56,7 +56,7 @@ function App() {
                     }
                 />
                 <Route
-                    path="/profile"
+                    path="/:id"
                     element={
                         <Authentication>
                             <Profile />

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, forwardRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import clsx from "clsx";
 import moment from "moment";
@@ -22,20 +22,39 @@ function DetailMessage({ onShow }) {
     const [hoveredMessageId, setHoveredMessageId] = useState(null);
     const [mess, setMess] = useState("");
 
-
     const [typeShow, setTypeShow] = useState();
     const [targetMess, setTargetMess] = useState([]);
 
     const messagesEndRef = useRef(null);
+    const listRef = useRef(null);
+    const scrollPosition = useRef(0);
+
 
     const InforCurrentFriend = friends.find(
         (u) => u.userId === currentFriendId
     );
 
+    useEffect(() => {
+            scrollPosition.current = 0;
+    },[currentFriendId])
+
+    useEffect(() => {
+        if (scrollPosition.current === 0) {
+            scrollToBottom()
+        } else {
+            listRef.current.scrollTop = scrollPosition.current;
+        }
+        console.log(scrollPosition.current);
+        
+    }, [friends]);
+
+    const toggleListVisibility = () => {
+            scrollPosition.current = listRef.current.scrollTop;
+    };
+
     const messageId = InforCurrentFriend?.chatInMessages[0].messagesId || -1;
 
     const message = InforCurrentFriend?.chatInMessages;
-
 
     useEffect(() => {
         setMess("");
@@ -76,16 +95,18 @@ function DetailMessage({ onShow }) {
     };
 
     const onAccept = () => {
-        dispatch(deleteMess({id: targetMess, Otheruser:currentFriendId}))
+        dispatch(deleteMess({ id: targetMess, Otheruser: currentFriendId }));
         setTypeShow(null);
-    }
+    };
 
     const onCancel = () => {
-        setTypeShow(null)
-    }
+        setTypeShow(null);
+    };
 
     const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
+        console.log("trong croll:" + scrollPosition.current)
+        scrollPosition.current === 0 &&
+            messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
     };
 
     const groupedMessages = message.reduce((acc, message) => {
@@ -133,7 +154,7 @@ function DetailMessage({ onShow }) {
                     </CustomTooltip>
                 </div>
             </div>
-            <div className={styles.content}>
+            <div ref={listRef} className={styles.content}>
                 {Object.keys(groupedMessages).map((date) => (
                     <div key={date} className={styles.chatzone}>
                         <small>{date}</small>
@@ -170,10 +191,14 @@ function DetailMessage({ onShow }) {
                                                                     "fa-solid fa-rotate-left"
                                                                 )}
                                                                 onClick={() => {
-                                                                    setTypeShow("recall")
-                                                                    setTargetMess(mess.chatId)
-                                                                    }}
-                                                                
+                                                                    toggleListVisibility();
+                                                                    setTypeShow(
+                                                                        "recall"
+                                                                    );
+                                                                    setTargetMess(
+                                                                        mess.chatId
+                                                                    );
+                                                                }}
                                                             ></i>
                                                         </CustomTooltip>
                                                         <CustomTooltip title="Chỉnh sửa">
@@ -224,7 +249,13 @@ function DetailMessage({ onShow }) {
                 ></i>
             </div>
 
-            {typeShow === "recall" && <Validate onAccept = { onAccept } onCancel={ onCancel } message={"Bạn có chắc chắn muốn thu hồi tin nhắn này?"} />}
+            {typeShow === "recall" && (
+                <Validate
+                    onAccept={onAccept}
+                    onCancel={onCancel}
+                    message={"Bạn có chắc chắn muốn thu hồi tin nhắn này?"}
+                />
+            )}
         </div>
     );
 }
