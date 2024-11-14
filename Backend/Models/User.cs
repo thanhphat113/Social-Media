@@ -35,6 +35,7 @@ public partial class User
 
     [JsonIgnore]
     public virtual ICollection<ChatInGroup> ChatInGroups { get; set; } = new List<ChatInGroup>();
+    // [JsonIgnore]
 
     public virtual ICollection<ChatInMessage> ChatInMessages { get; set; } = new List<ChatInMessage>();
     [JsonIgnore]

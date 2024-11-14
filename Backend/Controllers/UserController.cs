@@ -67,7 +67,7 @@ namespace Backend.Controllers
 			var userId = GetCookie.GetUserIdFromCookie(Request);
 			if (userId == -1) return null;
 
-			var information = await _userContext.GetById(userId);
+			var information = await _userContext.GetLoginById(userId);
 			var friends = await _userContext.GetFriends(userId);
 			var groupchat = await _group.FindByUserId(userId);
 			var requests = await _NotiContext.FindByUserId(userId);

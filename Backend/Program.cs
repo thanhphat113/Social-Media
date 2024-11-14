@@ -7,8 +7,8 @@ using Backend.Data;
 using Backend.Authentication;
 using Backend.Repositories.Interface;
 using Backend.Repositories.Repository;
-using Backend.Models;
 using Backend.Services;
+using Backend.AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -68,6 +68,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddScoped<JwtToken>();
 builder.Services.AddControllers();
+builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
 
 builder.Services.AddCors(options =>

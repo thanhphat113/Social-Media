@@ -5,13 +5,15 @@ using System.Text.Json.Serialization;
 
 namespace Backend.Models;
 
-public partial class UserPrivate
+public partial class UserLogin
 {
 	public int UserId { get; set; }
 
 	public string FirstName { get; set; } = null!;
 
 	public string LastName { get; set; } = null!;
+
+	public string? Bio { get; set; }
 
 	public string? Location { get; set; }
 
@@ -22,6 +24,8 @@ public partial class UserPrivate
 	public int? GenderId { get; set; }
 
 	public bool? IsOnline { get; set; } = false;
-	public virtual ICollection<ChatInMessage> ChatInMessages { get; set; } = new List<ChatInMessage>();
 
+	public DateTime DateCreated { get; set; }
+
+	public DateTime DateUpdated { get; set; }
 }

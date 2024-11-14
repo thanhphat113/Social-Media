@@ -17,7 +17,7 @@ public partial class ChatInMessage
 
     public string Content { get; set; } = null!;
 
-    public DateTime? DateCreated { get; set; } = DateTime.Now;
+    public DateTime DateCreated { get; set; } = DateTime.Now;
 
     [NotMapped]
     public int Otheruser { get; set; }

@@ -7,13 +7,12 @@ using Backend.Repositories;
 
 namespace Backend.Services.Interface
 {
-	public interface IUserRepository : IService<User>
+	public interface IUserService : IService<User>
 	{
-		public Task<bool> IsHasEmail(string email);
-		public Task<IEnumerable<User>> GetListFriends(int condition);
-		public Task<User> FindToLogin(string email, string password);
+		public Task<ValidateEmail> IsHasEmail(string email);
+		public Task<IEnumerable<UserPrivate>> GetFriends(int id);
+		public Task<string> FindToLogin(string email, string password);
+		public Task<UserLogin> GetLoginById(int id);
 
-		public Task<IEnumerable<Object>> GetUsersByName(string name);
-		public Task<IEnumerable<User>> GetFriendByName(int userid, string name);
 	}
 }
