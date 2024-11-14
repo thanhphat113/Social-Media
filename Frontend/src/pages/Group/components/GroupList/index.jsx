@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import GroupSidebar from '../GroupSidebar';
 import styles from './GroupList.module.scss'; 
 
 
@@ -76,31 +76,36 @@ const GroupList = () => {
   const suggestedGroups = groupsData.filter(group => !group.joined);
 
   return (
-    <div className={styles.container}>
-      <div className={styles.joinedGroups}>
-        <h2>Nhóm của bạn</h2>
-        <div className={styles.groupRow}>
-          {joinedGroups.length > 0 ? (
-            joinedGroups.map(group => (
-              <GroupCard key={group.id} group={group} />
-            ))
-          ) : (
-            <p>Bạn chưa tham gia nhóm nào.</p>
-          )}
-        </div>
-      </div>
+    <div className={styles.groupContainer}>
+      {/* Sidebar */}
+      <GroupSidebar />
 
-      <div className={styles.suggestedGroups}>
-        <h2>Gợi ý nhóm</h2>
-        <div className={styles.groupRow}>
-          {suggestedGroups.map(group => (
-            <GroupCard key={group.id} group={group} />
-          ))}
+      {/* Nội dung nhóm */}
+      <div className={styles.content}>
+        <div className={styles.joinedGroups}>
+          <h2>Nhóm của bạn</h2>
+          <div className={styles.groupRow}>
+            {joinedGroups.length > 0 ? (
+              joinedGroups.map(group => (
+                <GroupCard key={group.id} group={group} />
+              ))
+            ) : (
+              <p>Bạn chưa tham gia nhóm nào.</p>
+            )}
+          </div>
+        </div>
+
+        <div className={styles.suggestedGroups}>
+          <h2>Gợi ý nhóm</h2>
+          <div className={styles.groupRow}>
+            {suggestedGroups.map(group => (
+              <GroupCard key={group.id} group={group} />
+            ))}
+          </div>
         </div>
       </div>
     </div>
   );
 };
-
 
 export default GroupList;

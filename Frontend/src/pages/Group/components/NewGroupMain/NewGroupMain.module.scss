@@ -1,0 +1,105 @@
+.container {
+  margin-left: 25%; // Đặt margin cho main content
+  padding: 20px;
+  background-color: #fff;
+  height: 100vh; // Đặt chiều cao cho main
+  overflow-y: auto; // Thêm cuộn dọc nếu cần
+}
+
+.previewTitle {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.coverImage {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.groupName {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.privacyText {
+  font-size: 16px;
+  color: #666;
+}
+
+.memberCount {
+  font-weight: bold;
+}
+
+.separator {
+  margin: 20px 0;
+  border: 1px solid #ddd;
+}
+
+// Tab CSS
+.tabs {
+  display: flex;
+  justify-content: flex-start; // Căn lề bên trái
+  margin-bottom: 20px;
+  width: 60%; // Chiếm 50% chiều rộng
+  margin: 0; // Xóa margin tự động
+  background-color: #F0F2F5;
+  margin-bottom: 1rem;
+}
+
+.tab {
+  flex: 1; // Mỗi tab chiếm 1 phần
+  text-align: center; // Căn giữa nội dung tab
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+  margin-right: 10px; // Thêm khoảng cách giữa các tab
+  margin-bottom: 1rem;
+}
+
+.columns {
+  display: flex;
+  justify-content: space-between;
+}
+
+.leftColumn {
+  flex: 1;
+  margin-right: 10px;
+  background-color: #F0F2F5;
+  padding: 10px;
+}
+
+.rightColumn {
+  flex: 1;
+  background-color: #F0F2F5;
+  padding-left: 10px;
+}
+
+.userInput {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.userIcon {
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+.textInput {
+  border: none;
+  outline: none;
+  flex: 1;
+  padding: 5px;
+}
+
+.mediaPrompt {
+  color: #007bff;
+  cursor: pointer;
+}

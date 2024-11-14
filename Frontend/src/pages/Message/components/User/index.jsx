@@ -1,16 +1,30 @@
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import clsx from "clsx";
 import styles from "./User.module.scss";
 import ItemUser from "./components/ItemUser";
 
-
 function User() {
-    const friends = useSelector( (state) => state.user.friends)
-    const [search, setSearch] = useState("");
+    const friends = useSelector((state) => state.friends.allFriends);
+    const userid = useSelector((state) => state.user.userid);
+
+    const [search, setSearch] = useState('');
     const [isShow, setIsShow] = useState(false);
     const [ischoice, setIsChoice] = useState("mess");
-	
+    const [findFriend, setFindFriend] = useState([]);
+
+    const list = findFriend.length > 0 ? findFriend : friends;
+
+    const handleSearch = () => {
+        setFindFriend(friends.filter(user =>
+            (user.firstName.toLowerCase() + ' ' + user.lastName.toLowerCase()).includes(search.toLowerCase()) // So sánh tên có phân biệt dấu
+        ));
+    }
+    
+    useEffect(() => {
+        search !== "" ? handleSearch() : setFindFriend([]);
+    }, [search]);
+
 
     const handleClick = () => {
         setSearch("");
@@ -48,9 +62,13 @@ function User() {
                 </button>
             </div>
             <div className={styles.content}>
-                {friends && friends.length > 0 ? (<ItemUser/>):
-					(<p style={ {paddingLeft:'10px'} }>Không có ai để nhắn tin cả</p>
-				)}
+                {list && list.length > 0 ? (
+                    <ItemUser list={list} />
+                ) : (
+                    <p style={{ paddingLeft: "10px" }}>
+                        Không có ai để nhắn tin cả
+                    </p>
+                )}
             </div>
         </div>
     );

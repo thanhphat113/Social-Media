@@ -22,11 +22,9 @@ namespace Backend.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Login([FromBody] Login account)
 		{
-			Console.WriteLine(account.email);
-			Console.WriteLine(account.password);
+
 			var token = await _UserContext.FindToLogin(account.email, account.password);
-
-
+			Console.WriteLine("Đậy là: " + token);
 			if (token == null)
 			{
 				return Ok(false);

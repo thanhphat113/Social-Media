@@ -4,12 +4,12 @@
 .sidebar {
   width: 100%;
   max-width: 20%;
-  padding: 1rem;
+  padding: 0.2rem 1rem;
   position: fixed; /* Cố định sidebar */
   top: 1; /* Đặt ở đầu màn hình */
   left: 0; /* Cố định sidebar sang bên trái */
   overflow-y: auto; /* Cho phép cuộn nếu nội dung dài hơn chiều cao màn hình */
-  z-index: 1; /* Đảm bảo sidebar luôn nằm trên nội dung khác */
+
 }
 
 // .relative {
@@ -18,12 +18,13 @@
 
 .userInfo {
   background-color: white;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
   border-radius: 0.5rem;
   margin-top: 1rem;
   width: 100%;
   position: relative; // Đặt relative cho phần tử cha
   padding-bottom: 2rem;
+  z-index: 2;
 }
 
 

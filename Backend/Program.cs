@@ -7,8 +7,8 @@ using Backend.Data;
 using Backend.Authentication;
 using Backend.Repositories.Interface;
 using Backend.Repositories.Repository;
-using Backend.Models;
 using Backend.Services;
+using Backend.AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,17 +51,24 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddScoped<PostNotiService>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<HistorySearchService>();
+builder.Services.AddScoped<GroupChatService>();
 builder.Services.AddScoped<MessageService>();
 builder.Services.AddScoped<ChatInMessageService>();
+builder.Services.AddScoped<RequestNotiService>();
+builder.Services.AddScoped<PostNotiService>();
+builder.Services.AddScoped<RelationshipService>();
 
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IMessageRepository, MessageRepository>();
-builder.Services.AddScoped<IRepository<ChatInMessage>, ChatInMessageRepository>();
+
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
 builder.Services.AddScoped<JwtToken>();
 builder.Services.AddControllers();
+builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
 
 builder.Services.AddCors(options =>

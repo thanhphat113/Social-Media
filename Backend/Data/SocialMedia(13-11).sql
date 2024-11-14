@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: localhost
--- Thời gian đã tạo: Th10 24, 2024 lúc 12:43 PM
+-- Thời gian đã tạo: Th10 13, 2024 lúc 04:17 PM
 -- Phiên bản máy phục vụ: 10.4.28-MariaDB
 -- Phiên bản PHP: 8.0.28
 
@@ -35,6 +35,13 @@ CREATE TABLE `chat_in_group` (
   `date_created` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Đang đổ dữ liệu cho bảng `chat_in_group`
+--
+
+INSERT INTO `chat_in_group` (`chat_id`, `from_user`, `group_chat_id`, `content`, `date_created`) VALUES
+(1, 13, 2, 'Chào mọi người nhaaa', '2024-11-09 09:00:52');
+
 -- --------------------------------------------------------
 
 --
@@ -46,8 +53,74 @@ CREATE TABLE `chat_in_message` (
   `messages_id` int(11) DEFAULT NULL,
   `from_user` int(11) DEFAULT NULL,
   `content` varchar(255) NOT NULL,
-  `date_created` datetime DEFAULT NULL
+  `date_created` timestamp NOT NULL DEFAULT current_timestamp(),
+  `is_read` tinyint(1) NOT NULL DEFAULT 0,
+  `is_recall` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `chat_in_message`
+--
+
+INSERT INTO `chat_in_message` (`chat_id`, `messages_id`, `from_user`, `content`, `date_created`, `is_read`, `is_recall`) VALUES
+(8, 1, 7, 'thanh123', '2024-10-24 16:40:34', 0, 0),
+(14, 1, 7, '15', '2024-10-24 16:55:25', 0, 0),
+(16, 1, 7, 'em ơi', '2024-10-24 16:55:44', 0, 0),
+(17, 1, 7, 'em à', '2024-10-24 16:58:59', 0, 0),
+(18, 1, 7, 'em ơi', '2024-10-24 16:59:18', 0, 0),
+(19, 2, 7, 'Xin chàooo', '2024-10-25 07:36:40', 0, 0),
+(20, 2, 7, 'Mày muốn gì', '2024-10-24 17:00:20', 0, 0),
+(21, 1, 7, 'Elmmmm ơiiiiiii', '2024-10-24 17:00:34', 0, 1),
+(22, 2, 7, 'Xin chèo nhé', '2024-10-24 17:59:03', 0, 0),
+(24, 1, 7, 'a', '2024-10-25 06:29:59', 0, 0),
+(25, 2, 7, 'ádđ', '2024-10-25 06:30:12', 0, 0),
+(26, 1, 7, 'alooo', '2024-10-25 06:38:42', 0, 0),
+(27, 2, 5, 'chàooooo', '2024-10-25 07:38:51', 0, 0),
+(28, 2, 7, 'ádsad', '2024-10-29 06:38:22', 0, 0),
+(29, 2, 7, 'Chúng ta là lũ quỷ', '2024-11-02 15:17:59', 0, 0),
+(30, 1, 7, 'hehe', '2024-11-08 13:19:20', 0, 0),
+(31, 2, 7, '4', '2024-11-08 14:58:07', 0, 0),
+(32, 2, 7, '1', '2024-11-08 15:01:10', 0, 0),
+(33, 1, 7, 'hello', '2024-11-08 15:34:08', 0, 1),
+(39, 18, 7, '15', '2024-11-08 16:04:21', 1, 0),
+(43, 21, 7, 'chàoooo', '2024-11-08 16:35:51', 0, 0),
+(44, 1, 7, 'Chào bạn', '2024-11-08 16:38:03', 0, 0),
+(45, 21, 7, 'Hé lu nhaaaa', '2024-11-08 16:44:06', 0, 0),
+(46, 1, 7, 'hehe', '2024-11-09 06:53:06', 0, 0),
+(47, 21, 7, 'chàoooooo', '2024-11-09 06:54:17', 0, 0),
+(48, 1, 7, 'hello', '2024-11-10 04:39:06', 0, 0),
+(49, 1, 7, 'hello', '2024-11-10 04:39:19', 0, 0),
+(50, 1, 7, 'ủa alo', '2024-11-10 04:48:47', 0, 0),
+(51, 2, 7, 'Tin nhắn đã thu hồi', '2024-11-10 04:49:36', 0, 1),
+(52, 2, 7, 'Tin nhắn đã thu hồi', '2024-11-10 04:51:47', 0, 1),
+(53, 1, 7, 'hel', '2024-11-10 04:56:04', 0, 0),
+(54, 1, 7, 'hello', '2024-11-10 04:59:51', 0, 0),
+(55, 1, 7, 'a', '2024-11-10 05:00:21', 0, 0),
+(56, 1, 7, 'chào bạn', '2024-11-10 05:01:57', 0, 0),
+(57, 1, 7, 'chào nha', '2024-11-10 05:02:41', 0, 0),
+(58, 1, 7, 'con mèo', '2024-11-10 05:05:25', 0, 1),
+(59, 1, 7, 'con thỏ', '2024-11-10 05:06:07', 0, 1),
+(60, 1, 7, 'con mèo', '2024-11-10 05:12:33', 0, 0),
+(61, 1, 7, 'Tin nhắn đã thu hồi', '2024-11-10 05:13:47', 0, 1),
+(62, 1, 7, 'con thỏ', '2024-11-10 05:30:12', 0, 1),
+(63, 1, 7, 'Tin nhắn đã thu hồi', '2024-11-10 05:32:16', 0, 1),
+(64, 2, 7, 'Tin nhắn đã thu hồi', '2024-11-10 05:57:24', 0, 1),
+(65, 18, 7, 'chào', '2024-11-10 05:57:53', 1, 0),
+(66, 18, 12, 'chào cái gì', '2024-11-10 06:01:46', 1, 0),
+(67, 1, 7, 'con chó', '2024-11-10 06:25:25', 0, 0),
+(68, 2, 7, 'aloo', '2024-11-10 06:56:52', 0, 0),
+(69, 1, 7, 'hihi', '2024-11-10 07:13:25', 0, 0),
+(70, 2, 7, 'a', '2024-11-10 07:16:20', 0, 0),
+(71, 21, 7, 'hé lu', '2024-11-10 07:16:26', 0, 0),
+(72, 18, 7, 'chào', '2024-11-10 07:17:02', 0, 0),
+(73, 2, 7, 'chào', '2024-11-10 07:18:19', 0, 0),
+(74, 1, 7, 'hé lu', '2024-11-10 07:18:27', 0, 0),
+(75, 18, 7, 'ơ hay', '2024-11-10 07:18:42', 0, 0),
+(76, 1, 7, 'hú le', '2024-11-10 08:26:15', 0, 0),
+(77, 21, 7, 'hé lu', '2024-11-11 07:59:35', 0, 0),
+(78, 2, 7, 'hello', '2024-11-13 14:40:38', 0, 0),
+(79, 1, 7, 'hello', '2024-11-13 14:46:26', 0, 1),
+(80, 1, 7, 'hí hí', '2024-11-13 15:09:04', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -93,10 +166,20 @@ INSERT INTO `gender_type` (`gender_id`, `gender_name`) VALUES
 
 CREATE TABLE `group_chats` (
   `group_chat_id` int(11) NOT NULL,
-  `group_chat_name` varchar(255) NOT NULL,
+  `group_chat_name` varchar(255) DEFAULT NULL,
   `cover_photo` varchar(255) DEFAULT NULL,
   `main_topic` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `group_chats`
+--
+
+INSERT INTO `group_chats` (`group_chat_id`, `group_chat_name`, `cover_photo`, `main_topic`) VALUES
+(1, NULL, NULL, 1),
+(2, 'Anh em cây khế', NULL, 1),
+(3, NULL, NULL, 1),
+(4, 'Trùm sài gòn', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -106,10 +189,18 @@ CREATE TABLE `group_chats` (
 
 CREATE TABLE `history_search` (
   `history_id` int(11) NOT NULL,
-  `other_user` int(11) DEFAULT NULL,
   `from_user` int(11) DEFAULT NULL,
-  `date_search` datetime DEFAULT NULL
+  `other_user` int(11) DEFAULT NULL,
+  `date_search` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `history_search`
+--
+
+INSERT INTO `history_search` (`history_id`, `from_user`, `other_user`, `date_search`) VALUES
+(16, 7, 12, '2024-11-07 14:33:52'),
+(17, 7, 2, '2024-11-07 14:16:17');
 
 -- --------------------------------------------------------
 
@@ -122,6 +213,15 @@ CREATE TABLE `main_topic` (
   `topic_name` varchar(255) DEFAULT NULL,
   `color` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `main_topic`
+--
+
+INSERT INTO `main_topic` (`topic_id`, `topic_name`, `color`) VALUES
+(1, 'Mặc định', '#4586d6'),
+(2, 'Tình yêu', '#F0C5D5'),
+(3, 'Cây cối', '#8FD9C4');
 
 -- --------------------------------------------------------
 
@@ -144,10 +244,22 @@ CREATE TABLE `media` (
 
 CREATE TABLE `messages` (
   `messages_id` int(11) NOT NULL,
-  `user_1` int(11) DEFAULT NULL,
-  `user_2` int(11) DEFAULT NULL,
+  `user_1` int(11) NOT NULL,
+  `nickname_1` varchar(255) DEFAULT NULL,
+  `user_2` int(11) NOT NULL,
+  `nickname_2` varchar(255) DEFAULT NULL,
   `main_topic` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `messages`
+--
+
+INSERT INTO `messages` (`messages_id`, `user_1`, `nickname_1`, `user_2`, `nickname_2`, `main_topic`) VALUES
+(1, 7, '0', 2, NULL, 1),
+(2, 7, '0', 5, NULL, 1),
+(18, 7, '0', 12, NULL, 1),
+(21, 7, '0', 8, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -164,6 +276,14 @@ CREATE TABLE `posts` (
   `date_created` timestamp NOT NULL DEFAULT current_timestamp(),
   `date_updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `posts`
+--
+
+INSERT INTO `posts` (`post_id`, `content`, `privacy_id`, `group_id`, `created_by_user_id`, `date_created`, `date_updated`) VALUES
+(3, 'xin chào', 1, NULL, 7, '2024-11-06 02:18:37', '2024-11-06 02:18:37'),
+(4, 'Húle', 1, NULL, 7, '2024-11-06 02:18:37', '2024-11-06 02:18:37');
 
 -- --------------------------------------------------------
 
@@ -186,21 +306,19 @@ CREATE TABLE `post_notifications` (
   `post_notification_id` int(11) NOT NULL,
   `post_id` int(11) NOT NULL,
   `from_user_id` int(11) NOT NULL,
-  `type_id` tinyint(1) DEFAULT NULL,
-  `date_created` timestamp NOT NULL DEFAULT current_timestamp()
+  `type_id` int(11) DEFAULT NULL,
+  `date_created` timestamp NOT NULL DEFAULT current_timestamp(),
+  `is_read` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- --------------------------------------------------------
-
 --
--- Cấu trúc bảng cho bảng `post_notification_to_user`
+-- Đang đổ dữ liệu cho bảng `post_notifications`
 --
 
-CREATE TABLE `post_notification_to_user` (
-  `to_user_id` int(11) NOT NULL,
-  `post_notification_id` int(11) NOT NULL,
-  `is_read` tinyint(1) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+INSERT INTO `post_notifications` (`post_notification_id`, `post_id`, `from_user_id`, `type_id`, `date_created`, `is_read`) VALUES
+(2, 3, 2, 3, '2024-11-06 02:22:58', 0),
+(3, 4, 2, 2, '2024-11-06 02:22:58', 0),
+(4, 4, 2, 4, '2024-11-06 02:22:58', 0);
 
 -- --------------------------------------------------------
 
@@ -212,6 +330,15 @@ CREATE TABLE `privacy_settings` (
   `privacy_id` int(11) NOT NULL,
   `privacy_name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `privacy_settings`
+--
+
+INSERT INTO `privacy_settings` (`privacy_id`, `privacy_name`) VALUES
+(1, 'Công khai'),
+(2, 'Bạn bè'),
+(3, 'Riêng tư');
 
 -- --------------------------------------------------------
 
@@ -242,7 +369,7 @@ CREATE TABLE `reacts_post` (
 --
 
 CREATE TABLE `read_message` (
-  `messages_id` int(11) DEFAULT NULL,
+  `messages_group_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   `is_read` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -267,10 +394,9 @@ CREATE TABLE `relationship` (
 
 INSERT INTO `relationship` (`relationship_id`, `type_relationship`, `from_user_id`, `to_user_id`, `date_created`) VALUES
 (1, 2, 2, 7, '2024-10-16 13:37:15'),
-(2, 1, 3, 1, '2024-10-16 13:37:15'),
-(3, 1, 1, 4, '2024-10-16 13:37:15'),
-(4, 2, 1, 5, '2024-10-24 06:55:34'),
-(5, 2, 7, 5, '2024-10-24 06:55:34');
+(5, 2, 7, 5, '2024-10-24 06:55:34'),
+(6, 2, 12, 7, '2024-11-06 07:48:50'),
+(7, 2, 8, 7, '2024-11-06 08:06:56');
 
 -- --------------------------------------------------------
 
@@ -282,6 +408,7 @@ CREATE TABLE `request_notifications` (
   `notification_id` int(11) NOT NULL,
   `from_user_id` int(11) NOT NULL,
   `to_user_id` int(11) NOT NULL,
+  `is_accept` tinyint(1) NOT NULL DEFAULT 0,
   `is_read` tinyint(1) DEFAULT 0,
   `date_created` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -316,7 +443,7 @@ CREATE TABLE `type_media` (
 --
 
 CREATE TABLE `type_post_notifications` (
-  `type_id` tinyint(1) NOT NULL,
+  `type_id` int(11) NOT NULL,
   `type_name` varchar(255) NOT NULL,
   `content` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -326,9 +453,12 @@ CREATE TABLE `type_post_notifications` (
 --
 
 INSERT INTO `type_post_notifications` (`type_id`, `type_name`, `content`) VALUES
-(1, 'newpost', 'vừa tạo một bài viết mới'),
-(2, 'sharepost', 'vừa chia sẻ bài viết của bạn'),
-(3, 'reactpost', 'vừa thả cảm xúc vào bài viết của bạn');
+(1, 'newpost', 'đã đăng một bài viết mới'),
+(2, 'sharepost', 'đã chia sẻ một bài viết của bạn'),
+(3, 'reactpost', 'đã thả cloud vào một bài viết của bạn'),
+(4, 'comment', 'đã bình luận vào một bài viết của bạn'),
+(5, 'likecomment', 'đã thả cloud cho một comment của bạn'),
+(6, 'commentOnComment', 'đã trả lời bình luận của bạn');
 
 -- --------------------------------------------------------
 
@@ -367,23 +497,24 @@ CREATE TABLE `users` (
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `date_created` timestamp NOT NULL DEFAULT current_timestamp(),
-  `date_updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `date_updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `is_online` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `users`
 --
 
-INSERT INTO `users` (`user_id`, `first_name`, `last_name`, `gender_id`, `bio`, `location`, `profile_picture`, `cover_photo`, `email`, `password`, `date_created`, `date_updated`) VALUES
-(1, 'Ly', 'Phat', 0, NULL, 'HCM city', NULL, NULL, 'thanhphat9523@gmail.com', '123', '2024-10-11 03:21:07', '2024-10-11 03:21:07'),
-(2, 'Châu', 'Ngọc Quyên', 2, 'Tui là con mèo kêu meo meo', 'TP. Hồ Chí Minh', NULL, NULL, 'chauquyen1235@gmail.com', '123', '2024-10-16 13:31:25', '2024-10-24 10:01:29'),
-(3, 'Phạm', 'Thành', 0, 'Tui là siêu nhân', 'TP. Hồ Chí Minh', NULL, NULL, 'thanhpham123@gmail.com', '123', '2024-10-16 13:33:36', '2024-10-16 13:33:36'),
-(4, 'Nguyễn', 'Tâm', 0, 'Tui là cọng bún riêu', 'TP. Hồ Chí Minh', NULL, NULL, 'tamnguyen@gmail.com', '123', '2024-10-16 13:33:36', '2024-10-16 13:33:36'),
-(5, 'Phạm', 'Danh', 0, 'Tui là cục cứt bò', 'TP. Hồ Chí Minh', NULL, NULL, 'danhpham123@gmail.com', '123', '2024-10-16 13:33:36', '2024-10-16 13:33:36'),
-(6, 'thanh', 'Tung', 0, NULL, NULL, NULL, NULL, '123@gmail.com', 'AQAAAAIAAYagAAAAEJCi0V/pa0DV2BwPE2U2WLHe5Gbixjn0mtBOaRnhxjQ538N0pT5UOBlYnbsd7Jzl5w==', '2024-10-18 13:15:01', '2024-10-18 13:15:01'),
-(7, 'Lâm', 'Dũng', 0, NULL, NULL, NULL, NULL, '15@gmail.com', 'AQAAAAIAAYagAAAAEOYjiubhy6sR49wGjul/RSJOElGbL+T1BHdWMr6O2ATWaJcZLKnm49DaFKrkKPvoKA==', '2024-10-18 13:18:33', '2024-10-18 13:18:33'),
-(8, 'Lý', 'Tỏi', 0, NULL, NULL, NULL, NULL, 'toi@gmail.com', 'AQAAAAIAAYagAAAAEDjGeJtVt0ntEjKjsQMeQTpbaV/jNB0TwtC475t230xEhg85bW1MseevGlq/D+gNNQ==', '2024-10-18 13:32:41', '2024-10-18 13:32:41'),
-(10, 'Tùng', 'Heo', 0, NULL, NULL, NULL, NULL, 'thanhtung@gmail.com', 'AQAAAAIAAYagAAAAEBIqogwoDD07RFh7d5XB0iO3XQfOiT4WLcH5jCQz53Ai5sqU2ebdhqaiWWRCChMEgg==', '2024-10-23 12:22:52', '2024-10-23 12:22:52');
+INSERT INTO `users` (`user_id`, `first_name`, `last_name`, `gender_id`, `bio`, `location`, `profile_picture`, `cover_photo`, `email`, `password`, `date_created`, `date_updated`, `is_online`) VALUES
+(2, 'Châu', 'Ngọc Quyên', 2, 'Tui là con mèo kêu meo meo', 'TP. Hồ Chí Minh', NULL, NULL, 'chauquyen1235@gmail.com', '123', '2024-10-16 13:31:25', '2024-10-24 10:01:29', 0),
+(4, 'Nguyễn', 'Tâm', 0, 'Tui là cọng bún riêu', 'TP. Hồ Chí Minh', NULL, NULL, 'tamnguyen@gmail.com', '123', '2024-10-16 13:33:36', '2024-10-16 13:33:36', 0),
+(5, 'Phạm', 'Danh', 0, 'Tui là cục cứt bò', 'TP. Hồ Chí Minh', NULL, NULL, 'danhpham123@gmail.com', '123', '2024-10-16 13:33:36', '2024-10-16 13:33:36', 0),
+(6, 'thanh', 'Tung', 0, NULL, NULL, NULL, NULL, '123@gmail.com', 'AQAAAAIAAYagAAAAEJCi0V/pa0DV2BwPE2U2WLHe5Gbixjn0mtBOaRnhxjQ538N0pT5UOBlYnbsd7Jzl5w==', '2024-10-18 13:15:01', '2024-10-18 13:15:01', 0),
+(7, 'Lâm', 'Dũng', 0, NULL, NULL, NULL, NULL, '15@gmail.com', 'AQAAAAIAAYagAAAAEOYjiubhy6sR49wGjul/RSJOElGbL+T1BHdWMr6O2ATWaJcZLKnm49DaFKrkKPvoKA==', '2024-10-18 13:18:33', '2024-10-18 13:18:33', 0),
+(8, 'Lý', 'Tỏi', 0, NULL, NULL, NULL, NULL, 'toi@gmail.com', 'AQAAAAIAAYagAAAAEDjGeJtVt0ntEjKjsQMeQTpbaV/jNB0TwtC475t230xEhg85bW1MseevGlq/D+gNNQ==', '2024-10-18 13:32:41', '2024-10-18 13:32:41', 0),
+(10, 'Tùng', 'Heo', 0, NULL, NULL, NULL, NULL, 'thanhtung@gmail.com', 'AQAAAAIAAYagAAAAEBIqogwoDD07RFh7d5XB0iO3XQfOiT4WLcH5jCQz53Ai5sqU2ebdhqaiWWRCChMEgg==', '2024-10-23 12:22:52', '2024-10-23 12:22:52', 0),
+(12, 'Lý', 'Phát', 0, NULL, NULL, NULL, NULL, 'thanhphat9523@gmail.com', 'AQAAAAIAAYagAAAAENdJI7tGR/5QBSoCakofqb73ExGowB6S2NmoMd4WLB3h2OJ5SvCqhWCRoQ4wsVxR+Q==', '2024-11-04 06:00:34', '2024-11-04 06:00:34', 0),
+(13, 'Long', 'Phát', NULL, NULL, NULL, NULL, NULL, 'thanhphat123@gmail.com', 'AQAAAAIAAYagAAAAENqVbI4WH5g9u/mt3XDcrdP10Q8apblxmlnq5g0Ln9JpCha0+9c84X7VEsY/0Fv0+w==', '2024-11-07 06:54:14', '2024-11-07 06:54:14', 0);
 
 -- --------------------------------------------------------
 
@@ -426,6 +557,17 @@ CREATE TABLE `user_in_group_chat` (
   `user_id` int(11) NOT NULL,
   `group_chat_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `user_in_group_chat`
+--
+
+INSERT INTO `user_in_group_chat` (`user_id`, `group_chat_id`) VALUES
+(2, 2),
+(7, 1),
+(7, 2),
+(13, 1),
+(13, 2);
 
 -- --------------------------------------------------------
 
@@ -548,13 +690,6 @@ ALTER TABLE `post_notifications`
   ADD KEY `fk_post_notifications_type` (`type_id`);
 
 --
--- Chỉ mục cho bảng `post_notification_to_user`
---
-ALTER TABLE `post_notification_to_user`
-  ADD PRIMARY KEY (`to_user_id`,`post_notification_id`),
-  ADD KEY `fk_post_notification_to_user_post_notification_id` (`post_notification_id`);
-
---
 -- Chỉ mục cho bảng `privacy_settings`
 --
 ALTER TABLE `privacy_settings`
@@ -579,7 +714,7 @@ ALTER TABLE `reacts_post`
 --
 ALTER TABLE `read_message`
   ADD KEY `user_id` (`user_id`),
-  ADD KEY `messages_id` (`messages_id`);
+  ADD KEY `read_message_ibfk_2` (`messages_group_id`);
 
 --
 -- Chỉ mục cho bảng `relationship`
@@ -677,13 +812,13 @@ ALTER TABLE `__EFMigrationsHistory`
 -- AUTO_INCREMENT cho bảng `chat_in_group`
 --
 ALTER TABLE `chat_in_group`
-  MODIFY `chat_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `chat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT cho bảng `chat_in_message`
 --
 ALTER TABLE `chat_in_message`
-  MODIFY `chat_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `chat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- AUTO_INCREMENT cho bảng `comments`
@@ -695,19 +830,19 @@ ALTER TABLE `comments`
 -- AUTO_INCREMENT cho bảng `group_chats`
 --
 ALTER TABLE `group_chats`
-  MODIFY `group_chat_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `group_chat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT cho bảng `history_search`
 --
 ALTER TABLE `history_search`
-  MODIFY `history_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `history_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT cho bảng `main_topic`
 --
 ALTER TABLE `main_topic`
-  MODIFY `topic_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `topic_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT cho bảng `media`
@@ -719,37 +854,37 @@ ALTER TABLE `media`
 -- AUTO_INCREMENT cho bảng `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `messages_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `messages_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT cho bảng `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT cho bảng `post_notifications`
 --
 ALTER TABLE `post_notifications`
-  MODIFY `post_notification_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `post_notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT cho bảng `privacy_settings`
 --
 ALTER TABLE `privacy_settings`
-  MODIFY `privacy_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `privacy_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT cho bảng `relationship`
 --
 ALTER TABLE `relationship`
-  MODIFY `relationship_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `relationship_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT cho bảng `request_notifications`
 --
 ALTER TABLE `request_notifications`
-  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT cho bảng `type_media`
@@ -767,7 +902,7 @@ ALTER TABLE `type_relationship`
 -- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT cho bảng `user_groups`
@@ -853,13 +988,6 @@ ALTER TABLE `post_notifications`
   ADD CONSTRAINT `fk_post_notifications_type` FOREIGN KEY (`type_id`) REFERENCES `type_post_notifications` (`type_id`);
 
 --
--- Các ràng buộc cho bảng `post_notification_to_user`
---
-ALTER TABLE `post_notification_to_user`
-  ADD CONSTRAINT `fk_post_notification_to_user_post_notification_id` FOREIGN KEY (`post_notification_id`) REFERENCES `post_notifications` (`post_notification_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_post_notification_to_user_to_user_id` FOREIGN KEY (`to_user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
 -- Các ràng buộc cho bảng `reacts_comment`
 --
 ALTER TABLE `reacts_comment`
@@ -878,7 +1006,7 @@ ALTER TABLE `reacts_post`
 --
 ALTER TABLE `read_message`
   ADD CONSTRAINT `read_message_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
-  ADD CONSTRAINT `read_message_ibfk_2` FOREIGN KEY (`messages_id`) REFERENCES `messages` (`messages_id`);
+  ADD CONSTRAINT `read_message_ibfk_2` FOREIGN KEY (`messages_group_id`) REFERENCES `group_chats` (`group_chat_id`);
 
 --
 -- Các ràng buộc cho bảng `relationship`
