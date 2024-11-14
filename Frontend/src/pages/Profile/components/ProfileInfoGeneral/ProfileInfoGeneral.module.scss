@@ -105,4 +105,139 @@
   filter: brightness(0.8);
 }
 
+.modalBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
 
+.modalContent {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  position: relative;
+  width: 90%;
+  max-width: 55rem;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.modalTitle {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.formCheck {
+  display: block;
+  min-height: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.formSelect {
+  display: flex;
+  min-height: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.formTextArea {
+  margin-bottom: 0.5rem;
+}
+
+.textArea {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  outline: none;
+  resize: none;
+}
+
+.checkInput {
+  float: left;
+  width: 20px;
+  height: 20px;
+  margin-right: 0.5rem;
+}
+
+.checkLabel {
+  display: block;
+  padding: 0.25rem;
+  padding-left: 0;
+}
+
+.dropzone {
+  padding: 1rem;
+  border: 2px dashed #e2e8f0; // Màu viền đứt
+  border-radius: 0.5rem;
+  text-align: center;
+  cursor: pointer;
+}
+
+.publicButton { 
+  color: #3b82f6;
+  font-size: 1.35rem;
+  background-color: rgb(240, 240, 240);
+  margin-left: 0.5rem;
+}
+
+.imagePreview {
+  max-height: 300px; /* Adjust this value as needed */
+  max-width: 100%;   /* Ensures images fit within the modal width */
+  width: auto;
+  height: auto;
+  object-fit: contain; /* Maintains aspect ratio */
+}
+
+.formButton {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.formButtonW_50 {
+  width: 49%;
+}
+
+.formButtonUpdate {
+  width: 100%;
+  background-color: #64c1e2;
+  color: #fff;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid #2750a6;
+}
+
+.formButtonCancel {
+  width: 100%;
+  background-color: #b0b0b0;
+  color: #000;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid #717479;
+}
+
+.formButtonUpdate:hover , .formButtonCancel:hover {
+  opacity: 0.9;
+}
