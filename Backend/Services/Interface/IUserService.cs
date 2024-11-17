@@ -9,10 +9,10 @@ namespace Backend.Services.Interface
 {
 	public interface IUserService : IService<User>
 	{
-		public Task<ValidateEmail> IsHasEmail(string email);
-		public Task<IEnumerable<UserPrivate>> GetFriends(int id);
-		public Task<string> FindToLogin(string email, string password);
-		public Task<UserLogin> GetLoginById(int id);
-
+		Task<ValidateEmail> IsHasEmail(string email);
+		Task<IEnumerable<UserPrivate>> GetFriends(int id);
+		Task<string> FindToLogin(string email, string password);
+		Task<UserLogin> GetLoginById(int id);
+		Task<IEnumerable<UserPrivate>> GetListByName(string name, int UserId);
 	}
 }

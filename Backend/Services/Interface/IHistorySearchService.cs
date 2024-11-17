@@ -8,7 +8,7 @@ namespace Backend.Services.Interface
 {
 	public interface IHistorySearchService : IService<HistorySearch>
 	{
-		Task<IEnumerable<Object>> GetHistorySearchByUserId(int userid);
-		Task<bool> UpdateTime(int historyid);
+		Task<IEnumerable<HistoryWithUser>> GetHistorySearchByUserId(int userid);
+		Task<bool> UpdateTime(int FromUserId, int OtherUserId);
 	}
 }

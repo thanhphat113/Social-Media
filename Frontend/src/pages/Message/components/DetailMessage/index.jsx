@@ -29,27 +29,24 @@ function DetailMessage({ onShow }) {
     const listRef = useRef(null);
     const scrollPosition = useRef(0);
 
-
     const InforCurrentFriend = friends.find(
         (u) => u.userId === currentFriendId
     );
 
     useEffect(() => {
-            scrollPosition.current = 0;
-    },[currentFriendId])
+        scrollPosition.current = 0;
+    }, [currentFriendId]);
 
     useEffect(() => {
         if (scrollPosition.current === 0) {
-            scrollToBottom()
+            scrollToBottom();
         } else {
             listRef.current.scrollTop = scrollPosition.current;
         }
-        console.log(scrollPosition.current);
-        
     }, [friends]);
 
     const toggleListVisibility = () => {
-            scrollPosition.current = listRef.current.scrollTop;
+        scrollPosition.current = listRef.current.scrollTop;
     };
 
     const messageId = InforCurrentFriend?.chatInMessages[0].messagesId || -1;
@@ -104,7 +101,7 @@ function DetailMessage({ onShow }) {
     };
 
     const scrollToBottom = () => {
-        console.log("trong croll:" + scrollPosition.current)
+        console.log("trong croll:" + scrollPosition.current);
         scrollPosition.current === 0 &&
             messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
     };
@@ -125,12 +122,13 @@ function DetailMessage({ onShow }) {
                     <div className={styles.information}>
                         <img
                             src={
-                                InforCurrentFriend.profilePicture ||
-                                `/public/img/default/${
-                                    InforCurrentFriend.genderId !== 2
-                                        ? "man"
-                                        : "woman"
-                                }_default.png`
+                                InforCurrentFriend.profilePicture
+                                    ? `/public/img/Picture/${InforCurrentFriend.profilePicture.src}`
+                                    : `/public/img/default/${
+                                          InforCurrentFriend.genderId !== 2
+                                              ? "man"
+                                              : "woman"
+                                      }_default.png`
                             }
                         ></img>
                         <strong>

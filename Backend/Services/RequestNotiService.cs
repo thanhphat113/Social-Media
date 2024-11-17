@@ -73,7 +73,6 @@ namespace Backend.Services
 					u.FromUser.LastName,
 					u.FromUser.FirstName,
 					u.FromUser.GenderId,
-					u.FromUser.ProfilePicture,
 					u.IsAccept,
 					u.NotificationId,
 					u.IsRead

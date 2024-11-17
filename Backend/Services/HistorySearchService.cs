@@ -21,9 +21,10 @@ namespace Backend.Services
 		{
 			try
 			{
-				var item = await _unit.HistorySearch.AddAsync(value);
+
+				var Item = await _unit.HistorySearch.AddAsync(value);
 				await _unit.CompleteAsync();
-				return item;
+				return Item;
 			}
 			catch (System.Exception ex)
 			{
@@ -36,7 +37,8 @@ namespace Backend.Services
 		{
 			try
 			{
-				_unit.HistorySearch.DeleteAsync(h => h.HistoryId == id);
+				Console.WriteLine("Trong delee: " + id);
+				await _unit.HistorySearch.DeleteAsync(h => h.HistoryId == id);
 				return await _unit.CompleteAsync();
 			}
 			catch (System.Exception ex)
@@ -56,19 +58,32 @@ namespace Backend.Services
 			throw new NotImplementedException();
 		}
 
-		public async Task<IEnumerable<object>> GetHistorySearchByUserId(int userid)
+		public async Task<IEnumerable<HistoryWithUser>> GetHistorySearchByUserId(int userid)
 		{
 			try
 			{
-				var items = await _unit.HistorySearch.FindAsync(h => h.FromUser == userid, h => new
+				var items = await _unit.HistorySearch.FindAsync(h => h.FromUserId == userid, h => new HistoryWithUser
 				{
-					h.HistoryId,
-					h.OtherUserNavigation.UserId,
-					h.OtherUserNavigation.LastName,
-					h.OtherUserNavigation.FirstName,
-					h.OtherUserNavigation.ProfilePicture,
-					h.OtherUserNavigation.GenderId
-				});
+					HistoryId = h.HistoryId,
+					UserId = h.OtherUser.UserId,
+					FirstName = h.OtherUser.FirstName,
+					LastName = h.OtherUser.LastName,
+					GenderId = h.OtherUser.GenderId,
+				}, query => query.OrderByDescending(h => h.DateSearch));
+
+				foreach (var item in items)
+				{
+					var UserMedia = await _unit.UserMedia.GetByConditionAsync(u => u.UserId == item.UserId && u.IsProfilePicture == true);
+					if (UserMedia == null)
+					{
+						continue;
+					};
+
+					var profilePicture = await _unit.Media.GetByConditionAsync(m => m.MediaId == UserMedia.MediaId);
+
+					item.ProfilePicture = profilePicture;
+				}
+
 				return items;
 			}
 			catch (System.Exception)
@@ -87,11 +102,12 @@ namespace Backend.Services
 			throw new NotImplementedException();
 		}
 
-		public async Task<bool> UpdateTime(int historyid)
+		public async Task<bool> UpdateTime(int FromUserId, int OtherUserId)
 		{
 			try
 			{
-				var item = await _unit.HistorySearch.GetByIdAsync(historyid);
+				Console.WriteLine("Đối tượng: " + FromUserId + " " + OtherUserId);
+				var item = await _unit.HistorySearch.GetByConditionAsync(h => h.FromUserId == FromUserId && h.OtherUserId == OtherUserId);
 				var vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
 				var vietnamTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone);
 

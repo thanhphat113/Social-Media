@@ -11,7 +11,7 @@ namespace Backend.Repositories.Interface
 		Task<IEnumerable<T>> GetAll();
 		Task<T> GetByIdAsync(int id);
 		Task<T> GetByConditionAsync(Expression<Func<T, bool>> predicate);
-		Task<IEnumerable<TResult>> FindAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>>? selector = null);
+		Task<IEnumerable<TResult>> FindAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>>? selector = null, Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null);
 		Task<IEnumerable<TResult>> FindAsyncMany<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, IEnumerable<TResult>>> selector);
 		Task<T> AddAsync(T value);
 		void UpdateAsync(T value);

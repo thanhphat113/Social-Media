@@ -73,16 +73,18 @@ a {
     z-index: 1000; /* Để pop-up hiển thị trên overlay */
 }
 
-.line{
-    content: none;
-    width: 80%;
-    position: absolute; /* Đặt pseudo-element tại vị trí của phần tử cha */
-    left: 50%; /* Căn trái cho đường kẻ */
-    bottom: 0; /* Đặt đường kẻ ở dưới cùng của phần tử */
-    width: 80%; /* Chiều rộng của đường kẻ */
-    height: 2px; /* Độ dày của đường kẻ */
-    background-color: #007bff; /* Màu của đường kẻ */
-    transform: translateX(-50%); /* Căn giữa đường kẻ */
+.have-line{
+    position: relative;
+    &::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        width: 105%;
+        height: 2px;
+        background-color: rgba(0, 0, 0, 0.3);
+        transform: translateX(-50%);
+    }
 }
 
 button {
