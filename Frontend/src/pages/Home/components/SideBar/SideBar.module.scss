@@ -90,3 +90,87 @@
   margin-right: 0.5rem;
 }
 
+.flex {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+  gap: 1rem; /* Tạo khoảng cách giữa các mục */
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* Tạo khoảng cách giữa icon và text */
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+  padding: 0.5rem;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.menuItem:hover {
+  background-color: #f0f0f0; /* Thay đổi màu khi hover */
+  transform: translateY(-2px); /* Hiệu ứng nâng lên khi hover */
+}
+
+.icon {
+  font-size: 1.5rem; /* Kích thước icon */
+}
+
+span {
+  font-size: 2rem;
+  color: #555;
+}
+
+.flex > span {
+  margin-left: 2rem; /* Đẩy text ra khỏi icon */
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.userDetailsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* Khoảng cách giữa các mục */
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.detailItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem; /* Khoảng cách giữa icon và nội dung */
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #eaeaea; /* Đường kẻ dưới mỗi mục */
+}
+
+.detailItem:last-child {
+  border-bottom: none; /* Xóa đường kẻ ở mục cuối cùng */
+}
+
+.iconContainer {
+  font-size: 1.5rem; /* Tăng kích thước icon */
+}
+
+.detailContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.detailLabel {
+  font-size: 2rem;
+  color: #666;
+}
+
+.detailValue {
+  font-size: 2rem;
+  font-weight: 500;
+  color: #333;
+}
+

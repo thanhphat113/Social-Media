@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaRss, FaUserFriends, FaNewspaper, FaCalendarAlt, FaUsers, FaBell } from 'react-icons/fa';
+import { FaLocationDot } from "react-icons/fa6";
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import styles from './SideBar.module.scss'
 
@@ -40,39 +41,46 @@ function Sidebar() {
           </div>
           <div className={styles.stat}>
             <span className={styles.statValue}>2.5K</span>
-            <p className={styles.statLabel}>Followers</p>
+            <p className={styles.statLabel}>Friends</p>
           </div>
           <div className={styles.stat}>
             <span className={styles.statValue}>365</span>
-            <p className={styles.statLabel}>Following</p>
+            <p className={styles.statLabel}>Followers</p>
           </div>
         </div>
-        <div className="flex flex-col mt-4">
-          <div className={styles.menuItem} onClick={() => handleNavigation('/feed')}>
-            <FaRss className={styles.icon} style={{ color: 'blue' }} />
-            <span>Feed</span>
-          </div>
-          <div className={styles.menuItem} onClick={() => handleNavigation('/connections')}>
-            <FaUserFriends className={styles.icon} style={{ color: 'purple' }} />
-            <span>Connections</span>
-          </div>
-          <div className={styles.menuItem} onClick={() => handleNavigation('/news')}>
-            <FaNewspaper className={styles.icon} style={{ color: 'green' }} />
-            <span>Latest News</span>
-          </div>
-          <div className={styles.menuItem} onClick={() => handleNavigation('/events')}>
-            <FaCalendarAlt className={styles.icon} style={{ color: 'red' }} />
-            <span>Events</span>
-          </div>
-          <div className={styles.menuItem} onClick={() => handleNavigation('/group')}>
-            <FaUsers className={styles.icon} style={{ color: 'pink' }} />
-            <span>Groups</span>
-          </div>
-          <div className={styles.menuItem} onClick={() => handleNavigation('/notifications')}>
-            <FaBell className={styles.icon} style={{ color: 'yellow' }} />
-            <span>Notifications</span>
-          </div>
-        </div>
+        <div className={styles.userDetailsContainer}>
+  <div className={styles.detailItem}>
+    <div className={styles.iconContainer}>
+      <FaUserFriends style={{ color: 'purple' }} />
+    </div>
+    <div className={styles.detailContent}>
+      <span className={styles.detailLabel}>Giới tính:</span>
+      <span className={styles.detailValue}>Nam</span>
+    </div>
+  </div>
+
+  <div className={styles.detailItem}>
+    <div className={styles.iconContainer}>
+      <FaCalendarAlt style={{ color: 'red' }} />
+    </div>
+    <div className={styles.detailContent}>
+      <span className={styles.detailLabel}>Sinh nhật:</span>
+      <span className={styles.detailValue}>1/1/1990</span>
+    </div>
+  </div>
+
+  <div className={styles.detailItem}>
+    <div className={styles.iconContainer}>
+      <FaLocationDot style={{ color: 'red' }} />
+    </div>
+    <div className={styles.detailContent}>
+      <span className={styles.detailLabel}>Địa chỉ:</span>
+      <span className={styles.detailValue}>Tân Bình - Thành phố Hồ Chí Minh</span>
+    </div>
+  </div>
+</div>
+
+
       </div>
     </aside>
   );

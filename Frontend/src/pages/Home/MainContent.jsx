@@ -5,6 +5,7 @@ import { useDropzone } from "react-dropzone";
 import styles from "./MainContent.module.scss";
 import Post from "../Post/Post"; // Đảm bảo đường dẫn tới Post component chính xác
 import ImageGallery from "../ImageGallery/ImageGallery"; // Đảm bảo đường dẫn tới ImageGallery chính xác
+import RightSidebar from "./components/RightSideBar";
 
 function MainContent() {
     const [comments, setComments] = useState([]);
@@ -196,6 +197,9 @@ function MainContent() {
             ))}
         </main>
     );
+
 }
+
+
 
 export default MainContent;

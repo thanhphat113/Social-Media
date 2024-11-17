@@ -1,0 +1,61 @@
+.rightbar {
+    width: 100%;
+    padding: 16px;
+    position: relative;
+  }
+  
+  .section {
+    margin-bottom: 16px;
+  }
+  
+  .sectionTitle {
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+  
+  .birthdaySection {
+    display: flex;
+    align-items: center;
+  }
+  
+  .icon {
+    margin-right: 8px;
+  }
+  
+  .contactsHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    position: relative;
+  }
+  
+  .iconButton {
+    cursor: pointer;
+  }
+  
+  .contactItem {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  
+  .contactImage {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 8px;
+  }
+  
+  .settingsPopup {
+    position: absolute;
+    right: 0;
+    top: 32px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    width: 320px;
+    padding: 16px;
+    z-index: 20;
+  }
+  

@@ -4,6 +4,7 @@ import MainContent from './components/MainContent';
 import FriendListChat from './components/FriendListChat';
 import styles from 'Frontend/src/pages/Home/Home.module.scss';
 import Validate from '../../components/Validate';
+import RightSidebar from './components/RightSideBar';
 
 function Home() {
   return (
@@ -22,7 +23,8 @@ function Home() {
 
         {/* Right Sidebar */}
         <div className={styles.rightSidebar}>
-          <FriendListChat />
+          {/* <FriendListChat /> */}
+          <RightSidebar/>
         </div>
       </div>
     </div>
