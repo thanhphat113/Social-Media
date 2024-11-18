@@ -11,6 +11,8 @@ public interface IUnitOfWork : IDisposable
 	IGenericRepository<PostNotification> PostNotification { get; }
 	IGenericRepository<RequestNotification> RequestNotification { get; }
 	IGenericRepository<Relationship> Relationship { get; }
+	IGenericRepository<Media> Media { get; }
+	IGenericRepository<UserMedia> UserMedia { get; }
 
 	Task<bool> CompleteAsync();
 }

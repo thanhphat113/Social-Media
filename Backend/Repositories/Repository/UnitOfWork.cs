@@ -14,6 +14,10 @@ namespace Backend.Repositories.Repository
         private readonly IGenericRepository<GroupChat> _GroupChat;
         private readonly IGenericRepository<HistorySearch> _HistorySearch;
         private readonly IGenericRepository<Message> _Message;
+        private readonly IGenericRepository<Media> _Media;
+        private readonly IGenericRepository<UserMedia> _UserMedia;
+
+
         private readonly IGenericRepository<PostNotification> _PostNotification;
         private readonly IGenericRepository<RequestNotification> _RequestNotification;
         private readonly IGenericRepository<Relationship> _Relationship;
@@ -26,10 +30,13 @@ namespace Backend.Repositories.Repository
                           IGenericRepository<Message> Message,
                           IGenericRepository<PostNotification> PostNotification,
                           IGenericRepository<RequestNotification> RequestNotification,
-                          IGenericRepository<Relationship> Relationship)
+                          IGenericRepository<Relationship> Relationship,
+                          IGenericRepository<Media> Media,
+                          IGenericRepository<UserMedia> UserMedia)
         {
             _context = context;
             _Users = Users;
+            _UserMedia = UserMedia;
             _ChatInMessage = ChatInMessage;
             _GroupChat = GroupChat;
             _HistorySearch = HistorySearch;
@@ -37,6 +44,7 @@ namespace Backend.Repositories.Repository
             _PostNotification = PostNotification;
             _RequestNotification = RequestNotification;
             _Relationship = Relationship;
+            _Media = Media;
         }
 
         // Các property chỉ đọc cho các repository
@@ -45,6 +53,8 @@ namespace Backend.Repositories.Repository
         public IGenericRepository<GroupChat> GroupChat => _GroupChat;
         public IGenericRepository<HistorySearch> HistorySearch => _HistorySearch;
         public IGenericRepository<Message> Message => _Message;
+        public IGenericRepository<Media> Media => _Media;
+        public IGenericRepository<UserMedia> UserMedia => _UserMedia;
         public IGenericRepository<PostNotification> PostNotification => _PostNotification;
         public IGenericRepository<RequestNotification> RequestNotification => _RequestNotification;
         public IGenericRepository<Relationship> Relationship => _Relationship;

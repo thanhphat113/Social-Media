@@ -5,7 +5,6 @@ using Backend.Repositories.Interface;
 using Backend.Services;
 using System.Linq.Expressions;
 using Microsoft.AspNetCore.Identity;
-using Backend.AutoMapper;
 using AutoMapper;
 
 namespace Backend.Services
@@ -44,7 +43,7 @@ namespace Backend.Services
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<UserPrivate>> FriendsWithChat(int UserId, IEnumerable<User> friends)
+        public async Task<IEnumerable<User>> FriendsWithChat(int UserId, IEnumerable<User> friends)
         {
             foreach (var item in friends)
             {
@@ -58,8 +57,9 @@ namespace Backend.Services
 
                 item.ChatInMessages = mess;
             }
-            var result = friends.Select(user => _mapper.Map<UserPrivate>(user));
-            return result;
+
+
+            return friends;
         }
 
         public Task<IEnumerable<User>> GetAll()
@@ -92,10 +92,26 @@ namespace Backend.Services
                     (r => r.FromUserId == id ? r.ToUser : r.FromUser);
 
             var users = await _unit.Relationship.FindAsync<User>(predicate, selector);
-            var result = users.Select(user => _mapper.Map<UserPrivate>(user));
+
+            foreach (var item in users)
+            {
+                var UserMedia = await _unit.UserMedia.GetByConditionAsync(u => u.UserId == item.UserId && u.IsProfilePicture == true);
+                if (UserMedia == null)
+                {
+                    continue;
+                };
+
+                Console.WriteLine(item.LastName + " " + item.UserId + " có ảnh");
+                var profilePicture = await _unit.Media.GetByConditionAsync(m => m.MediaId == UserMedia.MediaId);
+
+                item.ProfilePicture = profilePicture;
+            }
 
             var withChat = await FriendsWithChat(id, users);
-            return withChat;
+
+            var result = withChat.Select(user => _mapper.Map<UserPrivate>(user));
+
+            return result;
         }
 
         public async Task<string> FindToLogin(string email, string password)
@@ -137,18 +153,12 @@ namespace Backend.Services
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<Object>> GetListByName(string name)
+        public async Task<IEnumerable<UserPrivate>> GetListByName(string name, int UserId)
         {
-            var users = await _unit.Users.FindAsync(u =>
-                    u.LastName.Contains(name) || u.FirstName.Contains(name), u => new
-                    {
-                        u.UserId,
-                        u.LastName,
-                        u.FirstName,
-                        u.ProfilePicture,
-                        u.GenderId
-                    });
-            return users;
+            var users = await _unit.Users.FindAsync<User>(u => u.UserId != UserId &&
+                    (u.LastName.Contains(name) || u.FirstName.Contains(name)));
+            var result = _mapper.Map<IEnumerable<UserPrivate>>(users);
+            return result;
         }
     }
 

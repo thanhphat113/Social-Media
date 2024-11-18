@@ -59,6 +59,8 @@ builder.Services.AddScoped<MessageService>();
 builder.Services.AddScoped<ChatInMessageService>();
 builder.Services.AddScoped<RequestNotiService>();
 builder.Services.AddScoped<PostNotiService>();
+builder.Services.AddScoped<UserMediaService>();
+builder.Services.AddScoped<MediaService>();
 builder.Services.AddScoped<RelationshipService>();
 
 

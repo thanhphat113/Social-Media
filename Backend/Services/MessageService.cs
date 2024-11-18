@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Backend.Models;
 using Backend.Repositories.Interface;
 using Backend.Services.Interface;
-using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Backend.Services
 {

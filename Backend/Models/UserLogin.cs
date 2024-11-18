@@ -17,9 +17,9 @@ public partial class UserLogin
 
 	public string? Location { get; set; }
 
-	public int? ProfilePicture { get; set; }
+	public string Email { get; set; } = null!;
 
-	public int? CoverPhoto { get; set; }
+	public Media? ProfilePicture { get; set; } = null;
 
 	public int? GenderId { get; set; }
 

@@ -44,14 +44,22 @@ namespace Backend.Repositories.Repository
 		}
 
 
-		public async Task<IEnumerable<TResult>> FindAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>>? selector = null)
+		public async Task<IEnumerable<TResult>> FindAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>>? selector = null, Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null)
 		{
-			if (selector == null)
+			var query = _context.Set<T>().Where(predicate);
+
+			if (orderBy != null)
 			{
-				return await _context.Set<T>().Where(predicate).Cast<TResult>().ToListAsync();
+				query = orderBy(query);
 			}
 
-			return await _context.Set<T>().Where(predicate).Select(selector).ToListAsync();
+			if (selector != null)
+			{
+				var resultQuery = query.Select(selector);
+
+				return await resultQuery.ToListAsync();
+			}
+			return await query.Cast<TResult>().ToListAsync();
 		}
 
 

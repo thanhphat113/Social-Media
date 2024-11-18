@@ -64,7 +64,7 @@ function App() {
                     }
                 />
                 <Route
-                    path="/profilegroup"
+                    path="/group/:id"
                     element={
                         <Authentication>
                             <ProfileGroup />
