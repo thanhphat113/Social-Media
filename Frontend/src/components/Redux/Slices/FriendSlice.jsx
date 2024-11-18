@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { SetUser } from "../Actions/UserAction";
-import { deleteMess } from "../Actions/MessageActions";
+import { recallMess,deleteMess } from "../Actions/MessageActions";
 import { addMess, readMess } from "../Actions/MessageActions";
 
 const FriendSlice = createSlice({
@@ -42,6 +42,29 @@ const FriendSlice = createSlice({
                 state.isLoad = false;
                 state.isError = true;
             })
+            .addCase(recallMess.fulfilled, (state, action) => {
+                const { friendId, chatId, isRecall } = action.payload;
+
+                const indexFriend = state.allFriends.findIndex(
+                    (i) => i.userId === friendId
+                );
+
+                const indexChat = state.allFriends[
+                    indexFriend
+                ].chatInMessages.findIndex((i) => i.chatId === chatId);
+
+                if (isRecall) {
+                    state.allFriends[indexFriend].chatInMessages[
+                        indexChat
+                    ].content = "Tin nhắn đã thu hồi";
+                    state.allFriends[indexFriend].chatInMessages[
+                        indexChat
+                    ].isRecall = true;
+                }
+
+                state.isLoad = false;
+                state.isError = false;
+            })
             .addCase(deleteMess.fulfilled, (state, action) => {
                 const { friendId, chatId, isDelete } = action.payload;
 
@@ -54,12 +77,11 @@ const FriendSlice = createSlice({
                 ].chatInMessages.findIndex((i) => i.chatId === chatId);
 
                 if (isDelete) {
-                    state.allFriends[indexFriend].chatInMessages[
-                        indexChat
-                    ].content = "Tin nhắn đã thu hồi";
-                    state.allFriends[indexFriend].chatInMessages[
-                        indexChat
-                    ].isRecall = true;
+                    const newChat = state.allFriends[
+                        indexFriend
+                    ].chatInMessages.filter(c => c.chatId !== chatId)
+
+                    state.allFriends[indexFriend].chatInMessages = newChat
                 }
 
                 state.isLoad = false;

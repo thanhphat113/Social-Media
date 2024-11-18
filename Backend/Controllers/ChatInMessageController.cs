@@ -61,11 +61,17 @@ namespace Backend.Controllers
 			return Ok(friends);
 		}
 
+		[HttpPost("recall")]
+		public async Task<IActionResult> Recall([FromBody] int id)
+		{
+			Console.WriteLine("Đây là recall: " + id);
+			return Ok(await _mess.Recall(id));
+		}
+
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> Delete(int id)
 		{
-			var UserId = GetCookie.GetUserIdFromCookie(Request);
-			return Ok(await _mess.Recall(id));
+			return Ok(await _mess.Delete(id));
 		}
 	}
 }

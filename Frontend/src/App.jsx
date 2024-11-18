@@ -1,5 +1,5 @@
 import { Routes, Route, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import Login from "./pages/Login";
@@ -13,20 +13,23 @@ import Profile from "./pages/Profile";
 import NewGroupPage from "./pages/Group/NewGroup";
 import Authentication from "./components/Authentication";
 import { SetUser } from "./components/Redux/Actions/UserAction";
+import Call from "./components/Call";
+import LoadingPage from "./pages/Loading/index.jsx";
+
 
 function App() {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         const getuser = async () => {
-            const response = await dispatch(SetUser());
-            if (SetUser.fulfilled.match(response)) {
-                navigate("/");
-            }
+            await dispatch(SetUser());
+            setLoading(false);
         };
         getuser();
     }, []);
+
+    if(loading){ return(<LoadingPage/>)}
 
     return (
         <Routes>
@@ -36,6 +39,14 @@ function App() {
                     element={
                         <Authentication>
                             <Message />
+                        </Authentication>
+                    }
+                />
+                <Route
+                    path="/call"
+                    element={
+                        <Authentication>
+                            <Call />
                         </Authentication>
                     }
                 />

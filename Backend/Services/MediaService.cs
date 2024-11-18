@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Backend.Models;
 using Backend.Repositories.Interface;
+using Backend.Services.Interface;
 
 namespace Backend.Services
 {
@@ -13,10 +14,6 @@ namespace Backend.Services
 		public MediaService(IUnitOfWork unit)
 		{
 			_unit = unit;
-		}
-		public Task<Media> Add(Media value)
-		{
-			throw new NotImplementedException();
 		}
 
 		public Task<bool> Delete(int id)
@@ -59,7 +56,12 @@ namespace Backend.Services
 			throw new NotImplementedException();
 		}
 
-		public Task<Media> Update(Media value)
+		public Task<Media> Add(Media value)
+		{
+			throw new NotImplementedException();
+		}
+
+		public Task<bool> Update(Media value)
 		{
 			throw new NotImplementedException();
 		}

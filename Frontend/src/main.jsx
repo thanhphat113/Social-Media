@@ -7,11 +7,10 @@ import Store from "./components/Redux/Store";
 import { Provider } from "react-redux";
 
 
-
 createRoot(document.getElementById("root")).render(
     <StrictMode>
         <Provider store={Store}>
-            <Router>
+            <Router future={{ v7_startTransition: true }}>
                 <GlobalStyles>
                     <App />
                 </GlobalStyles>

@@ -31,7 +31,7 @@ function AccountIcon(props) {
                     }}
                     className={styles.circle}
                     src={
-                        profilePicture.src
+                        profilePicture
                             ? `/public/img/Picture/${profilePicture.src}`
                             : `/public/img/default/${
                                   user.genderId !== 2 ? "man" : "woman"
@@ -49,7 +49,7 @@ function AccountIcon(props) {
                         <div className={styles.account}>
                             <img
                                 src={
-                                    profilePicture.src
+                                    profilePicture
                                         ? `/public/img/Picture/${profilePicture.src}`
                                         : `/public/img/default/${
                                               user.genderId !== 2

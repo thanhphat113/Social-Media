@@ -101,7 +101,6 @@ namespace Backend.Services
                     continue;
                 };
 
-                Console.WriteLine(item.LastName + " " + item.UserId + " có ảnh");
                 var profilePicture = await _unit.Media.GetByConditionAsync(m => m.MediaId == UserMedia.MediaId);
 
                 item.ProfilePicture = profilePicture;
