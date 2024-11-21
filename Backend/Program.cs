@@ -56,6 +56,7 @@ builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<HistorySearchService>();
 builder.Services.AddScoped<GroupChatService>();
 builder.Services.AddScoped<MessageService>();
+builder.Services.AddScoped<MainTopicService>();
 builder.Services.AddScoped<ChatInMessageService>();
 builder.Services.AddScoped<RequestNotiService>();
 builder.Services.AddScoped<PostNotiService>();

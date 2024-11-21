@@ -255,6 +255,11 @@ namespace Backend.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("TopicId"));
 
+                    b.Property<string>("BackgroundColor")
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)")
+                        .HasColumnName("background_color");
+
                     b.Property<string>("Color")
                         .HasMaxLength(20)
                         .HasColumnType("varchar(20)")

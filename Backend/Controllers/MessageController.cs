@@ -10,20 +10,25 @@ namespace Backend.Controllers
 	public class MessageController : ControllerBase
 	{
 		private readonly MessageService _mess;
-		public MessageController(MessageService mess)
+		private readonly MainTopicService _main;
+
+		public MessageController(MessageService mess, MainTopicService main)
 		{
+			_main = main;
 			_mess = mess;
 		}
-		[HttpGet]
-		public ActionResult<IEnumerable<string>> Get()
-		{
-			return new string[] { "value1", "value2" };
-		}
 
-		[HttpGet("{id}")]
-		public ActionResult<string> Get(int id)
+
+		[HttpGet]
+		public async Task<IActionResult> Get([FromQuery] int id)
 		{
-			return "value";
+			Console.WriteLine("Đây là: " + id);
+			var UserId = GetCookie.GetUserIdFromCookie(Request);
+			Console.WriteLine("Đây là: " + UserId);
+			var result = await _mess.FindBy2User(UserId, id);
+			// result.MainTopicNavigation = await _main.GetById((int)result.MainTopic);
+			// Console.WriteLine("Đây là: " + result.MainTopicNavigation.TopicName);
+			return Ok(result);
 		}
 
 		[HttpPost]

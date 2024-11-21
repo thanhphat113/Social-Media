@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Backend.Models;
 using Backend.Repositories.Interface;
@@ -34,9 +35,21 @@ namespace Backend.Services
 
 		public async Task<Message> FindBy2User(int user1, int user2)
 		{
-			return await _unit.Message.GetByConditionAsync(u =>
+			var predicate = (Expression<Func<Message, bool>>)(u =>
 					(u.User1 == user1 && u.User2 == user2) ||
 					(u.User1 == user2 && u.User2 == user1));
+			var selector = (Expression<Func<Message, Message>>)
+					(m => new Message
+					{
+						MessagesId = m.MessagesId,
+						User1 = m.User1,
+						User2 = m.User2,
+						NickName1 = m.NickName1,
+						NickName2 = m.NickName2,
+						MainTopicNavigation = m.MainTopicNavigation,
+					});
+
+			return await _unit.Message.GetByConditionAsync(predicate, selector);
 		}
 
 		public Task<bool> Update(Message value)

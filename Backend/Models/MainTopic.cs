@@ -11,6 +11,7 @@ public partial class MainTopic
 
     public string? Color { get; set; }
 
+
     public virtual ICollection<GroupChat> GroupChats { get; set; } = new List<GroupChat>();
 
     public virtual ICollection<Message> Messages { get; set; } = new List<Message>();

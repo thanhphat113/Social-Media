@@ -28,16 +28,16 @@ namespace Backend.Services
 
 		public async Task<Media> FindProfilePictureByUserId(int UserId)
 		{
-			var UserMedia = await _unit.UserMedia.GetByConditionAsync(u => u.UserId == UserId && u.IsProfilePicture == true);
+			var UserMedia = await _unit.UserMedia.GetByConditionAsync<UserMedia>(u => u.UserId == UserId && u.IsProfilePicture == true);
 			if (UserMedia == null) return null;
-			return await _unit.Media.GetByConditionAsync(m => m.MediaId == UserMedia.MediaId);
+			return await _unit.Media.GetByConditionAsync<Media>(m => m.MediaId == UserMedia.MediaId);
 		}
 
 		public async Task<Media> FindCoverPictureByUserId(int UserId)
 		{
-			var UserMedia = await _unit.UserMedia.GetByConditionAsync(u => u.UserId == UserId && u.IsCoverPicture == true);
+			var UserMedia = await _unit.UserMedia.GetByConditionAsync<UserMedia>(u => u.UserId == UserId && u.IsCoverPicture == true);
 			if (UserMedia == null) return null;
-			return await _unit.Media.GetByConditionAsync(m => m.MediaId == UserMedia.MediaId);
+			return await _unit.Media.GetByConditionAsync<Media>(m => m.MediaId == UserMedia.MediaId);
 		}
 
 		public async Task<IEnumerable<Media>> FindByUserId(int UserId)

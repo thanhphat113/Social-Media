@@ -14,9 +14,9 @@ namespace Backend.Repositories.Repository
         private readonly IGenericRepository<GroupChat> _GroupChat;
         private readonly IGenericRepository<HistorySearch> _HistorySearch;
         private readonly IGenericRepository<Message> _Message;
+        private readonly IGenericRepository<MainTopic> _main;
         private readonly IGenericRepository<Media> _Media;
         private readonly IGenericRepository<UserMedia> _UserMedia;
-
 
         private readonly IGenericRepository<PostNotification> _PostNotification;
         private readonly IGenericRepository<RequestNotification> _RequestNotification;
@@ -28,6 +28,7 @@ namespace Backend.Repositories.Repository
                           IGenericRepository<GroupChat> GroupChat,
                           IGenericRepository<HistorySearch> HistorySearch,
                           IGenericRepository<Message> Message,
+                          IGenericRepository<MainTopic> MainTopic,
                           IGenericRepository<PostNotification> PostNotification,
                           IGenericRepository<RequestNotification> RequestNotification,
                           IGenericRepository<Relationship> Relationship,
@@ -36,6 +37,7 @@ namespace Backend.Repositories.Repository
         {
             _context = context;
             _Users = Users;
+            _main = MainTopic;
             _UserMedia = UserMedia;
             _ChatInMessage = ChatInMessage;
             _GroupChat = GroupChat;
@@ -53,6 +55,7 @@ namespace Backend.Repositories.Repository
         public IGenericRepository<GroupChat> GroupChat => _GroupChat;
         public IGenericRepository<HistorySearch> HistorySearch => _HistorySearch;
         public IGenericRepository<Message> Message => _Message;
+        public IGenericRepository<MainTopic> MainTopic => _main;
         public IGenericRepository<Media> Media => _Media;
         public IGenericRepository<UserMedia> UserMedia => _UserMedia;
         public IGenericRepository<PostNotification> PostNotification => _PostNotification;

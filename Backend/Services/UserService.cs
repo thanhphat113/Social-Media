@@ -25,6 +25,8 @@ namespace Backend.Services
         {
             try
             {
+                var passHasher = new PasswordHasher<User>();
+                value.Password = passHasher.HashPassword(value, value.Password);
                 await _unit.Users.AddAsync(value);
                 if (await _unit.CompleteAsync())
                 {
@@ -95,13 +97,13 @@ namespace Backend.Services
 
             foreach (var item in users)
             {
-                var UserMedia = await _unit.UserMedia.GetByConditionAsync(u => u.UserId == item.UserId && u.IsProfilePicture == true);
+                var UserMedia = await _unit.UserMedia.GetByConditionAsync<UserMedia>(u => u.UserId == item.UserId && u.IsProfilePicture == true);
                 if (UserMedia == null)
                 {
                     continue;
                 };
 
-                var profilePicture = await _unit.Media.GetByConditionAsync(m => m.MediaId == UserMedia.MediaId);
+                var profilePicture = await _unit.Media.GetByConditionAsync<Media>(m => m.MediaId == UserMedia.MediaId);
 
                 item.ProfilePicture = profilePicture;
             }
@@ -115,7 +117,7 @@ namespace Backend.Services
 
         public async Task<string> FindToLogin(string email, string password)
         {
-            var user = await _unit.Users.GetByConditionAsync(u => u.Email == email);
+            var user = await _unit.Users.GetByConditionAsync<User>(u => u.Email == email);
 
             if (user == null) return null;
 
@@ -139,7 +141,7 @@ namespace Backend.Services
             if (string.IsNullOrEmpty(email))
                 return new ValidateEmail("Vui lòng nhập email", false);
 
-            var item = await _unit.Users.GetByConditionAsync(u => u.Email == email);
+            var item = await _unit.Users.GetByConditionAsync<User>(u => u.Email == email);
 
             if (item != null)
                 return new ValidateEmail("Email này đã được đăng ký vui lòng nhập lại", false);
