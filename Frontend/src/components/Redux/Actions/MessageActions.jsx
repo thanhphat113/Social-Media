@@ -1,6 +1,23 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const getMess = createAsyncThunk(
+    "message/main",
+    async (AnotherUser, thunkAPI) => {
+        try {
+            const response = await axios.get(
+                `http://localhost:5164/api/Message`,
+                { params: { id: AnotherUser }, withCredentials: true }
+            );
+            return response.data;
+        } catch (error) {
+            return thunkAPI.rejectWithValue(
+                error.response ? error.response.data : error.message
+            );
+        }
+    }
+);
+
 const addMess = createAsyncThunk(
     "message/chat",
     async ({ MessagesId, FromUser, Content, Otheruser }, thunkAPI) => {
@@ -27,9 +44,10 @@ const recallMess = createAsyncThunk(
             const response = await axios.post(
                 `http://localhost:5164/api/ChatInMessage/recall`,
                 id,
-                { 
+                {
                     headers: { "Content-Type": "application/json" },
-                    withCredentials: true }
+                    withCredentials: true,
+                }
             );
 
             return { isRecall: response.data, friendId: Otheruser, chatId: id };
@@ -61,7 +79,6 @@ const deleteMess = createAsyncThunk(
 );
 
 const readMess = createAsyncThunk("message/read", async (id, thunkAPI) => {
-    console.log(id);
     try {
         const response = await axios.put(
             `http://localhost:5164/api/ChatInMessage/${id}`,
@@ -76,4 +93,24 @@ const readMess = createAsyncThunk("message/read", async (id, thunkAPI) => {
     }
 });
 
-export { addMess, readMess, recallMess, deleteMess };
+const updateTopic = createAsyncThunk(
+    "message/topic",
+    async ({ TopicId, MessageId }, thunkAPI) => {
+        try {
+            const response = await axios.put(
+                `http://localhost:5164/api/Message/topic`,
+                { TopicId, MessageId },
+                {
+                    withCredentials: true,
+                }
+            );
+            return response.data;
+        } catch (error) {
+            return thunkAPI.rejectWithValue(
+                error.response ? error.response.data : error.message
+            );
+        }
+    }
+);
+
+export { getMess, addMess, readMess, recallMess, deleteMess };

@@ -1,4 +1,5 @@
 using AutoMapper;
+using Backend.DTO;
 using Backend.Models;
 
 namespace Backend.AutoMapper;

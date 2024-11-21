@@ -25,9 +25,9 @@ namespace Backend.Services
 			throw new NotImplementedException();
 		}
 
-		public Task<IEnumerable<MainTopic>> GetAll()
+		public async Task<IEnumerable<MainTopic>> GetAll()
 		{
-			throw new NotImplementedException();
+			return await _unit.MainTopic.GetAll();
 		}
 
 		public async Task<MainTopic> GetById(int id)

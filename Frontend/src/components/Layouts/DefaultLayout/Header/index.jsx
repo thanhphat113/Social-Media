@@ -11,7 +11,6 @@ export const typeContext = createContext();
 function Header() {
     const location = useLocation();
     const [using, setUsing] = useState(location.pathname);
-    console.log(using)
 
     const handleClick = (type) => {
         setUsing(type);

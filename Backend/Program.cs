@@ -9,6 +9,8 @@ using Backend.Repositories.Interface;
 using Backend.Repositories.Repository;
 using Backend.Services;
 using Backend.AutoMapper;
+using Backend.Models;
+using Backend.Services.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -53,6 +55,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<PostNotiService>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<IService<MainTopic>, MainTopicService>();
 builder.Services.AddScoped<HistorySearchService>();
 builder.Services.AddScoped<GroupChatService>();
 builder.Services.AddScoped<MessageService>();

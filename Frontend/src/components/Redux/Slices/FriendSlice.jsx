@@ -6,7 +6,10 @@ import { addMess, readMess } from "../Actions/MessageActions";
 const FriendSlice = createSlice({
     name: "friends",
     initialState: {
-        allFriends: [],
+        allFriends: {
+            friend:[],
+            message:[]
+        },
         isLoad: false,
         isError: false,
     },

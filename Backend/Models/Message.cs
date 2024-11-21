@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Backend.Models;
 
@@ -13,6 +14,7 @@ public partial class Message
     public int User2 { get; set; }
     public string? NickName2 { get; set; } = null;
 
+    [JsonIgnore]
     public int? MainTopic { get; set; } = 1;
 
     public virtual ICollection<ChatInMessage> ChatInMessages { get; set; } = new List<ChatInMessage>();
