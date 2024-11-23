@@ -1,5 +1,6 @@
 using Backend.Models;
 using Backend.Services;
+using Backend.Helper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,7 +21,7 @@ namespace Backend.Controllers
 		[HttpGet]
 		public async Task<ActionResult> GetById()
 		{
-			var UserId = GetCookie.GetUserIdFromCookie(Request);
+			var UserId = MiddleWare.GetUserIdFromCookie(Request);
 			return Ok(await _service.GetHistorySearchByUserId(UserId));
 		}
 
@@ -28,7 +29,7 @@ namespace Backend.Controllers
 		[HttpPost]
 		public async Task<ActionResult> Post([FromBody] HistorySearch value)
 		{
-			var UserId = GetCookie.GetUserIdFromCookie(Request);
+			var UserId = MiddleWare.GetUserIdFromCookie(Request);
 			value.FromUserId = UserId;
 			Console.WriteLine("Đây là đối tượng: " + value.OtherUserId + " " + value.FromUserId);
 			return Ok(await _service.Add(value));
@@ -37,14 +38,14 @@ namespace Backend.Controllers
 		[HttpPut("{OtherUserId}")]
 		public async Task<ActionResult> Put(int OtherUserId)
 		{
-			var UserId = GetCookie.GetUserIdFromCookie(Request);
+			var UserId = MiddleWare.GetUserIdFromCookie(Request);
 			return Ok(await _service.UpdateTime(UserId, OtherUserId));
 		}
 
 		[HttpDelete("{id}")]
 		public async Task<ActionResult> Delete(int id)
 		{
-			var userId = GetCookie.GetUserIdFromCookie(Request);
+			var userId = MiddleWare.GetUserIdFromCookie(Request);
 			return Ok(await _service.Delete(id));
 		}
 	}

@@ -65,9 +65,14 @@ namespace Backend.Repositories.Repository
 		}
 
 
-		public async Task<IEnumerable<TResult>> FindAsyncMany<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, IEnumerable<TResult>>> selector)
+		public async Task<IEnumerable<TResult>> FindAsyncMany<TResult>(Expression<Func<T, bool>> predicate, Func<IQueryable<T>, IQueryable<TResult>> selector)
 		{
-			return await _context.Set<T>().Where(predicate).SelectMany(selector).ToListAsync();
+
+			var query = _context.Set<T>().Where(predicate);
+
+			var result = await selector(query).ToListAsync();
+
+			return result;
 		}
 
 		public async Task<IEnumerable<T>> GetAll()

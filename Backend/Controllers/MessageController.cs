@@ -1,4 +1,5 @@
 using Backend.DTO;
+using Backend.Helper;
 using Backend.Models;
 using Backend.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -24,7 +25,7 @@ namespace Backend.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Get([FromQuery] int id)
 		{
-			var UserId = GetCookie.GetUserIdFromCookie(Request);
+			var UserId = MiddleWare.GetUserIdFromCookie(Request);
 			var result = await _mess.FindBy2User(UserId, id);
 			// result.MainTopicNavigation = await _main.GetById((int)result.MainTopic);
 			// Console.WriteLine("Đây là: " + result.MainTopicNavigation.TopicName);
@@ -52,7 +53,8 @@ namespace Backend.Controllers
 		[HttpPut("nickname")]
 		public async Task<IActionResult> PutNickName([FromBody] UpdateNickname value)
 		{
-			var UserId = GetCookie.GetUserIdFromCookie(Request);
+			Console.WriteLine("Ay dô: " + value.Nickname1 + value.Nickname2);
+			var UserId = MiddleWare.GetUserIdFromCookie(Request);
 			var result = await _mess.UpdateNickName(value.MessageId, UserId, value.Nickname1, value.Nickname2);
 			if (result)
 			{

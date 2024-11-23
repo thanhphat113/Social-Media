@@ -70,7 +70,7 @@ function ItemUser({ list }) {
                         <img
                             src={
                                 item.profilePicture?.src
-                                    ? `/public/img/Picture/${item.profilePicture.src}`
+                                    ? `${item.profilePicture.src}`
                                     : `/public/img/default/${
                                           item.genderId !== 2 ? "man" : "woman"
                                       }_default.png`
@@ -93,8 +93,8 @@ function ItemUser({ list }) {
                                 <p>
                                     {lastMess
                                         ? compareId
-                                            ? `Bạn: ${lastMess.content}`
-                                            : lastMess.content
+                                            ? `Bạn: ${lastMess.content || "Đã gửi một file"}`
+                                            : lastMess.content || "Đã gửi một file"
                                         : "Hãy Gửi một lời chào với bạn mới!!!"}
                                 </p>
                                 <small>

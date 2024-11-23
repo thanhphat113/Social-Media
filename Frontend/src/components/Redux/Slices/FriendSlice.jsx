@@ -1,15 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { SetUser } from "../Actions/UserAction";
-import { recallMess,deleteMess } from "../Actions/MessageActions";
+import { recallMess,deleteMess, addMessWithMedia } from "../Actions/MessageActions";
 import { addMess, readMess } from "../Actions/MessageActions";
 
 const FriendSlice = createSlice({
     name: "friends",
     initialState: {
-        allFriends: {
-            friend:[],
-            message:[]
-        },
+        allFriends:[],
         isLoad: false,
         isError: false,
     },
@@ -75,10 +72,6 @@ const FriendSlice = createSlice({
                     (i) => i.userId === friendId
                 );
 
-                const indexChat = state.allFriends[
-                    indexFriend
-                ].chatInMessages.findIndex((i) => i.chatId === chatId);
-
                 if (isDelete) {
                     const newChat = state.allFriends[
                         indexFriend
@@ -100,7 +93,6 @@ const FriendSlice = createSlice({
             })
             .addCase(addMess.fulfilled, (state, action) => {
                 const { friendId, message } = action.payload;
-                console.log(message);
 
                 const index = state.allFriends.findIndex(
                     (i) => i.userId === friendId
@@ -127,6 +119,32 @@ const FriendSlice = createSlice({
             })
             .addCase(addMess.rejected, (state, action) => {
                 console.log(action.payload);
+            })
+            .addCase(addMessWithMedia.fulfilled, (state, action) => {
+                const { friendId, message } = action.payload;
+
+                const index = state.allFriends.findIndex(
+                    (i) => i.userId === friendId
+                );
+
+                if (index !== -1) {
+                    state.allFriends[index].chatInMessages.push(message);
+                }
+
+                state.allFriends.sort((a, b) => {
+                    const latestA = a.chatInMessages.reduce((latest, message) => {    
+                        return latest && new Date(latest.dateCreated) > new Date(message.dateCreated) ? latest : message;
+                      }, null);
+                    
+                      const latestB = b.chatInMessages.reduce((latest, message) => {
+                        return latest && new Date(latest.dateCreated) > new Date(message.dateCreated) ? latest : message;
+                      }, null);
+    
+                      return new Date(latestB.dateCreated) - new Date(latestA.dateCreated)
+                });
+
+                state.isLoad = false;
+                state.isError = false;
             })
             .addCase(readMess.fulfilled, (state, action) => {
                 state.allFriends = action.payload;

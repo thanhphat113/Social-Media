@@ -18,6 +18,7 @@ public partial class Message
     public int? MainTopic { get; set; } = 1;
 
     public virtual ICollection<ChatInMessage> ChatInMessages { get; set; } = new List<ChatInMessage>();
+    public virtual ICollection<Media> Medias { get; set; } = new List<Media>();
 
     public virtual MainTopic? MainTopicNavigation { get; set; } = null;
 

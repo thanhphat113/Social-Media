@@ -3,25 +3,27 @@ using Backend.DTO;
 using Backend.Services.Interface;
 using Backend.Authentication;
 using Backend.Repositories.Interface;
-using Backend.Services;
-using Backend.DTO;
 using System.Linq.Expressions;
 using Microsoft.AspNetCore.Identity;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Services
 {
     public class UserService : IUserService
     {
         private readonly JwtToken _jwtToken;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unit;
 
-        public UserService(IUnitOfWork unit, JwtToken jwtToken, IMapper mapper)
+        public UserService(IUnitOfWork unit, JwtToken jwtToken, IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
             _mapper = mapper;
             _unit = unit;
             _jwtToken = jwtToken;
+            _httpContextAccessor = httpContextAccessor;
         }
         public async Task<User> Add(User value)
         {
@@ -54,14 +56,22 @@ namespace Backend.Services
                 var predicate = (Expression<Func<Message, bool>>)(m =>
                 (m.User1 == item.UserId && m.User2 == UserId) ||
                 (m.User1 == UserId && m.User2 == item.UserId));
-                var selector = (Expression<Func<Message, IEnumerable<ChatInMessage>>>)
-                            (m => m.ChatInMessages);
+                var selector = (Func<IQueryable<Message>, IQueryable<ChatInMessage>>)(query =>
+                    query.Include(m => m.ChatInMessages)
+                            .ThenInclude(c => c.Media)
+                            .SelectMany(m => m.ChatInMessages));
                 var mess = (ICollection<ChatInMessage>)await _unit.Message.FindAsyncMany(predicate, selector);
-
+                foreach (var x in mess)
+                {
+                    if (x.Media == null) continue;
+                    string type;
+                    if (x.Media.MediaType == 1 || x.Media.MediaType == 2) type = "media";
+                    else type = "file";
+                    x.Media.Src = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}/{type}/{x.Media.Src}";
+                }
 
                 item.ChatInMessages = mess;
             }
-
 
             return friends;
         }
@@ -106,6 +116,8 @@ namespace Backend.Services
                 };
 
                 var profilePicture = await _unit.Media.GetByConditionAsync<Media>(m => m.MediaId == UserMedia.MediaId);
+                profilePicture.Src = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}/media/{profilePicture.Src}";
+
 
                 item.ProfilePicture = profilePicture;
             }
