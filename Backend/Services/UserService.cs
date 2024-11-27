@@ -64,15 +64,14 @@ namespace Backend.Services
                 foreach (var x in mess)
                 {
                     if (x.Media == null) continue;
-                    string type;
-                    if (x.Media.MediaType == 1 || x.Media.MediaType == 2) type = "media";
-                    else type = "file";
-                    x.Media.Src = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}/{type}/{x.Media.Src}";
+                    string type = (x.Media.MediaType == 1 || x.Media.MediaType == 2) ? "media" : "file";
+                    if (!x.Media.Src.StartsWith($"{_httpContextAccessor.HttpContext.Request.Scheme}://"))
+                    {
+                        x.Media.Src = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}/{type}/{x.Media.Src}";
+                    }
                 }
-
                 item.ChatInMessages = mess;
             }
-
             return friends;
         }
 
@@ -117,7 +116,6 @@ namespace Backend.Services
 
                 var profilePicture = await _unit.Media.GetByConditionAsync<Media>(m => m.MediaId == UserMedia.MediaId);
                 profilePicture.Src = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}/media/{profilePicture.Src}";
-
 
                 item.ProfilePicture = profilePicture;
             }

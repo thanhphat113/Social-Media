@@ -2,10 +2,10 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using Backend.Helper;
 using Microsoft.AspNetCore.Authorization;
-using System.IdentityModel.Tokens.Jwt;
 using Backend.Models;
 using Backend.Services;
-using Castle.Components.DictionaryAdapter.Xml;
+using Backend.RealTime;
+
 
 namespace Backend.Controllers
 {
@@ -23,7 +23,7 @@ namespace Backend.Controllers
 		private readonly RequestNotiService _NotiContext;
 		private readonly PostNotiService _PostContext;
 
-		public UserController(MediaService media, GroupChatService group, UserService UserContext, MessageService mess, RequestNotiService NotiContext, PostNotiService PostContext)
+		public UserController(MediaService media, GroupChatService group, UserService UserContext, RequestNotiService NotiContext, PostNotiService PostContext)
 		{
 			_group = group;
 			_media = media;
@@ -62,6 +62,7 @@ namespace Backend.Controllers
 		[HttpGet("user-login")]
 		public async Task<IActionResult> FindById()
 		{
+			Console.WriteLine("hâhhha");
 			var userId = MiddleWare.GetUserIdFromCookie(Request);
 			if (userId == -1) return null;
 

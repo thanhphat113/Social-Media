@@ -1,7 +1,8 @@
 using Backend.DTO;
 using Backend.Helper;
-using Backend.Models;
+
 using Backend.Services;
+using Backend.Services.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,10 +13,10 @@ namespace Backend.Controllers
 	[ApiController]
 	public class MessageController : ControllerBase
 	{
-		private readonly MessageService _mess;
+		private readonly IMessageService _mess;
 		private readonly MainTopicService _main;
 
-		public MessageController(MessageService mess, MainTopicService main)
+		public MessageController(IMessageService mess, MainTopicService main)
 		{
 			_main = main;
 			_mess = mess;

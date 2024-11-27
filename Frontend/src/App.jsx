@@ -1,6 +1,7 @@
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import * as signalR from "@microsoft/signalr";
 
 import Login from "./pages/Login";
 import Message from "./pages/Message";
@@ -15,21 +16,27 @@ import Authentication from "./components/Authentication";
 import { SetUser } from "./components/Redux/Actions/UserAction";
 import Call from "./components/Call";
 import LoadingPage from "./pages/Loading/index.jsx";
-
+import { connectSignalR } from "./components/Redux/Actions/ConnectSignalR.jsx";
 
 function App() {
     const dispatch = useDispatch();
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(true);
+    const user = useSelector((state) => state.user.information);
 
     useEffect(() => {
-        const getuser = async () => {
-            await dispatch(SetUser());
-            setLoading(false);
-        };
         getuser();
+        setLoading(false);
     }, []);
 
-    if(loading){ return(<LoadingPage/>)}
+    const getuser = async () => {
+        await dispatch(SetUser());
+    };
+
+    
+
+    if (loading) {
+        return <LoadingPage />;
+    }
 
     return (
         <Routes>
@@ -98,7 +105,11 @@ function App() {
                         </Authentication>
                     }
                 />
-                <Route path="/login" element={<Login />} />
+                {user === null ? (
+                    <Route path="/login" element={<Login />} />
+                ) : (
+                    <Route path="/login" element={<Navigate to="/" />} />
+                )}
                 <Route path="*" element={<Login />} />
             </Route>
         </Routes>

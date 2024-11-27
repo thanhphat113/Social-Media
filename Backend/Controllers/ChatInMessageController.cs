@@ -1,8 +1,11 @@
 using Backend.Services;
+using Backend.Services.Interface;
 using Backend.Models;
 using Backend.Helper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using Backend.RealTime;
 
 namespace Backend.Controllers
 {
@@ -11,17 +14,19 @@ namespace Backend.Controllers
 	[ApiController]
 	public class ChatInMessageController : ControllerBase
 	{
-		private readonly ChatInMessageService _chat;
+		private readonly IChatInMessService _chat;
+		private readonly IHubContext<OnlineHub> _Hub;
 		private readonly IWebHostEnvironment _env;
 
-		private readonly MessageService _message;
+		private readonly IMessageService _message;
 		private readonly MediaService _media;
 		private readonly UserService _userContext;
 
-		public ChatInMessageController(MediaService media, IWebHostEnvironment env, UserService userContext, ChatInMessageService chat, MessageService message)
+		public ChatInMessageController(IHubContext<OnlineHub> Hub, MediaService media, IWebHostEnvironment env, UserService userContext, IChatInMessService chat, IMessageService message)
 		{
 			_media = media;
 			_env = env;
+			_Hub = Hub;
 			_userContext = userContext;
 			_chat = chat;
 			_message = message;
@@ -94,8 +99,15 @@ namespace Backend.Controllers
 
 			var result = await _chat.Add(mess);
 
-			if (result == null)
-				return BadRequest("Lỗi việc tạo tin nhắn mới");
+			if (result == null) return BadRequest("Lỗi việc tạo tin nhắn mới");
+
+			if (OnlineHub.IsOnline(mess.Otheruser))
+			{
+				var connectionId = OnlineHub.UserIdConnections[mess.Otheruser];
+				Console.WriteLine("đây là: " + connectionId);
+				Console.WriteLine(result.ChatId + " " + result.Content);
+				await _Hub.Clients.Client(connectionId).SendAsync("ReceiveMessage", result);
+			}
 
 			return Ok(result);
 		}

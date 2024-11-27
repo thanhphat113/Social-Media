@@ -12,6 +12,7 @@ using Backend.Helper;
 using Backend.Models;
 using Backend.Services.Interface;
 using Microsoft.OpenApi.Models;
+using Backend.RealTime;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -54,15 +55,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddSignalR();
 
 builder.Services.AddScoped<PostNotiService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<IService<MainTopic>, MainTopicService>();
 builder.Services.AddScoped<HistorySearchService>();
 builder.Services.AddScoped<GroupChatService>();
-builder.Services.AddScoped<MessageService>();
+builder.Services.AddScoped<IMessageService, MessageService>();
 builder.Services.AddScoped<MainTopicService>();
-builder.Services.AddScoped<ChatInMessageService>();
+builder.Services.AddScoped<IChatInMessService, ChatInMessageService>();
 builder.Services.AddScoped<RequestNotiService>();
 builder.Services.AddScoped<PostNotiService>();
 builder.Services.AddScoped<UserMediaService>();
@@ -134,9 +136,16 @@ app.UseStaticFiles();
 app.UseCors("AllowAll");
 app.UseRouting();
 
+
 app.UseAuthentication();
 app.UseAuthorization();
 
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapHub<ChatHub>("/chathub");
+    endpoints.MapHub<OnlineHub>("/onlinehub");
+});
 
 app.MapControllers();
 

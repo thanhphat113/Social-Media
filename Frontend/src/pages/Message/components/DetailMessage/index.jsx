@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, forwardRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import clsx from "clsx";
 import moment from "moment";
@@ -13,12 +13,18 @@ import {
     addMessWithMedia,
 } from "../../../../components/Redux/Actions/MessageActions";
 import Validate from "../../../../components/Validate";
+import * as signalR from "@microsoft/signalr";
+import { receiveMess } from "../../../../components/Redux/Slices/FriendSlice";
+import { connectionContext } from "../..";
 
 function DetailMessage({ onShow }) {
     const friends = useSelector((state) => state.friends.allFriends);
     const userid = useSelector((state) => state.user.information.userId);
     const currentFriendId = useSelector((state) => state.message.currentUserId);
-    console.log("đây là: "+ currentFriendId)
+
+    const connection = useContext(connectionContext)
+
+
     const mainTopic = useSelector(
         (state) => state.message.currentMessage?.mainTopicNavigation
     );
@@ -36,6 +42,7 @@ function DetailMessage({ onShow }) {
     const [targetMess, setTargetMess] = useState([]);
 
     const [medias, setMedias] = useState([]);
+    const [isReceive, setIsReceive] = useState(false)
 
     const messagesEndRef = useRef(null);
     const listRef = useRef(null);
@@ -44,6 +51,18 @@ function DetailMessage({ onShow }) {
     const InforCurrentFriend = friends.find(
         (u) => u.userId === currentFriendId
     );
+
+
+    useEffect(() => {
+        if (isReceive) return
+        connection.on("ReceiveMessage", async (message) => {
+            setIsReceive(true)
+            await dispatch(receiveMess(message))
+
+        });
+        setIsReceive(false)
+    });
+    
 
     useEffect(() => {
         getMessage();
@@ -140,8 +159,6 @@ function DetailMessage({ onShow }) {
             setIsSending(false);
         }
     };
-
-    console.log(medias);
 
     const handleKeyDown = async (e) => {
         if (e.key === "Enter" && isFocused) {
@@ -335,7 +352,6 @@ function DetailMessage({ onShow }) {
                                                     mainTopic.color,
                                             }}
                                         >
-
                                             {mess.media && !mess.isRecall ? (
                                                 mess.media.mediaType === 1 ? (
                                                     <img

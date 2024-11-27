@@ -1,31 +1,95 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { SetUser } from "../Actions/UserAction";
-import { recallMess,deleteMess, addMessWithMedia } from "../Actions/MessageActions";
+import {
+    recallMess,
+    deleteMess,
+    addMessWithMedia,
+} from "../Actions/MessageActions";
 import { addMess, readMess } from "../Actions/MessageActions";
 
 const FriendSlice = createSlice({
     name: "friends",
     initialState: {
-        allFriends:[],
+        allFriends: [],
         isLoad: false,
         isError: false,
     },
     reducers: {
+        receiveMess: (state, action) => {
+            const index = state.allFriends.findIndex(
+                (i) => i.userId === action.payload.fromUser
+            );
+
+            const isExist = state.allFriends[index].chatInMessages.some(
+                (i) => i.chatId === action.payload.chatId
+            );
+
+            if (!isExist) {
+                if (index !== -1) {
+                    state.allFriends[index].chatInMessages.push(action.payload);
+                }
+                state.allFriends.sort((a, b) => {
+                    const latestA = a.chatInMessages.reduce(
+                        (latest, message) => {
+                            return latest &&
+                                new Date(latest.dateCreated) >
+                                    new Date(message.dateCreated)
+                                ? latest
+                                : message;
+                        },
+                        null
+                    );
+
+                    const latestB = b.chatInMessages.reduce(
+                        (latest, message) => {
+                            return latest &&
+                                new Date(latest.dateCreated) >
+                                    new Date(message.dateCreated)
+                                ? latest
+                                : message;
+                        },
+                        null
+                    );
+
+                    return (
+                        new Date(latestB.dateCreated) -
+                        new Date(latestA.dateCreated)
+                    );
+                });
+            }
+        },
     },
     extraReducers: (builder) => {
         builder
             .addCase(SetUser.fulfilled, (state, action) => {
                 const infor = action.payload;
                 const sortFriends = infor?.friends.sort((a, b) => {
-                    const latestA = a.chatInMessages.reduce((latest, message) => {    
-                        return latest && new Date(latest.dateCreated) > new Date(message.dateCreated) ? latest : message;
-                      }, null);
-                    
-                      const latestB = b.chatInMessages.reduce((latest, message) => {
-                        return latest && new Date(latest.dateCreated) > new Date(message.dateCreated) ? latest : message;
-                      }, null);
+                    const latestA = a.chatInMessages.reduce(
+                        (latest, message) => {
+                            return latest &&
+                                new Date(latest.dateCreated) >
+                                    new Date(message.dateCreated)
+                                ? latest
+                                : message;
+                        },
+                        null
+                    );
 
-                      return new Date(latestB.dateCreated) - new Date(latestA.dateCreated)
+                    const latestB = b.chatInMessages.reduce(
+                        (latest, message) => {
+                            return latest &&
+                                new Date(latest.dateCreated) >
+                                    new Date(message.dateCreated)
+                                ? latest
+                                : message;
+                        },
+                        null
+                    );
+
+                    return (
+                        new Date(latestB.dateCreated) -
+                        new Date(latestA.dateCreated)
+                    );
                 });
 
                 state.allFriends = sortFriends || [];
@@ -75,9 +139,9 @@ const FriendSlice = createSlice({
                 if (isDelete) {
                     const newChat = state.allFriends[
                         indexFriend
-                    ].chatInMessages.filter(c => c.chatId !== chatId)
+                    ].chatInMessages.filter((c) => c.chatId !== chatId);
 
-                    state.allFriends[indexFriend].chatInMessages = newChat
+                    state.allFriends[indexFriend].chatInMessages = newChat;
                 }
 
                 state.isLoad = false;
@@ -103,15 +167,32 @@ const FriendSlice = createSlice({
                 }
 
                 state.allFriends.sort((a, b) => {
-                    const latestA = a.chatInMessages.reduce((latest, message) => {    
-                        return latest && new Date(latest.dateCreated) > new Date(message.dateCreated) ? latest : message;
-                      }, null);
-                    
-                      const latestB = b.chatInMessages.reduce((latest, message) => {
-                        return latest && new Date(latest.dateCreated) > new Date(message.dateCreated) ? latest : message;
-                      }, null);
-    
-                      return new Date(latestB.dateCreated) - new Date(latestA.dateCreated)
+                    const latestA = a.chatInMessages.reduce(
+                        (latest, message) => {
+                            return latest &&
+                                new Date(latest.dateCreated) >
+                                    new Date(message.dateCreated)
+                                ? latest
+                                : message;
+                        },
+                        null
+                    );
+
+                    const latestB = b.chatInMessages.reduce(
+                        (latest, message) => {
+                            return latest &&
+                                new Date(latest.dateCreated) >
+                                    new Date(message.dateCreated)
+                                ? latest
+                                : message;
+                        },
+                        null
+                    );
+
+                    return (
+                        new Date(latestB.dateCreated) -
+                        new Date(latestA.dateCreated)
+                    );
                 });
 
                 state.isLoad = false;
@@ -132,15 +213,32 @@ const FriendSlice = createSlice({
                 }
 
                 state.allFriends.sort((a, b) => {
-                    const latestA = a.chatInMessages.reduce((latest, message) => {    
-                        return latest && new Date(latest.dateCreated) > new Date(message.dateCreated) ? latest : message;
-                      }, null);
-                    
-                      const latestB = b.chatInMessages.reduce((latest, message) => {
-                        return latest && new Date(latest.dateCreated) > new Date(message.dateCreated) ? latest : message;
-                      }, null);
-    
-                      return new Date(latestB.dateCreated) - new Date(latestA.dateCreated)
+                    const latestA = a.chatInMessages.reduce(
+                        (latest, message) => {
+                            return latest &&
+                                new Date(latest.dateCreated) >
+                                    new Date(message.dateCreated)
+                                ? latest
+                                : message;
+                        },
+                        null
+                    );
+
+                    const latestB = b.chatInMessages.reduce(
+                        (latest, message) => {
+                            return latest &&
+                                new Date(latest.dateCreated) >
+                                    new Date(message.dateCreated)
+                                ? latest
+                                : message;
+                        },
+                        null
+                    );
+
+                    return (
+                        new Date(latestB.dateCreated) -
+                        new Date(latestA.dateCreated)
+                    );
                 });
 
                 state.isLoad = false;
@@ -155,4 +253,5 @@ const FriendSlice = createSlice({
     },
 });
 
+export const { receiveMess } = FriendSlice.actions;
 export default FriendSlice.reducer;
