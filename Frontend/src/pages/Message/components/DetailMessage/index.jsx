@@ -54,13 +54,9 @@ function DetailMessage({ onShow }) {
 
 
     useEffect(() => {
-        if (isReceive) return
         connection.on("ReceiveMessage", async (message) => {
-            setIsReceive(true)
             await dispatch(receiveMess(message))
-
         });
-        setIsReceive(false)
     });
     
 
