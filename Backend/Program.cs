@@ -9,6 +9,8 @@ using Backend.Repositories.Interface;
 using Backend.Repositories.Repository;
 using Backend.Services;
 using Backend.AutoMapper;
+using Backend.Models;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,6 +52,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 
 builder.Services.AddScoped<PostNotiService>();
 builder.Services.AddScoped<UserService>();

@@ -67,11 +67,12 @@ namespace Backend.Controllers
 
 			var information = await _userContext.GetLoginById(userId);
 			var friends = await _userContext.GetFriends(userId);
+			var followers = await _userContext.GetFollowers(userId);
 			var groupchat = await _group.FindByUserId(userId);
 			var requests = await _NotiContext.FindByUserId(userId);
 			var media = await _media.FindProfilePictureByUserId(userId);
 			var postrequests = await _PostContext.FindByUserId(userId);
-			return Ok(new { information = information, media = media, friends = friends, groupchat = groupchat, requests = requests, postrequests = postrequests });
+			return Ok(new { information = information, media = media, friends = friends,followers=followers, groupchat = groupchat, requests = requests, postrequests = postrequests });
 		}
 
 		[AllowAnonymous]

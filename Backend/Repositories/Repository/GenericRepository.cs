@@ -74,9 +74,10 @@ namespace Backend.Repositories.Repository
 		}
 
 
-		public void UpdateAsync(T value)
+		public async Task UpdateAsync(T value)
 		{
-			_context.Update(value);
+			_context.Update(value); // Cập nhật thực thể
+			await _context.SaveChangesAsync(); // Lưu thay đổi
 		}
 	}
 }
