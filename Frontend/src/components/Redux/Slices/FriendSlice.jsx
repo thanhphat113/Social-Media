@@ -6,6 +6,7 @@ import {
     addMessWithMedia,
 } from "../Actions/MessageActions";
 import { addMess, readMess } from "../Actions/MessageActions";
+import { sortFriendsByLatestMessage } from "../Actions/FriendActions";
 
 const FriendSlice = createSlice({
     name: "friends",
@@ -28,34 +29,8 @@ const FriendSlice = createSlice({
                 if (index !== -1) {
                     state.allFriends[index].chatInMessages.push(action.payload);
                 }
-                state.allFriends.sort((a, b) => {
-                    const latestA = a.chatInMessages.reduce(
-                        (latest, message) => {
-                            return latest &&
-                                new Date(latest.dateCreated) >
-                                    new Date(message.dateCreated)
-                                ? latest
-                                : message;
-                        },
-                        null
-                    );
 
-                    const latestB = b.chatInMessages.reduce(
-                        (latest, message) => {
-                            return latest &&
-                                new Date(latest.dateCreated) >
-                                    new Date(message.dateCreated)
-                                ? latest
-                                : message;
-                        },
-                        null
-                    );
-
-                    return (
-                        new Date(latestB.dateCreated) -
-                        new Date(latestA.dateCreated)
-                    );
-                });
+                state.allFriends = sortFriendsByLatestMessage(state.allFriends)
             }
         },
     },
@@ -63,36 +38,10 @@ const FriendSlice = createSlice({
         builder
             .addCase(SetUser.fulfilled, (state, action) => {
                 const infor = action.payload;
-                const sortFriends = infor?.friends.sort((a, b) => {
-                    const latestA = a.chatInMessages.reduce(
-                        (latest, message) => {
-                            return latest &&
-                                new Date(latest.dateCreated) >
-                                    new Date(message.dateCreated)
-                                ? latest
-                                : message;
-                        },
-                        null
-                    );
-
-                    const latestB = b.chatInMessages.reduce(
-                        (latest, message) => {
-                            return latest &&
-                                new Date(latest.dateCreated) >
-                                    new Date(message.dateCreated)
-                                ? latest
-                                : message;
-                        },
-                        null
-                    );
-
-                    return (
-                        new Date(latestB.dateCreated) -
-                        new Date(latestA.dateCreated)
-                    );
-                });
-
-                state.allFriends = sortFriends || [];
+                if (infor.friends > 0 && infor.friends)
+                state.allFriends = sortFriendsByLatestMessage(infor?.friends)
+                    
+                state.allFriends = infor?.friends;
                 state.isLoad = false;
                 state.isError = false;
             })
@@ -166,34 +115,7 @@ const FriendSlice = createSlice({
                     state.allFriends[index].chatInMessages.push(message);
                 }
 
-                state.allFriends.sort((a, b) => {
-                    const latestA = a.chatInMessages.reduce(
-                        (latest, message) => {
-                            return latest &&
-                                new Date(latest.dateCreated) >
-                                    new Date(message.dateCreated)
-                                ? latest
-                                : message;
-                        },
-                        null
-                    );
-
-                    const latestB = b.chatInMessages.reduce(
-                        (latest, message) => {
-                            return latest &&
-                                new Date(latest.dateCreated) >
-                                    new Date(message.dateCreated)
-                                ? latest
-                                : message;
-                        },
-                        null
-                    );
-
-                    return (
-                        new Date(latestB.dateCreated) -
-                        new Date(latestA.dateCreated)
-                    );
-                });
+                state.allFriends = sortFriendsByLatestMessage(state.allFriends)
 
                 state.isLoad = false;
                 state.isError = false;
@@ -212,40 +134,14 @@ const FriendSlice = createSlice({
                     state.allFriends[index].chatInMessages.push(message);
                 }
 
-                state.allFriends.sort((a, b) => {
-                    const latestA = a.chatInMessages.reduce(
-                        (latest, message) => {
-                            return latest &&
-                                new Date(latest.dateCreated) >
-                                    new Date(message.dateCreated)
-                                ? latest
-                                : message;
-                        },
-                        null
-                    );
-
-                    const latestB = b.chatInMessages.reduce(
-                        (latest, message) => {
-                            return latest &&
-                                new Date(latest.dateCreated) >
-                                    new Date(message.dateCreated)
-                                ? latest
-                                : message;
-                        },
-                        null
-                    );
-
-                    return (
-                        new Date(latestB.dateCreated) -
-                        new Date(latestA.dateCreated)
-                    );
-                });
+                state.allFriends = sortFriendsByLatestMessage(state.allFriends)
 
                 state.isLoad = false;
                 state.isError = false;
             })
             .addCase(readMess.fulfilled, (state, action) => {
                 state.allFriends = action.payload;
+                state.allFriends = sortFriendsByLatestMessage(state.allFriends)
             })
             .addCase(readMess.rejected, (state, action) => {
                 console.log(action.payload);

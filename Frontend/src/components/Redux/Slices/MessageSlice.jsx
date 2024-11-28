@@ -15,7 +15,13 @@ const MessageSlice = createSlice({
             state.currentUserId = action.payload;
         },
         setTopic: (state, action) => {
-            state.currentMessage = action.payload;
+            state.currentMessage.mainTopicNavigation = action.payload;
+        },
+        setTopicPassive: (state, action) => {
+            if (state.currentUserId === action.payload.UserId) {
+                state.currentMessage.mainTopicNavigation =
+                    action.payload.MainTopic;
+            }
         },
     },
     extraReducers: (builder) => {
@@ -25,5 +31,6 @@ const MessageSlice = createSlice({
     },
 });
 
-export const { setCurrentUser, setTopic } = MessageSlice.actions;
+export const { setCurrentUser, setTopic, setTopicPassive } =
+    MessageSlice.actions;
 export default MessageSlice.reducer;

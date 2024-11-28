@@ -13,16 +13,11 @@ import {
     addMessWithMedia,
 } from "../../../../components/Redux/Actions/MessageActions";
 import Validate from "../../../../components/Validate";
-import * as signalR from "@microsoft/signalr";
-import { receiveMess } from "../../../../components/Redux/Slices/FriendSlice";
-import { connectionContext } from "../..";
 
 function DetailMessage({ onShow }) {
     const friends = useSelector((state) => state.friends.allFriends);
     const userid = useSelector((state) => state.user.information.userId);
     const currentFriendId = useSelector((state) => state.message.currentUserId);
-
-    const connection = useContext(connectionContext)
 
 
     const mainTopic = useSelector(
@@ -42,23 +37,32 @@ function DetailMessage({ onShow }) {
     const [targetMess, setTargetMess] = useState([]);
 
     const [medias, setMedias] = useState([]);
-    const [isReceive, setIsReceive] = useState(false)
 
     const messagesEndRef = useRef(null);
     const listRef = useRef(null);
     const scrollPosition = useRef(0);
+    const audioRef = useRef(null);
 
     const InforCurrentFriend = friends.find(
         (u) => u.userId === currentFriendId
     );
 
-
     useEffect(() => {
-        connection.on("ReceiveMessage", async (message) => {
-            await dispatch(receiveMess(message))
-        });
+        // connection.on("ReceiveMessage", async (message) => {
+        //     await dispatch(receiveMess(message));
+        // });
+        // connection.on("ReceiveTopic", async (message) => {
+        //     // await dispatch(receiveMess(message));
+        //     console.log(message)
+        // });
+        
     });
-    
+
+    const notifications = () => {
+        if (audioRef.current) {
+            audioRef.current.play();
+        }
+    };
 
     useEffect(() => {
         getMessage();
@@ -223,6 +227,11 @@ function DetailMessage({ onShow }) {
 
     return (
         <div className={styles.wrapper}>
+            <audio
+                ref={audioRef}
+                src="/public/sound/notification.mp3"
+                style={{ display: "none" }}
+            />
             <div className={styles.top}>
                 <CustomTooltip title="Trang cá nhân">
                     <div className={styles.information}>
@@ -277,6 +286,15 @@ function DetailMessage({ onShow }) {
                             const formattedTime = moment(
                                 mess.dateCreated
                             ).format("HH:mm");
+                            if (mess.isNoti)
+                                return (
+                                    <div
+                                        key={mess.chatId}
+                                        className={styles.noti}
+                                    >
+                                        {mess.content}
+                                    </div>
+                                );
                             return (
                                 <div
                                     onMouseEnter={() =>

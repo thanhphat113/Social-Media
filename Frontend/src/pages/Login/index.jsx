@@ -197,12 +197,6 @@ function Login() {
     const user = useSelector((state) => state.user.information);
     const dispatch = useDispatch();
 
-    useEffect( () => {
-        console.log(user)
-        if (user !== null) navigate("/message");
-        console.log("chạy")
-    },[])
-
     // State cho form đăng ký
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
