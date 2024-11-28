@@ -6,6 +6,10 @@ function App() {
   const [selectedTab, setSelectedTab] = useState('account');
   const [selectedTabFriendFollow, setSelectedTabFriendFollow] = useState('friends');
 
+  
+  
+
+
   const friends = [
     { id: 1, name: 'Your Friend', imageUrl: 'https://themes.stackbros.in/social_r/assets/07-DLMl_mTI.jpg' },
     { id: 2, name: 'Your Friend', imageUrl: 'https://themes.stackbros.in/social_r/assets/07-DLMl_mTI.jpg' },
@@ -202,6 +206,7 @@ function App() {
             </div>
         );
       case 'friends':
+        case 'friends':
   return (
     <div className={styles.settingform2}>
       

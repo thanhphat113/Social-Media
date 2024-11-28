@@ -5,17 +5,15 @@ using System.Threading.Tasks;
 using Backend.Models;
 using Backend.Repositories.Interface;
 
-using Backend.Services.Interface;
-
 namespace Backend.Services
 {
-	public class GroupChatService
+	public class GroupChatService : IGroupChatRepository
 	{
-		private readonly IUnitOfWork _unit;
+		private readonly IGroupChatRepository _repo;
 
-		public GroupChatService(IUnitOfWork unit)
+		public GroupChatService(IGroupChatRepository repo)
 		{
-			_unit = unit;
+			_repo = repo;
 		}
 		public Task<GroupChat> Add(GroupChat value)
 		{
@@ -27,11 +25,11 @@ namespace Backend.Services
 			throw new NotImplementedException();
 		}
 
-		public async Task<IEnumerable<Object>> FindByUserId(int UserId)
+		public async Task<IEnumerable<GroupChat>> FindByUserId(int UserId)
 		{
 			try
 			{
-				return await _unit.GroupChat.FindAsync<object>(g => g.Users.Any(u => u.UserId == UserId));
+				return await _repo.FindByUserId(UserId);
 			}
 			catch (System.Exception ex)
 			{

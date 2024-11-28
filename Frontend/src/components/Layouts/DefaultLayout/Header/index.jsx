@@ -1,6 +1,5 @@
 import clsx from "clsx";
-import { useState, createContext } from "react";
-import { useLocation } from 'react-router-dom';
+import { useState, createContext,useEffect } from "react";
 import styles from "./Header.module.scss";
 import Search from "./components/search";
 import Menu from "./components/Menu";
@@ -9,8 +8,7 @@ import Imformation from "./components/Information";
 export const typeContext = createContext();
 
 function Header() {
-    const location = useLocation();
-    const [using, setUsing] = useState(location.pathname);
+    const [using, setUsing] = useState("home");
 
     const handleClick = (type) => {
         setUsing(type);

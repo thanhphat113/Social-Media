@@ -10,22 +10,14 @@ public partial class ChatInMessage
     public int? ChatId { get; set; }
 
     public int MessagesId { get; set; }
-    [JsonIgnore]
 
-    public int? MediaId { get; set; } = null!;
-
+    public int FromUser { get; set; }
     public bool? IsRead { get; set; } = false;
     public bool? IsRecall { get; set; } = false;
 
-    public int FromUser { get; set; }
+    public string Content { get; set; } = null!;
 
-
-    public string? Content { get; set; } = null!;
-
-    public bool? IsNoti { get; set; } = false;
-
-
-    public DateTime DateCreated { get; set; } = DateTime.Now;
+    public DateTime DateCreated { get; set; }
 
     [NotMapped]
     public int Otheruser { get; set; }
@@ -36,6 +28,4 @@ public partial class ChatInMessage
 
     [JsonIgnore]
     public virtual Message? Messages { get; set; }
-    public virtual Media? Media { get; set; } = null;
-
 }

@@ -4,18 +4,28 @@ using System.Linq;
 using System.Threading.Tasks;
 using Backend.Models;
 using Backend.Repositories.Interface;
-
-using Backend.Services.Interface;
-
+using Backend.Services;
 
 namespace Backend.Services
 {
-	public class RelationshipService
+	public class RelationshipService : IRelationshipRepository
 	{
-		private readonly IUnitOfWork _unit;
-		public RelationshipService(IUnitOfWork unit)
+		private readonly IRelationshipRepository _repo;
+		public RelationshipService(IRelationshipRepository repo)
 		{
-			_unit = unit;
+			_repo = repo;
+		}
+		public async Task<bool> Accept(int user1, int user2)
+		{
+			try
+			{
+				return await _repo.Accept(user1, user2);
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine("Lỗi: " + e.Data);
+				return false;
+			}
 		}
 
 		public Task<Relationship> Add(Relationship value)

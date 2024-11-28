@@ -1,7 +1,6 @@
-import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { Routes, Route, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import * as signalR from "@microsoft/signalr";
 
 import Login from "./pages/Login";
 import Message from "./pages/Message";
@@ -14,29 +13,20 @@ import Profile from "./pages/Profile";
 import NewGroupPage from "./pages/Group/NewGroup";
 import Authentication from "./components/Authentication";
 import { SetUser } from "./components/Redux/Actions/UserAction";
-import Call from "./components/Call";
-import LoadingPage from "./pages/Loading/index.jsx";
-import { connectSignalR } from "./components/Redux/Actions/ConnectSignalR.jsx";
 
 function App() {
     const dispatch = useDispatch();
-    const [loading, setLoading] = useState(true);
-    const user = useSelector((state) => state.user.information);
+    const navigate = useNavigate();
 
     useEffect(() => {
+        const getuser = async () => {
+            const response = await dispatch(SetUser());
+            if (SetUser.fulfilled.match(response)) {
+                navigate("/");
+            }
+        };
         getuser();
-        setLoading(false);
     }, []);
-
-    const getuser = async () => {
-        await dispatch(SetUser());
-    };
-
-    
-
-    if (loading) {
-        return <LoadingPage />;
-    }
 
     return (
         <Routes>
@@ -46,14 +36,6 @@ function App() {
                     element={
                         <Authentication>
                             <Message />
-                        </Authentication>
-                    }
-                />
-                <Route
-                    path="/call"
-                    element={
-                        <Authentication>
-                            <Call />
                         </Authentication>
                     }
                 />
@@ -74,7 +56,7 @@ function App() {
                     }
                 />
                 <Route
-                    path="/:id"
+                    path="/profile"
                     element={
                         <Authentication>
                             <Profile />
@@ -82,7 +64,7 @@ function App() {
                     }
                 />
                 <Route
-                    path="/group/:id"
+                    path="/profilegroup"
                     element={
                         <Authentication>
                             <ProfileGroup />
@@ -105,11 +87,7 @@ function App() {
                         </Authentication>
                     }
                 />
-                {user === null ? (
-                    <Route path="/login" element={<Login />} />
-                ) : (
-                    <Route path="/login" element={<Navigate to="/" />} />
-                )}
+                <Route path="/login" element={<Login />} />
                 <Route path="*" element={<Login />} />
             </Route>
         </Routes>

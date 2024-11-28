@@ -34,10 +34,10 @@ const deleteHistory = createAsyncThunk(
 
 const updateHistory = createAsyncThunk(
     "historysearch/update",
-    async ( OtherUserId , thunkAPI) => {
+    async ( id , thunkAPI) => {
         try {
             const response = await axios.put(
-                `http://localhost:5164/api/HistorySearch/${OtherUserId}`,{},
+                `http://localhost:5164/api/HistorySearch/${id}`,{},
                 { withCredentials: true}
             );
             return response.data;

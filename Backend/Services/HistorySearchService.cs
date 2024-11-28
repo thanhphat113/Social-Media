@@ -3,30 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Backend.Models;
-using Backend.DTO;
-
 using Backend.Repositories.Interface;
-using Backend.Services.Interface;
-
 
 namespace Backend.Services
 {
-	public class HistorySearchService : IHistorySearchService
+	public class HistorySearchService : IHistorySearchRepository
 	{
-		private readonly IUnitOfWork _unit;
+		private readonly IHistorySearchRepository _repo;
 
-		public HistorySearchService(IUnitOfWork unit)
+		public HistorySearchService(IHistorySearchRepository repo)
 		{
-			_unit = unit;
+			_repo = repo;
 		}
 		public async Task<HistorySearch> Add(HistorySearch value)
 		{
 			try
 			{
-
-				var Item = await _unit.HistorySearch.AddAsync(value);
-				await _unit.CompleteAsync();
-				return Item;
+				return await _repo.Add(value);
 			}
 			catch (System.Exception ex)
 			{
@@ -39,9 +32,7 @@ namespace Backend.Services
 		{
 			try
 			{
-				Console.WriteLine("Trong delee: " + id);
-				await _unit.HistorySearch.DeleteAsync(h => h.HistoryId == id);
-				return await _unit.CompleteAsync();
+				return await _repo.Delete(id);
 			}
 			catch (System.Exception ex)
 			{
@@ -60,33 +51,11 @@ namespace Backend.Services
 			throw new NotImplementedException();
 		}
 
-		public async Task<IEnumerable<HistoryWithUser>> GetHistorySearchByUserId(int userid)
+		public async Task<IEnumerable<object>> GetHistorySearchByUserId(int userid)
 		{
 			try
 			{
-				var items = await _unit.HistorySearch.FindAsync(h => h.FromUserId == userid, h => new HistoryWithUser
-				{
-					HistoryId = h.HistoryId,
-					UserId = h.OtherUser.UserId,
-					FirstName = h.OtherUser.FirstName,
-					LastName = h.OtherUser.LastName,
-					GenderId = h.OtherUser.GenderId,
-				}, query => query.OrderByDescending(h => h.DateSearch));
-
-				foreach (var item in items)
-				{
-					var UserMedia = await _unit.UserMedia.GetByConditionAsync<UserMedia>(u => u.UserId == item.UserId && u.IsProfilePicture == true);
-					if (UserMedia == null)
-					{
-						continue;
-					};
-
-					var profilePicture = await _unit.Media.GetByConditionAsync<Media>(m => m.MediaId == UserMedia.MediaId);
-
-					item.ProfilePicture = profilePicture;
-				}
-
-				return items;
+				return await _repo.GetHistorySearchByUserId(userid);
 			}
 			catch (System.Exception)
 			{
@@ -104,18 +73,11 @@ namespace Backend.Services
 			throw new NotImplementedException();
 		}
 
-		public async Task<bool> UpdateTime(int FromUserId, int OtherUserId)
+		public async Task<bool> UpdateTime(int historyid)
 		{
 			try
 			{
-				Console.WriteLine("Đối tượng: " + FromUserId + " " + OtherUserId);
-				var item = await _unit.HistorySearch.GetByConditionAsync<HistorySearch>(h => h.FromUserId == FromUserId && h.OtherUserId == OtherUserId);
-				var vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
-				var vietnamTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone);
-
-				item.DateSearch = vietnamTime;
-
-				return await _unit.CompleteAsync();
+				return await _repo.UpdateTime(historyid);
 			}
 			catch (System.Exception ex)
 			{

@@ -194,7 +194,7 @@ function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isPopupOpen, setIsPopupOpen] = useState(false);
-    const user = useSelector((state) => state.user.information);
+    const user = useSelector((state) => state.user.value);
     const dispatch = useDispatch();
 
     // State cho form đăng ký

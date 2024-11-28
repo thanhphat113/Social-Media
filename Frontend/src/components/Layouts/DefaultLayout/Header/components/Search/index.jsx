@@ -1,25 +1,24 @@
 import { useEffect, useState, useRef } from "react";
+import { useSelector } from "react-redux";
 import clsx from "clsx";
 import styles from "./Search.module.scss";
 import ShowList from "./components/ShowList";
 import axios from "axios";
-import { useSelector } from "react-redux";
 
 function Search() {
     const [isClick, setIsClick] = useState(false);
     const [search, setSearch] = useState("");
-    const [history, setHistory] = useState([]);
-    const [fakeSearchs, setFakeSearch] = useState([]);
+    const history = useSelector((state) => state.user.historysearch);
+    const [fakeSearchs, setFakeSearch] = useState([])
 
-    const lists = fakeSearchs.length > 0 ? fakeSearchs : history;
+    const lists = fakeSearchs.length > 0 ? fakeSearchs : history
+
 
     const containerRef = useRef(null);
 
+
     const handleClickOutside = (event) => {
-        if (
-            containerRef.current &&
-            !containerRef.current.contains(event.target)
-        ) {
+        if (containerRef.current && !containerRef.current.contains(event.target)) {
             setIsClick(false);
         }
     };
@@ -31,36 +30,33 @@ function Search() {
         };
     }, []);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const response = await axios.get(
-                `http://localhost:5164/api/HistorySearch`,
-                {
-                    withCredentials: true,
-                }
-            );
-            setHistory(response.data);
-        };
-        isClick && fetchData();
-        return () => {
-            setHistory([]);
-        };
-    }, [isClick]);
 
-    useEffect(() => {
+    useEffect( () => {
         const fetchData = async () => {
-            const response = await axios.get(
-                `http://localhost:5164/api/User/users-by-name`,
-                { params: { name: search }, withCredentials: true }
-            );
-            console.log(response.data)
-            setFakeSearch(response.data);
+            if (search !== "") {
+                const results = await GetListByName();
+                if (results) {
+                    setFakeSearch(results);
+                }
+            }else{
+                setFakeSearch([])
+            }
         };
-        search !== "" ? fetchData() : setFakeSearch([]);
-        return () => {
-            setFakeSearch([]);
-        };
+        fetchData();
     }, [search]);
+
+    const GetListByName = async () => {
+        try {
+            const response = await axios.get(
+                `http://localhost:5164/api/User/users-by-name`,{
+                params: { name: search },
+                withCredentials: true
+            });
+            return response.data;
+        } catch {
+            return null;
+        }
+    };
 
     return (
         <div className={clsx(styles.wrapper)} ref={containerRef}>
@@ -90,14 +86,7 @@ function Search() {
                 {isClick && (
                     <div className={styles.showlist}>
                         {lists && lists.length > 0 ? (
-                            <ShowList
-                                list={lists}
-                                history={history}
-                                search={search}
-                                setHistory={setHistory}
-                                type={true}
-                                key="1"
-                            />
+                            <ShowList list={lists} history={history} type={true} key="1" />
                         ) : (
                             <p style={{ paddingLeft: "10px" }} key="2">
                                 Không có tìm kiếm nào gần đây
