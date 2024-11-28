@@ -33,15 +33,31 @@ const FriendSlice = createSlice({
                 state.allFriends = sortFriendsByLatestMessage(state.allFriends)
             }
         },
+        staticMess: (state, action) => {
+            const value = action.payload
+            console.log(value)
+            const index = state.allFriends.findIndex(
+                (i) => i.userId === value.id
+            );
+
+            const isExist = state.allFriends[index].chatInMessages.some(
+                (i) => i.chatId === value.chat.chatId
+            );
+
+            if (!isExist) {
+                if (index !== -1) {
+                    state.allFriends[index].chatInMessages.push(value.chat);
+                }
+
+                state.allFriends = sortFriendsByLatestMessage(state.allFriends)
+            }
+        },
     },
     extraReducers: (builder) => {
         builder
             .addCase(SetUser.fulfilled, (state, action) => {
                 const infor = action.payload;
-                if (infor.friends > 0 && infor.friends)
-                state.allFriends = sortFriendsByLatestMessage(infor?.friends)
-                    
-                state.allFriends = infor?.friends;
+                state.allFriends = sortFriendsByLatestMessage(infor?.friends) || [];
                 state.isLoad = false;
                 state.isError = false;
             })
@@ -116,7 +132,6 @@ const FriendSlice = createSlice({
                 }
 
                 state.allFriends = sortFriendsByLatestMessage(state.allFriends)
-
                 state.isLoad = false;
                 state.isError = false;
             })
@@ -149,5 +164,5 @@ const FriendSlice = createSlice({
     },
 });
 
-export const { receiveMess } = FriendSlice.actions;
+export const { receiveMess, staticMess } = FriendSlice.actions;
 export default FriendSlice.reducer;

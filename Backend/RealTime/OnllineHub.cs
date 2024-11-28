@@ -57,4 +57,5 @@ public class OnlineHub : Hub
 	{
 		return MiddleWare.GetUserIdFromCookie(Context.GetHttpContext()?.Request);
 	}
+
 }

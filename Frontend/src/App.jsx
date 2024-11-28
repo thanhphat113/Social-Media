@@ -25,14 +25,14 @@ function App() {
 
     useEffect(() => {
         getuser();
-        setLoading(false);
+        
     }, []);
 
     const getuser = async () => {
-        await dispatch(SetUser());
-    };
+        const response = await dispatch(SetUser());
+        if (SetUser.fulfilled.match(response)) setLoading(false);
 
-    
+    };
 
     if (loading) {
         return <LoadingPage />;
