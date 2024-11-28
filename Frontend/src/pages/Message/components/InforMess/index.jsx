@@ -3,12 +3,20 @@ import clsx from "clsx";
 import { useSelector } from "react-redux";
 import styles from "./InforMess.module.scss";
 import { CustomTooltip } from "../../../../components/GlobalStyles";
+import Nickname from "./components/Nickname";
+import MainTopic from "./components/MainTopic";
+import Media from "./components/Media";
+import File from "./components/File";
 
 function InforMess() {
     const friends = useSelector((state) => state.friends.allFriends);
-    const currentFriend = useSelector((state) => state.message.currentUser);
-    const InforCurrentFriend = friends.find((u) => u.userId === currentFriend);
-    const [typeDrop, setTypeDrop] = useState("mmm");
+    const currentFriendId = useSelector((state) => state.message.currentUserId);
+    const mainTopic = useSelector((state) => state.message.currentMessage);
+
+    const InforCurrentFriend = friends.find(
+        (u) => u.userId === currentFriendId
+    );
+    const [typeDrop, setTypeDrop] = useState(null);
     const [click, setClick] = useState(false);
     const [dropSetting, setDropSetting] = useState(false);
     const [dropFile, setDropFile] = useState(false);
@@ -19,10 +27,13 @@ function InforMess() {
                 <img
                     className={clsx(styles.profile)}
                     src={
-                        InforCurrentFriend.profilePicture ||
-                        `/public/img/default/${
-                            InforCurrentFriend.genderId !== 2 ? "man" : "woman"
-                        }_default.png`
+                        InforCurrentFriend.profilePicture
+                            ? `${InforCurrentFriend.profilePicture.src}`
+                            : `/public/img/default/${
+                                  InforCurrentFriend.genderId !== 2
+                                      ? "man"
+                                      : "woman"
+                              }_default.png`
                     }
                 ></img>
             </div>
@@ -56,10 +67,19 @@ function InforMess() {
                 </div>
                 {dropSetting && (
                     <>
-                        <button className={styles.item}>Thay đổi chủ đề</button>
-                        <button className={styles.item}>
-                            Thay đổi biệt danh
-                        </button>
+                        <div onClick={()=> setTypeDrop("maintopic")} className={styles.item}>
+                            <button>Thay đổi chủ đề</button>
+                            <div
+                                className={styles.icon}
+                                style={{
+                                    borderColor:
+                                        mainTopic.mainTopicNavigation?.color,
+                                }}
+                            ></div>
+                        </div>
+                        <div onClick={()=> setTypeDrop("nickname")} className={clsx(styles.item)}>
+                            <button>Thay đổi biệt danh</button>
+                        </div>
                     </>
                 )}
                 <div
@@ -77,20 +97,33 @@ function InforMess() {
                 </div>
                 {dropFile && (
                     <>
-                        <button className={styles.item}>File</button>
-                        <button className={styles.item}>
+                        <button onClick={()=> setTypeDrop("media")} className={styles.item}>File</button>
+                        <button onClick={()=> setTypeDrop("file")} className={styles.item}>
                             File phương tiện
                         </button>
                     </>
                 )}
-                {/* {typeDrop && <div className={styles.show}>
-                    <div className={styles.contentshow}>
-                        <div className={styles.delete}>
-                            <i onClick={() => setTypeDrop(null)} className="fa-solid fa-x"></i>
+                {typeDrop && (
+                    <div className={styles.show}>
+                        <div className={styles.contentshow}>
+                            <div className={styles.delete}>
+                                <i
+                                    onClick={() => setTypeDrop(null)}
+                                    className="fa-solid fa-x"
+                                ></i>
+                            </div>
+                            {typeDrop === "media" ? (
+                                <File />
+                            ): typeDrop === "nickname" ?(
+                                <Nickname user={InforCurrentFriend}/>
+                            ): typeDrop === "maintopic" ?(
+                                <MainTopic/>
+                            ): typeDrop === "file"  && (
+                            <Media/>
+                            )}
                         </div>
-                        <h1>hâhhah</h1>
                     </div>
-                </div>} */}
+                )}
             </div>
         </div>
     );

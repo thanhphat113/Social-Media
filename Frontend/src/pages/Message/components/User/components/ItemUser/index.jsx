@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setCurrentUser } from "../../../../../../components/Redux/Slices/MessageSlice";
 import { readMess } from "../../../../../../components/Redux/Actions/MessageActions";
 
-function ItemUser( {list} ) {
+function ItemUser({ list }) {
     const userId = useSelector((state) => state.user.information.userId);
     const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -25,9 +25,11 @@ function ItemUser( {list} ) {
     }, [currentTime]);
 
     const handleClick = async (value, lastMess, compareId) => {
-        console.log(lastMess)
         dispatch(setCurrentUser(value));
-        lastMess && !compareId && !lastMess.isRead && await dispatch(readMess(lastMess.chatId))
+        lastMess &&
+            !compareId &&
+            !lastMess.isRead &&
+            (await dispatch(readMess(lastMess.chatId)));
     };
 
     const formatTimeDifference = (time) => {
@@ -47,7 +49,7 @@ function ItemUser( {list} ) {
             return `${Hours} giờ`;
         }
         if (Minutes >= 1) return `${Minutes} phút`;
-        return `Vừa gửi`
+        return `Vừa gửi`;
     };
 
     return (
@@ -56,19 +58,22 @@ function ItemUser( {list} ) {
                 const lastMess =
                     item.chatInMessages[item.chatInMessages.length - 1];
                 const compareId = compareIds(lastMess.fromUser, userId);
-                
+
                 return (
                     <button
                         key={item.userId}
-                        onClick={() => handleClick(item.userId, lastMess, compareId)}
+                        onClick={() =>
+                            handleClick(item.userId, lastMess, compareId)
+                        }
                         className={styles.item}
                     >
                         <img
                             src={
-                                item.profilePicture ||
-                                `/public/img/default/${
-                                    item.genderId !== 2 ? "man" : "woman"
-                                }_default.png`
+                                item.profilePicture?.src
+                                    ? `${item.profilePicture.src}`
+                                    : `/public/img/default/${
+                                          item.genderId !== 2 ? "man" : "woman"
+                                      }_default.png`
                             }
                         ></img>
                         <div className={styles.content}>
@@ -79,7 +84,8 @@ function ItemUser( {list} ) {
                             <div
                                 className={clsx(
                                     {
-                                        [styles.NotRead]: !lastMess.isRead && !compareId,
+                                        [styles.NotRead]:
+                                            !lastMess.isRead && !compareId,
                                     },
                                     styles.lastmess
                                 )}
@@ -87,8 +93,8 @@ function ItemUser( {list} ) {
                                 <p>
                                     {lastMess
                                         ? compareId
-                                            ? `Bạn: ${lastMess.content}`
-                                            : lastMess.content
+                                            ? `Bạn: ${lastMess.content || "Đã gửi một file"}`
+                                            : lastMess.content || "Đã gửi một file"
                                         : "Hãy Gửi một lời chào với bạn mới!!!"}
                                 </p>
                                 <small>

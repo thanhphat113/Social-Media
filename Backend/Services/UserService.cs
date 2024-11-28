@@ -1,33 +1,50 @@
 using Backend.Models;
-using Backend.Repositories;
+using Backend.DTO;
+using Backend.Services.Interface;
 using Backend.Authentication;
 using Backend.Repositories.Interface;
-using Backend.Services;
+using System.Linq.Expressions;
+using Microsoft.AspNetCore.Identity;
+using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Services
 {
-    public class UserService : IService<User>
+    public class UserService : IUserService
     {
         private readonly JwtToken _jwtToken;
-        private readonly IUserRepository _userRepo;
-        private readonly IChatInMessRepository _mess;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public UserService(IUserRepository repo, JwtToken jwtToken, IChatInMessRepository mess)
+        private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unit;
+
+        public UserService(IUnitOfWork unit, JwtToken jwtToken, IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
-            _userRepo = repo;
-            _mess = mess;
+            _mapper = mapper;
+            _unit = unit;
             _jwtToken = jwtToken;
+            _httpContextAccessor = httpContextAccessor;
         }
-        public async Task<string> Add(User product)
+        public async Task<User> Add(User value)
         {
-            if (await _userRepo.Add(product) != null)
+            try
             {
-                return "Đăng ký tài khoản thành công";
+                var passHasher = new PasswordHasher<User>();
+                value.Password = passHasher.HashPassword(value, value.Password);
+                await _unit.Users.AddAsync(value);
+                if (await _unit.CompleteAsync())
+                {
+                    return value;
+                }
+                throw new ArgumentException("Thêm vào database không thành công");
             }
-            return "Đăng ký thất bại thất bại";
+            catch (System.Exception ex)
+            {
+                throw new Exception("Thêm sản phẩm không thành công.", ex);
+            }
         }
 
-        public Task<string> Delete(int id)
+        public Task<bool> Delete(int id)
         {
             throw new NotImplementedException();
         }
@@ -36,19 +53,37 @@ namespace Backend.Services
         {
             foreach (var item in friends)
             {
-                item.ChatInMessages = await _mess.GetMessage(UserId, item.UserId);
+                var predicate = (Expression<Func<Message, bool>>)(m =>
+                (m.User1 == item.UserId && m.User2 == UserId) ||
+                (m.User1 == UserId && m.User2 == item.UserId));
+                var selector = (Func<IQueryable<Message>, IQueryable<ChatInMessage>>)(query =>
+                    query.Include(m => m.ChatInMessages)
+                            .ThenInclude(c => c.Media)
+                            .SelectMany(m => m.ChatInMessages));
+                var mess = (ICollection<ChatInMessage>)await _unit.Message.FindAsyncMany(predicate, selector);
+                foreach (var x in mess)
+                {
+                    if (x.Media == null) continue;
+                    string type = (x.Media.MediaType == 1 || x.Media.MediaType == 2) ? "media" : "file";
+                    if (!x.Media.Src.StartsWith($"{_httpContextAccessor.HttpContext.Request.Scheme}://"))
+                    {
+                        x.Media.Src = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}/{type}/{x.Media.Src}";
+                    }
+                }
+                item.ChatInMessages = mess;
             }
             return friends;
         }
 
         public Task<IEnumerable<User>> GetAll()
         {
-            return _userRepo.GetAll();
+            return _unit.Users.GetAll();
         }
 
-        public async Task<User> GetById(int id)
+        public async Task<UserLogin> GetLoginById(int id)
         {
-            return await _userRepo.GetById(id);
+            var item = await _unit.Users.GetByIdAsync(id);
+            return _mapper.Map<UserLogin>(item);
         }
 
         public Task<IEnumerable<User>> GetListById(int id)
@@ -56,33 +91,59 @@ namespace Backend.Services
             throw new NotImplementedException();
         }
 
-        public Task<string> Update(User product)
+        public Task<bool> Update(User value)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<User>> GetFriends(int id)
+
+        public async Task<IEnumerable<UserPrivate>> GetFriends(int id)
         {
-            try
+            var predicate = (Expression<Func<Relationship, bool>>)(r =>
+            (r.FromUserId == id || r.ToUserId == id) && r.TypeRelationship == 2);
+            var selector = (Expression<Func<Relationship, User>>)
+                    (r => r.FromUserId == id ? r.ToUser : r.FromUser);
+
+            var users = await _unit.Relationship.FindAsync<User>(predicate, selector);
+
+            foreach (var item in users)
             {
-                var friends = await _userRepo.GetListFriends(id);
-                var results = await FriendsWithChat(id, friends);
-                return results;
+                var UserMedia = await _unit.UserMedia.GetByConditionAsync<UserMedia>(u => u.UserId == item.UserId && u.IsProfilePicture == true);
+                if (UserMedia == null)
+                {
+                    continue;
+                };
+
+                var profilePicture = await _unit.Media.GetByConditionAsync<Media>(m => m.MediaId == UserMedia.MediaId);
+                profilePicture.Src = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}/media/{profilePicture.Src}";
+
+                item.ProfilePicture = profilePicture;
             }
-            catch
-            {
-                return null;
-            }
+
+            var withChat = await FriendsWithChat(id, users);
+
+            var result = withChat.Select(user => _mapper.Map<UserPrivate>(user));
+
+            return result;
         }
 
         public async Task<string> FindToLogin(string email, string password)
         {
-            var user = await _userRepo.FindToLogin(email, password);
-            if (user != null)
+            var user = await _unit.Users.GetByConditionAsync<User>(u => u.Email == email);
+
+            if (user == null) return null;
+
+            var passHasher = new PasswordHasher<User>();
+            var passwordVerificationResult = passHasher.VerifyHashedPassword(user, user.Password, password);
+
+            if (passwordVerificationResult == PasswordVerificationResult.Success)
             {
                 return _jwtToken.GenerateJwtToken(user.UserId.ToString());
             }
-            return null;
+            else
+            {
+                return null;
+            }
         }
 
         public async Task<ValidateEmail> IsHasEmail(string email)
@@ -91,29 +152,26 @@ namespace Backend.Services
                 return new ValidateEmail("Email phải có đuôi là @gmail.com hoặc @gmail.com.vn", false);
             if (string.IsNullOrEmpty(email))
                 return new ValidateEmail("Vui lòng nhập email", false);
-            if (await _userRepo.IsHasEmail(email))
+
+            var item = await _unit.Users.GetByConditionAsync<User>(u => u.Email == email);
+
+            if (item != null)
                 return new ValidateEmail("Email này đã được đăng ký vui lòng nhập lại", false);
 
             return new ValidateEmail("Email hợp lệ", true);
         }
 
-        public async Task<IEnumerable<Object>> GetListByName(string name)
+        public Task<User> GetById(int id)
         {
-            return await _userRepo.GetUsersByName(name);
+            throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<User>> GetFriendsByName(int userid, string name)
+        public async Task<IEnumerable<UserPrivate>> GetListByName(string name, int UserId)
         {
-            try
-            {
-                var friends = await _userRepo.GetFriendByName(userid, name);
-                var results = await FriendsWithChat(userid, friends);
-                return results;
-            }
-            catch
-            {
-                return null;
-            }
+            var users = await _unit.Users.FindAsync<User>(u => u.UserId != UserId &&
+                    (u.LastName.Contains(name) || u.FirstName.Contains(name)));
+            var result = _mapper.Map<IEnumerable<UserPrivate>>(users);
+            return result;
         }
     }
 
