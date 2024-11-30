@@ -22,12 +22,14 @@ namespace Backend.Services
 
         private readonly SocialMediaContext _context;
 
-        public UserService(IUnitOfWork unit, JwtToken jwtToken, IMapper mapper, IHttpContextAccessor httpContextAccessor)
+        public UserService(IUnitOfWork unit, JwtToken jwtToken, IMapper mapper, IHttpContextAccessor httpContextAccessor,
+            SocialMediaContext context)
         {
             _mapper = mapper;
             _unit = unit;
             _jwtToken = jwtToken;
             _httpContextAccessor = httpContextAccessor;
+            _context = context;
         }
         public async Task<User> Add(User value)
         {
