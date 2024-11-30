@@ -438,3 +438,65 @@
     margin: 16px 0;
 }
 
+.previewContainer {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto; /* Cho phép cuộn ngang khi có quá nhiều ảnh */
+  margin-bottom: 15px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #ddd;
+}
+
+.previewItem {
+  margin-right: 10px;
+  position: relative;
+  flex-shrink: 0; /* Ngăn không cho ảnh bị thu nhỏ */
+}
+
+.previewItem img,
+.previewItem video {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.previewItem img:hover,
+.previewItem video:hover {
+  transform: scale(1.05);
+}
+
+.previewItem button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: rgba(255, 0, 0, 0.6);
+  border: none;
+  padding: 5px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.previewItem button:hover {
+  background-color: rgba(255, 0, 0, 0.9);
+}
+
+.removeImageButton {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: rgba(255, 0, 0, 0.6);
+  border: none;
+  padding: 5px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.removeImageButton:hover {
+  background-color: rgba(255, 0, 0, 0.9);
+}
+

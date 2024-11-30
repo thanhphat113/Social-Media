@@ -20,6 +20,20 @@ function MainContent() {
     const [files, setFiles] = useState([]); // State để lưu trữ nhiều file đã chọn
     const [isSharePopupOpen, setIsSharePopupOpen] = useState(false);
     const [visibility, setVisibility] = useState("Công khai");
+    
+
+    const handleRemoveImage = (index) => {
+        setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index)); // Xoá ảnh tại vị trí index
+    };
+
+    const handlePostEdit = (postId, updatedContent) => {
+        setPosts((prevPosts) =>
+          prevPosts.map((post) =>
+            post.id === postId ? { ...post, ...updatedContent } : post
+          )
+        );
+      };
+
 
     const handleLikeChange = (emoji, label) => {
         setCurrentLike({ emoji, label });
@@ -45,9 +59,10 @@ function MainContent() {
     };
 
     const handlePostSubmit = () => {
-        if (postContent.trim() !== "") {
+        if (postContent.trim() !== "" || files.length > 0) { // Kiểm tra nếu có nội dung hoặc có ảnh/video
             const newPost = {
-                images: files.map((file) => file.preview), // Thay đổi thành mảng các ảnh
+                id: Date.now(),  // Tạo ID duy nhất cho bài viết
+                images: files.map((file) => file.preview),
                 title: "Anime",
                 userName: "Nguyễn Tiến",
                 content: postContent,
@@ -55,11 +70,13 @@ function MainContent() {
             };
 
             setPosts([newPost, ...posts]);
-            setPostContent("");
+            setPostContent(""); // Reset content
             setFiles([]); // Reset files
-            setIsPopupOpen(false);
+            setIsPopupOpen(false); // Đóng pop-up
         }
     };
+
+
 
     const { getRootProps, getInputProps } = useDropzone({
         accept: "image/*,video/*",
@@ -87,6 +104,11 @@ function MainContent() {
         toggleSharePopup(); // Đóng pop-up chia sẻ sau khi chia sẻ
     };
 
+    const handleDeletePost = (postId) => {
+        const updatedPosts = posts.filter((post) => post.id !== postId);
+        setPosts(updatedPosts);
+      };
+
     return (
         <main className={styles.content}>
             <div className={styles.postContainer}>
@@ -106,77 +128,82 @@ function MainContent() {
 
             {/* Pop-up để tạo bài viết */}
             {isPopupOpen && (
-    <>
-        <div className={styles.popupOverlay} onClick={togglePopup}></div>
-        <div className={styles.popup}>
-            <div className={styles.popupHeader}>
-                <h2 className={styles.popupTitle}>Tạo bài viết</h2>
-                <button className={styles.closeButton} onClick={togglePopup}>
-                    <FaTimes />
-                </button>
-            </div>
-            <div className={styles.userInfo}>
-                <img
-                    src="https://vcdn1-dulich.vnecdn.net/2021/07/16/1-1626437591.jpg?w=460&h=0&q=100&dpr=2&fit=crop&s=i2M2IgCcw574LT-bXFY92g"
-                    alt="Profile"
-                    className={styles.profileImage}
-                />
-                <div className={styles.userName}>
-                    <p className={styles.userNameText}>Nguyễn Tiến</p>
-                    <select
-                            className={styles.visibilitySelect}
-                            value={visibility}
-                            onChange={(e) => setVisibility(e.target.value)}
-                        >
-                            <option value="Công khai">Công khai</option>
-                            <option value="Riêng tư">Riêng tư</option>
-                        </select>
-                </div>
-            </div>
-            <textarea
-                className={styles.textarea}
-                placeholder="Tiến ơi, bạn đang nghĩ gì thế?"
-                value={postContent}
-                onChange={(e) => setPostContent(e.target.value)}
-            />
-            <div {...getRootProps({ className: styles.dropzone })}>
-                <input {...getInputProps()} />
-                <p>Thêm ảnh/video hoặc kéo và thả</p>
-            </div>
-
-            {/* Phần hiển thị hình ảnh hoặc video đã chọn */}
-            {files.length > 0 && (
-                <div className={styles.previewContainer}>
-                    {files.map((file, index) => (
-                        <div key={index} className={styles.previewItem}>
-                            {file.type.startsWith("image/") ? (
-                                <img src={file.preview} alt="Preview" className={styles.previewImage} />
-                            ) : (
-                                <video controls className={styles.previewVideo}>
-                                    <source src={file.preview} type={file.type} />
-                                    Your browser does not support the video tag.
-                                </video>
-                            )}
+                <>
+                    <div className={styles.popupOverlay} onClick={togglePopup}></div>
+                    <div className={styles.popup}>
+                        <div className={styles.popupHeader}>
+                            <h2 className={styles.popupTitle}>Tạo bài viết</h2>
+                            <button className={styles.closeButton} onClick={togglePopup}>
+                                <FaTimes />
+                            </button>
                         </div>
-                    ))}
-                </div>
-            )}
+                        <div className={styles.userInfo}>
+                            <img
+                                src="https://vcdn1-dulich.vnecdn.net/2021/07/16/1-1626437591.jpg?w=460&h=0&q=100&dpr=2&fit=crop&s=i2M2IgCcw574LT-bXFY92g"
+                                alt="Profile"
+                                className={styles.profileImage}
+                            />
+                            <div className={styles.userName}>
+                                <p className={styles.userNameText}>Nguyễn Tiến</p>
+                                <select
+                                    className={styles.visibilitySelect}
+                                    value={visibility}
+                                    onChange={(e) => setVisibility(e.target.value)}
+                                >
+                                    <option value="Công khai">Công khai</option>
+                                    <option value="Riêng tư">Riêng tư</option>
+                                </select>
+                            </div>
+                        </div>
+                        <textarea
+                            className={styles.textarea}
+                            placeholder="Tiến ơi, bạn đang nghĩ gì thế?"
+                            value={postContent}
+                            onChange={(e) => setPostContent(e.target.value)}
+                        />
+                        <div {...getRootProps({ className: styles.dropzone })}>
+                            <input {...getInputProps()} />
+                            <p>Thêm ảnh/video hoặc kéo và thả</p>
+                        </div>
 
-            <div className={styles.extraOptions}>
-                <p>Thêm vào bài viết của bạn</p>
-                <div className={styles.iconOptions}>
-                    <FaImage className={styles.iconGreen} />
-                    <FaSmile className={styles.iconYellow} />
-                    <FaMapMarkerAlt className={styles.iconRed} />
-                    <span className={styles.iconPurple}>GIF</span>
-                </div>
-            </div>
-            <button className={styles.continueButton} onClick={handlePostSubmit}>
-                Đăng
-            </button>
-        </div>
-    </>
-)}
+                        {/* Phần hiển thị hình ảnh hoặc video đã chọn */}
+                        {files.length > 0 && (
+                            <div className={styles.previewContainer}>
+                                {files.map((file, index) => (
+                                    <div key={index} className={styles.previewItem}>
+                                        {file.type.startsWith("image/") ? (
+                                            <img src={file.preview} alt="Preview" className={styles.previewImage} />
+                                        ) : (
+                                            <video controls className={styles.previewVideo}>
+                                                <source src={file.preview} type={file.type} />
+                                                Your browser does not support the video tag.
+                                            </video>
+                                        )}
+                                        <button onClick={() => handleRemoveImage(index)} className={styles.removeImageButton}>
+                                            <FaTimes />
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+
+
+
+                        <div className={styles.extraOptions}>
+                            <p>Thêm vào bài viết của bạn</p>
+                            <div className={styles.iconOptions}>
+                                <FaImage className={styles.iconGreen} />
+                                <FaSmile className={styles.iconYellow} />
+                                <FaMapMarkerAlt className={styles.iconRed} />
+                                <span className={styles.iconPurple}>GIF</span>
+                            </div>
+                        </div>
+                        <button className={styles.continueButton} onClick={handlePostSubmit}>
+                            Đăng
+                        </button>
+                    </div>
+                </>
+            )}
 
 
             {/* Pop-up chia sẻ */}
@@ -217,8 +244,9 @@ function MainContent() {
 
             {posts.map((post, index) => (
                 <Post
-                    key={index}
+                    key={post.id}
                     post={post}
+                    onUpdateContent={handlePostEdit}
                     currentLike={currentLike}
                     setCurrentLike={setCurrentLike}
                     handleLikeChange={handleLikeChange}
@@ -230,6 +258,7 @@ function MainContent() {
                     currentComment={currentComment}
                     handleAddComment={handleAddComment}
                     setCurrentComment={setCurrentComment}
+                    onDeletePost={handleDeletePost}
                 />
             ))}
         </main>

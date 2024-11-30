@@ -86,16 +86,6 @@
     margin-right: 0.5rem;
   }
   
-  .popupOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    // background-color: rgba(0, 0, 0, 0.5); // Nền mờ
-    z-index: 10;
-  }
-  
   .popup {
     position: fixed;
     top: 50%;
@@ -563,17 +553,6 @@
   
 }
 
-
-
-.popupOverlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  
-}
-
 .popupContent {
   position: fixed;
   top: 50%;
@@ -760,4 +739,289 @@
 .cancelButton {
   background-color: #6c757d;
   color: white;
+}
+
+// CHỉnh sửa bài viết 
+.popupOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.editPopup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  width: 60%;
+  padding: 20px;
+  border-radius: 10px;
+  z-index: 1001;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.popupHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.textarea {
+  width: 100%;
+  height: 70px;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: none;
+}
+
+.popupActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.saveButton {
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.cancelButton {
+  background: #f44336;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.imagePreview img {
+  max-width: 100%;
+  max-height: 300px; /* Điều chỉnh chiều cao tối đa của ảnh */
+  object-fit: contain; /* Đảm bảo ảnh không bị cắt, chỉ co dãn sao cho phù hợp */
+}
+
+.popupImage {
+  max-width: 80%;  /* Giới hạn kích thước ảnh */
+  max-height: 80vh; /* Giới hạn chiều cao ảnh */
+  object-fit: contain; /* Giữ tỷ lệ ảnh */
+  margin: 0 auto; /* Căn giữa ảnh */
+}
+
+.popupContent {
+  max-height: 80vh;
+  overflow-y: auto; /* Cho phép cuộn khi nội dung vượt quá chiều cao */
+}
+
+.imageEditor {
+  max-height: 300px;  /* Đặt chiều cao tối đa */
+  overflow-y: auto;  /* Cho phép cuộn khi nội dung vượt quá chiều cao */
+  margin-top: 20px;
+  padding-right: 10px;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  // margin-top: 1rem;
+}
+
+.profileImage {
+  width: 4rem; // Kích thước ảnh đại diện
+  height: 4rem;
+  border-radius: 50%;
+}
+
+.imagePreview {
+  position: relative;
+  display: inline-block;
+  margin: 10px;
+}
+
+.removeImageButton {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.removeImageButton:hover {
+  color: red;
+}
+
+.imageEditor {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.imageEditor h4 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.imagePreview {
+  display: inline-block;
+  margin-right: 10px;
+  position: relative;
+}
+
+.imagePreview img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 2px solid #ddd;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.imagePreview img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.removeImageButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: rgba(255, 0, 0, 0.6);
+  border: none;
+  padding: 5px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.removeImageButton:hover {
+  background-color: rgba(255, 0, 0, 0.9);
+}
+
+.addImageButton {
+  display: block;
+  background-color: #3a47be;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  margin-top: 15px;
+  transition: background-color 0.3s ease;
+}
+
+.addImageButton:hover {
+  background-color: #6baacf;
+}
+
+.imageInput {
+  display: none;
+}
+
+.imageInputLabel {
+  cursor: pointer;
+  display: inline-block;
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 14px;
+  text-align: center;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.imageInputLabel:hover {
+  background-color: #0056b3;
+}
+
+.imageEditor .imagePreview:last-child {
+  margin-right: 0;
+}
+
+/* Post.module.scss */
+.popupOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6); /* Làm tối background */
+  z-index: 1000; /* Thứ tự thấp hơn popup nhưng cao hơn mọi thứ khác */
+}
+
+.deleteConfirmPopup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1100; /* Cao hơn overlay */
+}
+
+.popupActions {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 10px;
+}
+
+.confirmButton {
+  background-color: #f56565;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.cancelButton {
+  background-color: #e2e8f0;
+  color: #2d3748;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.popupOverlay {
+  position: fixed; /* Phủ toàn bộ màn hình */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Màu đen mờ */
+  z-index: 10; /* Ưu tiên thấp hơn nội dung popup */
+}
+
+.sharePopup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  z-index: 20; /* Ưu tiên cao hơn overlay */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
 }

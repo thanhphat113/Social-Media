@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useRef } from 'react';
+import { useEffect } from 'react';
 import { FaRegComment, FaPaperPlane, FaFacebookMessenger, FaWhatsapp, FaLink, FaUsers, FaFlag, FaTimes } from 'react-icons/fa';
 import { PiShareFatThin } from 'react-icons/pi';
 import { BsThreeDots } from 'react-icons/bs';
@@ -19,6 +21,7 @@ function Post({
   currentComment,
   handleAddComment,
   setCurrentComment,
+  onDeletePost
 }) {
   const [isSharePopupOpen, setIsSharePopupOpen] = useState(false);
   const [visibility, setVisibility] = useState('Công khai');
@@ -27,22 +30,38 @@ function Post({
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false); // Thêm trạng thái cho menu
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false); // Thêm trạng thái cho popup xác nhận
-
+  const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
+  const [editedContent, setEditedContent] = useState(post.content); // Nội dung bài viết đang sửa
+  const [editedImages, setEditedImages] = useState([...post.images]);
+  const menuRef = useRef(null);
+  
+  const [likesCount, setLikesCount] = useState(0);
+  const [commentsCount, setCommentsCount] = useState(0);
+  const [sharesCount, setSharesCount] = useState(0);
 
   const toggleSharePopup = () => {
     setIsSharePopupOpen(!isSharePopupOpen);
   };
 
   const handleShare = () => {
-    alert('Post shared!');
+    setSharesCount((prevCount) => prevCount + 1); // Tăng số lượt chia sẻ
     toggleSharePopup();
   };
 
+  const handleAddComment1 = () => {
+    if (currentComment.trim()) {
+      comments.push(currentComment); // Cập nhật danh sách bình luận
+      setCommentsCount(comments.length); // Tăng số lượng bình luận
+      setCurrentComment(''); // Xóa nội dung ô nhập
+    }
+  };
+
   const handleLikeChange = () => {
-    setCurrentLike((prevLike) => ({
-      ...prevLike,
-      isLiked: !prevLike.isLiked,
-    }));
+    setCurrentLike((prevLike) => {
+      const isLiked = !prevLike.isLiked;
+      setLikesCount((prevCount) => (isLiked ? prevCount + 1 : prevCount - 1));
+      return { ...prevLike, isLiked };
+    });
   };
 
   const openImagePopup = (index) => {
@@ -67,30 +86,90 @@ function Post({
     setIsMenuOpen(!isMenuOpen);
   };
 
-  // Hàm xử lý khi xóa bài viết
   const handleDeletePost = () => {
     setIsDeleteConfirmOpen(true); // Mở popup xác nhận
   };
 
   const confirmDeletePost = () => {
-    // Logic xóa bài viết
-    alert('Bài viết đã bị xóa');
-    setIsDeleteConfirmOpen(false); // Đóng popup sau khi xóa
+    if (onDeletePost) {
+      onDeletePost(post.id); // Gọi hàm xóa từ cha
+    }
+    setIsDeleteConfirmOpen(false);
   };
 
   const cancelDelete = () => {
     setIsDeleteConfirmOpen(false); // Đóng popup nếu hủy
   };
 
-
-
-
-  // Hàm xử lý khi sửa bài viết
+  // Mở popup chỉnh sửa
   const handleEditPost = () => {
-    alert('Sửa bài viết');
-    // Ở đây bạn có thể thêm logic để sửa bài viết
+    setIsEditPopupOpen(true);
   };
 
+  // Đóng popup chỉnh sửa
+  const closeEditPopup = () => {
+    setIsEditPopupOpen(false);
+  };
+
+  // Cập nhật nội dung bài viết
+  const saveEditPost = () => {
+    const updatedContent = {
+      content: editedContent,
+      images: editedImages,
+    };
+  
+    if (typeof onUpdateContent === 'function') {
+      onUpdateContent(post.id, updatedContent); // Gọi hàm nếu được truyền từ cha
+    } else {
+      // Nếu không, cập nhật trực tiếp tại đây
+      post.content = editedContent;
+      post.images = editedImages;
+    }
+  
+    // Đóng popup sau khi lưu
+    closeEditPopup();
+  };
+
+  // Xóa ảnh
+  const handleRemoveImage = (index) => {
+    setEditedImages((prevImages) => prevImages.filter((_, i) => i !== index));
+  };
+
+  // Thêm ảnh mới
+  const handleAddImage = (event) => {
+    const files = Array.from(event.target.files);
+    const newImages = files.map((file) => URL.createObjectURL(file));
+    setEditedImages((prevImages) => [...prevImages, ...newImages]);
+  };
+
+  
+
+  const handlePostEdit = (id, updatedContent, updatedFiles) => {
+    setPosts((prevPosts) =>
+      prevPosts.map((post) =>
+        post.id === id
+          ? { ...post, content: updatedContent, images: updatedFiles }
+          : post
+      )
+    );
+  };
+
+  // Hàm để đóng menu khi nhấn vào chỗ khác
+  const closeMenu = (e) => {
+    if (menuRef.current && !menuRef.current.contains(e.target)) {
+      setIsMenuOpen(false);
+    }
+  };
+
+  // Lắng nghe sự kiện khi nhấn vào bất kỳ chỗ nào trên trang
+  useEffect(() => {
+    document.addEventListener('mousedown', closeMenu);
+
+    // Dọn dẹp khi component bị hủy
+    return () => {
+      document.removeEventListener('mousedown', closeMenu);
+    };
+  }, []);
 
 
   return (
@@ -105,7 +184,7 @@ function Post({
         </div>
 
         {/* Menu khi nhấn vào icon BsThreeDots */}
-        <div className={styles.menuContainer}>
+        <div className={styles.menuContainer} ref={menuRef}>
           <BsThreeDots onClick={toggleMenu} className={styles.threeDotsIcon} />
           {isMenuOpen && (
             <div className={styles.dropdownMenu}>
@@ -115,7 +194,94 @@ function Post({
           )}
         </div>
       </div>
-      <p className={styles.postText}>{post.content}</p>
+      {/* <p className={styles.postText}>{post.content}</p> */}
+
+      {/* Nội dung bài viết */}
+      <p className={styles.postContent}>{post.content}</p>
+
+      {/* Hiển thị hình ảnh */}
+      <ImageGallery images={post.images} />
+
+
+      {/* Popup chỉnh sửa */}
+      {isEditPopupOpen && (
+        <>
+          <div className={styles.popupOverlay} onClick={closeEditPopup}></div>
+          <div className={styles.editPopup}>
+            <div className={styles.popupHeader}>
+              <h3>Chỉnh sửa bài viết</h3>
+              <button className={styles.closeButton} onClick={closeEditPopup}>
+                <FaTimes />
+              </button>
+            </div>
+            <div className={styles.userInfo}>
+              <img
+                src="https://vcdn1-dulich.vnecdn.net/2021/07/16/1-1626437591.jpg?w=460&h=0&q=100&dpr=2&fit=crop&s=i2M2IgCcw574LT-bXFY92g"
+                alt="Profile"
+                className={styles.profileImage}
+              />
+              <div className={styles.userName}>
+                <p className={styles.userNameText}>Nguyễn Tiến</p>
+                <select
+                  className={styles.visibilitySelect}
+                  value={visibility}
+                  onChange={(e) => setVisibility(e.target.value)}
+                >
+                  <option value="Công khai">Công khai</option>
+                  <option value="Riêng tư">Riêng tư</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Chỉnh sửa nội dung */}
+            <textarea
+              value={editedContent}
+              onChange={(e) => setEditedContent(e.target.value)}
+              className={styles.textarea}
+            />
+
+            {/* Chỉnh sửa ảnh - Di chuyển phần này ra khỏi cuộn ảnh */}
+            <div className={styles.imageEditorFixed}>
+              <div className={styles.imageEditor}>
+                {editedImages.map((image, index) => (
+                  <div key={index} className={styles.imagePreview}>
+                    <img src={image} alt={`Preview ${index}`} />
+                    {/* Icon xóa ảnh */}
+                    <button
+                      onClick={() => handleRemoveImage(index)}
+                      className={styles.removeImageButton}
+                    >
+                      <FaTimes />
+                    </button>
+                  </div>
+                ))}
+              </div>
+
+              {/* Thêm ảnh */}
+              <label className={styles.addImageButton}>
+                Thêm ảnh
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  onChange={handleAddImage}
+                  className={styles.imageInput}
+                />
+              </label>
+            </div>
+
+            {/* Hành động */}
+            <div className={styles.popupActions}>
+              <button onClick={saveEditPost} className={styles.saveButton}>
+                Lưu
+              </button>
+              <button onClick={closeEditPopup} className={styles.cancelButton}>
+                Hủy
+              </button>
+            </div>
+          </div>
+        </>
+      )}
 
       {isDeleteConfirmOpen && (
         <>
@@ -131,8 +297,6 @@ function Post({
       )}
 
 
-      {/* Hiển thị nhiều ảnh */}
-      <ImageGallery images={post.images} />
 
       {/* Popup hình ảnh */}
       {isImagePopupOpen && (
@@ -161,16 +325,19 @@ function Post({
               style={{ color: currentLike.isLiked ? '#74C0FC' : '#1E3050' }}
             />
             <span>{currentLike.label || 'Cloud'}</span>
+            <span>{likesCount}</span>
           </button>
         </div>
 
         <button className={styles.interactionButton}>
           <FaRegComment />
           <span>Comment</span>
+          <span>{commentsCount}</span>
         </button>
         <button className={styles.interactionButton} onClick={toggleSharePopup}>
           <PiShareFatThin />
           <span>Share</span>
+          <span>{sharesCount}</span>
         </button>
       </div>
 
