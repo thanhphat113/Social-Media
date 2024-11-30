@@ -2,53 +2,21 @@
     display: flex;
     flex-wrap: wrap;
     background-color: var(--background);
-    margin-top: 1.75rem;
 }
 
-.profileContainerLeft {
+.profileWrapper_Left {
     display: flex;
     flex-direction: column;
-    gap: 16px;
     width: 70%;
+    padding: 1rem;
 }
 
-.containerBackground {
-    position: relative;
-}
-
-.buttonBackground {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    padding: 2px 10px;
-    background-color: #206bc4;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.buttonBackground:hover {
-    filter: brightness(0.8);
-}
-
-.profileContainerLeftFirst {
-    border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
-    margin: 5px 16px;
-    background-color: #fff;
-}
-
-.profileContainerLeftFirst_2 {
-    padding-left: 16px;
-    padding-right: 16px;
-    padding-top: 0;
-    padding-bottom: 0;
-}
-
-.profileContainerRight {
+.profileWrapper_Right {
+    display: flex;
+    flex-direction: column;
     width: 30%;
-    flex: 0 0 auto;
+    padding: 1rem;
+    gap: 1rem
 }
 
 .profileContainerRight_Container {

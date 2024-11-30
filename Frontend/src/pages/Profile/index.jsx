@@ -1,48 +1,73 @@
-import React from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import styles from './Profile.module.scss'; 
-import BackgroundImage from './components/BackgroundImageComponent';
-import ProfileLeftMainTop from './components/ProfileLeftMain';
-import ProfileLeftMainTop_2 from './components/ProfileLeftMain_2';
-import ProfileLeftMainBottom from './components/ProfileLeftMainBottom';
-import ProfileContainerLeftFirst_3_1 from './components/profileContainerLeftFirst_3_1';
-import ProfileContainerLeftFirst_3_2 from './components/profileContainerLeftFirst_3_2';
-import ProfileContainerRight_Container_1 from './components/ProfileContainerRight_Container_1';
-import ProfileContainerRight_Container_2 from './components/ProfileContainerRight_Container_2';
-import ProfileContainerRight_Container_3 from './components/ProfileContainerRight_Container_3';
+import ProfileLeftInfo from './components/ProfileLeft_Info';
+import ProfileRightInfo from './components/ProfileRightInfo';
+import ProfileRightFriend from './components/ProfileRightFriend';
+import ProfileRightMedia from './components/ProfileRightMedia';
+import { useDispatch, useSelector } from "react-redux";
+import { GetUserInfo } from "../../components/Redux/Actions/UserAction";   
+import { useParams } from 'react-router-dom';
 
 function Profile() {
+    const dispatch = useDispatch();
+    const { id } = useParams();
+    const user = useSelector((state) => state.user);
+    const [resetTab, setResetTab] = useState(false);
+    const [activeTab, setActiveTab] = useState('feed');
+
+    const handleViewAllMediaClick = useCallback(() => {
+        if (activeTab !== 'media') {
+            setActiveTab('media');
+        }
+    }, [activeTab]);
+
+    const handleViewAllFriendsClick = useCallback(() => {
+        if (activeTab !== 'connections') {
+            setActiveTab('connections');
+        }
+    }, [activeTab]);
+
+    const handleUserInfoUpdate = (updatedUser) => {
+        dispatch(GetUserInfo(id));
+    };
+
+    useEffect(() => {
+        setActiveTab('feed'); 
+        dispatch(GetUserInfo(id));
+        setResetTab((prev) => !prev); 
+    }, [dispatch, id]);
+
     return (
         <div className={styles.profileWrapper}>
-            <div className={styles.profileContainerLeft}>
-                <div className={styles.profileContainerLeftFirst}>
-                    <div className={styles.containerBackground}>
-                        <BackgroundImage />
-                        <button className={styles.buttonBackground} data-bs-toggle="tooltip" data-bs-placement="bottom" title="Chỉnh sửa ảnh bìa">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-pencil"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4"></path><path d="M13.5 6.5l4 4"></path></svg>
-                        </button>
-                    </div>
-                    <div className={styles.profileContainerLeftFirst_2}>
-                        <ProfileLeftMainTop />
-                        <ProfileLeftMainTop_2 />
-                        <ProfileLeftMainBottom />
-                    </div>
-                </div>
-                <div className={styles.profileContainerLeftFirst}>
-                    <div className={styles.profileContainerLeftFirst_3}>
-                        <ProfileContainerLeftFirst_3_1 />
-                        <ProfileContainerLeftFirst_3_2 />
-                    </div>
-                </div>
+            <div className={styles.profileWrapper_Left}>
+                {user.dataInfo ? (
+                    <ProfileLeftInfo 
+                        user={user.dataInfo} 
+                        resetTab={resetTab} 
+                        onUserInfoUpdate={handleUserInfoUpdate} 
+                        activeTab={activeTab} 
+                    />
+                ) : (
+                    <p>Loading...</p>
+                )}
             </div>
-            <div className={styles.profileContainerRight}>
-                <div className={styles.profileContainerRight_Container}>
-                    <ProfileContainerRight_Container_1 />
-                    <ProfileContainerRight_Container_2 />
-                    <ProfileContainerRight_Container_3 />
-
-                </div>
+            <div className={styles.profileWrapper_Right}>
+                {user.dataInfo ? (
+                    <>
+                        <ProfileRightInfo user={user.dataInfo} />
+                        <ProfileRightFriend 
+                            user={user.dataInfo.userFriends} 
+                            onViewAllFriendsClick={handleViewAllFriendsClick}
+                        />
+                        <ProfileRightMedia 
+                            user={user.dataInfo.userMedias} 
+                            onViewAllFriendsClick={handleViewAllMediaClick}
+                        />
+                    </>
+                ) : (
+                    <p>Loading...</p>
+                )}
             </div>
-
         </div>
     );
 }

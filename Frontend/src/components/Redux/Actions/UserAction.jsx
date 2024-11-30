@@ -1,6 +1,22 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const GetUserInfo = createAsyncThunk("User/getInfo", async (id) => {
+    try {
+        const response = await axios.get(
+            `http://localhost:5164/api/User/GetUserProfile/${id}`,
+            {
+                withCredentials: true,
+            }
+        );
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching user info:", error);
+        return null;
+    }
+});
+
+
 const SetUser = createAsyncThunk("User/get", async () => {
     try {
         const response = await axios.get(
@@ -80,4 +96,4 @@ const getPostRequests = createAsyncThunk(
     }
 );
 
-export { SetUser, getRequests, acceptRequests, deleteRequests };
+export { SetUser, getRequests, acceptRequests, deleteRequests, GetUserInfo };

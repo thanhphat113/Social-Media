@@ -1,55 +1,37 @@
-.container {
-  flex: 0 0 auto;
-  width: 100%;
-  max-width: 100%;
-  padding-right: calc(1.5rem* .5);
-  padding-left: calc(1.5rem* .5);
-  margin-top: 1.5rem;
-}
-
 .card {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   position: relative;
   display: flex;
   flex-direction: column;
-  min-width: 0;
   color: #a1a1a8;
   word-wrap: break-word;
   background-color: #fff;
   background-clip: border-box;
   border: 1px solid var(--background);
   border-radius: .25rem; 
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-bottom: 0.5rem;
-  padding: 1.25rem;
-  margin: .75rem;
+  padding: 1rem;
 }
 
 .cardHeader {
-  border-radius: calc(0.4rem - 1px) calc(0.4rem - 1px) 0 0;
-  padding-bottom: 0;
-  border: 0 !important;    
-  padding: 0.75rem 1.25rem;
-  margin-bottom: 0;
-  background-color: #fff;
   display: flex;
   justify-content: space-between !important;
   align-items: center;
+  border-radius: 0.4rem;
+  border: 0 !important;    
+  background-color: #fff;
 }
 
 .cardTitle {
-    color: #000;
-    font-size: 2.3rem; 
-    font-weight: 700;
-    line-height: 1.25;
-    margin-top: 0;
-    font-family: Inter, sans-serif;
+  color: #000;
+  font-size: 2.3rem;
+  font-weight: 700;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 .cardBody {
-  padding-top: 0;
   position: relative !important;
   flex: 1 1 auto;
-    padding: 1.25rem 1.25rem;
 }
 
 .row {
@@ -60,10 +42,12 @@
 .col {
   flex: 0 0 33.333%;
   max-width: 33.333%;
-  padding-right: calc(0.5rem * .5);
-  padding-left: calc(0.5rem * .5);
-  margin-top: 0.5rem;
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
   cursor: pointer;
+  position: relative;
 }
 
 .imageLink {
@@ -94,5 +78,4 @@
 .button:hover {
   color: #000; 
   background-color: transparent;
-
 }
