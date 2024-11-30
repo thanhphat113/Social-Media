@@ -35,7 +35,7 @@ namespace Backend.Controllers
 		[HttpPost("chat-with-file")]
 		public async Task<IActionResult> PostFile([FromForm] RequestPostFile data)
 		{
-			Console.WriteLine("file: " + data.file.FileName + ", " + "type: " + data.fileType + data.messageId);
+			Console.WriteLine("file: " + data.file?.FileName + ", " + "type: " + data.fileType + data.messageId);
 			var UserId = MiddleWare.GetUserIdFromCookie(Request);
 			if (data.file == null || data.file.Length == 0)
 			{
