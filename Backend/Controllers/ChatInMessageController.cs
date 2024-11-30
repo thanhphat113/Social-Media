@@ -33,19 +33,17 @@ namespace Backend.Controllers
 		}
 
 		[HttpPost("chat-with-file")]
-		public async Task<IActionResult> PostFile([FromForm] IFormFile file,
-												[FromForm] int fileType,
-												[FromForm] int messageId)
+		public async Task<IActionResult> PostFile([FromForm] RequestPostFile data)
 		{
-			Console.WriteLine("file: " + file.FileName + ", " + "type: " + fileType + messageId);
+			Console.WriteLine("file: " + data.file.FileName + ", " + "type: " + data.fileType + data.messageId);
 			var UserId = MiddleWare.GetUserIdFromCookie(Request);
-			if (file == null || file.Length == 0)
+			if (data.file == null || data.file.Length == 0)
 			{
 				return BadRequest("Không có tệp được chọn.");
 			}
 
 			string uploadsFolder;
-			if (fileType == 1 || fileType == 2)
+			if (data.fileType == 1 || data.fileType == 2)
 			{
 				uploadsFolder = Path.Combine(_env.WebRootPath, "media");
 			}
@@ -54,36 +52,36 @@ namespace Backend.Controllers
 				uploadsFolder = Path.Combine(_env.WebRootPath, "file");
 			}
 
-			var fileHash = await MiddleWare.GetFileHashAsync(file);
+			var fileHash = await MiddleWare.GetFileHashAsync(data.file);
 
 
-			var filePath = Path.Combine(uploadsFolder, file.FileName);
+			var filePath = Path.Combine(uploadsFolder, data.file.FileName);
 
 
 			var item = await _media.IsHas(fileHash);
 
-			string newName = file.FileName;
+			string newName = data.file.FileName;
 			if (item == -1)
 			{
 				if (System.IO.File.Exists(filePath))
 				{
-					var fileExtension = Path.GetExtension(file.FileName);
+					var fileExtension = Path.GetExtension(data.file.FileName);
 					newName = Guid.NewGuid().ToString() + fileExtension;
 					filePath = Path.Combine(uploadsFolder, newName);
 				}
 				using var stream = new FileStream(filePath, FileMode.Create);
-				await file.CopyToAsync(stream);
+				await data.file.CopyToAsync(stream);
 			}
 
 
 			var media = new Media
 			{
 				Src = newName,
-				MediaType = fileType,
+				MediaType = data.fileType,
 				HashCode = fileHash
 			};
 
-			var result = await _chat.AddWithMedia(media, UserId, messageId, fileType);
+			var result = await _chat.AddWithMedia(media, UserId, data.messageId, data.fileType);
 			return Ok(result);
 		}
 
@@ -138,4 +136,14 @@ namespace Backend.Controllers
 			return Ok(await _chat.Delete(id));
 		}
 	}
+
+	public class RequestPostFile
+    {
+        public IFormFile? file {  get; set; }
+
+		public int fileType { get; set; }
+
+        public int messageId { get; set; }
+
+    }
 }
