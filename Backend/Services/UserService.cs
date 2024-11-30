@@ -25,6 +25,7 @@ namespace Backend.Services
             _jwtToken = jwtToken;
             _httpContextAccessor = httpContextAccessor;
         }
+
         public async Task<User> Add(User value)
         {
             try

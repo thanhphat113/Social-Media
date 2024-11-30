@@ -72,13 +72,23 @@ function Media() {
             <div className={styles.container}>
                 {medias.length > 0 &&
                     medias.map((item) => (
-                        <img
-                            onClick={() => setShow(item.mediaId)}
-                            key={item.mediaId}
-                            className={styles.source}
-                            src={`${item.src}`}
-                            alt="ảnh"
-                        ></img>
+                        item.mediaType === 1 ? (
+                            <img
+                                onClick={() => setShow(item.mediaId)}
+                                key={item.mediaId}
+                                className={styles.source}
+                                src={`${item.src}`}
+                                alt="ảnh"
+                            />
+                        ) : (
+                            <video
+                                onClick={() => setShow(item.mediaId)}
+                                key={item.mediaId}
+                                className={styles.source}
+                                src={`${item.src}`}
+                                alt="ảnh"
+                            />
+                        )
                     ))}
             </div>
             {picture && (
@@ -97,11 +107,17 @@ function Media() {
                             className="fa-solid fa-x"
                         ></i>
                     </div>
-                    <img
+                    { picture.typeMedia ===1 ? <img
                         ref={imgRef}
                         className={styles.item}
                         src={`${picture.src}`}
-                    ></img>
+                    />: <video
+                        ref={imgRef}
+                        className={styles.item}
+                        src={`${picture.src}`}
+                        controls
+                    />
+                    }
                 </div>
             )}
         </div>
