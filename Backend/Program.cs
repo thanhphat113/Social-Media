@@ -58,7 +58,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddSignalR();
 
 builder.Services.AddScoped<PostNotiService>();
-builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<IService<MainTopic>, MainTopicService>();
 builder.Services.AddScoped<HistorySearchService>();
 builder.Services.AddScoped<GroupChatService>();

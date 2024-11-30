@@ -16,7 +16,7 @@ namespace Backend.Controllers
 	public class UserController : ControllerBase
 	{
 
-		private readonly IUserService _userContext;
+		private readonly UserService _userContext;
 
 		private readonly GroupChatService _group;
 		private readonly MediaService _media;
@@ -24,7 +24,7 @@ namespace Backend.Controllers
 		private readonly RequestNotiService _NotiContext;
 		private readonly PostNotiService _PostContext;
 
-		public UserController(MediaService media, GroupChatService group, IUserService UserContext, RequestNotiService NotiContext, PostNotiService PostContext)
+		public UserController(MediaService media, GroupChatService group, UserService UserContext, RequestNotiService NotiContext, PostNotiService PostContext)
 		{
 			_group = group;
 			_media = media;

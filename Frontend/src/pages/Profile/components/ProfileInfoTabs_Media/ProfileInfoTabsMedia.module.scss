@@ -1,0 +1,33 @@
+/* MediaSection.module.scss */
+
+.mediaContainer {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+.mediaGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.mediaItem {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  background-color: #ddd;
+}
+
+.mediaImage {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.mediaTitleList {
+  color: #888;
+  font-style: italic;
+  text-align: center;
+}
