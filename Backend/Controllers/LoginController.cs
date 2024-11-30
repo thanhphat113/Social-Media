@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Backend.Models;
 using Backend.Services;
 using Microsoft.AspNetCore.Authorization;
+using Backend.Services.Interface;
 
 namespace Backend.Controllers
 {
@@ -10,9 +11,9 @@ namespace Backend.Controllers
 	public class LoginController : ControllerBase
 	{
 		private readonly IWebHostEnvironment _env;
-		private readonly UserService _UserContext;
+		private readonly IUserService _UserContext;
 
-		public LoginController(UserService context, IWebHostEnvironment env)
+		public LoginController(IUserService context, IWebHostEnvironment env)
 		{
 			_UserContext = context;
 			_env = env;
