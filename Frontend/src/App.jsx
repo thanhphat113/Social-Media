@@ -14,9 +14,8 @@ import Profile from "./pages/Profile";
 import NewGroupPage from "./pages/Group/NewGroup";
 import Authentication from "./components/Authentication";
 import { SetUser } from "./components/Redux/Actions/UserAction";
-import Call from "./components/Call";
+import Call from "./pages/Call";
 import LoadingPage from "./pages/Loading/index.jsx";
-import { connectSignalR } from "./components/Redux/Actions/ConnectSignalR.jsx";
 
 function App() {
     const dispatch = useDispatch();
@@ -50,7 +49,7 @@ function App() {
                     }
                 />
                 <Route
-                    path="/call"
+                    path="/call/:id"
                     element={
                         <Authentication>
                             <Call />

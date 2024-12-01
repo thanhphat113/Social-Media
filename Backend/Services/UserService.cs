@@ -31,6 +31,7 @@ namespace Backend.Services
             _httpContextAccessor = httpContextAccessor;
             _context = context;
         }
+
         public async Task<User> Add(User value)
         {
             try
