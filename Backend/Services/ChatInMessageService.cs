@@ -23,7 +23,7 @@ namespace Backend.Services
 		{
 			try
 			{
-				var item = await _unit.Media.GetByConditionAsync<Media>(m => m.HashCode == value.HashCode);
+				var item = await _unit.Media.GetByConditionAsync<Media>(query => query.Where(m => m.HashCode == value.HashCode));
 
 
 				var ChatInMessage = new ChatInMessage

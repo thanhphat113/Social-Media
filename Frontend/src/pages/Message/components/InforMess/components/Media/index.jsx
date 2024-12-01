@@ -91,6 +91,7 @@ function Media() {
                         )
                     ))}
             </div>
+            {console.log(picture)}
             {picture && (
                 <div className={styles.showOnly}>
                     <div className={styles.action}>
@@ -107,7 +108,7 @@ function Media() {
                             className="fa-solid fa-x"
                         ></i>
                     </div>
-                    { picture.typeMedia ===1 ? <img
+                    { picture.mediaType === 1 ? <img
                         ref={imgRef}
                         className={styles.item}
                         src={`${picture.src}`}

@@ -7,7 +7,6 @@ const UserSlice = createSlice({
     initialState: {
         information: null,
 		requests: [],
-		profilePicture: null,
 		postrequests: [],
 		dataInfo: null,
     },
@@ -25,7 +24,6 @@ const UserSlice = createSlice({
 				const infor = action.payload
 				state.information = infor?.information || null
 				state.requests = infor?.requests || []
-				state.profilePicture = infor?.media || null
 				state.postrequests = infor?.postrequests || []
 			})
 			.addCase(SetUser.rejected,(state) => {

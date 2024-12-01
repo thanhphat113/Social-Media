@@ -10,10 +10,9 @@ namespace Backend.Repositories.Interface
 	{
 		Task<IEnumerable<T>> GetAll();
 		Task<T> GetByIdAsync(int id);
-		Task<TResult> GetByConditionAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>>? selector = null);
+		Task<TResult> GetByConditionAsync<TResult>(Func<IQueryable<T>, IQueryable<TResult>> selector);
 
-		Task<IEnumerable<TResult>> FindAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>>? selector = null, Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null);
-		Task<IEnumerable<TResult>> FindAsyncMany<TResult>(Expression<Func<T, bool>> predicate, Func<IQueryable<T>, IQueryable<TResult>> selector);
+		Task<IEnumerable<TResult>> FindAsync<TResult>(Func<IQueryable<T>, IQueryable<TResult>> selector);
 
 		Task<T> AddAsync(T value);
 		void UpdateAsync(T value);

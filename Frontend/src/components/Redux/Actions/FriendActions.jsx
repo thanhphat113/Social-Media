@@ -40,7 +40,7 @@ const sortFriendsByLatestMessage = (friends) => {
         );
 
         return (
-            new Date(latestB.dateCreated) - new Date(latestA.dateCreated)
+            new Date(latestB?.dateCreated) - new Date(latestA?.dateCreated)
         );
     });
 };

@@ -69,11 +69,11 @@ namespace Backend.Controllers
 
 			var information = await _userContext.GetLoginById(userId);
 			var friends = await _userContext.GetFriends(userId);
-			var groupchat = await _group.FindByUserId(userId);
+			// var groupchat = await _group.FindByUserId(userId);
 			var requests = await _NotiContext.FindByUserId(userId);
-			var media = await _media.FindProfilePictureByUserId(userId);
+			// var media = await _media.FindProfilePictureByUserId(userId);
 			var postrequests = await _PostContext.FindByUserId(userId);
-			return Ok(new { information = information, media = media, friends = friends, groupchat = groupchat, requests = requests, postrequests = postrequests });
+			return Ok(new { information = information, friends = friends, requests = requests, postrequests = postrequests });
 		}
 
 		[AllowAnonymous]
@@ -89,10 +89,10 @@ namespace Backend.Controllers
 		{
 			var UserId = MiddleWare.GetUserIdFromCookie(Request);
 			var list = await _userContext.GetListByName(name, UserId);
-			foreach (var item in list)
-			{
-				item.ProfilePicture = await _media.FindProfilePictureByUserId(item.UserId);
-			}
+			// foreach (var item in list)
+			// {
+			// 	item.ProfilePicture = await _media.FindProfilePictureByUserId(item.UserId);
+			// }
 			return Ok(list);
 		}
 

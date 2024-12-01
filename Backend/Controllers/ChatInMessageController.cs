@@ -20,9 +20,9 @@ namespace Backend.Controllers
 
 		private readonly IMessageService _message;
 		private readonly MediaService _media;
-		private readonly UserService _userContext;
+		private readonly IUserService _userContext;
 
-		public ChatInMessageController(IHubContext<OnlineHub> Hub, MediaService media, IWebHostEnvironment env, UserService userContext, IChatInMessService chat, IMessageService message)
+		public ChatInMessageController(IHubContext<OnlineHub> Hub, MediaService media, IWebHostEnvironment env, IUserService userContext, IChatInMessService chat, IMessageService message)
 		{
 			_media = media;
 			_env = env;

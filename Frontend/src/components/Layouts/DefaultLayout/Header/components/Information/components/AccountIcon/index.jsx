@@ -13,7 +13,6 @@ import { SetUser } from "../../../../../../../Redux/Actions/UserAction";
 function AccountIcon(props) {
     const { handleClick } = useContext(typeContext);
     const user = useSelector((state) => state.user.information);
-    const profilePicture = useSelector((state) => state.user.profilePicture);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -35,8 +34,8 @@ function AccountIcon(props) {
                     }}
                     className={styles.circle}
                     src={
-                        profilePicture
-                            ? `${profilePicture.src}`
+                        user.profilePicture
+                            ? `${user.profilePicture.src}`
                             : `/public/img/default/${
                                   user.genderId !== 2 ? "man" : "woman"
                               }_default.png`
@@ -53,8 +52,8 @@ function AccountIcon(props) {
                         <div className={styles.account}>
                             <img
                                 src={
-                                    profilePicture
-                                        ? `${profilePicture.src}`
+                                    user.profilePicture
+                                        ? `${user.profilePicture.src}`
                                         : `/public/img/default/${
                                               user.genderId !== 2
                                                   ? "man"

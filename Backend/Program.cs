@@ -6,7 +6,7 @@ using System.Text;
 using Backend.Data;
 using Backend.Authentication;
 using Backend.Repositories.Interface;
-using Backend.Repositories.Repository;
+using Backend.Repositories;
 using Backend.Services;
 using Backend.Helper;
 using Backend.Models;
@@ -68,7 +68,6 @@ builder.Services.AddScoped<MainTopicService>();
 builder.Services.AddScoped<IChatInMessService, ChatInMessageService>();
 builder.Services.AddScoped<RequestNotiService>();
 builder.Services.AddScoped<PostNotiService>();
-builder.Services.AddScoped<UserMediaService>();
 builder.Services.AddScoped<MediaService>();
 builder.Services.AddScoped<RelationshipService>();
 

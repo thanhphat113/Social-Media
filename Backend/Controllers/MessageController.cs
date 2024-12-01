@@ -57,17 +57,17 @@ namespace Backend.Controllers
 			return Ok(new { result, MainTopic });
 		}
 
-		[HttpGet("call-user")]
-		public async Task<IActionResult> Calling([FromQuery] int FriendId)
-		{
-			var UserId = MiddleWare.GetUserIdFromCookie(Request);
-			var User = await _user.GetById(UserId);
-			if (OnlineHub.IsOnline(FriendId))
-			{
-				var connectionId = OnlineHub.UserIdConnections[FriendId];
-				await _hub.Clients.Client(connectionId).SendAsync("ConnectCall", User);
-			}
-		}
+		// [HttpGet("call-user")]
+		// public async Task<IActionResult> Calling([FromQuery] int FriendId)
+		// {
+		// 	var UserId = MiddleWare.GetUserIdFromCookie(Request);
+		// 	var User = await _user.GetById(UserId);
+		// 	if (OnlineHub.IsOnline(FriendId))
+		// 	{
+		// 		var connectionId = OnlineHub.UserIdConnections[FriendId];
+		// 		await _hub.Clients.Client(connectionId).SendAsync("ConnectCall", User);
+		// 	}
+		// }
 
 
 
