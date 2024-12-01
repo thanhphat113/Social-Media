@@ -16,7 +16,7 @@ namespace Backend.Controllers
 	public class UserController : ControllerBase
 	{
 
-		private readonly UserService _userContext;
+		private readonly IUserService _userContext;
 
 		private readonly GroupChatService _group;
 		private readonly MediaService _media;
@@ -24,7 +24,7 @@ namespace Backend.Controllers
 		private readonly RequestNotiService _NotiContext;
 		private readonly PostNotiService _PostContext;
 
-		public UserController(MediaService media, GroupChatService group, UserService UserContext, RequestNotiService NotiContext, PostNotiService PostContext)
+		public UserController(MediaService media, GroupChatService group, IUserService UserContext, RequestNotiService NotiContext, PostNotiService PostContext)
 		{
 			_group = group;
 			_media = media;
@@ -69,11 +69,11 @@ namespace Backend.Controllers
 
 			var information = await _userContext.GetLoginById(userId);
 			var friends = await _userContext.GetFriends(userId);
-			var groupchat = await _group.FindByUserId(userId);
+			// var groupchat = await _group.FindByUserId(userId);
 			var requests = await _NotiContext.FindByUserId(userId);
-			var media = await _media.FindProfilePictureByUserId(userId);
+			// var media = await _media.FindProfilePictureByUserId(userId);
 			var postrequests = await _PostContext.FindByUserId(userId);
-			return Ok(new { information = information, media = media, friends = friends, groupchat = groupchat, requests = requests, postrequests = postrequests });
+			return Ok(new { information = information, friends = friends, requests = requests, postrequests = postrequests });
 		}
 
 		[AllowAnonymous]
@@ -89,10 +89,10 @@ namespace Backend.Controllers
 		{
 			var UserId = MiddleWare.GetUserIdFromCookie(Request);
 			var list = await _userContext.GetListByName(name, UserId);
-			foreach (var item in list)
-			{
-				item.ProfilePicture = await _media.FindProfilePictureByUserId(item.UserId);
-			}
+			// foreach (var item in list)
+			// {
+			// 	item.ProfilePicture = await _media.FindProfilePictureByUserId(item.UserId);
+			// }
 			return Ok(list);
 		}
 

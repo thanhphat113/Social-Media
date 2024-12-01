@@ -20,7 +20,7 @@ public partial class Media
     public virtual TypeMedia? MediaTypeNavigation { get; set; }
 
     [JsonIgnore]
-    public virtual ICollection<PostMedia> PostMedia { get; set; }
+    public virtual ICollection<Post> Posts { get; set; }
 
     [JsonIgnore]
     public virtual ICollection<Message> MessageMedia { get; set; }
@@ -32,8 +32,4 @@ public partial class Media
     [JsonIgnore]
 
     public virtual ICollection<ChatInGroup> ChatInGroup { get; set; }
-
-
-    [JsonIgnore]
-    public virtual ICollection<UserMedia> UserMedia { get; set; } = new List<UserMedia>();
 }

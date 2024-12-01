@@ -20,9 +20,9 @@ namespace Backend.Controllers
 
 		private readonly IMessageService _message;
 		private readonly MediaService _media;
-		private readonly UserService _userContext;
+		private readonly IUserService _userContext;
 
-		public ChatInMessageController(IHubContext<OnlineHub> Hub, MediaService media, IWebHostEnvironment env, UserService userContext, IChatInMessService chat, IMessageService message)
+		public ChatInMessageController(IHubContext<OnlineHub> Hub, MediaService media, IWebHostEnvironment env, IUserService userContext, IChatInMessService chat, IMessageService message)
 		{
 			_media = media;
 			_env = env;
@@ -32,60 +32,60 @@ namespace Backend.Controllers
 			_message = message;
 		}
 
-		[HttpPost("chat-with-file")]
-		public async Task<IActionResult> PostFile([FromForm] IFormFile file,
-												[FromForm] int fileType,
-												[FromForm] int messageId)
-		{
-			Console.WriteLine("file: " + file.FileName + ", " + "type: " + fileType + messageId);
-			var UserId = MiddleWare.GetUserIdFromCookie(Request);
-			if (file == null || file.Length == 0)
-			{
-				return BadRequest("Không có tệp được chọn.");
-			}
+		// [HttpPost("chat-with-file")]
+		// public async Task<IActionResult> PostFile([FromForm] IFormFile file,
+		// 										[FromForm] int fileType,
+		// 										[FromForm] int messageId)
+		// {
+		// 	Console.WriteLine("file: " + file.FileName + ", " + "type: " + fileType + messageId);
+		// 	var UserId = MiddleWare.GetUserIdFromCookie(Request);
+		// 	if (file == null || file.Length == 0)
+		// 	{
+		// 		return BadRequest("Không có tệp được chọn.");
+		// 	}
 
-			string uploadsFolder;
-			if (fileType == 1 || fileType == 2)
-			{
-				uploadsFolder = Path.Combine(_env.WebRootPath, "media");
-			}
-			else
-			{
-				uploadsFolder = Path.Combine(_env.WebRootPath, "file");
-			}
+		// 	string uploadsFolder;
+		// 	if (fileType == 1 || fileType == 2)
+		// 	{
+		// 		uploadsFolder = Path.Combine(_env.WebRootPath, "media");
+		// 	}
+		// 	else
+		// 	{
+		// 		uploadsFolder = Path.Combine(_env.WebRootPath, "file");
+		// 	}
 
-			var fileHash = await MiddleWare.GetFileHashAsync(file);
-
-
-			var filePath = Path.Combine(uploadsFolder, file.FileName);
+		// 	var fileHash = await MiddleWare.GetFileHashAsync(file);
 
 
-			var item = await _media.IsHas(fileHash);
-
-			string newName = file.FileName;
-			if (item == -1)
-			{
-				if (System.IO.File.Exists(filePath))
-				{
-					var fileExtension = Path.GetExtension(file.FileName);
-					newName = Guid.NewGuid().ToString() + fileExtension;
-					filePath = Path.Combine(uploadsFolder, newName);
-				}
-				using var stream = new FileStream(filePath, FileMode.Create);
-				await file.CopyToAsync(stream);
-			}
+		// 	var filePath = Path.Combine(uploadsFolder, file.FileName);
 
 
-			var media = new Media
-			{
-				Src = newName,
-				MediaType = fileType,
-				HashCode = fileHash
-			};
+		// 	var item = await _media.IsHas(fileHash);
 
-			var result = await _chat.AddWithMedia(media, UserId, messageId, fileType);
-			return Ok(result);
-		}
+		// 	string newName = file.FileName;
+		// 	if (item == -1)
+		// 	{
+		// 		if (System.IO.File.Exists(filePath))
+		// 		{
+		// 			var fileExtension = Path.GetExtension(file.FileName);
+		// 			newName = Guid.NewGuid().ToString() + fileExtension;
+		// 			filePath = Path.Combine(uploadsFolder, newName);
+		// 		}
+		// 		using var stream = new FileStream(filePath, FileMode.Create);
+		// 		await file.CopyToAsync(stream);
+		// 	}
+
+
+		// 	var media = new Media
+		// 	{
+		// 		Src = newName,
+		// 		MediaType = fileType,
+		// 		HashCode = fileHash
+		// 	};
+
+		// 	var result = await _chat.AddWithMedia(media, UserId, messageId, fileType);
+		// 	return Ok(result);
+		// }
 
 		[HttpPost]
 		public async Task<IActionResult> Post([FromBody] ChatInMessage mess)

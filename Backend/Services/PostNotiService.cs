@@ -37,14 +37,16 @@ namespace Backend.Services
 		{
 			try
 			{
-				var item = await _unit.PostNotification.FindAsync(p => p.Post.CreatedByUserId == userid, u => new
-				{
-					u.PostNotificationId,
-					u.PostId,
-					u.FromUser,
-					u.Type,
-					u.IsRead
-				});
+				var item = await _unit.PostNotification.FindAsync(query => query
+									.Where(p => p.Post.CreatedByUserId == userid)
+									.Select(u => new
+									{
+										u.PostNotificationId,
+										u.PostId,
+										u.FromUser,
+										u.Type,
+										u.IsRead
+									}));
 				return item;
 			}
 			catch (Exception e)

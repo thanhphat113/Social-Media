@@ -13,7 +13,7 @@ public interface IUnitOfWork : IDisposable
 	IGenericRepository<RequestNotification> RequestNotification { get; }
 	IGenericRepository<Relationship> Relationship { get; }
 	IGenericRepository<Media> Media { get; }
-	IGenericRepository<UserMedia> UserMedia { get; }
+	IGenericRepository<Post> Post { get; }
 
 	Task<bool> CompleteAsync();
 }

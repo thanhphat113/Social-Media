@@ -2,7 +2,7 @@ using Backend.Repositories.Interface;
 using Backend.Models;
 using Backend.Data;
 
-namespace Backend.Repositories.Repository
+namespace Backend.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {
@@ -16,7 +16,7 @@ namespace Backend.Repositories.Repository
         private readonly IGenericRepository<Message> _Message;
         private readonly IGenericRepository<MainTopic> _main;
         private readonly IGenericRepository<Media> _Media;
-        private readonly IGenericRepository<UserMedia> _UserMedia;
+        private readonly IGenericRepository<Post> _post;
 
         private readonly IGenericRepository<PostNotification> _PostNotification;
         private readonly IGenericRepository<RequestNotification> _RequestNotification;
@@ -24,6 +24,7 @@ namespace Backend.Repositories.Repository
 
         public UnitOfWork(SocialMediaContext context,
                           IGenericRepository<User> Users,
+                          IGenericRepository<Post> post,
                           IGenericRepository<ChatInMessage> ChatInMessage,
                           IGenericRepository<GroupChat> GroupChat,
                           IGenericRepository<HistorySearch> HistorySearch,
@@ -32,13 +33,12 @@ namespace Backend.Repositories.Repository
                           IGenericRepository<PostNotification> PostNotification,
                           IGenericRepository<RequestNotification> RequestNotification,
                           IGenericRepository<Relationship> Relationship,
-                          IGenericRepository<Media> Media,
-                          IGenericRepository<UserMedia> UserMedia)
+                          IGenericRepository<Media> Media)
         {
             _context = context;
             _Users = Users;
+            _post = post;
             _main = MainTopic;
-            _UserMedia = UserMedia;
             _ChatInMessage = ChatInMessage;
             _GroupChat = GroupChat;
             _HistorySearch = HistorySearch;
@@ -57,7 +57,7 @@ namespace Backend.Repositories.Repository
         public IGenericRepository<Message> Message => _Message;
         public IGenericRepository<MainTopic> MainTopic => _main;
         public IGenericRepository<Media> Media => _Media;
-        public IGenericRepository<UserMedia> UserMedia => _UserMedia;
+        public IGenericRepository<Post> Post => _post;
         public IGenericRepository<PostNotification> PostNotification => _PostNotification;
         public IGenericRepository<RequestNotification> RequestNotification => _RequestNotification;
         public IGenericRepository<Relationship> Relationship => _Relationship;

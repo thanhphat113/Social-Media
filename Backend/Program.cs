@@ -6,7 +6,7 @@ using System.Text;
 using Backend.Data;
 using Backend.Authentication;
 using Backend.Repositories.Interface;
-using Backend.Repositories.Repository;
+using Backend.Repositories;
 using Backend.Services;
 using Backend.Helper;
 using Backend.Models;
@@ -58,7 +58,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddSignalR();
 
 builder.Services.AddScoped<PostNotiService>();
-builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IService<MainTopic>, MainTopicService>();
 builder.Services.AddScoped<HistorySearchService>();
 builder.Services.AddScoped<GroupChatService>();
@@ -67,7 +67,6 @@ builder.Services.AddScoped<MainTopicService>();
 builder.Services.AddScoped<IChatInMessService, ChatInMessageService>();
 builder.Services.AddScoped<RequestNotiService>();
 builder.Services.AddScoped<PostNotiService>();
-builder.Services.AddScoped<UserMediaService>();
 builder.Services.AddScoped<MediaService>();
 builder.Services.AddScoped<RelationshipService>();
 
