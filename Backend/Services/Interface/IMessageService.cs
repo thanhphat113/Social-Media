@@ -13,7 +13,5 @@ namespace Backend.Services.Interface
 		Task<ChatInMessage> UpdateTopic(int Id, int TopicId, int UserId);
 		Task<int> GetOtherUserIdInMessage(int MessageId, int UserId);
 
-
-
 	}
 }

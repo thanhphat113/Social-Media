@@ -927,10 +927,6 @@ public partial class SocialMediaContext : DbContext
             entity.Property(e => e.GroupName)
                 .HasMaxLength(255)
                 .HasColumnName("group_name");
-            entity.Property(e => e.MemberCount)
-                .HasDefaultValueSql("'0'")
-                .HasColumnType("int(11)")
-                .HasColumnName("member_count");
             entity.Property(e => e.PrivacyId)
                 .HasColumnType("int(11)")
                 .HasColumnName("privacy_id");

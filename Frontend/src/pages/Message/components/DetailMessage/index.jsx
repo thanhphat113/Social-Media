@@ -16,13 +16,14 @@ import Validate from "../../../../components/Validate";
 
 function DetailMessage({ onShow }) {
     const friends = useSelector((state) => state.friends.allFriends);
+    const [callsId, setCallsId] = useState([]);
     const userid = useSelector((state) => state.user.information.userId);
     const currentFriendId = useSelector((state) => state.message.currentUserId);
-
 
     const mainTopic = useSelector(
         (state) => state.message.currentMessage?.mainTopicNavigation
     );
+
     const { user1, nickName1, nickName2 } = useSelector(
         (state) => state.message.currentMessage
     );
@@ -41,28 +42,10 @@ function DetailMessage({ onShow }) {
     const messagesEndRef = useRef(null);
     const listRef = useRef(null);
     const scrollPosition = useRef(0);
-    const audioRef = useRef(null);
 
     const InforCurrentFriend = friends.find(
         (u) => u.userId === currentFriendId
     );
-
-    useEffect(() => {
-        // connection.on("ReceiveMessage", async (message) => {
-        //     await dispatch(receiveMess(message));
-        // });
-        // connection.on("ReceiveTopic", async (message) => {
-        //     // await dispatch(receiveMess(message));
-        //     console.log(message)
-        // });
-        
-    });
-
-    const notifications = () => {
-        if (audioRef.current) {
-            audioRef.current.play();
-        }
-    };
 
     useEffect(() => {
         getMessage();
@@ -85,8 +68,23 @@ function DetailMessage({ onShow }) {
         }
     }, [friends]);
 
+    let CallFrame = null;
     const handleCall = () => {
-        window.open("/call", "_blank", "width=400,height=600");
+        let newNumber;
+
+        do {
+            newNumber = Math.floor(100000000000 + Math.random() * 900000000000);
+        } while (callsId.includes(newNumber));
+
+        setCallsId((prevCallsId) => [...prevCallsId, newNumber]);
+
+        if (!CallFrame || CallFrame.closed) {
+            CallFrame = window.open(
+                `/call/${currentFriendId}`,
+                "_blank",
+                "width=1200,height=800"
+            );
+        }
     };
 
     const toggleListVisibility = () => {

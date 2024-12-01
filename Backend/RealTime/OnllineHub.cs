@@ -6,6 +6,7 @@ namespace Backend.RealTime;
 public class OnlineHub : Hub
 {
 	public static readonly Dictionary<int, string> UserIdConnections = new();
+	public static readonly Dictionary<int, string> UserIdCalling = new();
 
 	public static bool IsOnline(int userId)
 	{
@@ -41,12 +42,11 @@ public class OnlineHub : Hub
 	{
 		if (IsOnline(receiverUserId))
 		{
-			var connectionId = OnlineHub.UserIdConnections[receiverUserId];
+			var connectionId = UserIdConnections[receiverUserId];
 			Console.WriteLine("đây là: " + connectionId);
 			await Clients.All.SendAsync("ReceiveMessage", mess);
 		}
 	}
-
 
 	private async Task NotifyOnlineStatus(int userId, bool isOnline)
 	{
