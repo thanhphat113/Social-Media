@@ -9,6 +9,7 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using Backend.Data;
+using Backend.Helper;
 
 namespace Backend.Services
 {
@@ -317,6 +318,7 @@ namespace Backend.Services
                 };
             }
 
+
             using var transaction = await _context.Database.BeginTransactionAsync();
 
             try
@@ -329,30 +331,31 @@ namespace Backend.Services
 
                 string fileName = $"{Guid.NewGuid().ToString()}_{Path.GetFileName(file.FileName)}";
 
-                string filePath = Path.Combine(folderPath, fileName);
-
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await file.CopyToAsync(stream);
-                }
-
-                string fileUrl = fileName;
-
                 await _context.UserMedia.Where(x => x.MediaId == mediaId || x.UserId == userId).ExecuteUpdateAsync(setter => setter.SetProperty(x => x.IsProfilePicture, false));
 
-                Media media = new Media
-                {
-                    Src = fileUrl,
-                    MediaType = 1
-                };
+                var hashFile = await MiddleWare.GetFileHashAsync(file);
 
-                await _context.Media.AddAsync(media);
-                await _context.SaveChangesAsync();
+                var idMedia = await _context.Media.AsNoTracking().Where(x => x.HashCode == hashFile).Select(x => x.MediaId).FirstOrDefaultAsync();
+
+                if(idMedia == 0)
+                {
+                    Media media = new Media
+                    {
+                        Src = fileName,
+                        HashCode = hashFile,
+                        MediaType = 1
+                    };
+
+                    await _context.Media.AddAsync(media);
+                    await _context.SaveChangesAsync();
+
+                    idMedia = media.MediaId;
+                }
 
                 UserMedia userMedia = new UserMedia
                 {
                     UserId = userId,
-                    MediaId = media.MediaId,
+                    MediaId = idMedia,
                     IsProfilePicture = true,
                     IsCoverPicture = false
                 };
@@ -362,11 +365,18 @@ namespace Backend.Services
 
                 await transaction.CommitAsync();
 
+                string filePath = Path.Combine(folderPath, fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
                 return new
                 {
                     IsSuccess = true,
                     Message = "Cập nhật hình ảnh thành công!",
-                    FileUrl = fileUrl
+                    FileUrl = fileName
                 };
             }
             catch (Exception ex)
@@ -405,30 +415,31 @@ namespace Backend.Services
 
                 string fileName = $"{Guid.NewGuid().ToString()}_{Path.GetFileName(file.FileName)}";
 
-                string filePath = Path.Combine(folderPath, fileName);
-
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await file.CopyToAsync(stream);
-                }
-
-                string fileUrl = fileName;
-
                 await _context.UserMedia.Where(x => x.MediaId == mediaId || x.UserId == userId).ExecuteUpdateAsync(setter => setter.SetProperty(x => x.IsCoverPicture, false));
 
-                Media media = new Media
-                {
-                    Src = fileUrl,
-                    MediaType = 1
-                };
+                var hashFile = await MiddleWare.GetFileHashAsync(file);
 
-                await _context.Media.AddAsync(media);
-                await _context.SaveChangesAsync();
+                var idMedia = await _context.Media.AsNoTracking().Where(x => x.HashCode == hashFile).Select(x => x.MediaId).FirstOrDefaultAsync();
+
+                if (idMedia == 0)
+                {
+                    Media media = new Media
+                    {
+                        Src = fileName,
+                        HashCode = hashFile,
+                        MediaType = 1
+                    };
+
+                    await _context.Media.AddAsync(media);
+                    await _context.SaveChangesAsync();
+
+                    idMedia = media.MediaId;
+                };
 
                 UserMedia userMedia = new UserMedia
                 {
                     UserId = userId,
-                    MediaId = media.MediaId,
+                    MediaId = idMedia,
                     IsProfilePicture = false,
                     IsCoverPicture = true
                 };
@@ -438,11 +449,18 @@ namespace Backend.Services
 
                 await transaction.CommitAsync();
 
+                string filePath = Path.Combine(folderPath, fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
                 return new
                 {
                     IsSuccess = true,
                     Message = "Cập nhật hình ảnh thành công!",
-                    FileUrl = fileUrl
+                    FileUrl = fileName
                 };
             }
             catch (Exception ex)
