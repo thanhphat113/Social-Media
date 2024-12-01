@@ -1,0 +1,162 @@
+.connectionsSection {
+  padding: 1rem;
+  background-color: #f9f9f9;
+}
+
+.tabs {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.tab {
+  padding: 1rem 4rem;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: bold;
+  border-radius: 10px;  /* Bo góc cho các tab */
+  background-color: #e0e0e0;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  text-align: center;
+}
+
+.tab:hover {
+  background-color: #d0d0d0; /* Hiệu ứng hover */
+}
+
+.activeTab {
+  background-color: #007bff; /* Màu nền cho tab đang chọn */
+  color: white;  /* Màu chữ cho tab đang chọn */
+}
+
+.friendsGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.friendItem {
+  display: flex;
+  align-items: center;  /* Căn giữa các phần tử theo chiều dọc */
+  width: 32%;
+  text-align: left;  /* Chữ căn trái */
+  position: relative;
+}
+
+.friendOverlay {
+  position: absolute;
+  top: -109px;
+  right: 160px;
+
+  width: 340px;
+  height: auto;
+  background-color: #fff;
+  color: #000;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  visibility: hidden;
+  z-index: 1; 
+  opacity: 0;
+  transform: translate(50%, -10px);
+  transition: opacity 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.friendButton {
+  background-color: #1877f2;
+  border: none;
+  color: white;
+  padding: 6px 6px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.friendDetails {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.friendAvatar {
+  width: 150px;
+  height: 100px;
+  border-radius: 50%;
+}
+
+.friendAvatar:hover {
+cursor: pointer;
+}
+
+.friendInfo {
+  margin-left: 1rem;
+  width: 100%;
+}
+
+.friendInfoMutual {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+.friendInfoMutual i{
+  width: 6%;
+  display: flex;
+  justify-content: flex-start;
+  margin-right: 1rem;
+}
+
+.friendInfoMutualNum {
+  margin: 0;
+}
+
+.friendInfoName {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.friendButtonFlex {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.friendButtonFlex button{
+  width: 48%;
+}
+
+.friendItem:hover .friendOverlay {
+  position: absolute;
+  opacity: 1;
+  visibility: visible;
+}
+
+.friendImageContainer {
+  width: 100px;  /* Chiều rộng cố định cho hình ảnh */
+  height: 100px;  /* Chiều cao cố định cho hình ảnh */
+  overflow: hidden;  /* Ẩn phần vượt ra ngoài */
+  border-radius: 5px;  /* Bo góc cho ảnh */
+  margin-right: 15px;  /* Khoảng cách giữa ảnh và tên */
+}
+
+.friendImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;  /* Đảm bảo ảnh luôn đầy đủ trong hình vuông */
+}
+
+.friendImage:hover {
+cursor: pointer;
+}
+
+.friendName {
+  font-size: 16px;
+  font-weight: normal;
+  white-space: nowrap; /* Không cho phép xuống dòng */
+  overflow: hidden; /* Ẩn phần nội dung vượt quá */
+  text-overflow: ellipsis; /* Hiển thị dấu "..." nếu nội dung bị cắt */
+  flex: 1; /* Cho phép thẻ <p> mở rộng không gian nhưng không lấn sang hình ảnh */
+}
+
+.friendName:hover {
+cursor: pointer;
+}

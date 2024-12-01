@@ -1,35 +1,20 @@
-.container {
-  flex: 0 0 auto;
-  width: 100%;
-  max-width: 100%;
-  padding-right: calc(1.5rem* .5);
-  padding-left: calc(1.5rem* .5);
-  margin-top: 1.5rem;
-}
-
 .card {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   position: relative;
   display: flex;
   flex-direction: column;
-  min-width: 0;
   color: #a1a1a8;
   word-wrap: break-word;
   background-color: #fff;
   background-clip: border-box;
   border: 1px solid var(--background);
   border-radius: 0.25rem; 
-  margin-bottom: 0.5rem;
-  padding: 1.25rem;
-  margin: .75rem;
+  padding: 1rem;
 }
 
 .cardHeader {
-  border-radius: calc(0.4rem - 1px) calc(0.4rem - 1px) 0 0;
+  border-radius: 0.4rem;
   border: 0 !important;    
-  padding: 0.75rem 1.25rem;
-  padding-bottom: 0;
-  margin-bottom: 0;
   background-color: #fff;
 }
 
@@ -37,15 +22,12 @@
     color: #000;
     font-size: 2.3rem;
     font-weight: 700;
-    line-height: 1.25;
-    margin-top: 0;
-    font-family: Inter, sans-serif;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
-.cardBody {
-  position: relative !important;
-  flex: 1 1 auto;
-  padding: 1.25rem 1.25rem;
+.marGinLeft {
+  margin-left: 0.25rem;
 }
 
 .list {
@@ -66,9 +48,6 @@
   }
 }
 
-.cardBodyPTop0 {
-  margin-top: 0;
-}
 
 .listItem {
   margin-bottom: 2rem;

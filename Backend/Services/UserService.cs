@@ -7,8 +7,13 @@ using System.Linq.Expressions;
 using Microsoft.AspNetCore.Identity;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using Backend.Data;
+using Backend.Helper;
+
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Identity;
+
 
 namespace Backend.Services
 {
@@ -20,12 +25,16 @@ namespace Backend.Services
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unit;
 
-        public UserService(IUnitOfWork unit, JwtToken jwtToken, IMapper mapper, IHttpContextAccessor httpContextAccessor)
+        private readonly SocialMediaContext _context;
+
+        public UserService(IUnitOfWork unit, JwtToken jwtToken, IMapper mapper, IHttpContextAccessor httpContextAccessor,
+            SocialMediaContext context)
         {
             _mapper = mapper;
             _unit = unit;
             _jwtToken = jwtToken;
             _httpContextAccessor = httpContextAccessor;
+            _context = context;
         }
 
         public async Task<User> Add(User value)
@@ -111,7 +120,6 @@ namespace Backend.Services
         {
             throw new NotImplementedException();
         }
-
 
         public async Task<IEnumerable<UserPrivate>> GetFriends(int id)
         {
@@ -199,6 +207,369 @@ namespace Backend.Services
                                 .ProjectTo<UserPrivate>(_mapper.ConfigurationProvider));
             return result;
         }
+
+        public async Task<dynamic?> GetUserInfor(int userId)
+        {
+            var rs = await _context.Users
+                .AsNoTracking()
+                .Where(x => x.UserId == userId)
+                .Select(x => new
+                {
+                    x.UserId,
+                    Name = $"{x.FirstName.Trim()} {x.LastName.Trim()}",
+                    SrcProfilePicture = x.UserMedia.Where(y => y.IsProfilePicture == true).Select(y => new { y.Media.Src, y.MediaId }).FirstOrDefault(),
+                    SrcCoverPhoto = x.UserMedia.Where(y => y.IsCoverPicture == true).Select(y => new { y.Media.Src, y.MediaId }).FirstOrDefault(),
+                    x.DateCreated,
+                    x.Location,
+                    NumberFriend = x.RelationshipFromUsers.Count(x => x.TypeRelationship == 2) + x.RelationshipToUsers.Count(x => x.TypeRelationship == 2),
+                    x.Bio,
+                    x.Email,
+                    x.GenderId,
+                    x.Gender!.GenderName
+                })
+                .FirstOrDefaultAsync();
+
+            return rs;
+        }
+
+        public async Task<dynamic> GetUserFriends(int userId)
+        {
+            var rs = await _context.Users
+                .AsNoTracking()
+                .Where(x => x.RelationshipToUsers.Any(y => y.TypeRelationship == 2 && y.FromUserId == userId) || x.RelationshipFromUsers.Any(y => y.TypeRelationship == 2 && y.ToUserId == userId))
+                .Select(x => new
+                {
+                    x.UserId,
+                    Name = $"{x.FirstName.Trim()} {x.LastName.Trim()}",
+                    SrcProfilePicture = x.UserMedia.Where(y => y.IsProfilePicture == true).Select(y => y.Media.Src).FirstOrDefault(),
+                    x.Location,
+                    x.GenderId,
+                })
+                .ToListAsync();
+
+            return rs;
+        }
+
+        public async Task<dynamic> GetUserFollower(int userId)
+        {
+            var rs = await _context.Users
+                .AsNoTracking()
+                .Where(x => x.RelationshipFromUsers.Any(y => y.TypeRelationship == 1 && y.ToUserId == userId))
+                .Select(x => new
+                {
+                    x.UserId,
+                    Name = $"{x.FirstName.Trim()} {x.LastName.Trim()}",
+                    SrcProfilePicture = x.UserMedia.Where(y => y.IsProfilePicture == true).Select(y => y.Media.Src).FirstOrDefault(),
+                    x.Location
+                })
+                .ToListAsync();
+
+            return rs;
+        }
+
+        public async Task<dynamic> GetUserMedia(int userId)
+        {
+            var rs = await _context.UserMedia
+                .AsNoTracking()
+                .Where(x => x.UserId == userId)
+                .Select(x => new
+                {
+                    MediaId = x.MediaId,
+                    Src = x.Media.Src,
+                })
+                .ToListAsync();
+
+            return rs;
+        }
+
+        public async Task<dynamic> GetRelationshipToUser(int userId)
+        {
+            var idUserCurrent = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (idUserCurrent == null || !int.TryParse(idUserCurrent, out int idUserCurrentFormat))
+            {
+                return new
+                {
+                    IsSucces = false,
+                    Message = "Phiên đăng nhập của bạn đã hết hạn!",
+                };
+            }
+
+            if (idUserCurrentFormat == userId)
+            {
+                return new
+                {
+                    IsSucces = false,
+                    Message = "Người dùng đang ở trang cá nhân",
+                };
+            }
+
+            var relationship = await _context.Relationships
+                .AsNoTracking()
+                .Where(x => (x.FromUserId == userId && x.ToUserId == idUserCurrentFormat) || (x.FromUserId == idUserCurrentFormat && x.ToUserId == userId))
+                .Select(x => x.TypeRelationshipNavigation!.TypeName)
+                .FirstOrDefaultAsync();
+
+            return new
+            {
+                IsSucces = true,
+                Relationship = relationship,
+            };
+        }
+
+        public async Task<dynamic> GetUserProfile(int userId)
+        {
+            var userInfor = await GetUserInfor(userId);
+            var userFriends = await GetUserFriends(userId);
+            var userFollower = await GetUserFollower(userId);
+            var userMedias = await GetUserMedia(userId);
+            var relationshipToUser = await GetRelationshipToUser(userId);
+
+            return new
+            {
+                userInfor,
+                userFriends,
+                userFollower,
+                userMedias,
+                relationshipToUser
+            };
+        }
+
+        public async Task<dynamic> UpdateProfilePicture(int userId, int mediaId, IFormFile? file)
+        {
+            if (file == null || file.Length == 0)
+            {
+                return new
+                {
+                    IsSuccess = false,
+                    Message = "File không hợp lệ!"
+                };
+            }
+
+
+            using var transaction = await _context.Database.BeginTransactionAsync();
+
+            try
+            {
+                string folderPath = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory())?.FullName, "Frontend", "public", "img", "Picture");
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
+
+                string fileName = $"{Guid.NewGuid().ToString()}_{Path.GetFileName(file.FileName)}";
+
+                await _context.UserMedia.Where(x => x.MediaId == mediaId || x.UserId == userId).ExecuteUpdateAsync(setter => setter.SetProperty(x => x.IsProfilePicture, false));
+
+                var hashFile = await MiddleWare.GetFileHashAsync(file);
+
+                var idMedia = await _context.Media.AsNoTracking().Where(x => x.HashCode == hashFile).Select(x => x.MediaId).FirstOrDefaultAsync();
+
+                if(idMedia == 0)
+                {
+                    Media media = new Media
+                    {
+                        Src = fileName,
+                        HashCode = hashFile,
+                        MediaType = 1
+                    };
+
+                    await _context.Media.AddAsync(media);
+                    await _context.SaveChangesAsync();
+
+                    idMedia = media.MediaId;
+                }
+
+                UserMedia userMedia = new UserMedia
+                {
+                    UserId = userId,
+                    MediaId = idMedia,
+                    IsProfilePicture = true,
+                    IsCoverPicture = false
+                };
+
+                await _context.UserMedia.AddAsync(userMedia);
+                await _context.SaveChangesAsync();
+
+                await transaction.CommitAsync();
+
+                string filePath = Path.Combine(folderPath, fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                return new
+                {
+                    IsSuccess = true,
+                    Message = "Cập nhật hình ảnh thành công!",
+                    FileUrl = fileName
+                };
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+
+                return new
+                {
+                    IsSuccess = false,
+                    Message = "Thất bại!",
+                    Error = ex.InnerException?.Message ?? ex.Message
+                };
+            }
+        }
+
+        public async Task<dynamic> UpdateCoverPicture(int userId, int mediaId, IFormFile? file)
+        {
+            if (file == null || file.Length == 0)
+            {
+                return new
+                {
+                    IsSuccess = false,
+                    Message = "File không hợp lệ!"
+                };
+            }
+
+            using var transaction = await _context.Database.BeginTransactionAsync();
+
+            try
+            {
+                string folderPath = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory())?.FullName, "Frontend", "public", "img", "Picture");
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
+
+                string fileName = $"{Guid.NewGuid().ToString()}_{Path.GetFileName(file.FileName)}";
+
+                await _context.UserMedia.Where(x => x.MediaId == mediaId || x.UserId == userId).ExecuteUpdateAsync(setter => setter.SetProperty(x => x.IsCoverPicture, false));
+
+                var hashFile = await MiddleWare.GetFileHashAsync(file);
+
+                var idMedia = await _context.Media.AsNoTracking().Where(x => x.HashCode == hashFile).Select(x => x.MediaId).FirstOrDefaultAsync();
+
+                if (idMedia == 0)
+                {
+                    Media media = new Media
+                    {
+                        Src = fileName,
+                        HashCode = hashFile,
+                        MediaType = 1
+                    };
+
+                    await _context.Media.AddAsync(media);
+                    await _context.SaveChangesAsync();
+
+                    idMedia = media.MediaId;
+                };
+
+                UserMedia userMedia = new UserMedia
+                {
+                    UserId = userId,
+                    MediaId = idMedia,
+                    IsProfilePicture = false,
+                    IsCoverPicture = true
+                };
+
+                await _context.UserMedia.AddAsync(userMedia);
+                await _context.SaveChangesAsync();
+
+                await transaction.CommitAsync();
+
+                string filePath = Path.Combine(folderPath, fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                return new
+                {
+                    IsSuccess = true,
+                    Message = "Cập nhật hình ảnh thành công!",
+                    FileUrl = fileName
+                };
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+
+                return new
+                {
+                    IsSuccess = false,
+                    Message = "Thất bại!",
+                    Error = ex.InnerException?.Message ?? ex.Message
+                };
+            }
+        }
+
+        public async Task<dynamic> AddFriend(int fromUserId, int toUserId)
+        {
+            Relationship relationship = new Relationship
+            {
+                FromUserId = fromUserId,
+                ToUserId = toUserId,
+                TypeRelationship = 1,
+                DateCreated = DateTime.Now
+            };
+
+            await _context.Relationships.AddAsync(relationship);
+            await _context.SaveChangesAsync();
+
+            return new
+            {
+                IsSuccess = true,
+                Message = "Gửi lời mời kết bạn thành công!"
+            };
+        }
+
+        public async Task<dynamic> AcceptFriend(int fromUserId, int toUserId)
+        {
+            var rowAffect = await _context.Relationships
+                .Where(x => x.FromUserId == fromUserId && x.ToUserId == toUserId)
+                .Take(1)
+                .ExecuteUpdateAsync(setter => setter.SetProperty(x => x.TypeRelationship, 2));
+
+            if (rowAffect == 0)
+            {
+                return new
+                {
+                    IsSuccess = false,
+                    Message = "Không tìm thấy thông tin kết bạn!"
+                };
+            }
+
+            return new
+            {
+                IsSuccess = true,
+                Message = "Kết bạn thành công!"
+            };
+        }
+
+        public async Task<dynamic> DeleteFriend(int userId1, int userId2)
+        {
+            var rowAffect = await _context.Relationships
+                .Where(x => (x.FromUserId == userId1 && x.ToUserId == userId2) || (x.FromUserId == userId2 && x.ToUserId == userId1))
+                .Take(1)
+                .ExecuteDeleteAsync();
+
+            if (rowAffect == 0)
+            {
+                return new
+                {
+                    IsSuccess = false,
+                    Message = "Không tìm thấy thông tin kết bạn!"
+                };
+            }
+
+            return new
+            {
+                IsSuccess = true,
+                Message = "Thành công!"
+            };
+        }
+
     }
 
 }

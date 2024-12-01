@@ -1,55 +1,37 @@
-.container {
-  flex: 0 0 auto;
-  width: 100%;
-  max-width: 100%;
-  padding-right: calc(1.5rem* .5);
-  padding-left: calc(1.5rem* .5);
-  margin-top: 1.5rem;
-}
-
 .card {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   position: relative;
   display: flex;
   flex-direction: column;
-  min-width: 0;
   color: #a1a1a8;
   word-wrap: break-word;
   background-color: #fff;
   background-clip: border-box;
   border: 1px solid var(--background);
   border-radius: .25rem; 
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-bottom: 0.5rem;
-  padding: 1.25rem;
-  margin: .75rem;
+  padding: 1rem;
 }
 
 .cardHeader {
-  border-radius: calc(0.4rem - 1px) calc(0.4rem - 1px) 0 0;
-  padding-bottom: 0;
-  border: 0 !important;    
-  padding: 0.75rem 1.25rem;
-  margin-bottom: 0;
-  background-color: #fff;
   display: flex;
   justify-content: space-between !important;
   align-items: center;
+  border-radius: 0.4rem;
+  border: 0 !important;    
+  background-color: #fff;
 }
 
 .cardTitle {
-    color: #000;
-    font-size: 2.3rem;
-    font-weight: 700;
-    line-height: 1.25;
-    margin-top: 0;
-    font-family: Inter, sans-serif;
+  color: #000;
+  font-size: 2.3rem;
+  font-weight: 700;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 .cardBody {
-  padding-top: 0;
   position: relative !important;
   flex: 1 1 auto;
-    padding: 1.25rem 1.25rem;
 }
 
 .row {
@@ -60,29 +42,40 @@
 .col {
   flex: 0 0 33.333%;
   max-width: 33.333%;
-  padding-right: calc(0.5rem * .5);
-  padding-left: calc(0.5rem * .5);
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
   margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
   cursor: pointer;
   position: relative;
 }
 
 .friendOverlay {
   position: absolute;
-  top: -151px;
-  right: 140px;
+  top: -110px;
+  right: 173px;
   width: 340px;
   height: auto;
-  background-color: #444444;
-  color: white;
-  border-radius: 10px;
-  padding: 10px;
-  display: none;
+  background-color: #fff;
+  color: #000;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  visibility: hidden;
   z-index: 1; 
+  opacity: 0;
+  transform: translate(50%, -10px);
+  transition: opacity 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.col:hover .friendOverlay {
+  position: absolute;
+  opacity: 1;
+  visibility: visible;
 }
 
 .friendAvatar {
-  width: 100px;
+  width: 150px;
   height: 100px;
   border-radius: 50%;
 }
@@ -90,10 +83,11 @@
 .friendDetails {
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .friendInfo {
-  margin-left: 10px;
+  margin-left: 1rem;
   width: 100%;
 }
 
@@ -104,9 +98,10 @@
   margin-bottom: 0.5rem;
 }
 .friendInfoMutual i{
-  width: 14%;
+  width: 6%;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
+  margin-right: 1rem;
 }
 
 .friendInfoMutualNum {
@@ -122,12 +117,6 @@
   cursor: pointer;
 }
 
-.col:hover .friendOverlay {
-  display: block; /* Hiển thị overlay khi hover */
-  position: absolute;
-  transform: translate(50%, -10px);
-}
-
 .friendButton:hover {
   filter: brightness(0.8); 
 }
@@ -135,8 +124,10 @@
 .image {
   border-radius: 0.4rem;
   width: 100%; 
-  height: auto;
-  vertical-align: middle;
+  height: 80%; 
+  object-fit: cover;  
+  vertical-align: middle;  
+  min-height: 126px;
 }
 
 .name {
@@ -164,15 +155,15 @@
 
 .friendButtonFlex {
   display: flex;
-  justify-content: space-around;
-  margin-top: 10px;
+  justify-content: space-between;
+  margin-top: 1rem;
 }
 
 .friendButtonFlex button{
-  width: 45%;
-  margin: 0 8px;
+  width: 48%;
 }
 
 .friendInfoName {
-  margin-left: 9px;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { SetUser, deleteRequests, acceptRequests } from "../Actions/UserAction";
+import { GetUserInfo, SetUser, deleteRequests, acceptRequests } from "../Actions/UserAction";
 import { addHistory, deleteHistory, updateHistory } from "../Actions/HistorySearchAction";
 
 const UserSlice = createSlice({
@@ -8,6 +8,7 @@ const UserSlice = createSlice({
         information: null,
 		requests: [],
 		postrequests: [],
+		dataInfo: null,
     },
     reducers: {
 		findFriend:( (state, action) => {
@@ -16,6 +17,9 @@ const UserSlice = createSlice({
 	},
 	extraReducers:(builder) => {
 		builder
+			.addCase(GetUserInfo.fulfilled, (state, action) => {
+				state.dataInfo = action.payload;
+			})
 			.addCase(SetUser.fulfilled,(state,action) => {
 				const infor = action.payload
 				state.information = infor?.information || null

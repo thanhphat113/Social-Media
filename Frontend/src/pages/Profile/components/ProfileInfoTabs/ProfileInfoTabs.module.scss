@@ -1,12 +1,7 @@
 .cardFooter {
-  padding-bottom: 0 !important;
-  padding-top: .5rem !important;
-  margin-top: 1rem !important;
-  padding: 1.25rem 1.25rem; 
+  margin-top: 1rem;
   color: #212529; 
   background-color: #fff; 
-  border-top: 1px solid var(--background); 
-
 }
 
 .navBottomLine {
@@ -16,7 +11,7 @@
   align-items: center;
   border: 0;
   flex-wrap: wrap;
-  padding-left: 0;
+  padding: 0.15rem;
   margin-bottom: 0;
   list-style: none;
 }
@@ -32,7 +27,7 @@
 }
 
 .navLink {
-  background: transparent;
+  background: #fff;
   color: #a1a1a8;
   border: transparent;
   font-weight: 600;
@@ -40,18 +35,17 @@
   display: block;
 }
 
+.navLink:hover {
+  filter: brightness(75%);
+  border-radius: 0.4rem;
+}
+
 .badgeSuccess {
   background-color: rgba(12, 188, 135, 0.1);
   color: rgba(12, 188, 135, 1);
-  font-size: small;
-  font-weight: 400;
   display: inline-block;
-  padding: 0.35em 0.65em;
   font-size: 0.85em;
   font-weight: 400;
-  line-height: 1;
   text-align: center;
-  white-space: nowrap;
-  vertical-align: baseline;
   border-radius: 0.4rem;
 }
