@@ -22,9 +22,13 @@ function App() {
 
     useEffect(() => {
         getuser();
+        
     }, []);
 
     const getuser = async () => {
+        const response = await dispatch(SetUser());
+        if (SetUser.fulfilled.match(response)) setLoading(false);
+
         const response = await dispatch(SetUser());
         if (SetUser.fulfilled.match(response)) setLoading(false);
 
