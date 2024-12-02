@@ -19,9 +19,13 @@ import { messageContext } from "../../../../components/Layouts/DefaultLayout";
 function DetailMessage({ onShow }) {
     const {setRequest} = useContext(messageContext)
     const friends = useSelector((state) => state.friends.allFriends);
+    const [callsId, setCallsId] = useState([]);
     const userid = useSelector((state) => state.user.information.userId);
     const currentFriendId = useSelector((state) => state.message.currentUserId);
+<<<<<<< HEAD
     const MessageId = useSelector((state) => state.message.currentMessage?.messageId);
+=======
+>>>>>>> e3e4e53 (sửa vặt)
 
     const mainTopic = useSelector(
         (state) => state.message.currentMessage?.mainTopicNavigation
@@ -83,8 +87,6 @@ function DetailMessage({ onShow }) {
         } catch (error) {
             console.log("Lỗi", error)
         }
-
-        
     };
 
     const toggleListVisibility = () => {

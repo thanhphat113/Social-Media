@@ -13,11 +13,5 @@ namespace Backend.Services.Interface
 		Task<bool> CheckUserInMessage(int MessageId, int UserId);
 		Task<ChatInMessage> UpdateTopic(int Id, int TopicId, int UserId);
 		Task<int> GetOtherUserIdInMessage(int MessageId, int UserId);
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 266570f (real-time nickname)
-
 	}
 }

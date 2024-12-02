@@ -1,7 +1,14 @@
+<<<<<<< HEAD
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import * as signalR from "@microsoft/signalr";
 import { useEffect, useRef, useState, createContext } from "react";
+=======
+import { Outlet, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import * as signalR from "@microsoft/signalr";
+import { useEffect, useRef  } from "react";
+>>>>>>> e3e4e53 (sửa vặt)
 import { receiveMess } from "../../Redux/Slices/FriendSlice";
 import { setNNPassive, setTopicPassive } from "../../Redux/Slices/MessageSlice";
 import styles from "./DefaultLayout.module.scss";
@@ -13,6 +20,7 @@ export const messageContext = createContext();
 
 function DefaultLayout() {
     const user = useSelector((state) => state.user.information);
+<<<<<<< HEAD
     const [caller, setCaller] = useState();
     const [haveCalling, setHaveCalling] = useState();
     const location = useLocation();
@@ -28,6 +36,10 @@ function DefaultLayout() {
     const userVideo = useRef(null);
     const otherVideo = useRef(null);
 
+=======
+    const location = useLocation()
+    const audioRef = useRef()
+>>>>>>> e3e4e53 (sửa vặt)
 
     const dispatch = useDispatch();
 
