@@ -65,7 +65,7 @@ builder.Services.AddScoped<PostNotiService>();
 builder.Services.AddScoped<UserMediaService>();
 builder.Services.AddScoped<MediaService>();
 builder.Services.AddScoped<RelationshipService>();
-
+builder.Services.AddScoped<InformationService>();
 
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();

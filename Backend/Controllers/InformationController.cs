@@ -4,7 +4,6 @@ using Backend.Services;
 using Microsoft.AspNetCore.Authorization;
 using System.IdentityModel.Tokens.Jwt;
 using Backend.Models;
-using Backend.Services;
 using Castle.Components.DictionaryAdapter.Xml;
 
 namespace Backend.Controllers
@@ -15,21 +14,24 @@ namespace Backend.Controllers
 	public class InformationController : ControllerBase
 	{
 
-		private readonly UserService _userContext;
+		// private readonly UserService _userContext;
 
 		private readonly GroupChatService _group;
 		private readonly MediaService _media;
 
 		private readonly RequestNotiService _NotiContext;
 		private readonly PostNotiService _PostContext;
+		
+		private readonly InformationService _informationContext;
 
-		public InformationController(MediaService media, GroupChatService group, UserService UserContext, MessageService mess, RequestNotiService NotiContext, PostNotiService PostContext)
+		public InformationController(MediaService media, GroupChatService group, MessageService mess, RequestNotiService NotiContext, PostNotiService PostContext, InformationService informationContext )
 		{
 			_group = group;
 			_media = media;
-			_userContext = UserContext;
+			// _userContext = UserContext;
 			_NotiContext = NotiContext;
 			_PostContext = PostContext;
+			_informationContext = informationContext;
 		}
 		
 		[AllowAnonymous]
@@ -46,7 +48,7 @@ public async Task<IActionResult> UpdateInformation([FromBody] User user)
     try
     {
         // Lấy thông tin người dùng từ cơ sở dữ liệu theo userId
-        var existingUser = await _userContext.GetById(userId);
+        var existingUser = await _informationContext.GetById(userId);
 
         if (existingUser == null)
         {
@@ -59,7 +61,7 @@ public async Task<IActionResult> UpdateInformation([FromBody] User user)
         if (!string.Equals(existingUser.Email, user.Email, StringComparison.OrdinalIgnoreCase))
         {
 	       
-            var isEmailTaken = await _userContext.HasEmail(user.Email);
+            var isEmailTaken = await _informationContext.HasEmail(user.Email);
             if (isEmailTaken)
             {
                 // return BadRequest("Email này đã được sử dụng hoặc sai định dạng.");
@@ -75,7 +77,7 @@ public async Task<IActionResult> UpdateInformation([FromBody] User user)
         existingUser.Bio = user.Bio ?? existingUser.Bio;
 
         // Gọi phương thức Update trong UserService để lưu thay đổi
-        var updateResult = await _userContext.Update(existingUser);
+        var updateResult = await _informationContext.Update(existingUser);
 
         if (updateResult)
         {
@@ -114,7 +116,7 @@ public async Task<IActionResult> UpdateInformation([FromBody] User user)
 				return BadRequest(new { message = "Mật khẩu mới và xác nhận mật khẩu không khớp!" });
 			}
 
-			var result = await _userContext.ChangePassword(GetCookie.GetUserIdFromCookie(Request), model);
+			var result = await _informationContext.ChangePassword(GetCookie.GetUserIdFromCookie(Request), model);
 			if (result)
 			{
 				return Ok(new { message = "Mật khẩu đã được thay đổi thành công!" });
