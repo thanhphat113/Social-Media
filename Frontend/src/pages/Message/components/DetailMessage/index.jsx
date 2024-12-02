@@ -19,7 +19,6 @@ import { messageContext } from "../../../../components/Layouts/DefaultLayout";
 function DetailMessage({ onShow }) {
     const {setRequest} = useContext(messageContext)
     const friends = useSelector((state) => state.friends.allFriends);
-    const [callsId, setCallsId] = useState([]);
     const userid = useSelector((state) => state.user.information.userId);
     const currentFriendId = useSelector((state) => state.message.currentUserId);
     const MessageId = useSelector((state) => state.message.currentMessage?.messageId);
@@ -72,7 +71,6 @@ function DetailMessage({ onShow }) {
         }
     }, [friends]);
 
-<<<<<<< HEAD
     const handleCall = async () => {
         try {
             const response = await axios.get(`http://localhost:5164/api/Message/call-user`,
@@ -85,6 +83,8 @@ function DetailMessage({ onShow }) {
         } catch (error) {
             console.log("Lỗi", error)
         }
+
+        
     };
 
     const toggleListVisibility = () => {

@@ -952,21 +952,6 @@ namespace Backend.Migrations
                     b.ToTable("post_media", (string)null);
                 });
 
-            modelBuilder.Entity("post_media", b =>
-                {
-                    b.Property<int>("media_id")
-                        .HasColumnType("int(11)");
-
-                    b.Property<int>("post_id")
-                        .HasColumnType("int(11)");
-
-                    b.HasKey("media_id", "post_id");
-
-                    b.HasIndex("post_id");
-
-                    b.ToTable("post_media");
-                });
-
             modelBuilder.Entity("Backend.Models.ChatInGroup", b =>
                 {
                     b.HasOne("Backend.Models.User", "FromUserNavigation")
