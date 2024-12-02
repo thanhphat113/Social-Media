@@ -217,8 +217,8 @@ namespace Backend.Services
                 {
                     x.UserId,
                     Name = $"{x.FirstName.Trim()} {x.LastName.Trim()}",
-                    SrcProfilePicture = x.UserMedia.Where(y => y.IsProfilePicture == true).Select(y => new { y.Media.Src, y.MediaId }).FirstOrDefault(),
-                    SrcCoverPhoto = x.UserMedia.Where(y => y.IsCoverPicture == true).Select(y => new { y.Media.Src, y.MediaId }).FirstOrDefault(),
+                    SrcProfilePicture = x.Posts.Where(y => y.IsPictureProfile == true).Select(y => y.Medias.FirstOrDefault()!.Src).FirstOrDefault(),
+                    SrcCoverPhoto = x.Posts.Where(y => y.IsCoverPhoto == true).Select(y => y.Medias.FirstOrDefault()!.Src).FirstOrDefault(),
                     x.DateCreated,
                     x.Location,
                     NumberFriend = x.RelationshipFromUsers.Count(x => x.TypeRelationship == 2) + x.RelationshipToUsers.Count(x => x.TypeRelationship == 2),
@@ -241,7 +241,7 @@ namespace Backend.Services
                 {
                     x.UserId,
                     Name = $"{x.FirstName.Trim()} {x.LastName.Trim()}",
-                    SrcProfilePicture = x.UserMedia.Where(y => y.IsProfilePicture == true).Select(y => y.Media.Src).FirstOrDefault(),
+                    SrcProfilePicture = x.Posts.Where(y => y.IsPictureProfile == true).Select(y => y.Medias.FirstOrDefault()!.Src).FirstOrDefault(),
                     x.Location,
                     x.GenderId,
                 })
@@ -259,7 +259,7 @@ namespace Backend.Services
                 {
                     x.UserId,
                     Name = $"{x.FirstName.Trim()} {x.LastName.Trim()}",
-                    SrcProfilePicture = x.UserMedia.Where(y => y.IsProfilePicture == true).Select(y => y.Media.Src).FirstOrDefault(),
+                    SrcProfilePicture = x.Posts.Where(y => y.IsPictureProfile == true).Select(y => y.Medias.FirstOrDefault()!.Src).FirstOrDefault(),
                     x.Location
                 })
                 .ToListAsync();
@@ -267,17 +267,15 @@ namespace Backend.Services
             return rs;
         }
 
-        public async Task<dynamic> GetUserMedia(int userId)
+        public async Task<dynamic?> GetUserMedia(int userId)
         {
-            var rs = await _context.UserMedia
+            var rs = await _context.Users
                 .AsNoTracking()
                 .Where(x => x.UserId == userId)
-                .Select(x => new
-                {
-                    MediaId = x.MediaId,
-                    Src = x.Media.Src,
-                })
-                .ToListAsync();
+                .Select(x =>
+                    x.Posts.SelectMany(y => y.Medias.Select(z => z.Src).ToList()).ToList()
+                )
+                .FirstOrDefaultAsync();
 
             return rs;
         }
@@ -306,7 +304,9 @@ namespace Backend.Services
 
             var relationship = await _context.Relationships
                 .AsNoTracking()
-                .Where(x => (x.FromUserId == userId && x.ToUserId == idUserCurrentFormat) || (x.FromUserId == idUserCurrentFormat && x.ToUserId == userId))
+                .Where(x => (x.FromUserId == userId && x.ToUserId == idUserCurrentFormat) 
+                            || (x.FromUserId == idUserCurrentFormat && x.ToUserId == userId)
+                       )
                 .Select(x => x.TypeRelationshipNavigation!.TypeName)
                 .FirstOrDefaultAsync();
 
@@ -359,36 +359,36 @@ namespace Backend.Services
 
                 string fileName = $"{Guid.NewGuid().ToString()}_{Path.GetFileName(file.FileName)}";
 
-                await _context.UserMedia.Where(x => x.MediaId == mediaId || x.UserId == userId).ExecuteUpdateAsync(setter => setter.SetProperty(x => x.IsProfilePicture, false));
+                //await _context.UserMedia.Where(x => x.MediaId == mediaId || x.UserId == userId).ExecuteUpdateAsync(setter => setter.SetProperty(x => x.IsProfilePicture, false));
 
-                var hashFile = await MiddleWare.GetFileHashAsync(file);
+                //var hashFile = await MiddleWare.GetFileHashAsync(file);
 
-                var idMedia = await _context.Media.AsNoTracking().Where(x => x.HashCode == hashFile).Select(x => x.MediaId).FirstOrDefaultAsync();
+                //var idMedia = await _context.Media.AsNoTracking().Where(x => x.HashCode == hashFile).Select(x => x.MediaId).FirstOrDefaultAsync();
 
-                if(idMedia == 0)
-                {
-                    Media media = new Media
-                    {
-                        Src = fileName,
-                        HashCode = hashFile,
-                        MediaType = 1
-                    };
+                //if(idMedia == 0)
+                //{
+                //    Media media = new Media
+                //    {
+                //        Src = fileName,
+                //        HashCode = hashFile,
+                //        MediaType = 1
+                //    };
 
-                    await _context.Media.AddAsync(media);
-                    await _context.SaveChangesAsync();
+                //    await _context.Media.AddAsync(media);
+                //    await _context.SaveChangesAsync();
 
-                    idMedia = media.MediaId;
-                }
+                //    idMedia = media.MediaId;
+                //}
 
-                UserMedia userMedia = new UserMedia
-                {
-                    UserId = userId,
-                    MediaId = idMedia,
-                    IsProfilePicture = true,
-                    IsCoverPicture = false
-                };
+                //UserMedia userMedia = new UserMedia
+                //{
+                //    UserId = userId,
+                //    MediaId = idMedia,
+                //    IsProfilePicture = true,
+                //    IsCoverPicture = false
+                //};
 
-                await _context.UserMedia.AddAsync(userMedia);
+                //await _context.UserMedia.AddAsync(userMedia);
                 await _context.SaveChangesAsync();
 
                 await transaction.CommitAsync();
@@ -443,36 +443,36 @@ namespace Backend.Services
 
                 string fileName = $"{Guid.NewGuid().ToString()}_{Path.GetFileName(file.FileName)}";
 
-                await _context.UserMedia.Where(x => x.MediaId == mediaId || x.UserId == userId).ExecuteUpdateAsync(setter => setter.SetProperty(x => x.IsCoverPicture, false));
+                //await _context.UserMedia.Where(x => x.MediaId == mediaId || x.UserId == userId).ExecuteUpdateAsync(setter => setter.SetProperty(x => x.IsCoverPicture, false));
 
-                var hashFile = await MiddleWare.GetFileHashAsync(file);
+                //var hashFile = await MiddleWare.GetFileHashAsync(file);
 
-                var idMedia = await _context.Media.AsNoTracking().Where(x => x.HashCode == hashFile).Select(x => x.MediaId).FirstOrDefaultAsync();
+                //var idMedia = await _context.Media.AsNoTracking().Where(x => x.HashCode == hashFile).Select(x => x.MediaId).FirstOrDefaultAsync();
 
-                if (idMedia == 0)
-                {
-                    Media media = new Media
-                    {
-                        Src = fileName,
-                        HashCode = hashFile,
-                        MediaType = 1
-                    };
+                //if (idMedia == 0)
+                //{
+                //    Media media = new Media
+                //    {
+                //        Src = fileName,
+                //        HashCode = hashFile,
+                //        MediaType = 1
+                //    };
 
-                    await _context.Media.AddAsync(media);
-                    await _context.SaveChangesAsync();
+                //    await _context.Media.AddAsync(media);
+                //    await _context.SaveChangesAsync();
 
-                    idMedia = media.MediaId;
-                };
+                //    idMedia = media.MediaId;
+                //};
 
-                UserMedia userMedia = new UserMedia
-                {
-                    UserId = userId,
-                    MediaId = idMedia,
-                    IsProfilePicture = false,
-                    IsCoverPicture = true
-                };
+                //UserMedia userMedia = new UserMedia
+                //{
+                //    UserId = userId,
+                //    MediaId = idMedia,
+                //    IsProfilePicture = false,
+                //    IsCoverPicture = true
+                //};
 
-                await _context.UserMedia.AddAsync(userMedia);
+                //await _context.UserMedia.AddAsync(userMedia);
                 await _context.SaveChangesAsync();
 
                 await transaction.CommitAsync();
