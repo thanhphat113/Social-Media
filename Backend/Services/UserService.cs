@@ -193,9 +193,22 @@ namespace Backend.Services
             return new ValidateEmail("Email hợp lệ", true);
         }
 
-        public Task<User> GetById(int id)
+        public async Task<UserPrivate> FindById(int id)
         {
-            throw new NotImplementedException();
+            var item = await _unit.Users.GetByIdAsync(id);
+            if (item == null) return null;
+            var result = _mapper.Map<UserPrivate>(item);
+            var MediaIsProfile = await _unit.Post.GetByConditionAsync<Media>(query => query
+                            .Where(p => p.CreatedByUserId == item.UserId && p.IsPictureProfile == true)
+                            .SelectMany(p => p.Medias));
+
+            if (MediaIsProfile != null)
+            {
+                MediaIsProfile.Src = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}/media/{MediaIsProfile.Src}";
+                result.ProfilePicture = MediaIsProfile;
+            }
+
+            return result;
         }
 
         public async Task<IEnumerable<UserPrivate>> GetListByName(string name, int UserId)
@@ -208,6 +221,7 @@ namespace Backend.Services
             return result;
         }
 
+<<<<<<< HEAD
         public async Task<dynamic?> GetUserInfor(int userId)
         {
             var rs = await _context.Users
@@ -570,6 +584,12 @@ namespace Backend.Services
             };
         }
 
+=======
+        public Task<User> GetById(int id)
+        {
+            throw new NotImplementedException();
+        }
+>>>>>>> 3d2e984 (calling 90%)
     }
 
 }

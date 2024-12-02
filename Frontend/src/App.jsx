@@ -1,7 +1,6 @@
 import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import * as signalR from "@microsoft/signalr";
 
 import Login from "./pages/Login";
 import Message from "./pages/Message";
@@ -14,7 +13,6 @@ import Profile from "./pages/Profile";
 import NewGroupPage from "./pages/Group/NewGroup";
 import Authentication from "./components/Authentication";
 import { SetUser } from "./components/Redux/Actions/UserAction";
-import Call from "./pages/Call";
 import LoadingPage from "./pages/Loading/index.jsx";
 
 function App() {
@@ -24,7 +22,6 @@ function App() {
 
     useEffect(() => {
         getuser();
-        
     }, []);
 
     const getuser = async () => {
@@ -45,14 +42,6 @@ function App() {
                     element={
                         <Authentication>
                             <Message />
-                        </Authentication>
-                    }
-                />
-                <Route
-                    path="/call/:id"
-                    element={
-                        <Authentication>
-                            <Call />
                         </Authentication>
                     }
                 />

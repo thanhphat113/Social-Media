@@ -13,12 +13,15 @@ import {
     addMessWithMedia,
 } from "../../../../components/Redux/Actions/MessageActions";
 import Validate from "../../../../components/Validate";
+import axios from "axios";
+import { messageContext } from "../../../../components/Layouts/DefaultLayout";
 
 function DetailMessage({ onShow }) {
+    const {setRequest} = useContext(messageContext)
     const friends = useSelector((state) => state.friends.allFriends);
-    const [callsId, setCallsId] = useState([]);
     const userid = useSelector((state) => state.user.information.userId);
     const currentFriendId = useSelector((state) => state.message.currentUserId);
+    const MessageId = useSelector((state) => state.message.currentMessage?.messageId);
 
     const mainTopic = useSelector(
         (state) => state.message.currentMessage?.mainTopicNavigation
@@ -68,23 +71,20 @@ function DetailMessage({ onShow }) {
         }
     }, [friends]);
 
-    let CallFrame = null;
-    const handleCall = () => {
-        let newNumber;
-
-        do {
-            newNumber = Math.floor(100000000000 + Math.random() * 900000000000);
-        } while (callsId.includes(newNumber));
-
-        setCallsId((prevCallsId) => [...prevCallsId, newNumber]);
-
-        if (!CallFrame || CallFrame.closed) {
-            CallFrame = window.open(
-                `/call/${currentFriendId}`,
-                "_blank",
-                "width=1200,height=800"
-            );
+    const handleCall = async () => {
+        try {
+            const response = await axios.get(`http://localhost:5164/api/Message/call-user`,
+                {
+                    withCredentials: true,
+                    params: {FriendId: currentFriendId}
+                }
+            )
+            setRequest(response.data)
+        } catch (error) {
+            console.log("Lỗi", error)
         }
+
+        
     };
 
     const toggleListVisibility = () => {

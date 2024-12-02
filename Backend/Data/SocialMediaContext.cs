@@ -465,8 +465,12 @@ public partial class SocialMediaContext : DbContext
                         .HasForeignKey("media_id"),
                     j => j.HasOne<Post>()
                         .WithMany()
-                        .HasForeignKey("post_id")
-                    );
+                        .HasForeignKey("post_id"),
+                    j =>
+                    {
+                        j.HasKey("media_id", "post_id");
+                    });
+
 
 
             entity.HasOne(d => d.Privacy).WithMany(p => p.Posts)

@@ -934,7 +934,7 @@ namespace Backend.Migrations
 
                     b.HasIndex("message_id");
 
-                    b.ToTable("media_message");
+                    b.ToTable("media_message", (string)null);
                 });
 
             modelBuilder.Entity("post_media", b =>
@@ -949,7 +949,7 @@ namespace Backend.Migrations
 
                     b.HasIndex("post_id");
 
-                    b.ToTable("post_media");
+                    b.ToTable("post_media", (string)null);
                 });
 
             modelBuilder.Entity("Backend.Models.ChatInGroup", b =>
