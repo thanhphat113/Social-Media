@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using Backend.DTO;
 using Backend.Helper;
 using Backend.Services.Interface;
 using Microsoft.AspNetCore.SignalR;
@@ -39,9 +40,9 @@ public class OnlineHub : Hub
 	public override async Task OnDisconnectedAsync(Exception exception)
 	{
 		var userId = GetUserIdFromContext();
-		Console.WriteLine($"Client disconnected: {Context.ConnectionId}");
 
 		UserIdConnections.Remove(userId);
+		UserIdCalling.Remove(userId);
 		NotifyOnlineStatus(userId, false); // Thông báo trạng thái offline cho các client khác
 		await base.OnDisconnectedAsync(exception);
 	}
@@ -82,7 +83,7 @@ public class OnlineHub : Hub
 		}
 	}
 
-	public async Task AcceptCall(int callerId)
+	public async Task AcceptCall(int callerId, RTCSessionDescription offer)
 	{
 		try
 		{
@@ -90,7 +91,7 @@ public class OnlineHub : Hub
 			UserIdCalling.Add(CalleeId);
 			var Message = await _mess.FindBy2User(CalleeId, callerId);
 			var connectionId = UserIdConnections[callerId];
-			await Clients.Client(connectionId).SendAsync("RequestCall", new { CalleeId, callerId });
+			await Clients.Client(connectionId).SendAsync("RequestCall", new { CalleeId, callerId, offer = offer });
 		}
 		catch (Exception ex)
 		{
@@ -108,6 +109,18 @@ public class OnlineHub : Hub
 		await Clients.Client(connectionId).SendAsync("sendLeaveCall", null);
 	}
 
+	public async Task SendAnswer(int calleeId, RTCSessionDescription answer)
+	{
+		var callerId = GetUserIdFromContext();
+		var connectionId = UserIdConnections[calleeId];
+		await Clients.Client(connectionId).SendAsync("receiveAnswer", new { answer = answer, callerId = callerId });
+	}
+
+	public async Task SendCandidate(int sendId, object candidate)
+	{
+		var connectionId = UserIdConnections[sendId];
+		await Clients.Client(connectionId).SendAsync("receiveCandidate", candidate);
+	}
 
 
 	private int GetUserIdFromContext()

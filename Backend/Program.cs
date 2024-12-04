@@ -59,10 +59,8 @@ builder.Services.AddSignalR();
 
 builder.Services.AddScoped<PostNotiService>();
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IGroupService, GroupService>();
 builder.Services.AddScoped<IService<MainTopic>, MainTopicService>();
 builder.Services.AddScoped<HistorySearchService>();
-builder.Services.AddScoped<GroupChatService>();
 builder.Services.AddScoped<IMessageService, MessageService>();
 builder.Services.AddScoped<MainTopicService>();
 builder.Services.AddScoped<IChatInMessService, ChatInMessageService>();

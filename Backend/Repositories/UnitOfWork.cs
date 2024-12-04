@@ -11,7 +11,6 @@ namespace Backend.Repositories
         // Khai báo các repository riêng tư
         private readonly IGenericRepository<User> _Users;
         private readonly IGenericRepository<ChatInMessage> _ChatInMessage;
-        private readonly IGenericRepository<GroupChat> _GroupChat;
         private readonly IGenericRepository<HistorySearch> _HistorySearch;
         private readonly IGenericRepository<Message> _Message;
         private readonly IGenericRepository<MainTopic> _main;
@@ -26,7 +25,6 @@ namespace Backend.Repositories
                           IGenericRepository<User> Users,
                           IGenericRepository<Post> post,
                           IGenericRepository<ChatInMessage> ChatInMessage,
-                          IGenericRepository<GroupChat> GroupChat,
                           IGenericRepository<HistorySearch> HistorySearch,
                           IGenericRepository<Message> Message,
                           IGenericRepository<MainTopic> MainTopic,
@@ -40,7 +38,6 @@ namespace Backend.Repositories
             _post = post;
             _main = MainTopic;
             _ChatInMessage = ChatInMessage;
-            _GroupChat = GroupChat;
             _HistorySearch = HistorySearch;
             _Message = Message;
             _PostNotification = PostNotification;
@@ -52,7 +49,6 @@ namespace Backend.Repositories
         // Các property chỉ đọc cho các repository
         public IGenericRepository<User> Users => _Users;
         public IGenericRepository<ChatInMessage> ChatInMessage => _ChatInMessage;
-        public IGenericRepository<GroupChat> GroupChat => _GroupChat;
         public IGenericRepository<HistorySearch> HistorySearch => _HistorySearch;
         public IGenericRepository<Message> Message => _Message;
         public IGenericRepository<MainTopic> MainTopic => _main;

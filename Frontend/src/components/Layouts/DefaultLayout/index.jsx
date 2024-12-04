@@ -1,7 +1,7 @@
 import { Outlet, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import * as signalR from "@microsoft/signalr";
-import { useEffect, useRef, useState, createContext  } from "react";
+import { useEffect, useRef, useState, createContext } from "react";
 import { receiveMess } from "../../Redux/Slices/FriendSlice";
 import { setNNPassive, setTopicPassive } from "../../Redux/Slices/MessageSlice";
 import styles from "./DefaultLayout.module.scss";
@@ -14,42 +14,26 @@ export const messageContext = createContext();
 function DefaultLayout() {
     const user = useSelector((state) => state.user.information);
     const [caller, setCaller] = useState();
-    const [haveCalling, setHaveCalling] = useState();
+    const [haveCalling, setHaveCalling] = useState(false);
+    const [haveUser, setHaveUser] = useState();
     const location = useLocation();
     const audioRef = useRef();
     const callingRef = useRef();
     const [request, setRequest] = useState();
     const [accept, setAccept] = useState();
     const [connection, setConnection] = useState();
+    const [isLoading, setIsLoading] = useState(false)
 
     const [toggleCamera, setToggleCamera] = useState(true);
     const [toggleVolume, setToggleVolume] = useState(false);
 
+    const peerConnect = useRef(null);
+
     const userVideo = useRef(null);
     const otherVideo = useRef(null);
+    const localStream = useRef(null);
 
     const dispatch = useDispatch();
-
-
-    useEffect(() => {
-        haveCalling && navigator.mediaDevices
-            .getUserMedia({ video: toggleCamera, audio: toggleVolume })
-            .then((stream) => {
-                if (userVideo.current) {
-                    userVideo.current.srcObject = stream;
-                }
-            })
-            .catch((err) => {
-                console.error("Lỗi truy cập thiết bị media:", err);
-            });
-
-        return () => {
-            if (userVideo.current && userVideo.current.srcObject) {
-                let tracks = userVideo.current.srcObject.getTracks();
-                tracks.forEach((track) => track.stop());
-            }
-        };
-    }, [toggleCamera, toggleVolume, haveCalling]);
 
     useEffect(() => {
         const connection = new signalR.HubConnectionBuilder()
@@ -69,8 +53,6 @@ function DefaultLayout() {
             audioElement.addEventListener("ended", handleAudioEnd);
         }
 
-        console.log(location.pathname);
-
         return () => {
             if (connection && !window.name.includes("call")) connection.stop();
             setRequest(null);
@@ -80,12 +62,18 @@ function DefaultLayout() {
             }
 
             if (callingRef.current && !callingRef.current.paused) {
-                console.log("Audio is playing, attempting to stop.");
                 callingRef.current.pause();
                 callingRef.current.currentTime = 0;
             } else {
                 console.log("Audio is not playing.");
             }
+            if (peerConnect.current) {
+                peerConnect.current.close();
+                peerConnect.current = null;
+            }
+            setCaller();
+            setHaveCalling(false);
+            setHaveUser();
         };
     }, [user]);
 
@@ -94,18 +82,62 @@ function DefaultLayout() {
     };
 
 
-    const handleAcceptCall = () => {
+    const handleAcceptCall = async () => {
+        if (isLoading) return
+        setIsLoading(true)
         if (callingRef.current) {
-            console.log("Stopping calling audio");
             callingRef.current.pause();
             callingRef.current.currentTime = 0;
         }
-
-        setHaveCalling(true)
+        setHaveUser({ callerId: caller.userId, calleeId: user.userId });
+        setHaveCalling(true);
         setCaller(null);
-        connection
-            .invoke("AcceptCall", caller.userId)
-            .catch((err) => console.log("Lỗi", err));
+
+        peerConnect.current = new RTCPeerConnection();
+
+        peerConnect.current.ontrack = (event) => {
+            console.log(peerConnect.current)
+            console.log("Caller received track from callee:", event.track.id);
+        
+            if (event.track.kind === "video") {
+                const remoteStream = new MediaStream();
+                remoteStream.addTrack(event.track);
+                otherVideo.current.srcObject = remoteStream;
+            }
+        };
+
+        localStream.current = await navigator.mediaDevices.getUserMedia({
+            video: true,
+            audio: false,
+        }).then((stream) => {
+            userVideo.current.srcObject = stream;
+
+            stream.getTracks().forEach((track) => {
+                console.log(track)
+                peerConnect.current.addTrack(track, stream);})
+        })
+
+        peerConnect.current.getSenders().forEach((sender) => {
+            if (sender.track) {
+                console.log("Caller is sending track:", sender.track.id);
+                console.log("Kind:", sender.track.kind);
+            }
+        });
+
+        try {
+            const offer = await peerConnect.current.createOffer();
+
+            await peerConnect.current.setLocalDescription(new RTCSessionDescription(offer));
+
+            await connection
+                .invoke("AcceptCall", caller.userId, offer)
+                .catch((err) => console.log("Lỗi", err));
+        } catch (err) {
+            console.error("Error accessing media devices:", err);
+        }
+        finally{
+            setIsLoading(false)
+        }
     };
 
     useEffect(() => {
@@ -135,29 +167,203 @@ function DefaultLayout() {
             });
 
             connection.on("ConnectCall", async (value) => {
-                console.log("đã chạy vào đây");
-                console.log(value);
-                await setCaller(value);
-                // calling();
+                setCaller(value);
             });
 
             connection.on("CallDeclined", async (value) => {
-                await setRequest(null);
-                await setAccept(value);
+                setRequest(null);
+                setAccept(value);
             });
 
             connection.on("RequestCall", async (value) => {
-                await setHaveCalling(value);
-                await setRequest(null);
-                await setCaller(null);
+                try {
+                    peerConnect.current = new RTCPeerConnection();
+
+                    peerConnect.current.ontrack = (event) => {
+                        console.log("Caller received track from callee:", event.track.kind);
+                    
+                        if (event.track.kind === "video") {
+                            const remoteStream = new MediaStream();
+                            remoteStream.addTrack(event.track);
+                            otherVideo.current.srcObject = remoteStream
+                        }
+                    };
+
+                    await peerConnect.current.setRemoteDescription(
+                        new RTCSessionDescription(value.offer)
+                    );
+                    
+                    peerConnect.current.onicecandidate = async (event) => {
+                        if (
+                            peerConnect.current.iceConnectionState ===
+                                "connected" ||
+                            peerConnect.current.iceConnectionState ===
+                                "completed"
+                        ) {
+                            console.log(
+                                "Skipping ICE candidate, connection is already stable."
+                            );
+                            return;
+                        }
+
+                        if (
+                            event.candidate &&
+                            event.candidate.candidate !== ""
+                        ) {
+
+                            await connection.invoke(
+                                "SendCandidate",
+                                value.calleeId,
+                                event.candidate
+                            );
+                        } else {
+                            console.log(
+                                "All ICE candidates have been gathered."
+                            );
+                        }
+                    };
+
+                    localStream.current =
+                        await navigator.mediaDevices.getUserMedia({
+                            video: true,
+                            audio: false,
+                        }).then((stream) => {
+                            userVideo.current.srcObject = stream;
+                
+                            stream.getTracks().forEach((track) => {
+                                peerConnect.current.addTrack(track, stream);
+                        })})
+                        console.log(localStream.current)
+
+
+                        peerConnect.current.getSenders().forEach((sender) => {
+                            if (sender.track) {
+                                console.log("Caller is sending track:", sender.track.id);
+                                console.log("Kind:", sender.track.kind); // "audio" hoặc "video"
+                            }
+                        });
+                        console.log(peerConnect.current)
+
+                    const answer = await peerConnect.current.createAnswer();
+                    await peerConnect.current.setLocalDescription(answer);
+
+                    await connection
+                        .invoke("SendAnswer", value.calleeId, answer)
+                        .catch((err) => console.log("Lỗi", err));
+                } catch (error) {
+                    console.error("Error handling WebRTC signaling:", error);
+                } finally {
+                    setHaveUser({
+                        calleeId: value.calleeId,
+                        callerId: value.callerId,
+                    });
+                    setHaveCalling(true);
+                    setRequest(null);
+                }
+            });
+
+            let pendingCandidates = [];
+            connection.on("receiveCandidate", async (data) => {
+                const receivedCandidates = new Set();
+                if (data && !receivedCandidates.has(data)) {
+                    if (peerConnect.current.remoteDescription) {
+                        receivedCandidates.add(data.candidate);
+                        try {
+                            await peerConnect.current
+                                .addIceCandidate(new RTCIceCandidate(data))
+                                .catch((error) => {
+                                    console.error(
+                                        "Error adding ICE candidate:",
+                                        error
+                                    );
+                                });
+                        } catch (error) {
+                            console.error("Error adding ICE candidate:", error);
+                        }
+                    } else {
+                        pendingCandidates.push(data);
+                    }
+                } else {
+                    console.log(
+                        "ICE candidate đã nhận trước đó hoặc không hợp lệ."
+                    );
+                }
             });
 
             connection.on("sendLeaveCall", async (value) => {
-                console.log("đã vào đây",value)
-                await setHaveCalling(value);
+                stopMedia();
+                setHaveCalling(false);
+                setHaveUser(value);
+            });
+
+            connection.on("receiveAnswer", async (value) => {
+                await peerConnect.current.setRemoteDescription(
+                    new RTCSessionDescription(value.answer)
+                );
+
+                try {
+                    peerConnect.current.onicecandidate = async (event) => {
+                        if (
+                            peerConnect.current.iceConnectionState ===
+                                "connected" ||
+                            peerConnect.current.iceConnectionState ===
+                                "completed"
+                        ) {
+                            console.log(
+                                "Skipping ICE candidate, connection is already stable."
+                            );
+                            return;
+                        }
+
+                        if (
+                            event.candidate &&
+                            event.candidate.candidate !== ""
+                        ) {
+                            await connection.invoke(
+                                "SendCandidate",
+                                value.callerId,
+                                event.candidate
+                            );
+                            console.log("Sent ICE candidate:", event.candidate);
+                        } else {
+                            console.log(
+                                "All ICE candidates have been gathered."
+                            );
+                        }
+                    };
+
+                    pendingCandidates.forEach(async (candidate) => {
+                        try {
+                            await peerConnect.current
+                                .addIceCandidate(new RTCIceCandidate(candidate))
+                                .then(() => {
+                                    console.log(
+                                        "Caller added ICE candidate successfully."
+                                    );
+                                })
+                                .catch((error) => {
+                                    console.error(
+                                        "Error adding ICE candidate:",
+                                        error
+                                    );
+                                });
+                        } catch (error) {
+                            console.error("Error adding ICE candidate:", error);
+                        }
+                    });
+                } catch (error) {
+                    console.log("Lỗi", error);
+                }
             });
         }
     });
+
+    const turnOffVideo = () => {
+        if (userVideo.current && userVideo.current.srcObject) {
+            const tracks = userVideo.current.srcObject.getTracks();
+            tracks.forEach((track) => track.stop());
+        }
+    };
 
     const notifications = () => {
         if (audioRef.current) {
@@ -176,10 +382,30 @@ function DefaultLayout() {
     };
 
     const leaveCall = async () => {
-        connection.invoke("LeaveCall", haveCalling.callerId, haveCalling.calleeId)
+        console.log(haveUser);
+        await connection
+            .invoke("LeaveCall", haveUser.callerId, haveUser.calleeId)
             .catch((err) => console.log("Lỗi", err));
-        setHaveCalling()
+        turnOffVideo();
+        setHaveCalling(false);
+        setHaveUser();
+        stopMedia();
+    };
+
+    async function stopMedia() {
+        stopMediaStream(localStream.current);
+        if (peerConnect.current) {
+            await peerConnect.current.close();
+        }
     }
+
+    const stopMediaStream = async (stream) => {
+        if (stream) {
+            await stream.getTracks().forEach((track) => {
+                track.stop();
+            });
+        }
+    };
 
     const calling = () => {
         if (callingRef.current) {
@@ -259,47 +485,51 @@ function DefaultLayout() {
                             message={accept.message}
                         />
                     ))}
-                {haveCalling && (
-                    <div className={styles.callFrame}>
-                        <video className={styles.video} ref={otherVideo}></video>
-                        <div className={styles.actions}>
-                            <i
-                                onClick={() => setToggleCamera(!toggleCamera)}
-                                className={clsx(
-                                    styles.camera,
-                                    toggleCamera
-                                        ? "fa-solid fa-video"
-                                        : "fa-solid fa-video-slash"
-                                )}
-                            ></i>
-                            <i
-                                onClick={() => setToggleVolume(!toggleVolume)}
-                                className={clsx(
-                                    styles.camera,
-                                    toggleVolume
-                                        ? "fa-solid fa-volume-high"
-                                        : "fa-solid fa-volume-xmark"
-                                )}
-                            ></i>
-                            <i
-                                onClick={() => leaveCall()}
-                                className={clsx(
-                                    styles.stop,
-                                    "fa-solid fa-phone"
-                                )}
-                            ></i>
-                        </div>
-
-                        <div className={styles.userScreen}>
-                            <video
-                                ref={userVideo}
-                                autoPlay
-                                playsInline
-                                style={{ display: !toggleCamera && `none` }}
-                            ></video>
-                        </div>
+                <div
+                    className={styles.callFrame}
+                    style={{ display: !haveCalling && `none` }}
+                >
+                    <video
+                        className={styles.video}
+                        ref={otherVideo}
+                        autoPlay
+                        playsInline
+                        muted
+                    ></video>
+                    <div className={styles.actions}>
+                        <i
+                            onClick={() => setToggleCamera(!toggleCamera)}
+                            className={clsx(
+                                styles.camera,
+                                toggleCamera
+                                    ? "fa-solid fa-video"
+                                    : "fa-solid fa-video-slash"
+                            )}
+                        ></i>
+                        <i
+                            onClick={() => setToggleVolume(!toggleVolume)}
+                            className={clsx(
+                                styles.camera,
+                                toggleVolume
+                                    ? "fa-solid fa-volume-high"
+                                    : "fa-solid fa-volume-xmark"
+                            )}
+                        ></i>
+                        <i
+                            onClick={() => leaveCall()}
+                            className={clsx(styles.stop, "fa-solid fa-phone")}
+                        ></i>
                     </div>
-                )}
+
+                    <div className={styles.userScreen}>
+                        <video
+                            ref={userVideo}
+                            autoPlay
+                            playsInline
+                            style={{ display: !toggleCamera && `none` }}
+                        ></video>
+                    </div>
+                </div>
             </div>
         </messageContext.Provider>
     );

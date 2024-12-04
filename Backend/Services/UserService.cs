@@ -193,6 +193,11 @@ namespace Backend.Services
             return new ValidateEmail("Email hợp lệ", true);
         }
 
+        public async Task<User> GetById(int id)
+        {
+            return null;
+        }
+
         public async Task<UserPrivate> FindById(int id)
         {
             var item = await _unit.Users.GetByIdAsync(id);
@@ -221,302 +226,301 @@ namespace Backend.Services
             return result;
         }
 
-<<<<<<< HEAD
-        public async Task<dynamic?> GetUserInfor(int userId)
-        {
-            var rs = await _context.Users
-                .AsNoTracking()
-                .Where(x => x.UserId == userId)
-                .Select(x => new
-                {
-                    x.UserId,
-                    Name = $"{x.FirstName.Trim()} {x.LastName.Trim()}",
-                    SrcProfilePicture = x.UserMedia.Where(y => y.IsProfilePicture == true).Select(y => new { y.Media.Src, y.MediaId }).FirstOrDefault(),
-                    SrcCoverPhoto = x.UserMedia.Where(y => y.IsCoverPicture == true).Select(y => new { y.Media.Src, y.MediaId }).FirstOrDefault(),
-                    x.DateCreated,
-                    x.Location,
-                    NumberFriend = x.RelationshipFromUsers.Count(x => x.TypeRelationship == 2) + x.RelationshipToUsers.Count(x => x.TypeRelationship == 2),
-                    x.Bio,
-                    x.Email,
-                    x.GenderId,
-                    x.Gender!.GenderName
-                })
-                .FirstOrDefaultAsync();
+        // public async Task<dynamic?> GetUserInfor(int userId)
+        // {
+        //     var rs = await _context.Users
+        //         .AsNoTracking()
+        //         .Where(x => x.UserId == userId)
+        //         .Select(x => new
+        //         {
+        //             x.UserId,
+        //             Name = $"{x.FirstName.Trim()} {x.LastName.Trim()}",
+        //             SrcProfilePicture = x.UserMedia.Where(y => y.IsProfilePicture == true).Select(y => new { y.Media.Src, y.MediaId }).FirstOrDefault(),
+        //             SrcCoverPhoto = x.UserMedia.Where(y => y.IsCoverPicture == true).Select(y => new { y.Media.Src, y.MediaId }).FirstOrDefault(),
+        //             x.DateCreated,
+        //             x.Location,
+        //             NumberFriend = x.RelationshipFromUsers.Count(x => x.TypeRelationship == 2) + x.RelationshipToUsers.Count(x => x.TypeRelationship == 2),
+        //             x.Bio,
+        //             x.Email,
+        //             x.GenderId,
+        //             x.Gender!.GenderName
+        //         })
+        //         .FirstOrDefaultAsync();
 
-            return rs;
-        }
+        //     return rs;
+        // }
 
-        public async Task<dynamic> GetUserFriends(int userId)
-        {
-            var rs = await _context.Users
-                .AsNoTracking()
-                .Where(x => x.RelationshipToUsers.Any(y => y.TypeRelationship == 2 && y.FromUserId == userId) || x.RelationshipFromUsers.Any(y => y.TypeRelationship == 2 && y.ToUserId == userId))
-                .Select(x => new
-                {
-                    x.UserId,
-                    Name = $"{x.FirstName.Trim()} {x.LastName.Trim()}",
-                    SrcProfilePicture = x.UserMedia.Where(y => y.IsProfilePicture == true).Select(y => y.Media.Src).FirstOrDefault(),
-                    x.Location,
-                    x.GenderId,
-                })
-                .ToListAsync();
+        // public async Task<dynamic> GetUserFriends(int userId)
+        // {
+        //     var rs = await _context.Users
+        //         .AsNoTracking()
+        //         .Where(x => x.RelationshipToUsers.Any(y => y.TypeRelationship == 2 && y.FromUserId == userId) || x.RelationshipFromUsers.Any(y => y.TypeRelationship == 2 && y.ToUserId == userId))
+        //         .Select(x => new
+        //         {
+        //             x.UserId,
+        //             Name = $"{x.FirstName.Trim()} {x.LastName.Trim()}",
+        //             SrcProfilePicture = x.UserMedia.Where(y => y.IsProfilePicture == true).Select(y => y.Media.Src).FirstOrDefault(),
+        //             x.Location,
+        //             x.GenderId,
+        //         })
+        //         .ToListAsync();
 
-            return rs;
-        }
+        //     return rs;
+        // }
 
-        public async Task<dynamic> GetUserFollower(int userId)
-        {
-            var rs = await _context.Users
-                .AsNoTracking()
-                .Where(x => x.RelationshipFromUsers.Any(y => y.TypeRelationship == 1 && y.ToUserId == userId))
-                .Select(x => new
-                {
-                    x.UserId,
-                    Name = $"{x.FirstName.Trim()} {x.LastName.Trim()}",
-                    SrcProfilePicture = x.UserMedia.Where(y => y.IsProfilePicture == true).Select(y => y.Media.Src).FirstOrDefault(),
-                    x.Location
-                })
-                .ToListAsync();
+        // public async Task<dynamic> GetUserFollower(int userId)
+        // {
+        //     var rs = await _context.Users
+        //         .AsNoTracking()
+        //         .Where(x => x.RelationshipFromUsers.Any(y => y.TypeRelationship == 1 && y.ToUserId == userId))
+        //         .Select(x => new
+        //         {
+        //             x.UserId,
+        //             Name = $"{x.FirstName.Trim()} {x.LastName.Trim()}",
+        //             SrcProfilePicture = x.UserMedia.Where(y => y.IsProfilePicture == true).Select(y => y.Media.Src).FirstOrDefault(),
+        //             x.Location
+        //         })
+        //         .ToListAsync();
 
-            return rs;
-        }
+        //     return rs;
+        // }
 
-        public async Task<dynamic> GetUserMedia(int userId)
-        {
-            var rs = await _context.UserMedia
-                .AsNoTracking()
-                .Where(x => x.UserId == userId)
-                .Select(x => new
-                {
-                    MediaId = x.MediaId,
-                    Src = x.Media.Src,
-                })
-                .ToListAsync();
+        // public async Task<dynamic> GetUserMedia(int userId)
+        // {
+        //     var rs = await _context.UserMedia
+        //         .AsNoTracking()
+        //         .Where(x => x.UserId == userId)
+        //         .Select(x => new
+        //         {
+        //             MediaId = x.MediaId,
+        //             Src = x.Media.Src,
+        //         })
+        //         .ToListAsync();
 
-            return rs;
-        }
+        //     return rs;
+        // }
 
-        public async Task<dynamic> GetRelationshipToUser(int userId)
-        {
-            var idUserCurrent = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        // public async Task<dynamic> GetRelationshipToUser(int userId)
+        // {
+        //     var idUserCurrent = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            if (idUserCurrent == null || !int.TryParse(idUserCurrent, out int idUserCurrentFormat))
-            {
-                return new
-                {
-                    IsSucces = false,
-                    Message = "Phiên đăng nhập của bạn đã hết hạn!",
-                };
-            }
+        //     if (idUserCurrent == null || !int.TryParse(idUserCurrent, out int idUserCurrentFormat))
+        //     {
+        //         return new
+        //         {
+        //             IsSucces = false,
+        //             Message = "Phiên đăng nhập của bạn đã hết hạn!",
+        //         };
+        //     }
 
-            if (idUserCurrentFormat == userId)
-            {
-                return new
-                {
-                    IsSucces = false,
-                    Message = "Người dùng đang ở trang cá nhân",
-                };
-            }
+        //     if (idUserCurrentFormat == userId)
+        //     {
+        //         return new
+        //         {
+        //             IsSucces = false,
+        //             Message = "Người dùng đang ở trang cá nhân",
+        //         };
+        //     }
 
-            var relationship = await _context.Relationships
-                .AsNoTracking()
-                .Where(x => (x.FromUserId == userId && x.ToUserId == idUserCurrentFormat) || (x.FromUserId == idUserCurrentFormat && x.ToUserId == userId))
-                .Select(x => x.TypeRelationshipNavigation!.TypeName)
-                .FirstOrDefaultAsync();
+        //     var relationship = await _context.Relationships
+        //         .AsNoTracking()
+        //         .Where(x => (x.FromUserId == userId && x.ToUserId == idUserCurrentFormat) || (x.FromUserId == idUserCurrentFormat && x.ToUserId == userId))
+        //         .Select(x => x.TypeRelationshipNavigation!.TypeName)
+        //         .FirstOrDefaultAsync();
 
-            return new
-            {
-                IsSucces = true,
-                Relationship = relationship,
-            };
-        }
+        //     return new
+        //     {
+        //         IsSucces = true,
+        //         Relationship = relationship,
+        //     };
+        // }
 
-        public async Task<dynamic> GetUserProfile(int userId)
-        {
-            var userInfor = await GetUserInfor(userId);
-            var userFriends = await GetUserFriends(userId);
-            var userFollower = await GetUserFollower(userId);
-            var userMedias = await GetUserMedia(userId);
-            var relationshipToUser = await GetRelationshipToUser(userId);
+        // public async Task<dynamic> GetUserProfile(int userId)
+        // {
+        //     var userInfor = await GetUserInfor(userId);
+        //     var userFriends = await GetUserFriends(userId);
+        //     var userFollower = await GetUserFollower(userId);
+        //     var userMedias = await GetUserMedia(userId);
+        //     var relationshipToUser = await GetRelationshipToUser(userId);
 
-            return new
-            {
-                userInfor,
-                userFriends,
-                userFollower,
-                userMedias,
-                relationshipToUser
-            };
-        }
+        //     return new
+        //     {
+        //         userInfor,
+        //         userFriends,
+        //         userFollower,
+        //         userMedias,
+        //         relationshipToUser
+        //     };
+        // }
 
-        public async Task<dynamic> UpdateProfilePicture(int userId, int mediaId, IFormFile? file)
-        {
-            if (file == null || file.Length == 0)
-            {
-                return new
-                {
-                    IsSuccess = false,
-                    Message = "File không hợp lệ!"
-                };
-            }
+        // public async Task<dynamic> UpdateProfilePicture(int userId, int mediaId, IFormFile? file)
+        // {
+        //     if (file == null || file.Length == 0)
+        //     {
+        //         return new
+        //         {
+        //             IsSuccess = false,
+        //             Message = "File không hợp lệ!"
+        //         };
+        //     }
 
 
-            using var transaction = await _context.Database.BeginTransactionAsync();
+        //     using var transaction = await _context.Database.BeginTransactionAsync();
 
-            try
-            {
-                string folderPath = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory())?.FullName, "Frontend", "public", "img", "Picture");
-                if (!Directory.Exists(folderPath))
-                {
-                    Directory.CreateDirectory(folderPath);
-                }
+        //     try
+        //     {
+        //         string folderPath = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory())?.FullName, "Frontend", "public", "img", "Picture");
+        //         if (!Directory.Exists(folderPath))
+        //         {
+        //             Directory.CreateDirectory(folderPath);
+        //         }
 
-                string fileName = $"{Guid.NewGuid().ToString()}_{Path.GetFileName(file.FileName)}";
+        //         string fileName = $"{Guid.NewGuid().ToString()}_{Path.GetFileName(file.FileName)}";
 
-                await _context.UserMedia.Where(x => x.MediaId == mediaId || x.UserId == userId).ExecuteUpdateAsync(setter => setter.SetProperty(x => x.IsProfilePicture, false));
+        //         await _context.UserMedia.Where(x => x.MediaId == mediaId || x.UserId == userId).ExecuteUpdateAsync(setter => setter.SetProperty(x => x.IsProfilePicture, false));
 
-                var hashFile = await MiddleWare.GetFileHashAsync(file);
+        //         var hashFile = await MiddleWare.GetFileHashAsync(file);
 
-                var idMedia = await _context.Media.AsNoTracking().Where(x => x.HashCode == hashFile).Select(x => x.MediaId).FirstOrDefaultAsync();
+        //         var idMedia = await _context.Media.AsNoTracking().Where(x => x.HashCode == hashFile).Select(x => x.MediaId).FirstOrDefaultAsync();
 
-                if(idMedia == 0)
-                {
-                    Media media = new Media
-                    {
-                        Src = fileName,
-                        HashCode = hashFile,
-                        MediaType = 1
-                    };
+        //         if (idMedia == 0)
+        //         {
+        //             Media media = new Media
+        //             {
+        //                 Src = fileName,
+        //                 HashCode = hashFile,
+        //                 MediaType = 1
+        //             };
 
-                    await _context.Media.AddAsync(media);
-                    await _context.SaveChangesAsync();
+        //             await _context.Media.AddAsync(media);
+        //             await _context.SaveChangesAsync();
 
-                    idMedia = media.MediaId;
-                }
+        //             idMedia = media.MediaId;
+        //         }
 
-                UserMedia userMedia = new UserMedia
-                {
-                    UserId = userId,
-                    MediaId = idMedia,
-                    IsProfilePicture = true,
-                    IsCoverPicture = false
-                };
+        //         UserMedia userMedia = new UserMedia
+        //         {
+        //             UserId = userId,
+        //             MediaId = idMedia,
+        //             IsProfilePicture = true,
+        //             IsCoverPicture = false
+        //         };
 
-                await _context.UserMedia.AddAsync(userMedia);
-                await _context.SaveChangesAsync();
+        //         await _context.UserMedia.AddAsync(userMedia);
+        //         await _context.SaveChangesAsync();
 
-                await transaction.CommitAsync();
+        //         await transaction.CommitAsync();
 
-                string filePath = Path.Combine(folderPath, fileName);
+        //         string filePath = Path.Combine(folderPath, fileName);
 
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await file.CopyToAsync(stream);
-                }
+        //         using (var stream = new FileStream(filePath, FileMode.Create))
+        //         {
+        //             await file.CopyToAsync(stream);
+        //         }
 
-                return new
-                {
-                    IsSuccess = true,
-                    Message = "Cập nhật hình ảnh thành công!",
-                    FileUrl = fileName
-                };
-            }
-            catch (Exception ex)
-            {
-                await transaction.RollbackAsync();
+        //         return new
+        //         {
+        //             IsSuccess = true,
+        //             Message = "Cập nhật hình ảnh thành công!",
+        //             FileUrl = fileName
+        //         };
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         await transaction.RollbackAsync();
 
-                return new
-                {
-                    IsSuccess = false,
-                    Message = "Thất bại!",
-                    Error = ex.InnerException?.Message ?? ex.Message
-                };
-            }
-        }
+        //         return new
+        //         {
+        //             IsSuccess = false,
+        //             Message = "Thất bại!",
+        //             Error = ex.InnerException?.Message ?? ex.Message
+        //         };
+        //     }
+        // }
 
-        public async Task<dynamic> UpdateCoverPicture(int userId, int mediaId, IFormFile? file)
-        {
-            if (file == null || file.Length == 0)
-            {
-                return new
-                {
-                    IsSuccess = false,
-                    Message = "File không hợp lệ!"
-                };
-            }
+        // public async Task<dynamic> UpdateCoverPicture(int userId, int mediaId, IFormFile? file)
+        // {
+        //     if (file == null || file.Length == 0)
+        //     {
+        //         return new
+        //         {
+        //             IsSuccess = false,
+        //             Message = "File không hợp lệ!"
+        //         };
+        //     }
 
-            using var transaction = await _context.Database.BeginTransactionAsync();
+        //     using var transaction = await _context.Database.BeginTransactionAsync();
 
-            try
-            {
-                string folderPath = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory())?.FullName, "Frontend", "public", "img", "Picture");
-                if (!Directory.Exists(folderPath))
-                {
-                    Directory.CreateDirectory(folderPath);
-                }
+        //     try
+        //     {
+        //         string folderPath = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory())?.FullName, "Frontend", "public", "img", "Picture");
+        //         if (!Directory.Exists(folderPath))
+        //         {
+        //             Directory.CreateDirectory(folderPath);
+        //         }
 
-                string fileName = $"{Guid.NewGuid().ToString()}_{Path.GetFileName(file.FileName)}";
+        //         string fileName = $"{Guid.NewGuid().ToString()}_{Path.GetFileName(file.FileName)}";
 
-                await _context.UserMedia.Where(x => x.MediaId == mediaId || x.UserId == userId).ExecuteUpdateAsync(setter => setter.SetProperty(x => x.IsCoverPicture, false));
+        //         await _context.UserMedia.Where(x => x.MediaId == mediaId || x.UserId == userId).ExecuteUpdateAsync(setter => setter.SetProperty(x => x.IsCoverPicture, false));
 
-                var hashFile = await MiddleWare.GetFileHashAsync(file);
+        //         var hashFile = await MiddleWare.GetFileHashAsync(file);
 
-                var idMedia = await _context.Media.AsNoTracking().Where(x => x.HashCode == hashFile).Select(x => x.MediaId).FirstOrDefaultAsync();
+        //         var idMedia = await _context.Media.AsNoTracking().Where(x => x.HashCode == hashFile).Select(x => x.MediaId).FirstOrDefaultAsync();
 
-                if (idMedia == 0)
-                {
-                    Media media = new Media
-                    {
-                        Src = fileName,
-                        HashCode = hashFile,
-                        MediaType = 1
-                    };
+        //         if (idMedia == 0)
+        //         {
+        //             Media media = new Media
+        //             {
+        //                 Src = fileName,
+        //                 HashCode = hashFile,
+        //                 MediaType = 1
+        //             };
 
-                    await _context.Media.AddAsync(media);
-                    await _context.SaveChangesAsync();
+        //             await _context.Media.AddAsync(media);
+        //             await _context.SaveChangesAsync();
 
-                    idMedia = media.MediaId;
-                };
+        //             idMedia = media.MediaId;
+        //         };
 
-                UserMedia userMedia = new UserMedia
-                {
-                    UserId = userId,
-                    MediaId = idMedia,
-                    IsProfilePicture = false,
-                    IsCoverPicture = true
-                };
+        //         UserMedia userMedia = new UserMedia
+        //         {
+        //             UserId = userId,
+        //             MediaId = idMedia,
+        //             IsProfilePicture = false,
+        //             IsCoverPicture = true
+        //         };
 
-                await _context.UserMedia.AddAsync(userMedia);
-                await _context.SaveChangesAsync();
+        //         await _context.UserMedia.AddAsync(userMedia);
+        //         await _context.SaveChangesAsync();
 
-                await transaction.CommitAsync();
+        //         await transaction.CommitAsync();
 
-                string filePath = Path.Combine(folderPath, fileName);
+        //         string filePath = Path.Combine(folderPath, fileName);
 
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await file.CopyToAsync(stream);
-                }
+        //         using (var stream = new FileStream(filePath, FileMode.Create))
+        //         {
+        //             await file.CopyToAsync(stream);
+        //         }
 
-                return new
-                {
-                    IsSuccess = true,
-                    Message = "Cập nhật hình ảnh thành công!",
-                    FileUrl = fileName
-                };
-            }
-            catch (Exception ex)
-            {
-                await transaction.RollbackAsync();
+        //         return new
+        //         {
+        //             IsSuccess = true,
+        //             Message = "Cập nhật hình ảnh thành công!",
+        //             FileUrl = fileName
+        //         };
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         await transaction.RollbackAsync();
 
-                return new
-                {
-                    IsSuccess = false,
-                    Message = "Thất bại!",
-                    Error = ex.InnerException?.Message ?? ex.Message
-                };
-            }
-        }
+        //         return new
+        //         {
+        //             IsSuccess = false,
+        //             Message = "Thất bại!",
+        //             Error = ex.InnerException?.Message ?? ex.Message
+        //         };
+        //     }
+        // }
 
         public async Task<dynamic> AddFriend(int fromUserId, int toUserId)
         {
@@ -583,13 +587,6 @@ namespace Backend.Services
                 Message = "Thành công!"
             };
         }
-
-=======
-        public Task<User> GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
->>>>>>> 3d2e984 (calling 90%)
     }
 
 }

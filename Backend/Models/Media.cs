@@ -29,7 +29,4 @@ public partial class Media
 
     public virtual ICollection<ChatInMessage> ChatInMessage { get; set; }
 
-    [JsonIgnore]
-
-    public virtual ICollection<ChatInGroup> ChatInGroup { get; set; }
 }
