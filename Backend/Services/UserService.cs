@@ -123,11 +123,6 @@ namespace Backend.Services
 
         public async Task<IEnumerable<UserPrivate>> GetFriends(int id)
         {
-            var predicate = (Expression<Func<Relationship, bool>>)(r =>
-            (r.FromUserId == id || r.ToUserId == id) && r.TypeRelationship == 2);
-            var selector = (Expression<Func<Relationship, User>>)
-                    (r => r.FromUserId == id ? r.ToUser : r.FromUser);
-
             // var users = await _unit.Relationship.FindAsync<User>(predicate, selector);
             var users = await _unit.Relationship.FindAsync<UserPrivate>(query =>
                     query.Where(r =>

@@ -61,7 +61,6 @@ namespace Backend.Controllers
 		[HttpGet("user-login")]
 		public async Task<IActionResult?> FindById()
 		{
-			Console.WriteLine("hâhhha");
 			var userId = MiddleWare.GetUserIdFromCookie(Request);
 			if (userId == -1) return null;
 

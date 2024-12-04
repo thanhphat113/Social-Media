@@ -11,7 +11,6 @@ using Backend.Services;
 using Backend.Helper;
 using Backend.Models;
 using Backend.Services.Interface;
-using Microsoft.OpenApi.Models;
 using Backend.RealTime;
 
 var builder = WebApplication.CreateBuilder(args);
