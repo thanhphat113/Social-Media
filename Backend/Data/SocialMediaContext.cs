@@ -737,9 +737,6 @@ public partial class SocialMediaContext : DbContext
             entity.Property(e => e.GenderId)
                 .HasColumnType("int(1)")
                 .HasColumnName("gender_id");
-            entity.Property(e => e.IsOnline)
-                .HasColumnType("tinyint(1)")
-                .HasColumnName("is_online");
 
             entity.HasOne(d => d.Gender).WithMany(g => g.Users)
                 .HasForeignKey(d => d.GenderId)

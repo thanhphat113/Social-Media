@@ -6,7 +6,6 @@ import GlobalStyles from "./components/GlobalStyles/index.jsx";
 import Store from "./components/Redux/Store";
 import { Provider } from "react-redux";
 
-
 createRoot(document.getElementById("root")).render(
     <StrictMode>
         <Provider store={Store}>

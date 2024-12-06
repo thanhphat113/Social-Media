@@ -7,10 +7,9 @@ namespace Backend.Models;
 
 public partial class ChatInMessage
 {
-    public int? ChatId { get; set; }
+    public int ChatId { get; set; }
 
     public int MessagesId { get; set; }
-    [JsonIgnore]
 
     public int? MediaId { get; set; } = null!;
 

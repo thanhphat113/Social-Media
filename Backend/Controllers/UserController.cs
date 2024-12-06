@@ -66,7 +66,11 @@ namespace Backend.Controllers
 
 			var information = await _userContext.GetLoginById(userId);
 			var friends = await _userContext.GetFriends(userId);
-			// var groupchat = await _group.FindByUserId(userId);
+			foreach (var item in friends)
+			{
+				if (OnlineHub.IsOnline(item.UserId)) item.IsOnline = true;
+			}
+
 			var requests = await _NotiContext.FindByUserId(userId);
 			// var media = await _media.FindProfilePictureByUserId(userId);
 			var postrequests = await _PostContext.FindByUserId(userId);

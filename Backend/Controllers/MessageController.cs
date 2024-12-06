@@ -66,7 +66,7 @@ namespace Backend.Controllers
 		}
 
 		[HttpGet("call-user")]
-		public async Task<IActionResult> Calling([FromQuery] int FriendId)
+		public async Task<IActionResult> Calling(int FriendId)
 		{
 			var UserId = MiddleWare.GetUserIdFromCookie(Request);
 			try

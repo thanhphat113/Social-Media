@@ -35,15 +35,17 @@ namespace Backend.Controllers
 		[HttpPost("chat-with-file")]
 		public async Task<IActionResult> PostFile([FromForm] RequestPostFile data)
 		{
-			Console.WriteLine("file: " + data.file?.FileName + ", " + "type: " + data.fileType + data.messageId);
 			var UserId = MiddleWare.GetUserIdFromCookie(Request);
-			if (data.file == null || data.file.Length == 0)
+
+			var chat = new ChatInMessage
 			{
-				return BadRequest("Không có tệp được chọn.");
-			}
+				MessagesId = data.MessageId,
+				FromUser = UserId,
+				Otheruser = data.OtheruserId
+			};
 
 			string uploadsFolder;
-			if (data.fileType == 1 || data.fileType == 2)
+			if (data.FileType == 1 || data.FileType == 2)
 			{
 				uploadsFolder = Path.Combine(_env.WebRootPath, "media");
 			}
@@ -52,49 +54,46 @@ namespace Backend.Controllers
 				uploadsFolder = Path.Combine(_env.WebRootPath, "file");
 			}
 
-			var fileHash = await MiddleWare.GetFileHashAsync(data.file);
+			var fileHash = await MiddleWare.GetFileHashAsync(data.File);
 
 
-			var filePath = Path.Combine(uploadsFolder, data.file.FileName);
+			var filePath = Path.Combine(uploadsFolder, data.File.FileName);
 
 
 			var item = await _media.IsHas(fileHash);
 
-			string newName = data.file.FileName;
+			string newName = data.File.FileName;
 			if (item == -1)
 			{
 				if (System.IO.File.Exists(filePath))
 				{
-					var fileExtension = Path.GetExtension(data.file.FileName);
+					var fileExtension = Path.GetExtension(data.File.FileName);
 					newName = Guid.NewGuid().ToString() + fileExtension;
 					filePath = Path.Combine(uploadsFolder, newName);
 				}
 				using var stream = new FileStream(filePath, FileMode.Create);
-				await data.file.CopyToAsync(stream);
+				await data.File.CopyToAsync(stream);
 			}
 
 
 			var media = new Media
 			{
 				Src = newName,
-				MediaType = data.fileType,
+				MediaType = data.FileType,
 				HashCode = fileHash
 			};
 
-			var result = await _chat.AddWithMedia(media, UserId, data.messageId, data.fileType);
+			var result = await _chat.AddWithMedia(media, data.FileType, chat);
+
+			var ConnectionId = OnlineHub.GetConnectionId(data.OtheruserId);
+			if (ConnectionId != null) await _Hub.Clients.Client(ConnectionId).SendAsync("ReceiveMessage", result);
+
 			return Ok(result);
 		}
 
 		[HttpPost]
 		public async Task<IActionResult> Post([FromBody] ChatInMessage mess)
 		{
-			if (mess.MessagesId == -1)
-			{
-				var item = await _message.Add(new() { User1 = mess.FromUser, User2 = mess.Otheruser });
-				if (item == null) return BadRequest("Lỗi việc tạo chat mới");
-				mess.MessagesId = (int)item.MessagesId;
-			}
-
 			var result = await _chat.Add(mess);
 
 			if (result == null) return BadRequest("Lỗi việc tạo tin nhắn mới");
@@ -123,27 +122,50 @@ namespace Backend.Controllers
 			return Ok(friends);
 		}
 
-		[HttpPost("recall")]
-		public async Task<IActionResult> Recall([FromBody] int id)
+		[HttpPut("recall")]
+		public async Task<IActionResult> Recall([FromBody] UpdateChat value)
 		{
-			Console.WriteLine("Đây là recall: " + id);
-			return Ok(await _chat.Recall(id));
+			var UserId = MiddleWare.GetUserIdFromCookie(Request);
+			var result = await _chat.Recall(value.ChatId);
+			if (result)
+			{
+				var ConnectionId = OnlineHub.GetConnectionId(value.OtherId);
+				if (ConnectionId != null) await _Hub.Clients.Client(ConnectionId).SendAsync("receiveRecallChat", value.ChatId, UserId);
+			}
+			return Ok(result);
 		}
 
-		[HttpDelete("{id}")]
-		public async Task<IActionResult> Delete(int id)
+		[HttpDelete]
+		public async Task<IActionResult> Delete(int id, int OtherId)
 		{
-			return Ok(await _chat.Delete(id));
+			var UserId = MiddleWare.GetUserIdFromCookie(Request);
+			var item = await _chat.Delete(id);
+			if (item)
+			{
+				var ConnectionId = OnlineHub.GetConnectionId(OtherId);
+				if (ConnectionId != null) await _Hub.Clients.Client(ConnectionId).SendAsync("receiveDeleteChat", id, UserId);
+			}
+			return Ok(item);
 		}
 	}
 
 	public class RequestPostFile
-    {
-        public IFormFile? file {  get; set; }
+	{
+		public IFormFile? File { get; set; }
 
-		public int fileType { get; set; }
+		public int OtheruserId { get; set; }
+		public int MessageId { get; set; }
 
-        public int messageId { get; set; }
+		public int FileType { get; set; }
 
-    }
+	}
+
+	public class UpdateChat
+	{
+
+		public int OtherId { get; set; }
+
+		public int ChatId { get; set; }
+
+	}
 }

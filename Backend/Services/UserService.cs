@@ -3,16 +3,12 @@ using Backend.DTO;
 using Backend.Services.Interface;
 using Backend.Authentication;
 using Backend.Repositories.Interface;
-using System.Linq.Expressions;
 using Microsoft.AspNetCore.Identity;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
 using Backend.Data;
-using Backend.Helper;
 
 using AutoMapper.QueryableExtensions;
-using Microsoft.AspNetCore.Identity;
 
 
 namespace Backend.Services
