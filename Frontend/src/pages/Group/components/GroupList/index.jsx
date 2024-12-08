@@ -1,93 +1,97 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import GroupSidebar from '../GroupSidebar';
 import styles from './GroupList.module.scss'; 
+import { Link } from 'react-router-dom';
 
-
-const groupsData = [
-  {
-    id: 1,
-    name: 'Hội Câu Cá Sài Gòn',
-    members: '15.3k',
-    postsPerDay: '10',
-    imageUrl: 'https://plus.unsplash.com/premium_photo-1661964095477-fe68b487f700?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8YnVpbGRpbmclMjBpbiUyMGJhY2tncm91bmR8ZW58MHx8MHx8fDA%3D',
-    joined: true
-  },
-  {
-    id: 1,
-    name: 'Hội Câu Cá Sài Gòn',
-    members: '15.3k',
-    postsPerDay: '10',
-    imageUrl: 'https://plus.unsplash.com/premium_photo-1661964095477-fe68b487f700?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8YnVpbGRpbmclMjBpbiUyMGJhY2tncm91bmR8ZW58MHx8MHx8fDA%3D',
-    joined: true
-  },
-  {
-    id: 1,
-    name: 'Hội Câu Cá Sài Gòn',
-    members: '15.3k',
-    postsPerDay: '10',
-    imageUrl: 'https://plus.unsplash.com/premium_photo-1661964095477-fe68b487f700?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8YnVpbGRpbmclMjBpbiUyMGJhY2tncm91bmR8ZW58MHx8MHx8fDA%3D',
-    joined: false
-  },
-  {
-    id: 1,
-    name: 'Hội Câu Cá Sài Gòn',
-    members: '15.3k',
-    postsPerDay: '10',
-    imageUrl: 'https://plus.unsplash.com/premium_photo-1661964095477-fe68b487f700?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8YnVpbGRpbmclMjBpbiUyMGJhY2tncm91bmR8ZW58MHx8MHx8fDA%3D',
-    joined: true
-  },
-  {
-    id: 2,
-    name: 'Hội Câu Cá Hà Nội',
-    members: '25.6k',
-    postsPerDay: '40',
-    imageUrl: 'https://plus.unsplash.com/premium_photo-1661964095477-fe68b487f700?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8YnVpbGRpbmclMjBpbiUyMGJhY2tncm91bmR8ZW58MHx8MHx8fDA%3D',
-    joined: false
-  },
-  {
-    id: 3,
-    name: 'Hội Câu Cá Đà Nẵng',
-    members: '8.5k',
-    postsPerDay: '5',
-    imageUrl: 'https://plus.unsplash.com/premium_photo-1661964095477-fe68b487f700?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8YnVpbGRpbmclMjBpbiUyMGJhY2tncm91bmR8ZW58MHx8MHx8fDA%3D',
-    joined: false
-  }
- 
-];
-
-const GroupCard = ({ group }) => {
-  return (
-    <div className={styles.groupCard}>
-      <img src={group.imageUrl} alt={group.name} className={styles.groupImage} />
-      <h3>{group.name}</h3>
-      <p>{group.members} thành viên / {group.postsPerDay} bài viết mỗi ngày </p>
-      <button className={group.joined ? styles.joinedButton : styles.joinButton}>
-        {group.joined ? 'Đã tham gia' : 'Tham gia nhóm'}
-      </button>
-      {!group.joined && (
-        <button className={styles.removeButton}>✖</button> 
-      )}
-    </div>
-  );
-};
 
 const GroupList = () => {
-  const joinedGroups = groupsData.filter(group => group.joined);
-  const suggestedGroups = groupsData.filter(group => !group.joined);
+  const [joinedGroups, setJoinedGroups] = useState([]);
+  const [suggestedGroups, setSuggestedGroups] = useState([]);
+  const [adminGroups, setAdminGroups] = useState([]);
+
+  // Gọi API khi component được render
+  useEffect(() => {
+  // Lấy nhóm đã tham gia
+  fetch('http://localhost:5164/api/UserGroup/groups_in', {
+    method: 'GET',
+    credentials: 'include',  // Đảm bảo cookie được gửi kèm
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then((data) => setJoinedGroups(data))
+    .catch((error) => console.error('Error fetching groups_in:', error));
+
+  // Lấy nhóm gợi ý
+  fetch('http://localhost:5164/api/UserGroup/groups_suggest', {
+    method: 'GET',
+    credentials: 'include',  // Đảm bảo cookie được gửi kèm
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then((data) => setSuggestedGroups(data))
+    .catch((error) => console.error('Error fetching groups_suggest:', error));
+
+  // Lấy nhóm quản trị viên
+  fetch('http://localhost:5164/api/UserGroup/groups_created_by_user', {
+    method: 'GET',
+    credentials: 'include',  // Đảm bảo cookie được gửi kèm
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then((data) => setAdminGroups(data))
+    .catch((error) => console.error('Error fetching groups_created_by_user:', error));
+}, []);
+
+  // Component hiển thị từng nhóm
+  const GroupCard = ({ group, isJoined, isAdmin }) => {
+    return (
+      // <Link to={`/group/${group.groupId}`} className={styles.groupLink}>
+      <div className={styles.groupCard}>
+        
+        <Link to={`/group/${group.groupId}`} className={styles.groupLink}>
+        <img src={`http://localhost:5164/media/${group.profilePicture}`} alt={group.groupName} className={styles.groupImage} />
+        <h3>{group.groupName}</h3>
+        <p>{group.bio}</p>
+        {!isAdmin && (
+          <button className={isJoined ? styles.joinedButton : styles.joinButton}>
+            {isJoined ? 'Đã tham gia' : 'Tham gia nhóm'}
+          </button>
+        )}
+        </Link>
+        
+      </div>
+      // </Link>
+    );
+  };
 
   return (
     <div className={styles.groupContainer}>
       {/* Sidebar */}
-      <GroupSidebar />
+      <div className={styles.sidebar}>
+        <GroupSidebar />
+      </div>
 
-      {/* Nội dung nhóm */}
+      {/* Nội dung chính */}
       <div className={styles.content}>
-        <div className={styles.joinedGroups}>
+        {/* Nhóm của bạn */}
+        <div className={styles.groupSection}>
           <h2>Nhóm của bạn</h2>
           <div className={styles.groupRow}>
             {joinedGroups.length > 0 ? (
-              joinedGroups.map(group => (
-                <GroupCard key={group.id} group={group} />
+              joinedGroups.map((group) => (
+                <GroupCard key={group.groupId} group={group} isJoined={true}  isAdmin={false} />
               ))
             ) : (
               <p>Bạn chưa tham gia nhóm nào.</p>
@@ -95,12 +99,31 @@ const GroupList = () => {
           </div>
         </div>
 
-        <div className={styles.suggestedGroups}>
+        {/* Gợi ý nhóm */}
+        <div className={styles.groupSection}>
           <h2>Gợi ý nhóm</h2>
           <div className={styles.groupRow}>
-            {suggestedGroups.map(group => (
-              <GroupCard key={group.id} group={group} />
-            ))}
+            {suggestedGroups.length > 0 ? (
+              suggestedGroups.map((group) => (
+                <GroupCard key={group.groupId} group={group} isJoined={false} isAdmin={false} />
+              ))
+            ) : (
+              <p>Không có gợi ý nhóm nào.</p>
+            )}
+          </div>
+        </div>
+
+        {/* Nhóm bạn là quản trị viên */}
+        <div className={styles.groupSection}>
+          <h2>Nhóm bạn là quản trị viên</h2>
+          <div className={styles.groupRow}>
+            {adminGroups.length > 0 ? (
+              adminGroups.map((group) => (
+                <GroupCard key={group.groupId} group={group} isJoined={true} isAdmin={true} />
+              ))
+            ) : (
+              <p>Bạn chưa quản trị nhóm nào.</p>
+            )}
           </div>
         </div>
       </div>
