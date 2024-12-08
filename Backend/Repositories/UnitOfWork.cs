@@ -20,6 +20,8 @@ namespace Backend.Repositories
         private readonly IGenericRepository<PostNotification> _PostNotification;
         private readonly IGenericRepository<RequestNotification> _RequestNotification;
         private readonly IGenericRepository<Relationship> _Relationship;
+        private readonly IGenericRepository<UserGroup> _UserGroup;
+        private readonly IGenericRepository<UserInGroup> _UserInGroup;
 
         public UnitOfWork(SocialMediaContext context,
                           IGenericRepository<User> Users,
@@ -31,7 +33,9 @@ namespace Backend.Repositories
                           IGenericRepository<PostNotification> PostNotification,
                           IGenericRepository<RequestNotification> RequestNotification,
                           IGenericRepository<Relationship> Relationship,
-                          IGenericRepository<Media> Media)
+                          IGenericRepository<Media> Media,
+                          IGenericRepository<UserGroup> UserGroup,
+                          IGenericRepository<UserInGroup> UserInGroup)
         {
             _context = context;
             _Users = Users;
@@ -44,6 +48,8 @@ namespace Backend.Repositories
             _RequestNotification = RequestNotification;
             _Relationship = Relationship;
             _Media = Media;
+            _UserGroup = UserGroup;
+            _UserInGroup = UserInGroup;
         }
 
         // Các property chỉ đọc cho các repository
@@ -57,6 +63,10 @@ namespace Backend.Repositories
         public IGenericRepository<PostNotification> PostNotification => _PostNotification;
         public IGenericRepository<RequestNotification> RequestNotification => _RequestNotification;
         public IGenericRepository<Relationship> Relationship => _Relationship;
+        
+        public IGenericRepository<UserGroup> UserGroup => _UserGroup;
+        
+        public IGenericRepository<UserInGroup> UserInGroup => _UserInGroup;
 
         // Phương thức SaveChanges
         public async Task<bool> CompleteAsync()
