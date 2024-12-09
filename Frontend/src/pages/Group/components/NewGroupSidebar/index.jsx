@@ -43,7 +43,7 @@ const NewGroupSidebar = ({ setGroupName, setPrivacy, privacy }) => {
           <div
             className={styles.privacyOption}
             onClick={() => {
-              setPrivacy('Công khai');
+              setPrivacy(1);
               setShowPrivacyOptions(false);
             }}
           >
@@ -52,7 +52,7 @@ const NewGroupSidebar = ({ setGroupName, setPrivacy, privacy }) => {
           <div
             className={styles.privacyOption}
             onClick={() => {
-              setPrivacy('Riêng tư');
+              setPrivacy(3);
               setShowPrivacyOptions(false);
             }}
           >

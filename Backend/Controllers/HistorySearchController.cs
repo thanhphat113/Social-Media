@@ -1,6 +1,6 @@
 using Backend.Models;
-using Backend.Services;
 using Backend.Helper;
+using Backend.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,7 +31,6 @@ namespace Backend.Controllers
 		{
 			var UserId = MiddleWare.GetUserIdFromCookie(Request);
 			value.FromUserId = UserId;
-			Console.WriteLine("Đây là đối tượng: " + value.OtherUserId + " " + value.FromUserId);
 			return Ok(await _service.Add(value));
 		}
 
@@ -45,7 +44,6 @@ namespace Backend.Controllers
 		[HttpDelete("{id}")]
 		public async Task<ActionResult> Delete(int id)
 		{
-			var userId = MiddleWare.GetUserIdFromCookie(Request);
 			return Ok(await _service.Delete(id));
 		}
 	}

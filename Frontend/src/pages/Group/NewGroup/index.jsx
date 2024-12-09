@@ -4,10 +4,10 @@ import NewGroupMain from '../components/NewGroupMain';
 
 const NewGroupPage = () => {
   const [groupName, setGroupName] = useState('');
-  const [privacy, setPrivacy] = useState('');
+  const [privacyId, setPrivacyId] = useState('');
 
-  const handleBack = () => {
-    // Logic quay lại trang trước (nếu cần)
+  const handleCreateGroup = () => {
+    
   };
 
   return (
@@ -15,11 +15,11 @@ const NewGroupPage = () => {
       
       <NewGroupSidebar 
         setGroupName={setGroupName} 
-        setPrivacy={setPrivacy} 
-        privacy={privacy} 
+        setPrivacy={setPrivacyId} 
+        privacy={privacyId} 
       />
       <div style={styles.content}>
-        <NewGroupMain groupName={groupName} privacy={privacy} />
+        <NewGroupMain groupName={groupName} privacy={privacyId} />
       </div>
     </div>
   );
