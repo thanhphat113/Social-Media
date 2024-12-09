@@ -9,6 +9,7 @@ import { login } from "../../components/Redux/Actions/LoginActions";
 import { SetUser } from "../../components/Redux/Actions/UserAction";
 import { getFriendList } from "../../components/Redux/Actions/FriendActions";
 import logo from "/public/img/Cloudy.png";
+import Validate from "../../components/Validate";
 
 // Component LoginForm
 const LoginForm = ({
@@ -193,6 +194,7 @@ const SignUpForm = ({
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [messageLogin, setMessageLogin] = useState("");
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const user = useSelector((state) => state.user.information);
     const dispatch = useDispatch();
@@ -208,16 +210,17 @@ function Login() {
     const navigate = useNavigate();
 
     const handleLogin = async () => {
-        const actionResult = await dispatch(login({ email, password }));
-        if (login.fulfilled.match(actionResult)) {
-            if (actionResult.payload === true) {
+        try {
+            const result = await dispatch(login({ email, password }));
+            
+            if (result.payload.isCorrect) {
                 await dispatch(SetUser());
                 navigate("/");
             } else {
-                console.log("11");
+                setMessageLogin(result.payload.message);
             }
-        } else {
-            console.log("Có lỗi xảy ra trong quá trình đăng nhập");
+        } catch (error) {
+            setMessageLogin(`Lỗi: ${error}`)
         }
     };
 
@@ -225,7 +228,7 @@ function Login() {
         const getFriend = async () => {
             await dispatch(getFriendList(user.userId));
         };
-        user && getFriend
+        user && getFriend;
     });
 
     return (
@@ -237,6 +240,13 @@ function Login() {
                         Chào mừng bạn đến với <strong>Cloudy</strong>
                     </h1>
                 </div>
+                {messageLogin && (
+                    <Validate
+                        message={messageLogin}
+                        onAccept={() => setMessageLogin("")}
+                        title= {"Lỗi đăng nhập"}
+                    />
+                )}
                 <div className={styles.rightSection}>
                     <LoginForm
                         email={email}

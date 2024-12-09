@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './ProfileInfoTabs.module.scss';
-import PostSystem from '../../../Home/components/MainContent';
+// import PostSystem from '../../../Home/components/MainContent';
 import ConnectionsSection from '../ProfileInfoTabs_Friend'; 
 import MediaSection from '../ProfileInfoTabs_Media'; 
 
@@ -55,7 +55,7 @@ const CardFooter = ({ user, resetTab, defaultTab }) => {
 
       {/* Hiển thị nội dung tương ứng với tab */}
       <div className={styles.tabContent}>
-        {activeTab === 'feed' && <PostSystem />}
+        {/* {activeTab === 'feed' && <PostSystem />} */}
         {activeTab === 'connections' && <ConnectionsSection user={user} />}
         {activeTab === 'media' && <MediaSection user={user} />}
       </div>

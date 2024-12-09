@@ -1,24 +1,16 @@
-// index
-.homeContainer {
+.wrapper{
   display: flex;
-  height: 100vh; // Chiều cao 100% của màn hình
-  background-color: #F0F2F5;
-  color: black;
-}
 
-.flexGrow {
-  display: flex;
-  flex-grow: 1;
-}
+  .infor{
+    height: 100vh;
+    width: 40rem;
+    display: flex;
+    padding: 3rem 2rem;
+    position: fixed;
+  }
 
-.sidebar {
-  flex: 0 0 20%;
-}
-
-.mainContent {
-  flex: 1; // Chiếm phần còn lại
-}
-
-.rightSidebar {
-  width: 32rem;; // Chiều rộng tối thiểu
+  .post{
+    flex:1;
+    padding-top:3rem; 
+  }
 }

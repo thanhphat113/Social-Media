@@ -1,32 +1,18 @@
-import React from 'react';
-import Sidebar from './components/SideBar/SideBar';
-import MainContent from './components/MainContent';
-import FriendListChat from './components/FriendListChat';
-import styles from 'Frontend/src/pages/Home/Home.module.scss';
-import Validate from '../../components/Validate';
+import CreatePost from "./components/CreatePost";
+// import Information from "./components/Information";
+import styles from "./Home.module.scss";
 
 function Home() {
-  return (
-    <div className={styles.homeContainer}>
-      {/* Flex container */}
-      <div className={styles.flexGrow}>
-        {/* Sidebar */}
-        <div className={styles.sidebar}>
-          <Sidebar />
+    return (
+        <div className={styles.wrapper}>
+            <div className={styles.infor}>
+                {/* <Information /> */}
+            </div>
+            <div className={styles.posts}>
+                <CreatePost/>
+            </div>
         </div>
-        
-        {/* Main Content */}
-        <div className={styles.mainContent}>
-          <MainContent />
-        </div>
-
-        {/* Right Sidebar */}
-        <div className={styles.rightSidebar}>
-          <FriendListChat />
-        </div>
-      </div>
-    </div>
-  );
+    );
 }
 
 export default Home;

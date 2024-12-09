@@ -25,7 +25,7 @@ function Media() {
 
     const downloadImage = () => {
         const link = document.createElement("a");
-        link.href = `http://localhost:3000/public/file/${picture.src}`;
+        link.href = `http://localhost:5164/public/file/${picture.src}`;
         link.download = picture.src;
         document.body.appendChild(link);
         link.click();

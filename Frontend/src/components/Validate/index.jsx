@@ -1,10 +1,10 @@
 import styles from "./Validate.module.scss";
 
-function Validate({ onAccept, onCancel, message }) {
+function Validate({ onAccept, onCancel, message, title }) {
     return (
         <div className={styles.wrapper}>
             <div className={styles.content}>
-                <div className={styles.title}>Thông báo</div>
+                <div className={styles.title}>{title || "Thông báo"}</div>
                 <div className="line"></div>
                 <p>
                     {message || "Bạn có chắc chắn muốn thực hiện hành động này"}

@@ -154,8 +154,9 @@ function DefaultLayout() {
                 dispatch(updateOnline({userId: userId, isOnline: isOnline}));
             });
 
+            connection.off("ReceiveMessage")
             connection.on("ReceiveMessage", async (message) => {
-                await dispatch(receiveMess(message));
+                dispatch(receiveMess(message));
                 notifications();
             });
 

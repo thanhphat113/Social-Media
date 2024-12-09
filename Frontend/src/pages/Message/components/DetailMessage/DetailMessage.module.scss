@@ -42,6 +42,8 @@
         display: flex;
         justify-content: end;
         gap: 1rem;
+        color: #4586d6;
+
         i {
             display: flex;
             justify-content: center;
@@ -97,7 +99,6 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                color: #4586d6;
                 width: 3rem;
                 height: 3rem;
                 border-radius: 50%;
@@ -200,6 +201,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            color: #4586d6;
+
             border-radius: 50%;
             font-size: 2rem;
             width: 4.5rem;

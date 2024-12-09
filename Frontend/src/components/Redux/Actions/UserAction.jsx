@@ -16,7 +16,6 @@ const GetUserInfo = createAsyncThunk("User/getInfo", async (id) => {
     }
 });
 
-
 const SetUser = createAsyncThunk("User/get", async () => {
     try {
         const response = await axios.get(
@@ -96,4 +95,4 @@ const getPostRequests = createAsyncThunk(
     }
 );
 
-export { SetUser, getRequests, acceptRequests, deleteRequests, GetUserInfo };
+export { SetUser, getRequests, acceptRequests, deleteRequests, GetUserInfo};
