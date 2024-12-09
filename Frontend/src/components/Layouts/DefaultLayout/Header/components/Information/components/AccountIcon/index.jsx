@@ -66,7 +66,7 @@ function AccountIcon(props) {
                         </div>
                     </Link>
                     <Link
-                        to={`/information/${user.userId}`}
+                        to={`/information`}
                         onClick={() => handleClick("profile")}
                     >
                         <div className={styles.choise}>

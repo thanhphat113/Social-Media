@@ -13,6 +13,10 @@ public interface IUnitOfWork : IDisposable
 	IGenericRepository<Relationship> Relationship { get; }
 	IGenericRepository<Media> Media { get; }
 	IGenericRepository<Post> Post { get; }
+	
+	IGenericRepository<UserGroup> UserGroup { get; }
+	
+	IGenericRepository<UserInGroup> UserInGroup { get; }
 
 	Task<bool> CompleteAsync();
 }
