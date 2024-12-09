@@ -34,15 +34,13 @@ namespace Backend.Services
         }
 
        
-        public async Task<UserGroup> CreateGroup(UserGroup userGroupDTO)
+        public async Task<UserGroup> CreateGroup(UserGroup userGroup)
         {
-            var userGroup = _mapper.Map<UserGroup>(userGroupDTO);
-            userGroup.DateCreated = DateTime.Now;
-            userGroup.DateUpdated = DateTime.Now;
             await _unit.UserGroup.AddAsync(userGroup);
             await _unit.CompleteAsync();
             return userGroup;
         }
+
         
         public async Task<IEnumerable<UserGroup>> GetAllGroupByUserIdAsync(int userId)
         {
