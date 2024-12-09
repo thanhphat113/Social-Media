@@ -13,7 +13,7 @@ public partial class Post
 
     public int? GroupId { get; set; } = null;
 
-    public int CreatedByUserId { get; set; }
+    public int? CreatedByUserId { get; set; }
     public bool IsPictureProfile { get; set; }
     public bool? IsCoverPhoto { get; set; } = false;
 
@@ -21,20 +21,21 @@ public partial class Post
 
     public DateTime DateUpdated { get; set; }
 
-    public bool? IsVisible { get; set; } = false;
+    public bool? IsVisible { get; set; } = true;
 
 
     public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
-    public virtual User CreatedByUser { get; set; } = null!;
+    public virtual User? CreatedByUser { get; set; } = null!;
 
     public virtual UserGroup? Group { get; set; }
 
-    public virtual ICollection<Media> Medias { get; set; }
+    public virtual ICollection<Media>? Medias { get; set; } = new List<Media>();
 
     public virtual ICollection<PostNotification> PostNotifications { get; set; } = new List<PostNotification>();
 
     public virtual PrivacySetting? Privacy { get; set; }
+    public virtual ICollection<User> ReadPosts { get; set; } = new List<User>();
 
     public virtual ICollection<SharePost> SharePosts { get; set; } = new List<SharePost>();
 }

@@ -17,6 +17,7 @@ namespace Backend.Controllers
 			_env = env;
 			_media = media;
 		}
+
 		[HttpGet]
 		public async Task<IActionResult> Get([FromQuery] int MessageId, string? Type = "media")
 		{

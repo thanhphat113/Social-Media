@@ -44,8 +44,6 @@ public partial class SocialMediaContext : DbContext
 
     public virtual DbSet<ReactsPost> ReactsPosts { get; set; }
 
-    public virtual DbSet<ReadMessage> ReadMessages { get; set; }
-
     public virtual DbSet<Relationship> Relationships { get; set; }
 
     public virtual DbSet<RequestNotification> RequestNotifications { get; set; }
@@ -253,28 +251,11 @@ public partial class SocialMediaContext : DbContext
             entity.HasOne(d => d.MediaTypeNavigation).WithMany(p => p.Media)
                 .HasForeignKey(d => d.MediaType)
                 .HasConstraintName("fk_type_media");
-
-            entity.HasMany(d => d.MessageMedia)
-                .WithMany(p => p.Medias)
-                .UsingEntity<Dictionary<string, object>>(
-                    "media_message",
-                    x => x.HasOne<Message>()
-                        .WithMany()
-                        .HasForeignKey("message_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .HasConstraintName("fk_message_media"),
-                    x => x.HasOne<Media>()
-                        .WithMany()
-                        .HasForeignKey("media_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .HasConstraintName("fk_media_message")
-                    );
-
         });
 
         modelBuilder.Entity<Message>(entity =>
         {
-            entity.HasKey(e => e.MessagesId).HasName("PRIMARY");
+            entity.HasKey(e => new { e.MessagesId }).HasName("PRIMARY");
 
             entity.ToTable("messages");
 
@@ -388,6 +369,20 @@ public partial class SocialMediaContext : DbContext
                     j =>
                     {
                         j.HasKey("media_id", "post_id");
+                    });
+
+            entity.HasMany(d => d.ReadPosts).WithMany(p => p.ReadPosts)
+                .UsingEntity<Dictionary<string, object>>(
+                    "post_user_read",
+                    j => j.HasOne<User>()
+                        .WithMany()
+                        .HasForeignKey("user_id"),
+                    j => j.HasOne<Post>()
+                        .WithMany()
+                        .HasForeignKey("post_id"),
+                    j =>
+                    {
+                        j.HasKey("user_id", "post_id");
                     });
 
 
@@ -508,35 +503,6 @@ public partial class SocialMediaContext : DbContext
             entity.HasOne(d => d.User).WithMany()
                 .HasForeignKey(d => d.UserId)
                 .HasConstraintName("fk_reacts_post_user_id");
-        });
-
-        modelBuilder.Entity<ReadMessage>(entity =>
-        {
-            entity
-                .HasNoKey()
-                .ToTable("read_message");
-
-            entity.HasIndex(e => e.MessagesId, "messages_id");
-
-            entity.HasIndex(e => e.UserId, "user_id");
-
-            entity.Property(e => e.IsRead)
-                .HasDefaultValueSql("'0'")
-                .HasColumnName("is_read");
-            entity.Property(e => e.MessagesId)
-                .HasColumnType("int(11)")
-                .HasColumnName("messages_id");
-            entity.Property(e => e.UserId)
-                .HasColumnType("int(11)")
-                .HasColumnName("user_id");
-
-            entity.HasOne(d => d.Messages).WithMany()
-                .HasForeignKey(d => d.MessagesId)
-                .HasConstraintName("read_message_ibfk_2");
-
-            entity.HasOne(d => d.User).WithMany()
-                .HasForeignKey(d => d.UserId)
-                .HasConstraintName("read_message_ibfk_1");
         });
 
         modelBuilder.Entity<Relationship>(entity =>

@@ -59,6 +59,7 @@ builder.Services.AddSignalR();
 builder.Services.AddScoped<PostNotiService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IService<MainTopic>, MainTopicService>();
+builder.Services.AddScoped<IPostService, PostService>();
 builder.Services.AddScoped<HistorySearchService>();
 builder.Services.AddScoped<IMessageService, MessageService>();
 builder.Services.AddScoped<MainTopicService>();

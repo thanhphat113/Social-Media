@@ -4,6 +4,7 @@ using Backend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend.Migrations
 {
     [DbContext(typeof(SocialMediaContext))]
-    partial class SocialMediaContextModelSnapshot : ModelSnapshot
+    [Migration("20241207065924_readPost")]
+    partial class readPost
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -299,7 +302,7 @@ namespace Backend.Migrations
                         .HasColumnType("text")
                         .HasColumnName("content");
 
-                    b.Property<int?>("CreatedByUserId")
+                    b.Property<int>("CreatedByUserId")
                         .HasColumnType("int(11)")
                         .HasColumnName("created_by_user_id");
 
@@ -789,19 +792,19 @@ namespace Backend.Migrations
                     b.ToTable("user_in_group", (string)null);
                 });
 
-            modelBuilder.Entity("MediaMessage", b =>
+            modelBuilder.Entity("media_message", b =>
                 {
-                    b.Property<int>("MediasMediaId")
+                    b.Property<int>("media_id")
                         .HasColumnType("int(11)");
 
-                    b.Property<int>("MessageMediaMessagesId")
+                    b.Property<int>("message_id")
                         .HasColumnType("int(11)");
 
-                    b.HasKey("MediasMediaId", "MessageMediaMessagesId");
+                    b.HasKey("media_id", "message_id");
 
-                    b.HasIndex("MessageMediaMessagesId");
+                    b.HasIndex("message_id");
 
-                    b.ToTable("MediaMessage");
+                    b.ToTable("media_message");
                 });
 
             modelBuilder.Entity("post_media", b =>
@@ -949,6 +952,8 @@ namespace Backend.Migrations
                     b.HasOne("Backend.Models.User", "CreatedByUser")
                         .WithMany("Posts")
                         .HasForeignKey("CreatedByUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
                         .HasConstraintName("fk_posts_created_by_user_id");
 
                     b.HasOne("Backend.Models.UserGroup", "Group")
@@ -1162,19 +1167,21 @@ namespace Backend.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("MediaMessage", b =>
+            modelBuilder.Entity("media_message", b =>
                 {
                     b.HasOne("Backend.Models.Media", null)
                         .WithMany()
-                        .HasForeignKey("MediasMediaId")
+                        .HasForeignKey("media_id")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_media_message");
 
                     b.HasOne("Backend.Models.Message", null)
                         .WithMany()
-                        .HasForeignKey("MessageMediaMessagesId")
+                        .HasForeignKey("message_id")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_message_media");
                 });
 
             modelBuilder.Entity("post_media", b =>

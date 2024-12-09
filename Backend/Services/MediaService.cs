@@ -65,13 +65,14 @@ namespace Backend.Services
 			{
 				var item = await _unit.Message
 						.FindAsync(query => query.Where(m => m.MessagesId == MessageId)
+						.Include(m => m.ChatInMessages)
 						.SelectMany(m => m.ChatInMessages)
 						.Where(m => m.MediaId != null)
 						.Include(m => m.Media)
 						.Where(cm => cm.Media.MediaType == 1 || cm.Media.MediaType == 2)
 						.Select(m => m.Media)
-						.GroupBy(m => m.MediaId)
-						.Select(group => group.First()));
+				.GroupBy(m => m.MediaId)
+				.Select(group => group.First()));
 
 				if (type == "file")
 				{

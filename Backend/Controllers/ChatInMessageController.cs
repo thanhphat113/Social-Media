@@ -101,8 +101,6 @@ namespace Backend.Controllers
 			if (OnlineHub.IsOnline(mess.Otheruser))
 			{
 				var connectionId = OnlineHub.UserIdConnections[mess.Otheruser];
-				Console.WriteLine("đây là: " + connectionId);
-				Console.WriteLine(result.ChatId + " " + result.Content);
 				await _Hub.Clients.Client(connectionId).SendAsync("ReceiveMessage", result);
 			}
 
@@ -119,6 +117,10 @@ namespace Backend.Controllers
 			if (!await _chat.ReadMess(id)) return BadRequest("Không thể thực hiện tác vụ");
 
 			var friends = await _userContext.GetFriends(UserId);
+			foreach (var item in friends)
+			{
+				if (OnlineHub.IsOnline(item.UserId)) item.IsOnline = true;
+			}
 			return Ok(friends);
 		}
 

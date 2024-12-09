@@ -31,14 +31,14 @@ namespace Backend.Controllers
 			var userId = MiddleWare.GetUserIdFromCookie(Request);
 			if (await _NotiContext.Accept(userId, otheruser))
 			{
-				return await Get(userId);
+				return await Get();
 			}
 
 			return BadRequest("Không thể chấp nhận yêu cầu");
 		}
 
 		[HttpGet]
-		public async Task<ActionResult> Get([FromQuery] int id)
+		public async Task<ActionResult> Get()
 		{
 			var userId = MiddleWare.GetUserIdFromCookie(Request);
 			if (userId == -1) return Unauthorized("Bạn không có quyền truy cập");
@@ -54,7 +54,7 @@ namespace Backend.Controllers
 			if (userId == -1) return Unauthorized("Bạn không có quyền truy cập");
 			try
 			{
-				if (await _NotiContext.Delete(id)) return await Get(userId);
+				if (await _NotiContext.Delete(id)) return await Get();
 				return BadRequest("Xoá không thành công");
 			}
 			catch (Exception e)

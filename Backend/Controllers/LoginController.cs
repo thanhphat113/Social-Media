@@ -24,21 +24,17 @@ namespace Backend.Controllers
 		public async Task<IActionResult> Login([FromBody] Login account)
 		{
 
-			var token = await _UserContext.FindToLogin(account.email, account.password);
-			Console.WriteLine("Đậy là: " + token);
-			if (token == null)
-			{
-				return Ok(false);
-			}
-			Response.Cookies.Append("Security", token, new CookieOptions
-			{
-				HttpOnly = true,
-				Secure = false,
-				SameSite = SameSiteMode.Strict,
-				Expires = DateTimeOffset.Now.AddMinutes(30)
-			});
+			var item = await _UserContext.FindToLogin(account.email, account.password);
+			if (item.IsCorrect)
+				Response.Cookies.Append("Security", item.Message, new CookieOptions
+				{
+					HttpOnly = true,
+					Secure = false,
+					SameSite = SameSiteMode.Strict,
+					Expires = DateTimeOffset.Now.AddMinutes(30)
+				});
 
-			return Ok(true);
+			return Ok(item);
 		}
 
 		[HttpGet("gettoken")]

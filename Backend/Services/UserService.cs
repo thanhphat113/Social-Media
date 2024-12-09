@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Backend.Data;
 
 using AutoMapper.QueryableExtensions;
+using Backend.RealTime;
 
 
 namespace Backend.Services
@@ -124,8 +125,6 @@ namespace Backend.Services
                     query.Where(r =>
                             (r.FromUserId == id || r.ToUserId == id) &&
                             r.TypeRelationship == 2)
-                            .Include(r => r.FromUser)
-                            .Include(r => r.ToUser)
                             .Select(r => r.FromUserId == id ? r.ToUser : r.FromUser)
                             .ProjectTo<UserPrivate>(_mapper.ConfigurationProvider));
 
@@ -150,23 +149,26 @@ namespace Backend.Services
             return result;
         }
 
-        public async Task<string> FindToLogin(string email, string password)
+        public async Task<dynamic> FindToLogin(string email, string password)
         {
             var user = await _unit.Users.GetByConditionAsync<User>(query => query.Where(u => u.Email == email));
+            if (OnlineHub.IsOnline(user.UserId))
+            {
+                return new { IsCorrect = false, Message = "Tài khoản đã được đăng nhập ở một nơi khác" };
+            }
 
-            if (user == null) return null;
+
+            if (user == null) return new { IsCorrect = false, Message = "Email không tồn tại !!!" };
 
             var passHasher = new PasswordHasher<User>();
             var passwordVerificationResult = passHasher.VerifyHashedPassword(user, user.Password, password);
 
             if (passwordVerificationResult == PasswordVerificationResult.Success)
             {
-                return _jwtToken.GenerateJwtToken(user.UserId.ToString());
+                return new { IsCorrect = true, Message = _jwtToken.GenerateJwtToken(user.UserId.ToString()) };
             }
-            else
-            {
-                return null;
-            }
+
+            return new { IsCorrect = false, Message = "Mật khẩu không đúng !!!" };
         }
 
         public async Task<ValidateEmail> IsHasEmail(string email)
@@ -577,6 +579,28 @@ namespace Backend.Services
                 IsSuccess = true,
                 Message = "Thành công!"
             };
+        }
+
+        public Task<dynamic> GetUserProfile(int userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<dynamic> GetFollower(int userId)
+        {
+            try
+            {
+                return await _unit.Relationship.FindAsync(query => query
+                        .Where(r => r.FromUserId == userId || r.ToUserId == userId)
+                        .Where(r => r.TypeRelationship == 1)
+                        .Select(r => r.FromUserId == userId ? r.ToUser : r.FromUser)
+                        .ProjectTo<UserPrivate>(_mapper.ConfigurationProvider));
+            }
+            catch (System.Exception ex)
+            {
+                Console.WriteLine("Lỗi: " + ex);
+                throw;
+            }
         }
     }
 

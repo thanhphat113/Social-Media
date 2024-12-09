@@ -38,6 +38,10 @@ public partial class User
 
     [JsonIgnore]
     public virtual GenderType? Gender { get; set; }
+
+    [JsonIgnore]
+
+    public virtual ICollection<Post> ReadPosts { get; set; }
     [JsonIgnore]
     public virtual ICollection<HistorySearch> HistorySearchFromUserNavigations { get; set; } = new List<HistorySearch>();
     [JsonIgnore]

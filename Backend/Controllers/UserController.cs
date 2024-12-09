@@ -17,15 +17,17 @@ namespace Backend.Controllers
 	{
 
 		private readonly IUserService _userContext;
+		private readonly IPostService _post;
 
 		private readonly MediaService _media;
 
 		private readonly RequestNotiService _NotiContext;
 		private readonly PostNotiService _PostContext;
 
-		public UserController(MediaService media, IUserService UserContext, RequestNotiService NotiContext, PostNotiService PostContext)
+		public UserController(IPostService post, MediaService media, IUserService UserContext, RequestNotiService NotiContext, PostNotiService PostContext)
 		{
 			_media = media;
+			_post = post;
 			_userContext = UserContext;
 			_NotiContext = NotiContext;
 			_PostContext = PostContext;
@@ -35,6 +37,13 @@ namespace Backend.Controllers
 		public async Task<IActionResult> Get()
 		{
 			return Ok(await _userContext.GetAll());
+		}
+
+		[HttpGet("followers")]
+		public async Task<IActionResult> GetFollower()
+		{
+			var UserId = MiddleWare.GetUserIdFromCookie(Request);
+			return Ok(await _userContext.GetFollower(UserId));
 		}
 
 		// [HttpGet("friends-by-name")]
