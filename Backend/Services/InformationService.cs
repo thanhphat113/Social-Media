@@ -24,7 +24,7 @@ namespace Backend.Services
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly SocialMediaContext _context;
 
-        public InformationService(IUnitOfWork unit, JwtToken jwtToken, IMapper mapper, IHttpContextAccessor httpContextAccessor,  SocialMediaContext context)
+        public InformationService(IUnitOfWork unit, JwtToken jwtToken, IMapper mapper, IHttpContextAccessor httpContextAccessor, SocialMediaContext context)
         {
             _mapper = mapper;
             _unit = unit;
@@ -32,25 +32,25 @@ namespace Backend.Services
             _httpContextAccessor = httpContextAccessor;
             _context = context;
         }
-        
+
 
         public async Task<bool> Update(User value)
         {
             try
             {
-                
+
                 if (!string.IsNullOrEmpty(value.Email) && !IsValidEmail(value.Email))
                 {
                     throw new InvalidOperationException("Email không đúng định dạng.");
                 }
 
-                
-                var existingUser = await _unit.Users.GetByIdAsync(value.UserId); 
+
+                var existingUser = await _unit.Users.GetByIdAsync(value.UserId);
                 if (existingUser == null)
                 {
                     throw new KeyNotFoundException("Không tìm thấy người dùng.");
                 }
-            
+
 
                 _unit.Users.UpdateAsync(value); // Gọi phương thức UpdateAsync từ repository
                 await _unit.CompleteAsync(); // Lưu thay đổi vào cơ sở dữ liệu
@@ -66,8 +66,8 @@ namespace Backend.Services
 
 
 
-// Hàm kiểm tra định dạng email
-public bool IsValidEmail(string email)
+        // Hàm kiểm tra định dạng email
+        public bool IsValidEmail(string email)
         {
             var emailRegex = new System.Text.RegularExpressions.Regex(
                 @"^[^@\s]+@[^@\s]+\.[^@\s]+$",
@@ -75,7 +75,7 @@ public bool IsValidEmail(string email)
             return emailRegex.IsMatch(email);
         }
 
-        
+
         public async Task<bool> ChangePassword(int userId, ChangePasswordDto changePasswordDto)
         {
             try
@@ -117,19 +117,19 @@ public bool IsValidEmail(string email)
 
 
 
-        
 
-       
+
+
         public async Task<bool> HasEmail(string email)
         {
             // Kiểm tra xem email đã tồn tại trong hệ thống chưa
             var existingUser = await _unit.Users.FindAsync<User>(query => query.Where(u => u.Email == email));
 
-        
+
             return existingUser.Any(); // Trả về true nếu tìm thấy user với email đã tồn tại
         }
 
-        
+
 
         public async Task<User> GetById(int id)
         {
@@ -152,7 +152,7 @@ public bool IsValidEmail(string email)
                 throw new Exception("An error occurred while fetching user", ex);
             }
         }
-        
+
         public async Task<IEnumerable<UserPrivate>> GetFriends(int id)
         {
             // var users = await _unit.Relationship.FindAsync<User>(predicate, selector);
@@ -185,7 +185,7 @@ public bool IsValidEmail(string email)
 
             return result;
         }
-        
+
         public async Task<IEnumerable<UserPrivate>> FriendsWithChat(int UserId, IEnumerable<UserPrivate> friends)
         {
             foreach (var item in friends)
@@ -211,7 +211,7 @@ public bool IsValidEmail(string email)
             }
             return friends;
         }
-        
+
         public async Task<IEnumerable<UserPrivate>> GetFollowers(int id)
         {
             // Lấy danh sách người dùng là follower (FromUser)
@@ -243,7 +243,7 @@ public bool IsValidEmail(string email)
 
             return result;
         }
-        
+
         public async Task<IEnumerable<Media>> GetAllMediaByUserIdAsync(int userId)
         {
             try
@@ -257,7 +257,8 @@ public bool IsValidEmail(string email)
                 var baseUrl = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}/media/";
                 foreach (var media in mediaList)
                 {
-                    media.Src = $"{baseUrl}{media.Src}";
+                    if (!media.Src.StartsWith($"{_httpContextAccessor.HttpContext.Request.Scheme}"))
+                        media.Src = $"{baseUrl}{media.Src}";
                 }
 
                 return mediaList;
@@ -268,11 +269,11 @@ public bool IsValidEmail(string email)
                 throw new Exception("Đã xảy ra lỗi khi lấy danh sách ảnh của người dùng", ex);
             }
         }
-        
 
-        
 
-        
+
+
+
 
     }
 

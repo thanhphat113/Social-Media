@@ -20,22 +20,22 @@ namespace Backend.Controllers
 
 		// private readonly UserService _userContext;
 
-		
+
 		private readonly MediaService _media;
 
-		private readonly RequestNotiService _NotiContext;
+		private readonly INotificationsService _NotiContext;
 		private readonly PostNotiService _PostContext;
-		
+
 		private readonly UserGroupService _userGroupService;
 
-		public UserGroupController(MediaService media, RequestNotiService NotiContext, PostNotiService PostContext, UserGroupService userGroupService)
+		public UserGroupController(MediaService media, INotificationsService NotiContext, PostNotiService PostContext, UserGroupService userGroupService)
 		{
 			_media = media;
 			_NotiContext = NotiContext;
 			_PostContext = PostContext;
 			_userGroupService = userGroupService;
 		}
-		
+
 		[AllowAnonymous]
 		[HttpPost("create_group")]
 		public async Task<IActionResult> CreateGroup([FromBody] UserGroupDTO userGroupDTO)
@@ -65,19 +65,19 @@ namespace Backend.Controllers
 			}
 			catch (Exception ex)
 			{
-			
+
 				return StatusCode(500, new { message = "Đã xảy ra lỗi khi tạo nhóm." });
 			}
 		}
 
 
-		
+
 		[HttpGet("groups_in")]
 		public async Task<IActionResult> GetUserGroups()
 		{
 			try
 			{
-				var userId = MiddleWare.GetUserIdFromCookie(Request); 
+				var userId = MiddleWare.GetUserIdFromCookie(Request);
 				if (userId == -1)
 				{
 					return Unauthorized(new { message = "User is not authenticated." });
@@ -92,7 +92,7 @@ namespace Backend.Controllers
 				return StatusCode(500, new { message = $"Internal server error: {ex.Message}" });
 			}
 		}
-		
+
 		[HttpGet("groups_suggest")]
 		public async Task<IActionResult> GetGroupsNotIn()
 		{
@@ -113,8 +113,8 @@ namespace Backend.Controllers
 				return StatusCode(500, new { message = $"Internal server error: {ex.Message}" });
 			}
 		}
-		
-		
+
+
 		[HttpGet("groups_created_by_user")]
 		public async Task<IActionResult> GetGroupsCreatedByUser()
 		{
@@ -134,13 +134,13 @@ namespace Backend.Controllers
 				return StatusCode(500, new { message = $"Internal server error: {ex.Message}" });
 			}
 		}
-		
-		
 
 
 
-		
 
-		
+
+
+
+
 	}
 }

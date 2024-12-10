@@ -14,27 +14,6 @@ function App() {
   const [selectedTabFriendFollow, setSelectedTabFriendFollow] = useState('friend');
   const user = useSelector((state) => state.user.information);
   
-
-  
-
-
-  
-
-
-  const media = [
-    { type: 'photo', src: 'https://themes.stackbros.in/social_r/assets/05-B6qRKeDi.jpg', alt: 'Photo 1' },
-    { type: 'photo', src: 'https://themes.stackbros.in/social_r/assets/05-B6qRKeDi.jpg', alt: 'Photo 1' },
-    { type: 'photo', src: 'https://themes.stackbros.in/social_r/assets/05-B6qRKeDi.jpg', alt: 'Photo 1' },
-    { type: 'photo', src: 'https://themes.stackbros.in/social_r/assets/05-B6qRKeDi.jpg', alt: 'Photo 1' },
-    { type: 'photo', src: 'https://themes.stackbros.in/social_r/assets/05-B6qRKeDi.jpg', alt: 'Photo 1' },
-
-    { type: 'video', src: '', alt: 'Video 1' },
-
-    { type: 'video', src: '', alt: 'Video 1' },
-    { type: 'photo', src: 'https://themes.stackbros.in/social_r/assets/05-B6qRKeDi.jpg', alt: 'Photo 1' },
-
-    
-  ]
   const UpdateAccount = ({ user }) => {
     const [accountData, setAccountData] = useState({
       firstName: user.firstName || '',

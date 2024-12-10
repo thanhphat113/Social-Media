@@ -37,7 +37,7 @@ const NewGroupSidebar = ({ setGroupName, setPrivacy, privacy }) => {
         requestBody
       );
       console.log('Nhóm được tạo thành công:', response.data);
-      navigate(`/group/${response.data.groupId}`); // Điều hướng đến nhóm vừa tạo
+      navigate(`/group/${response.data.group.groupId}`); // Điều hướng đến nhóm vừa tạo
     } catch (error) {
       console.error('Lỗi khi tạo nhóm:', error);
       setError('Không thể tạo nhóm. Vui lòng thử lại sau.');

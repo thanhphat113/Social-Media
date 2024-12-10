@@ -75,6 +75,7 @@ namespace Backend.Controllers
 
 			var information = await _userContext.GetLoginById(userId);
 			var friends = await _userContext.GetFriends(userId);
+
 			foreach (var item in friends)
 			{
 				if (OnlineHub.IsOnline(item.UserId)) item.IsOnline = true;

@@ -20,24 +20,24 @@ namespace Backend.Controllers
 
 		// private readonly UserService _userContext;
 
-		
+
 		private readonly MediaService _media;
 
-		private readonly RequestNotiService _NotiContext;
+		private readonly INotificationsService _NotiContext;
 		private readonly PostNotiService _PostContext;
-		
+
 		private readonly InformationService _informationContext;
 
-		public InformationController(MediaService media, RequestNotiService NotiContext, PostNotiService PostContext, InformationService informationContext )
+		public InformationController(MediaService media, INotificationsService NotiContext, PostNotiService PostContext, InformationService informationContext)
 		{
-			
+
 			_media = media;
 			// _userContext = UserContext;
 			_NotiContext = NotiContext;
 			_PostContext = PostContext;
 			_informationContext = informationContext;
 		}
-		
+
 		[AllowAnonymous]
 		[HttpPut]
 		public async Task<IActionResult> UpdateInformation([FromBody] UserUpdateDto userDto)
@@ -104,7 +104,7 @@ namespace Backend.Controllers
 
 
 
-		
+
 		[AllowAnonymous]
 		[HttpPut("change-password")]
 		public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto model)
@@ -122,7 +122,7 @@ namespace Backend.Controllers
 
 			return BadRequest(new { message = "Mật khẩu hiện tại không đúng!" });
 		}
-		
+
 		[HttpGet("friends")]
 		public async Task<IActionResult> GetFriendsList()
 		{
@@ -149,7 +149,7 @@ namespace Backend.Controllers
 				return StatusCode(500, new { message = $"Internal server error: {ex.Message}" });
 			}
 		}
-		
+
 		[HttpGet("followers")]
 		public async Task<IActionResult> GetFollowersList()
 		{
@@ -162,13 +162,13 @@ namespace Backend.Controllers
 			try
 			{
 				var follows = await _informationContext.GetFollowers(userId);
-				
+
 				foreach (var follower in follows)
 				{
 					follower.IsOnline = OnlineHub.IsOnline(follower.UserId);
 				}
 
-				
+
 				return Ok(follows);
 			}
 			catch (Exception ex)
@@ -211,15 +211,15 @@ namespace Backend.Controllers
 
 
 
-		
-		
-		
-		
-		
 
 
-		
 
-		
+
+
+
+
+
+
+
 	}
 }
