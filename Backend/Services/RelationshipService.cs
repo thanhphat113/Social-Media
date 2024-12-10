@@ -10,7 +10,7 @@ using Backend.Services.Interface;
 
 namespace Backend.Services
 {
-	public class RelationshipService
+	public class RelationshipService : IRelationshipService
 	{
 		private readonly IUnitOfWork _unit;
 		public RelationshipService(IUnitOfWork unit)

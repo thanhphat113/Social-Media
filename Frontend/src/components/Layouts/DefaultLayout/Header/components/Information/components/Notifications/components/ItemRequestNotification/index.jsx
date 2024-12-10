@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { acceptRequests, deleteRequests } from "../../../../../../../../../Redux/Actions/UserAction";
+import { acceptRequests, deleteRequests, denyRequests } from "../../../../../../../../../Redux/Actions/UserAction";
 import styles from "./ItemRequestNotification.module.scss";
 
 function ItemRequestNotification(props) {
@@ -17,7 +17,7 @@ function ItemRequestNotification(props) {
         >
             <img
                 src={
-                    item.profilePicture ||
+                    item.profilePicture?.src ||
                     `/public/img/default/${
                         item.genderId !== 2 ? "man" : "woman"
                     }_default.png`
@@ -34,7 +34,7 @@ function ItemRequestNotification(props) {
                         </p>
                         <div className={styles.choice}>
                             <button onClick={async ()=> await dispatch(acceptRequests(item.userId))} className={styles.accept}>Chấp nhận</button>
-                            <button className={styles.deny}>Từ chối</button>
+                            <button onClick={async ()=> await dispatch(denyRequests(item.userId))} className={styles.deny}>Từ chối</button>
                         </div>
                     </>
                 ) : (

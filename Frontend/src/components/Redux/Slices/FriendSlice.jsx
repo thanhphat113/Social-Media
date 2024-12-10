@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { SetUser } from "../Actions/UserAction";
+import { acceptRequests, SetUser } from "../Actions/UserAction";
 import {
     recallMess,
     deleteMess,
@@ -86,6 +86,9 @@ const FriendSlice = createSlice({
                 state.allFriends[index].isOnline = value.isOnline;
             }
         },
+        updateFriend: (state, action) => {
+            state.allFriends.push(action.payload)
+        },
     },
 
     extraReducers: (builder) => {
@@ -96,6 +99,9 @@ const FriendSlice = createSlice({
                     sortFriendsByLatestMessage(infor?.friends) || [];
                 state.isLoad = false;
                 state.isError = false;
+            })
+            .addCase(acceptRequests.fulfilled, (state, action) => {
+                state.allFriends.push(action.payload.newFriend)
             })
             .addCase(SetUser.pending, (state) => {
                 state.allFriends = [];
@@ -200,6 +206,6 @@ const FriendSlice = createSlice({
     },
 });
 
-export const { receiveMess, staticMess, receiveUpdateChat, updateOnline } =
+export const { receiveMess, staticMess, receiveUpdateChat, updateOnline, updateFriend } =
     FriendSlice.actions;
 export default FriendSlice.reducer;

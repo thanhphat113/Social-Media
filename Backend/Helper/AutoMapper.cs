@@ -8,7 +8,16 @@ public class MappingProfile : Profile
 	public MappingProfile()
 	{
 		CreateMap<User, UserPrivate>();
-		// .ForMember(dest => dest.ProfilePicture, opt => opt.MapFrom();
+
+		CreateMap<User, UserNew>()
+			.ForMember(dest => dest.ProfilePicture, opt => opt.MapFrom(src => src.Posts.Where(p => p.IsPictureProfile == true).SelectMany(p => p.Medias).FirstOrDefault()));
+
+		CreateMap<RequestNotification, RequestUser>()
+			.ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.FromUser.UserId))
+			.ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FromUser.FirstName))
+			.ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.FromUser.LastName))
+			.ForMember(dest => dest.ProfilePicture, opt => opt.MapFrom(src => src.FromUser.Posts.Where(p => p.IsPictureProfile == true).SelectMany(p => p.Medias).FirstOrDefault()))
+			.ForMember(dest => dest.GenderId, opt => opt.MapFrom(src => src.FromUser.GenderId));
 
 		CreateMap<User, UserLogin>()
 			.ForMember(dest => dest.ProfilePicture, opt => opt.MapFrom(src => src.Posts.Where(p => p.IsPictureProfile == true).SelectMany(e => e.Medias).FirstOrDefault()));

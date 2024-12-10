@@ -21,10 +21,10 @@ namespace Backend.Controllers
 
 		private readonly MediaService _media;
 
-		private readonly RequestNotiService _NotiContext;
+		private readonly INotificationsService _NotiContext;
 		private readonly PostNotiService _PostContext;
 
-		public UserController(IPostService post, MediaService media, IUserService UserContext, RequestNotiService NotiContext, PostNotiService PostContext)
+		public UserController(IPostService post, MediaService media, IUserService UserContext, INotificationsService NotiContext, PostNotiService PostContext)
 		{
 			_media = media;
 			_post = post;

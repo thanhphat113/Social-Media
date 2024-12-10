@@ -10,6 +10,7 @@ using Backend.Services.Interface;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper.QueryableExtensions;
 using AutoMapper;
+using Backend.Helper;
 
 
 namespace Backend.Services
@@ -74,6 +75,11 @@ namespace Backend.Services
 							.OrderByDescending(h => h.DateSearch)
 							.Include(h => h.FromUser)
 							.ProjectTo<HistoryWithUser>(_mapper.ConfigurationProvider));
+
+				foreach (var item in items)
+				{
+					if (item.ProfilePicture != null) item.ProfilePicture = MiddleWare.GetFullSrc(item.ProfilePicture);
+				}
 
 				return items;
 			}

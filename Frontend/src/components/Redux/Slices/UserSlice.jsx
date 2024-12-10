@@ -4,13 +4,13 @@ import {
     SetUser,
     deleteRequests,
     acceptRequests,
+    denyRequests,
 } from "../Actions/UserAction";
 import {
     addHistory,
     deleteHistory,
     updateHistory,
 } from "../Actions/HistorySearchAction";
-import { GetPostsFromUser } from "../Actions/PostActions";
 
 const UserSlice = createSlice({
     name: "user",
@@ -46,9 +46,15 @@ const UserSlice = createSlice({
                 state.postrequests = [];
             })
             .addCase(acceptRequests.fulfilled, (state, action) => {
-                state.requests = action.payload;
+                const result = action.payload.newRequest
+                const index = state.requests.findIndex(e => e.notificationId == result.notificationId)
+                state.requests[index] = result
+                // state.requests = action.payload;
             })
             .addCase(deleteRequests.fulfilled, (state, action) => {
+                state.requests = action.payload;
+            })
+            .addCase(denyRequests.fulfilled, (state, action) => {
                 state.requests = action.payload;
             })
             .addCase(addHistory.fulfilled, (state, action) => {

@@ -10,6 +10,7 @@ using Backend.Data;
 
 using AutoMapper.QueryableExtensions;
 using Backend.RealTime;
+using Backend.Helper;
 
 
 namespace Backend.Services
@@ -99,12 +100,13 @@ namespace Backend.Services
                             .Where(p => p.CreatedByUserId == item.UserId && p.IsPictureProfile == true)
                             .SelectMany(p => p.Medias));
 
-            if (MediaIsProfile != null)
+            if (MediaIsProfile != null && !MediaIsProfile.Src.StartsWith($"{_httpContextAccessor.HttpContext.Request.Scheme}://"))
             {
                 MediaIsProfile.Src = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}/media/{MediaIsProfile.Src}";
-
-                result.ProfilePicture = MediaIsProfile;
             }
+
+            result.ProfilePicture = MediaIsProfile;
+
             return result;
         }
 
@@ -134,19 +136,19 @@ namespace Backend.Services
                             .Where(p => p.CreatedByUserId == item.UserId && p.IsPictureProfile == true)
                             .SelectMany(p => p.Medias));
 
-                if (MediaIsProfile != null)
+                if (MediaIsProfile != null && !MediaIsProfile.Src.StartsWith($"{_httpContextAccessor.HttpContext.Request.Scheme}://"))
                 {
                     MediaIsProfile.Src = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}/media/{MediaIsProfile.Src}";
-
-                    item.ProfilePicture = MediaIsProfile;
                 }
+                item.ProfilePicture = MediaIsProfile;
+
             }
 
             var withChat = await FriendsWithChat(id, users);
 
-            var result = withChat.Select(user => _mapper.Map<UserPrivate>(user));
+            // var result = withChat.Select(user => _mapper.Map<UserPrivate>(user));
 
-            return result;
+            return withChat;
         }
 
         public async Task<dynamic> FindToLogin(string email, string password)
@@ -209,14 +211,42 @@ namespace Backend.Services
             return result;
         }
 
-        public async Task<IEnumerable<UserPrivate>> GetListByName(string name, int UserId)
+        public async Task<dynamic> GetListByName(string name, int UserId)
         {
-            var result = await _unit.Users.FindAsync<UserPrivate>(query => query
+            var result = await _unit.Users.FindAsync(query => query
                                 .Where(u => u.UserId != UserId &&
                                 (u.LastName.Contains(name) ||
                                 u.FirstName.Contains(name)))
-                                .ProjectTo<UserPrivate>(_mapper.ConfigurationProvider));
+                                .Include(u => u.Posts)
+                                .ThenInclude(p => p.Medias)
+                                .ProjectTo<UserNew>(_mapper.ConfigurationProvider));
+            foreach (var item in result)
+            {
+                if (item.ProfilePicture == null) continue;
+                item.ProfilePicture = MiddleWare.GetFullSrc(item.ProfilePicture);
+            }
+
             return result;
+        }
+
+        public async Task<UserNew> GetUserById(int id)
+        {
+            try
+            {
+                var item = await _unit.Users.GetByConditionAsync(query => query
+                        .Where(u => u.UserId == id)
+                        .Include(u => u.Posts)
+                        .ThenInclude(p => p.Medias)
+                        .ProjectTo<UserNew>(_mapper.ConfigurationProvider));
+
+                if (item.ProfilePicture == null) return item;
+                item.ProfilePicture = MiddleWare.GetFullSrc(item.ProfilePicture);
+                return item;
+            }
+            catch (System.Exception ex)
+            {
+                throw new ArgumentException("Lỗi: " + ex);
+            }
         }
 
         // public async Task<dynamic?> GetUserInfor(int userId)

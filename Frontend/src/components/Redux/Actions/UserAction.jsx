@@ -46,7 +46,7 @@ const acceptRequests = createAsyncThunk(
     "User/acceptRequests",
     async (userid) => {
         try {
-            const response = await axios.post(
+            const response = await axios.put(
                 "http://localhost:5164/Request",
                 {},
                 {
@@ -62,17 +62,32 @@ const acceptRequests = createAsyncThunk(
     }
 );
 
+const denyRequests = createAsyncThunk("User/denyRequests", async (userid) => {
+    try {
+        const response = await axios.delete(
+            "http://localhost:5164/Request/deny",
+            {
+                params: { OtherUserId: userid },
+                withCredentials: true,
+            }
+        );
+        return response.data;
+    } catch {
+        return null;
+    }
+});
+
 const deleteRequests = createAsyncThunk(
     "User/deleteRequests",
-    async (userid) => {
+    async (notificationId) => {
         try {
             const response = await axios.delete(
-                `http://localhost:5164/Request/${userid}`,
+                `http://localhost:5164/Request/delete`,
                 {
+                    params: { id: notificationId },
                     withCredentials: true,
                 }
             );
-            console.log(response.data);
             return response.data;
         } catch {
             return null;
@@ -95,4 +110,11 @@ const getPostRequests = createAsyncThunk(
     }
 );
 
-export { SetUser, getRequests, acceptRequests, deleteRequests, GetUserInfo};
+export {
+    SetUser,
+    getRequests,
+    acceptRequests,
+    deleteRequests,
+    denyRequests,
+    GetUserInfo,
+};

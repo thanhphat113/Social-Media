@@ -8,6 +8,5 @@ namespace Backend.Services.Interface
 {
 	public interface IRelationshipService : IService<Relationship>
 	{
-		Task<bool> Accept(int user1, int user2);
 	}
 }

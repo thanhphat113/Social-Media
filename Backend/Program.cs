@@ -49,8 +49,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             };
         });
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpContextAccessor();
@@ -64,10 +63,10 @@ builder.Services.AddScoped<HistorySearchService>();
 builder.Services.AddScoped<IMessageService, MessageService>();
 builder.Services.AddScoped<MainTopicService>();
 builder.Services.AddScoped<IChatInMessService, ChatInMessageService>();
-builder.Services.AddScoped<RequestNotiService>();
+builder.Services.AddScoped<INotificationsService, RequestNotiService>();
 builder.Services.AddScoped<PostNotiService>();
 builder.Services.AddScoped<MediaService>();
-builder.Services.AddScoped<RelationshipService>();
+builder.Services.AddScoped<IRelationshipService, RelationshipService>();
 builder.Services.AddScoped<InformationService>();
 builder.Services.AddScoped<UserGroupService>();
 
@@ -98,6 +97,9 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 app.UseHttpsRedirection();
+
+MiddleWare.Configure(app.Services.GetRequiredService<IHttpContextAccessor>());
+
 
 using (var scope = app.Services.CreateScope())
 {
