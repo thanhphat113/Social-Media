@@ -36,6 +36,42 @@ namespace Backend.Controllers
 			_userGroupService = userGroupService;
 		}
 		
+		[AllowAnonymous]
+		[HttpPost("create_group")]
+		public async Task<IActionResult> CreateGroup([FromBody] UserGroupDTO userGroupDTO)
+		{
+			if (string.IsNullOrWhiteSpace(userGroupDTO.GroupName))
+			{
+				return BadRequest(new { message = "Tên nhóm không được để trống." });
+			}
+
+			try
+			{
+				var createdGroup = await _userGroupService.CreateGroup(new UserGroup
+				{
+					GroupName = userGroupDTO.GroupName,
+					Bio = userGroupDTO.Bio,
+					CreatedByUserId = userGroupDTO.CreatedByUserId,
+					PrivacyId = userGroupDTO.PrivacyId,
+					DateCreated = DateTime.UtcNow,
+					DateUpdated = DateTime.UtcNow
+				});
+
+				return Ok(new
+				{
+					message = "Tạo nhóm thành công.",
+					group = createdGroup
+				});
+			}
+			catch (Exception ex)
+			{
+			
+				return StatusCode(500, new { message = "Đã xảy ra lỗi khi tạo nhóm." });
+			}
+		}
+
+
+		
 		[HttpGet("groups_in")]
 		public async Task<IActionResult> GetUserGroups()
 		{
@@ -98,6 +134,8 @@ namespace Backend.Controllers
 				return StatusCode(500, new { message = $"Internal server error: {ex.Message}" });
 			}
 		}
+		
+		
 
 
 

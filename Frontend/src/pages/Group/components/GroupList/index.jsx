@@ -61,7 +61,12 @@ const GroupList = () => {
       <div className={styles.groupCard}>
         
         <Link to={`/group/${group.groupId}`} className={styles.groupLink}>
-        <img src={`http://localhost:5164/media/${group.profilePicture}`} alt={group.groupName} className={styles.groupImage} />
+        <img 
+  src={`http://localhost:5164/media/${group.profilePicture || 'Cloudy.png'}`} 
+  alt={group.groupName} 
+  className={styles.groupImage} 
+/>
+
         <h3>{group.groupName}</h3>
         <p>{group.bio}</p>
         {!isAdmin && (
